@@ -35,10 +35,10 @@ website:
             href: aulas/fundamentos.qmd
           - text: "Aulas 3 e 4: Modelos ARIMA"
             href: aulas/arima.qmd
-          - text: "Aula 5: SARIMA e Prophet"
-            href: aulas/sarima-prophet.qmd
           - text: "Lab 1: Exploração de Séries"
             href: labs/lab01-exploracao.qmd
+          - text: "Aula 5: SARIMA e Prophet"
+            href: aulas/sarima-prophet.qmd
           - text: "Aula 6: Previsão e Validação"
             href: aulas/previsao.qmd
           - text: "Aula 7: Fechamento da Parte 1"

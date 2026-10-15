@@ -83,21 +83,6 @@
 - data: "2026-10-21"
   inicio: "19:00"
   fim: "22:30"
-  tipo: aula
-  rotulo: "Aula 5"
-  titulo: "SARIMA e Prophet"
-  modalidade: Remota
-  parte: 1
-  quem: "Paloma"
-  descricao: "Sazonalidade determinística vs. estocástica, operador (P,D,Q)<sub>s</sub>, identificação sazonal. IBC-Br sem ajuste sazonal com <code>AutoARIMA(season_length=12)</code>. Prophet (tendência por partes, Fourier, feriados) e comparação com SARIMA."
-  materiais:
-    - texto: "SARIMA e Prophet"
-      href: aulas/sarima-prophet.qmd
-  slides: []
-
-- data: "2026-10-28"
-  inicio: "19:00"
-  fim: "22:30"
   tipo: lab
   rotulo: "Lab 1"
   titulo: "Exploração de séries temporais em Python"
@@ -110,6 +95,21 @@
       href: labs/lab01-exploracao.qmd
     - texto: "Trabalho intermediário"
       href: trabalhos/intermediario.qmd
+  slides: []
+
+- data: "2026-10-28"
+  inicio: "19:00"
+  fim: "22:30"
+  tipo: aula
+  rotulo: "Aula 5"
+  titulo: "SARIMA e Prophet"
+  modalidade: Remota
+  parte: 1
+  quem: "Paloma"
+  descricao: "Sazonalidade determinística vs. estocástica, operador (P,D,Q)<sub>s</sub>, identificação sazonal. IBC-Br sem ajuste sazonal com <code>AutoARIMA(season_length=12)</code>. Prophet (tendência por partes, Fourier, feriados) e comparação com SARIMA."
+  materiais:
+    - texto: "SARIMA e Prophet"
+      href: aulas/sarima-prophet.qmd
   slides: []
 
 - data: "2026-10-30"
