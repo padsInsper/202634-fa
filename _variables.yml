@@ -1,0 +1,33 @@
+# Valores específicos da edição. Para uma nova turma, atualize este arquivo,
+# o `cronograma.yml` e os campos marcados com "EDICAO" no `_quarto.yml`.
+edicao: "2026.34"
+turma: "PADSONL08"
+periodo: "outubro a dezembro de 2026"
+carga: "48 horas"
+docente: "Profa. Paloma Vaissman Uribe"
+monitor: "Julio Trecenti"
+
+repo:
+  # Links do repositório ficam literais nas páginas (bug do Quarto com {{< var >}} em URLs e blocos de código).
+  nome: "202634-fa"
+  url: "https://github.com/padsInsper/202634-fa"
+  raw: "https://raw.githubusercontent.com/padsInsper/202634-fa/main"
+  colab: "https://colab.research.google.com/github/padsInsper/202634-fa/blob/main"
+  clone: "https://github.com/padsInsper/202634-fa.git"
+
+site: "https://padsinsper.github.io/202634-fa"
+
+intermediario:
+  liberacao: "qua 28/out (Lab 1)"
+  previa: "sáb 7/nov, 13h-15h (Aula 7, presencial)"
+  office-hours: "seg 9/nov, 19h-22h30 (Lab 2, remoto)"
+  prazo: "dom 15/nov, 23h59"
+  prazo-curto: "15/nov"
+  devolutiva: "seg 23/nov (Lab 3)"
+
+final:
+  leitura: "seg 23/nov (Lab 3)"
+  office-hours: "qua 9/dez, 19h-21h (Lab 5, remoto)"
+  prazo: "sex 11/dez, 19h (início das apresentações)"
+  prazo-curto: "11/dez"
+  apresentacao: "sex 11/dez, 19h-21h (online)"

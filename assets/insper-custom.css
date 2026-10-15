@@ -41,52 +41,257 @@
   backdrop-filter: blur(4px);
 }
 
-/* Timeline / Schedule cards */
-.schedule-card {
+/* ============================================================
+   Cronograma (assets/cronograma.ejs) e próximas sessões (assets/proximas.ejs)
+   ============================================================ */
+.crono {
+  --c-aula: #E50505;
+  --c-lab: #2a8c6e;
+  --c-marco: #b8860b;
+  --c-borda: #e6e6e6;
+  --c-texto-suave: #6b6b6b;
+  margin-top: 1rem;
+}
+
+.crono-resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.crono-stat {
+  background: #f7f7f7;
+  border-radius: 0.6rem;
+  padding: 0.7rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+}
+.crono-stat[hidden] { display: none; }
+.crono-stat-num { font-size: 1.6rem; font-weight: 700; line-height: 1.1; color: #1a1a1a; }
+.crono-stat-label { font-size: 0.8rem; color: var(--c-texto-suave); text-transform: uppercase; letter-spacing: 0.04em; }
+.crono-stat-proxima { background: #1a1a1a; color: #fff; }
+.crono-stat-proxima .crono-stat-label { color: #DCDCDC; }
+.crono-stat-txt { font-weight: 700; font-size: 1.05rem; margin-top: 0.15rem; }
+
+.crono-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+  position: sticky;
+  top: 3.5rem;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(4px);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--c-borda);
+  margin-bottom: 0.5rem;
+}
+.crono-filtros, .crono-acoes { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.crono-chip, .crono-btn {
+  border: 1px solid #cfcfcf;
   background: #fff;
-  border-radius: 0.5rem;
-  padding: 1em 1.2em;
-  margin: 0.5em 0;
-  border-left: 4px solid #DCDCDC;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
-
-.schedule-card:hover {
-  border-left-color: #E50505;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-  transform: translateX(4px);
-}
-
-.schedule-card.tipo-aula {
-  border-left-color: #E50505;
-}
-
-.schedule-card.tipo-lab {
-  border-left-color: #3ACC9F;
-}
-
-.schedule-card.tipo-juntos {
-  border-left-color: #FFCC00;
-}
-
-.schedule-card .date {
-  font-weight: 700;
   color: #3F3F3F;
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
+.crono-chip:hover, .crono-btn:hover { border-color: #3F3F3F; }
+.crono-chip.ativo { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+.crono-btn { border-radius: 0.4rem; }
+.crono-btn[hidden] { display: none; }
+.crono-chip:focus-visible, .crono-btn:focus-visible, .crono-link:focus-visible { outline: 2px solid var(--c-aula); outline-offset: 2px; }
 
-.schedule-card .tipo {
+.crono-mes { margin-top: 1.25rem; }
+.crono-mes-titulo {
+  font-family: 'GT Ultra Fine', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+.crono-mes-titulo span { color: #9a9a9a; font-weight: 400; }
+
+.crono-lista { list-style: none; padding: 0; margin: 0; position: relative; }
+.crono-lista::before {
+  content: "";
+  position: absolute;
+  left: 2.25rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  background: var(--c-borda);
+}
+.crono-item {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: 0.9rem;
+  margin: 0 0 0.75rem 0;
+  position: relative;
+}
+.crono-item[hidden], .crono-mes[hidden] { display: none; }
+
+.crono-data {
+  position: relative;
+  z-index: 1;
+  align-self: start;
+  background: #fff;
+  border: 2px solid var(--c-aula);
+  border-radius: 0.6rem;
+  text-align: center;
+  padding: 0.35rem 0 0.3rem;
+  width: 4.5rem;
+}
+.crono-dia { display: block; font-size: 1.5rem; font-weight: 700; line-height: 1; color: #1a1a1a; }
+.crono-sem { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--c-texto-suave); }
+
+.crono-card {
+  background: #fff;
+  border: 1px solid var(--c-borda);
+  border-left: 4px solid var(--c-aula);
+  border-radius: 0.6rem;
+  padding: 0.8rem 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.15s;
+}
+.crono-card:hover { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); }
+
+.crono-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  font-size: 0.82rem;
+  color: var(--c-texto-suave);
+}
+.crono-badge {
   display: inline-block;
-  padding: 0.15em 0.5em;
-  border-radius: 0.3em;
-  font-size: 0.75em;
-  font-weight: 600;
+  border-radius: 0.3rem;
+  padding: 0.1rem 0.45rem;
+  font-weight: 700;
+  font-size: 0.72rem;
   text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.crono-badge-tipo { background: #fde8e8; color: var(--c-aula); }
+.crono-badge-modal { border: 1px solid #cfcfcf; color: #3F3F3F; }
+.modal-presencial .crono-badge-modal { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+.crono-hora, .crono-quem { white-space: nowrap; }
+.crono-status:empty { display: none; }
+.crono-status {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.tipo-aula-badge  { background: #fde8e8; color: #E50505; }
-.tipo-lab-badge   { background: #e6f9f1; color: #2a8c6e; }
-.tipo-juntos-badge { background: #fff8e1; color: #b8860b; }
+.crono-titulo { font-size: 1.08rem; font-weight: 700; color: #1a1a1a; margin: 0.35rem 0 0.25rem; line-height: 1.3; }
+.crono-desc { font-size: 0.92rem; margin: 0 0 0.4rem; color: #3F3F3F; }
+.crono-links { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+.crono-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  text-decoration: none;
+  background: #f4f4f4;
+  color: #1a1a1a;
+  border-radius: 0.35rem;
+  padding: 0.2rem 0.55rem;
+}
+.crono-link:hover { background: #1a1a1a; color: #fff; }
+.crono-link-slides { background: #fde8e8; color: var(--c-aula); }
+
+/* Cores por tipo */
+.tipo-lab .crono-data { border-color: var(--c-lab); }
+.tipo-lab .crono-card { border-left-color: var(--c-lab); }
+.tipo-lab .crono-badge-tipo { background: #e6f9f1; color: var(--c-lab); }
+.marco .crono-data { border-color: var(--c-marco); }
+.marco .crono-card { border-left-color: var(--c-marco); background: #fffbf0; }
+.marco .crono-badge-tipo { background: #fff3cd; color: #8a6508; }
+
+/* Estado no tempo */
+.crono-item.passada .crono-card, .crono-item.passada .crono-data { opacity: 0.55; }
+.crono-item.passada .crono-card:hover { opacity: 1; }
+.crono-item.passada .crono-status { color: var(--c-texto-suave); }
+.crono-item.proxima .crono-data, .crono-item.agora .crono-data { background: var(--c-aula); border-color: var(--c-aula); }
+.crono-item.proxima.tipo-lab .crono-data, .crono-item.agora.tipo-lab .crono-data { background: var(--c-lab); border-color: var(--c-lab); }
+.crono-item.proxima.marco .crono-data { background: var(--c-marco); border-color: var(--c-marco); }
+.crono-item.proxima .crono-dia, .crono-item.proxima .crono-sem,
+.crono-item.agora .crono-dia, .crono-item.agora .crono-sem { color: #fff; }
+.crono-item.proxima .crono-card, .crono-item.agora .crono-card { box-shadow: 0 0 0 2px rgba(229, 5, 5, 0.18), 0 4px 14px rgba(0, 0, 0, 0.08); }
+.crono-item.proxima .crono-status, .crono-item.agora .crono-status { color: var(--c-aula); }
+.crono-item.pisca .crono-card { animation: crono-pisca 1.5s ease; }
+@keyframes crono-pisca { 0%, 100% { background: #fff; } 30% { background: #fde8e8; } }
+
+.crono-vazio { color: var(--c-texto-suave); font-style: italic; margin-top: 1rem; }
+.crono-vazio[hidden] { display: none; }
+
+@media (max-width: 576px) {
+  .crono-item { grid-template-columns: 3.1rem minmax(0, 1fr); gap: 0.6rem; }
+  .crono-data { width: 3.1rem; padding: 0.25rem 0; }
+  .crono-dia { font-size: 1.2rem; }
+  .crono-sem { font-size: 0.65rem; }
+  .crono-lista::before { left: 1.55rem; }
+  .crono-card { padding: 0.65rem 0.75rem; }
+  .crono-titulo { font-size: 1rem; }
+  .crono-desc { font-size: 0.88rem; }
+  .crono-toolbar { position: static; }
+  .crono-status { margin-left: 0; }
+  .crono-acoes { width: 100%; }
+  .crono-btn { flex: 1 1 auto; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .crono-item.pisca .crono-card { animation: none; }
+}
+
+/* Próximas sessões (página inicial) */
+.proximas-lista { list-style: none; padding: 0; margin: 0 0 0.75rem; display: grid; gap: 0.6rem; }
+.proximas-item[hidden], .proximas-fim[hidden] { display: none; }
+.proximas-item a {
+  display: flex;
+  align-items: stretch;
+  gap: 0.9rem;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #e6e6e6;
+  border-left: 4px solid #E50505;
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  transition: box-shadow 0.15s;
+}
+.proximas-item.tipo-lab a { border-left-color: #2a8c6e; }
+.proximas-item.tipo-entrega a, .proximas-item.tipo-apresentacao a { border-left-color: #b8860b; }
+.proximas-item a:hover { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); }
+.proximas-data { display: flex; flex-direction: column; justify-content: center; min-width: 3.6rem; text-align: center; }
+.proximas-dia { font-size: 1.5rem; font-weight: 700; line-height: 1; color: #1a1a1a; }
+.proximas-mes { font-size: 0.7rem; text-transform: uppercase; color: #6b6b6b; letter-spacing: 0.04em; }
+.proximas-corpo { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.proximas-meta { font-size: 0.78rem; color: #6b6b6b; text-transform: uppercase; letter-spacing: 0.03em; }
+.proximas-titulo { font-weight: 700; color: #1a1a1a; }
+.proximas-todas { font-weight: 600; text-decoration: none; }
+.proximas-fim { font-style: italic; }
+
+/* Marcador de bloco dentro das páginas de aula */
+.bloco-aula {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 2.5rem 0 1rem;
+  color: #6b6b6b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.bloco-aula::before, .bloco-aula::after { content: ""; flex: 1; height: 1px; background: #DCDCDC; }
 
 /* Progress indicator */
 .progress-section {

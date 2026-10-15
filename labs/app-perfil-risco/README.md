@@ -1,6 +1,6 @@
 # App: Perfil de Risco e Recomendação de Ativos
 
-Formulário individual da dinâmica do Lab 3. O aluno responde a loterias (estilo
+Formulário individual da dinâmica do Lab 4. O aluno responde a loterias (estilo
 Kahneman/Holt-Laury), informa horizonte e preferência de diversificação e, ao clicar em
 **Calcular recomendação**, recebe um conjunto de ativos do catálogo com justificativas
 calculadas a partir da relação risco-retorno do período e da correlação entre as séries.

@@ -1,6 +1,6 @@
 ---
 title: "App: Monte sua Carteira"
-subtitle: "Dinâmica do Lab 3 rodando no navegador (shinylive)"
+subtitle: "Dinâmica do Lab 4 rodando no navegador (shinylive)"
 format:
   html:
     toc: false
@@ -8,7 +8,7 @@ filters:
   - shinylive
 ---
 
-Este é o app interativo da dinâmica do Lab 3, rodando **inteiramente no seu navegador**
+Este é o app interativo da dinâmica do Lab 4, rodando **inteiramente no seu navegador**
 (via shinylive, sem servidor). Escolha ativos pelo nome, mexa nos pesos e veja ao vivo o
 retorno, a volatilidade, o Sharpe, o VaR, a fronteira eficiente, o backtest contra o
 Ibovespa e a matriz de correlação.
@@ -25,7 +25,7 @@ são pré-baixados (catálogo de ativos da B3); para rodar local com qualquer ti
 #| standalone: true
 #| viewerHeight: 1400
 
-"""Monte sua Carteira: app do Lab 3 (Shiny for Python, compatível com shinylive).
+"""Monte sua Carteira: app do Lab 4 (Shiny for Python, compatível com shinylive).
 
 Roda tanto local (`shiny run labs/app-carteira/app.py`) quanto embutido no site via
 shinylive (Pyodide, no navegador). Para funcionar no navegador não usa `yfinance`: lê os
@@ -175,7 +175,7 @@ app_ui = ui.page_sidebar(
         ui.card(ui.card_header("Correlação dos ativos na carteira"), output_widget("plot_corr")),
         col_widths=(7, 5),
     ),
-    title="Lab 3: Monte sua Carteira",
+    title="Monte sua Carteira",
     fillable=True,
 )
 

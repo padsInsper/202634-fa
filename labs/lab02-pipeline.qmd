@@ -15,6 +15,18 @@ format:
 - [Criar]{.bloom-badge .bloom-criar} o esqueleto da entrega intermediária com apoio do monitor
 :::
 
+::: {.callout-tip}
+## Roteiro do encontro (3h30)
+
+| Tempo | Atividade |
+|---|---|
+| 0h00-1h00 | **ML para séries temporais**: o que muda em relação ao ML tabular, *leakage*, features, modelos e comparação (este material) |
+| 1h00-2h00 | **Predição agregada**: a turma discute e decide como combinar as previsões dos grupos ([regras no enunciado](../trabalhos/intermediario.qmd#predição-agregada-da-turma-1-ponto)) |
+| 2h00-3h30 | **Office hours** do trabalho intermediário, com o monitor |
+
+A revisão da Parte 1 logo abaixo é para estudo por conta própria (ela foi feita em sala no [Fechamento da Parte 1](../aulas/fechamento-parte1.qmd)).
+:::
+
 ::: {.caso-negocio}
 #### O caso que vai nos acompanhar o lab inteiro
 
@@ -22,7 +34,7 @@ Vocês são a assessoria **PADS Forecasting**. Uma **montadora de veículos** qu
 
 1. **Sazonalidade forte** - dezembro despenca (férias coletivas), agosto/outubro são picos.
 2. **Um choque brutal** - março/2020 caiu para **1.847 unidades** (fábricas paradas na COVID). Outlier de manual.
-3. **Tendência com regimes** - recessão 2015–16, colapso e recuperação pós-COVID.
+3. **Tendência com regimes** - recessão 2015-16, colapso e recuperação pós-COVID.
 
 A mesma série será o fio condutor da Parte 1 e da Parte 2.
 :::
@@ -170,7 +182,7 @@ plt.show()
 
 ::: {.callout-note}
 ## Observe antes de modelar
-Sazonalidade anual clara, recessão 2015–16, **o buraco da COVID** (mar–mai/2020) e recuperação. Qualquer modelo bom precisa lidar com esse outlier extremo - guardem isso, vai voltar.
+Sazonalidade anual clara, recessão 2015-16, **o buraco da COVID** (mar-mai/2020) e recuperação. Qualquer modelo bom precisa lidar com esse outlier extremo - guardem isso, vai voltar.
 :::
 
 ## 1.2 Feature engineering - o básico (cobre 80% dos casos)
@@ -268,7 +280,7 @@ O pico em **~12 meses** confirma a sazonalidade anual; picos secundários em ~6 
 
 Os termos $\sin(2\pi k\, t/P),\ \cos(2\pi k\, t/P)$ codificam sazonalidade de período $P$ com poucos parâmetros. **Use quando:**
 
-1. **O período sazonal é longo.** Sazonalidade anual em dados **diários** ($P\approx365$): uma dummy por dia-do-ano custaria 365 colunas e dados ralos por categoria; 3–4 pares de Fourier resolvem com ~8 colunas suaves. O mesmo vale para lags sazonais - `lag_365` exige histórico enorme; Fourier não.
+1. **O período sazonal é longo.** Sazonalidade anual em dados **diários** ($P\approx365$): uma dummy por dia-do-ano custaria 365 colunas e dados ralos por categoria; 3-4 pares de Fourier resolvem com ~8 colunas suaves. O mesmo vale para lags sazonais - `lag_365` exige histórico enorme; Fourier não.
 2. **Há múltiplas sazonalidades simultâneas.** Energia/varejo diário tem ciclo **semanal** ($P=7$) **e** anual ($P=365$) ao mesmo tempo. Você soma dois blocos de Fourier (um por período) - algo que dummies de calendário fazem mal e SARIMA com um único $s$ não captura.
 3. **Você quer uma sazonalidade *suave*.** Fourier impõe continuidade (dezembro "conversa" com janeiro). Dummies tratam cada mês como ilha independente - mais flexível, porém mais propenso a overfitting com pouca amostra. Poucos harmônicos = regularização natural.
 4. **Modelos que não entendem ordem.** Boosting/MLP só veem colunas. Sem features cíclicas eles não sabem que mês 12 e mês 1 são vizinhos - Fourier injeta essa geometria.
@@ -898,7 +910,7 @@ Antes de "qual modelo é o melhor?", a resposta honesta é: **depende da série,
 | **M3** | 2000 | Métodos simples (ETS) batiam complexos; combinação vence |
 | **M4** | 2018 | 100k séries; **híbrido ES-RNN** (estatístico + LSTM) venceu - fim do "ou estatístico ou ML" |
 | **M5** | 2020 | Vendas Walmart; **LightGBM com feature engineering** dominou o top-10 |
-| **M6** | 2022–23 | Financeiro (S&P 500); **dificílimo bater o mercado** - eficiência de mercado na prática |
+| **M6** | 2022-23 | Financeiro (S&P 500); **dificílimo bater o mercado** - eficiência de mercado na prática |
 :::
 
 | Benchmark | O que cobre | Link |
@@ -910,14 +922,14 @@ Antes de "qual modelo é o melhor?", a resposta honesta é: **depende da série,
 
 ::: {.callout-note}
 ## Os 3 consensos da literatura de benchmarks
-1. **Combinação (ensemble) quase sempre ajuda.** Média simples de 2–3 modelos diversos é robusta e barata.
+1. **Combinação (ensemble) quase sempre ajuda.** Média simples de 2-3 modelos diversos é robusta e barata.
 2. **Boosting + bom feature engineering** segue como referência industrial difícil de bater (M5, TFB).
 3. **Não existe almoço grátis universal.** O melhor modelo varia por frequência, horizonte e domínio - por isso *benchmark no seu próprio dado* é inegociável.
 :::
 
 # Foundation models
 
-A grande virada de 2024–2025: modelos **pré-treinados em bilhões de pontos de séries heterogêneas** que fazem *zero-shot forecasting* - você passa a série e ele prevê, **sem treinar nada**. É o "GPT das séries temporais".
+A grande virada de 2024-2025: modelos **pré-treinados em bilhões de pontos de séries heterogêneas** que fazem *zero-shot forecasting* - você passa a série e ele prevê, **sem treinar nada**. É o "GPT das séries temporais".
 
 ## Como eles funcionam
 
@@ -943,7 +955,7 @@ O truque conceitual: tratar previsão como **modelagem de sequência** (igual a 
 | **Chronos** | Amazon (2024) | Tokeniza valores + T5; baseline zero-shot fortíssimo |
 | **TimesFM** | Google (2024) | Decoder-only; treinado em ~100B pontos |
 | **Moirai** | Salesforce (2024) | "Universal" - várias frequências e covariáveis |
-| **TimeGPT** | Nixtla (2023–24) | **API comercial**; o mais fácil de usar (`nixtla` SDK) |
+| **TimeGPT** | Nixtla (2023-24) | **API comercial**; o mais fácil de usar (`nixtla` SDK) |
 | **Lag-Llama** | ServiceNow/MILA (2024) | Probabilístico, transformer estilo Llama |
 | **Time-MoE** | (2024) | Mixture-of-Experts, escala a bilhões de params |
 | **TTM** | IBM (2024) | "Tiny" - leve, roda em CPU/dispositivo |
@@ -987,7 +999,7 @@ O código acima é **zero-shot**: o modelo chega congelado e prevê direto - foi
 - **Não são mágica**: em benchmarks como GIFT-Eval/TFB, um LightGBM bem ajustado ainda ganha em muitos casos com dados próprios suficientes.
 :::
 
-## Tendências (2024–2026)
+## Tendências (2024-2026)
 
 1. **Foundation models viraram baseline real.** Chronos, TimesFM, Moirai, TimeGPT, Time-MoE, TTM - *zero-shot* já entra como linha de comparação obrigatória.
 2. **LLMs reaproveitados** ([Time-LLM](https://arxiv.org/abs/2310.01728), [TEMPO](https://arxiv.org/abs/2310.04948)) - reprogramam GPT/Llama via *prompting* numérico. Promissor mas ainda nichado.

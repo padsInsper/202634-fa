@@ -47,9 +47,10 @@ mudança que vocês vão ter que tratar na modelagem.
 
 | Quando | O quê |
 |---|---|
-| **Sex 22/mai, 18h–20h** | Apresentação de uma **prévia** do trabalho — sem nota, só feedback dos colegas e do monitor |
-| **Sáb 23/mai, 15h–17h** | Discussão da turma sobre a melhor forma de construir a **predição agregada** |
-| **Seg 1/jun** | Entrega final, valendo nota: relatório (notebook), `previsao.csv` do grupo e a predição agregada da turma |
+| **{{< var intermediario.previa >}}** | Apresentação de uma **prévia** do trabalho, sem nota: só feedback dos colegas e dos docentes |
+| **{{< var intermediario.office-hours >}}** | Discussão da turma sobre a melhor forma de construir a **predição agregada**, seguida de office hours |
+| **{{< var intermediario.prazo >}}** | Entrega final, valendo nota: relatório (notebook), `previsao.csv` do grupo e a predição agregada da turma |
+| **{{< var intermediario.devolutiva >}}** | Devolutiva: ranking das previsões e desempenho da predição agregada |
 
 ## Avaliação
 
@@ -61,19 +62,19 @@ A avaliação tem 3 componentes, totalizando 10 pontos:
 | (Competitivo) Previsão do grupo (ranking MASE) | 3,0 |
 | (Colaborativo) Predição agregada da turma (todos recebem o mesmo) | 1,0 |
 
-A apresentação de sexta (22/mai) é uma **prévia sem nota**: serve para a turma
-trocar ideias e ajustar o rumo antes da entrega final de 1/jun.
+A prévia é **sem nota**: serve para a turma trocar ideias e ajustar o rumo antes da
+entrega final ({{< var intermediario.prazo-curto >}}).
 
 ## Dados
 
 Os dois arquivos abaixo estão no repositório do curso, na pasta `dados/`.
 Os links de download direto:
 
-- [📥 `distribr_serie.csv`](https://raw.githubusercontent.com/padsInsper/202632-fa/main/dados/distribr_serie.csv):
+- [📥 `distribr_serie.csv`](https://raw.githubusercontent.com/padsInsper/202634-fa/main/dados/distribr_serie.csv):
   série mensal principal da Distribuidora BR, jan/2014 a dez/2023
   (120 meses). Os 12 meses de 2024 foram **ocultados** e serão usados
   para avaliar a precisão das previsões.
-- [📥 `distribr_adquirida.csv`](https://raw.githubusercontent.com/padsInsper/202632-fa/main/dados/distribr_adquirida.csv):
+- [📥 `distribr_adquirida.csv`](https://raw.githubusercontent.com/padsInsper/202634-fa/main/dados/distribr_adquirida.csv):
   série mensal da empresa **adquirida**, cobrindo só o período em que
   ela operou separadamente (antes da aquisição). Uso opcional.
 
@@ -127,11 +128,12 @@ Cada CSV tem duas colunas: `data` (primeiro dia de cada mês) e `valor`.
 | Previsão final e gráfico (item 5) | 1,0 |
 | Discussão, decisões e uso de IA (itens 6 e 7) | 1,0 |
 
-## Prévia na sexta (sem nota)
+## Prévia (sem nota)
 
 Cada grupo apresenta brevemente uma **prévia** do que fez até ali. **Não vale
-nota** — é um checkpoint para a turma comentar, o monitor dar feedback e todos
-saírem com ideias para o sábado e para a entrega final de 1/jun.
+nota**: é um checkpoint para a turma comentar, os docentes darem feedback e todos
+saírem com ideias para a discussão da predição agregada e para a entrega final. O
+roteiro da prévia está em [Fechamento da Parte 1](../aulas/fechamento-parte1.qmd#prévia-do-trabalho-intermediário-sem-nota).
 
 Mesmo sendo prévia, vale a pena já tentar responder:
 
@@ -154,12 +156,12 @@ lugar pode ficar com um pouco mais de 0, mas não pode ficar negativo.
 
 ## Predição agregada da turma (1 ponto)
 
-Depois de ouvir as prévias da sexta, vocês têm a noite para pensar. No
-**sábado (23/mai)**, a turma discute e decide **a melhor forma de construir
-uma predição agregada única**. A predição agregada final é entregue junto
-com o restante do trabalho, em **1/jun**.
+Depois de ouvir as prévias, vocês têm até o Lab 2 para pensar. No Lab 2
+(**{{< var intermediario.office-hours >}}**), a turma discute e decide **a melhor
+forma de construir uma predição agregada única**. A predição agregada final é
+entregue junto com o restante do trabalho, em **{{< var intermediario.prazo-curto >}}**.
 
-**Estrutura da discussão de sábado (2h)**:
+**Estrutura da discussão (cerca de 1h, no Lab 2)**:
 
 Após a abertura, iniciamos um debate. Os alunos defendem suas propostas.
 Se ficar difícil de acompanhar as discussões, faremos inscrições para falar.

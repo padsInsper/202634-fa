@@ -1,0 +1,47 @@
+---
+title: "Lab 4: Portfólios na Prática"
+subtitle: "Fronteira, VaR e betas no código, e a dinâmica Monte sua Carteira"
+---
+
+::: {.objetivos}
+#### Objetivos do Lab
+
+- [Aplicar]{.bloom-badge .bloom-aplicar} a fronteira eficiente, o VaR de portfólio e os betas a um conjunto real de ativos
+- [Analisar]{.bloom-badge .bloom-analisar} o próprio perfil de risco e como ele muda a carteira "ótima"
+- [Avaliar]{.bloom-badge .bloom-avaliar} carteiras concorrentes por retorno, volatilidade, Sharpe, VaR e correlação
+- [Criar]{.bloom-badge .bloom-criar} e defender uma carteira em grupo, ponto de partida do trabalho final
+:::
+
+Este lab é **presencial** e acontece logo depois das aulas de [VaR](../aulas/var.qmd) e [CAPM e Portfólios](../aulas/portfolios.qmd): a ideia é pôr em prática, no mesmo dia, o que acabou de ser formalizado.
+
+## Roteiro (2h)
+
+| Tempo | Atividade | Material |
+|---|---|---|
+| 0h00-0h45 | **Código linha a linha**: Partes 4 a 6 do lab de séries financeiras (retorno e risco por ativo, fronteira eficiente por Monte Carlo, VaR do portfólio via $t$ de Student, betas contra o Ibovespa) | [Lab 3, Partes 4 a 6](lab03-financeiras.qmd#parte-4-retorno-risco-e-fronteira-eficiente) |
+| 0h45-1h05 | **Perfil de risco individual**: cada aluno preenche o formulário e recebe uma recomendação de ativos. Sorteamos uma ou duas pessoas para apresentar o resultado | [App Perfil de Risco](app-perfil-risco.qmd) |
+| 1h05-1h45 | **Monte sua Carteira, em grupos**: cada grupo escolhe ativos, mexe nos pesos, compara fronteira, Sharpe, VaR e backtest, e fecha uma carteira para defender | [App Monte sua Carteira](app-carteira.qmd) |
+| 1h45-2h00 | **Pitch relâmpago**: um minuto por grupo. Por que esses ativos? Por que esses pesos? O que o VaR e o beta dizem? | |
+
+::: {.callout-tip}
+## Para o pitch relâmpago
+Respondam em uma frase cada:
+
+1. Qual é o **propósito** da carteira (para quem ela serve)?
+2. Onde ela está em relação à **fronteira eficiente**, e por quê não exatamente no máximo Sharpe?
+3. Qual o **VaR diário de 95%** para R\$ 1 milhão investido, e o **beta** contra o Ibovespa?
+4. Qual o **maior risco** que o grupo enxerga (concentração, setor, câmbio, juros)?
+:::
+
+## Antes do lab
+
+- Rode o [setup do Lab 1](lab01-exploracao.qmd#configuração-do-ambiente) se ainda não tem o ambiente do curso (os apps rodam no navegador e não exigem instalação).
+- Releia as seções de fronteira eficiente e beta em [CAPM e Portfólios](../aulas/portfolios.qmd).
+
+## Ponte para o trabalho final
+
+A carteira escolhida pelo grupo é um bom ponto de partida para o [trabalho final](../trabalhos/final.qmd): o enunciado pede exatamente seleção de ativos com justificativa, modelagem de volatilidade, betas, fronteira eficiente e análise de risco. Os dois apps também podem ser adaptados aos ativos do grupo (o código está em `labs/app-carteira/` e `labs/app-perfil-risco/` no repositório).
+
+::: {.callout-warning appearance="minimal"}
+Os apps e as recomendações têm finalidade didática e não constituem recomendação de investimento.
+:::

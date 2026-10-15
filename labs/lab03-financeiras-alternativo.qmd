@@ -26,8 +26,8 @@ via t de Student e CAPM: veja [Lab 3 oficial](lab03-financeiras.qmd).
 
 O Lab 3 é dividido em dois blocos complementares sobre o **mesmo pool de ativos**, para você sair com o pipeline end-to-end de séries financeiras.
 
-- **Bloco 3.1** — Séries financeiras e GARCH. Preços → log-retornos → fatos estilizados → modelos GARCH → previsão de volatilidade.
-- **Bloco 3.2** — Portfólios. Retorno/risco por ativo → matriz de covariância → fronteira eficiente → carteiras de mínima variância e máximo Sharpe.
+- **Bloco 3.1**: Séries financeiras e GARCH. Preços → log-retornos → fatos estilizados → modelos GARCH → previsão de volatilidade.
+- **Bloco 3.2**: Portfólios. Retorno/risco por ativo → matriz de covariância → fronteira eficiente → carteiras de mínima variância e máximo Sharpe.
 :::
 
 ## Setup compartilhado
@@ -89,7 +89,7 @@ print(f"Observações: {len(precos)} dias úteis")
 precos.head()
 ```
 
-# Bloco 3.1 — Séries Financeiras e GARCH
+# Bloco 3.1: Séries Financeiras e GARCH
 
 ## Parte 1: Preços e log-retornos
 
@@ -133,11 +133,11 @@ ret = retornos[ativo_foco].values
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
 stats.probplot(ret, dist="norm", plot=axes[0])
-axes[0].set_title(f'{nomes[ativo_foco]} — QQ-Plot Normal', fontweight='bold')
+axes[0].set_title(f'{nomes[ativo_foco]} : QQ-Plot Normal', fontweight='bold')
 axes[0].get_lines()[0].set_color(INSPER_RED)
 
 stats.probplot(ret, dist="t", sparams=(4,), plot=axes[1])
-axes[1].set_title(f'{nomes[ativo_foco]} — QQ-Plot t-Student (df=4)', fontweight='bold')
+axes[1].set_title(f'{nomes[ativo_foco]} : QQ-Plot t-Student (df=4)', fontweight='bold')
 axes[1].get_lines()[0].set_color(INSPER_TURQUESA)
 
 plt.tight_layout()
@@ -150,13 +150,13 @@ plt.show()
 fig, axes = plt.subplots(2, 2, figsize=(14, 8))
 
 plot_acf(retornos[ativo_foco].dropna(), ax=axes[0,0], lags=40, zero=False,
-         title=f'ACF — Retornos {nomes[ativo_foco]}')
+         title=f'ACF: Retornos {nomes[ativo_foco]}')
 plot_acf(retornos[ativo_foco].dropna()**2, ax=axes[0,1], lags=40, zero=False,
-         title=f'ACF — Retornos² {nomes[ativo_foco]}')
+         title=f'ACF: Retornos² {nomes[ativo_foco]}')
 plot_pacf(retornos[ativo_foco].dropna(), ax=axes[1,0], lags=40, zero=False,
-          title='PACF — Retornos')
+          title='PACF: Retornos')
 plot_pacf(retornos[ativo_foco].dropna()**2, ax=axes[1,1], lags=40, zero=False,
-          title='PACF — Retornos²')
+          title='PACF: Retornos²')
 
 plt.tight_layout()
 plt.show()
@@ -165,9 +165,9 @@ plt.show()
 ::: {.callout-caution collapse="true"}
 ## Exercício: Interpretação
 
-1. **Os retornos têm autocorrelação significativa? E os retornos ao quadrado?** Os retornos simples geralmente não têm autocorrelação significativa (mercado eficiente). Mas os retornos ao quadrado têm autocorrelação forte e persistente — isso indica clusters de volatilidade.
+1. **Os retornos têm autocorrelação significativa? E os retornos ao quadrado?** Os retornos simples geralmente não têm autocorrelação significativa (mercado eficiente). Mas os retornos ao quadrado têm autocorrelação forte e persistente: isso indica clusters de volatilidade.
 2. **O que a ACF dos retornos ao quadrado está nos dizendo?** Que a **variância** (volatilidade) muda ao longo do tempo de forma previsível. Períodos de alta volatilidade tendem a ser seguidos por mais alta volatilidade.
-3. **O QQ-Plot com distribuição t se ajusta melhor?** Sim — a t com graus de liberdade baixos (4–8) se ajusta melhor às caudas dos retornos financeiros.
+3. **O QQ-Plot com distribuição t se ajusta melhor?** Sim: a t com graus de liberdade baixos (4-8) se ajusta melhor às caudas dos retornos financeiros.
 :::
 
 ## Parte 3: Modelos GARCH
@@ -184,7 +184,7 @@ print(resultado_garch.summary())
 vol_condicional = resultado_garch.conditional_volatility / 100
 
 fig = make_subplots(rows=2, cols=1, shared_xaxes=True,
-                    subplot_titles=[f'Retornos — {nomes[ativo_foco]}',
+                    subplot_titles=[f'Retornos: {nomes[ativo_foco]}',
                                     'Volatilidade Condicional (GARCH)'])
 fig.add_trace(go.Scatter(x=retornos.index, y=retornos[ativo_foco],
                          mode='lines', line=dict(color=INSPER_GRAY, width=0.5),
@@ -232,13 +232,13 @@ ax.plot(range(len(hist_vol), len(hist_vol) + h), vol_futura,
         color=INSPER_RED, linewidth=2, marker='o', label='Previsão GARCH')
 ax.axhline(y=vol_condicional.mean(), color=INSPER_TURQUESA,
            linestyle='--', label='Média histórica', alpha=0.7)
-ax.set_title(f'Previsão de Volatilidade — {nomes[ativo_foco]}', fontweight='bold')
+ax.set_title(f'Previsão de Volatilidade: {nomes[ativo_foco]}', fontweight='bold')
 ax.set_xlabel('Dias'); ax.set_ylabel('Volatilidade'); ax.legend()
 plt.tight_layout()
 plt.show()
 ```
 
-# Bloco 3.2 — Portfólios
+# Bloco 3.2: Portfólios
 
 ## Parte 4: Retorno, risco e correlação
 
@@ -258,7 +258,7 @@ resumo.sort_values('Sharpe', ascending=False)
 fig = px.scatter(
     resumo, x='Risco Anual (%)', y='Retorno Anual (%)',
     text=resumo.index.str.replace('.SA', ''),
-    title='Retorno vs. Risco — Ativos Individuais',
+    title='Retorno vs. Risco: Ativos Individuais',
     template='plotly_white'
 )
 fig.update_traces(textposition='top center', marker=dict(size=12, color=INSPER_RED))

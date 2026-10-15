@@ -1,0 +1,37 @@
+<%
+// Próximas sessões (página inicial). Mostra as 3 próximas via JS.
+const SEMANA = ['dom','seg','ter','qua','qui','sex','sáb'];
+const MES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const hora = (h) => (h || '').replace(':', 'h');
+%>
+<div class="proximas" data-proximas>
+<ol class="proximas-lista">
+<% for (const item of items) {
+const [ano, mes, dia] = item.data.split('-').map(Number);
+const dt = new Date(Date.UTC(ano, mes - 1, dia));
+const link = ((item.materiais && item.materiais.length) ? item.materiais[0].href : 'cronograma.qmd').replace(/\.(qmd|ipynb)(#|$)/, '.html$2'); %>
+<li class="proximas-item tipo-<%= item.tipo %>" data-data="<%= item.data %>" data-fim="<%= item.fim %>" hidden>
+<a href="<%= link %>">
+<span class="proximas-data"><span class="proximas-dia"><%= String(dia).padStart(2, '0') %></span><span class="proximas-mes"><%= MES[mes - 1] %> · <%= SEMANA[dt.getUTCDay()] %></span></span>
+<span class="proximas-corpo">
+<span class="proximas-meta"><%= item.rotulo %> · <%= item.modalidade %> · <%= item.tipo === 'entrega' ? 'até ' + hora(item.fim) : hora(item.inicio) + '-' + hora(item.fim) %></span>
+<span class="proximas-titulo"><%= item.titulo %></span>
+</span>
+</a>
+</li>
+<% } %>
+</ol>
+<p class="proximas-fim" data-proximas-fim hidden>O curso terminou. Obrigado pela participação!</p>
+<a class="proximas-todas" href="cronograma.html">Ver cronograma completo <i class="bi bi-arrow-right"></i></a>
+</div>
+<script>
+(function () {
+const raiz = document.querySelector('[data-proximas]');
+if (!raiz) return;
+const agora = new Date();
+const futuras = Array.from(raiz.querySelectorAll('.proximas-item'))
+.filter((li) => new Date(li.dataset.data + 'T' + li.dataset.fim + ':00-03:00') >= agora);
+futuras.slice(0, 3).forEach((li) => { li.hidden = false; });
+if (!futuras.length) raiz.querySelector('[data-proximas-fim]').hidden = false;
+})();
+</script>

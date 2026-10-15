@@ -1,0 +1,153 @@
+<%
+// Template do cronograma completo. Dados em cronograma.yml.
+const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const SEMANA = ['dom','seg','ter','qua','qui','sex','sáb'];
+const hora = (h) => (h || '').replace(':', 'h');
+const esc = (s) => String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+const contagem = { aula: 0, lab: 0 };
+items.forEach(i => { if (contagem[i.tipo] !== undefined) contagem[i.tipo]++; });
+const presenciais = items.filter(i => i.modalidade === 'Presencial').length;
+let mesAtual = null;
+%>
+<div class="crono" data-crono>
+<div class="crono-resumo">
+<div class="crono-stat"><span class="crono-stat-num"><%= contagem.aula %></span><span class="crono-stat-label">aulas</span></div>
+<div class="crono-stat"><span class="crono-stat-num"><%= contagem.lab %></span><span class="crono-stat-label">labs</span></div>
+<div class="crono-stat"><span class="crono-stat-num"><%= presenciais %></span><span class="crono-stat-label">sessões presenciais</span></div>
+<div class="crono-stat crono-stat-proxima" data-crono-proxima-resumo hidden><span class="crono-stat-label">próxima sessão</span><span class="crono-stat-txt"></span></div>
+</div>
+<div class="crono-toolbar">
+<div class="crono-filtros" role="group" aria-label="Filtrar sessões">
+<button type="button" class="crono-chip ativo" data-filtro="todos" aria-pressed="true">Todas</button>
+<button type="button" class="crono-chip" data-filtro="tipo-aula" aria-pressed="false">Aulas</button>
+<button type="button" class="crono-chip" data-filtro="tipo-lab" aria-pressed="false">Labs</button>
+<button type="button" class="crono-chip" data-filtro="modal-presencial" aria-pressed="false">Presenciais</button>
+<button type="button" class="crono-chip" data-filtro="marco" aria-pressed="false">Entregas</button>
+</div>
+<div class="crono-acoes">
+<button type="button" class="crono-btn" data-crono-ir><i class="bi bi-arrow-down-circle"></i> Próxima sessão</button>
+<button type="button" class="crono-btn" data-crono-ics><i class="bi bi-calendar-plus"></i> Baixar .ics</button>
+</div>
+</div>
+<% for (const item of items) {
+const [ano, mes, dia] = item.data.split('-').map(Number);
+const dt = new Date(Date.UTC(ano, mes - 1, dia));
+const chaveMes = ano + '-' + mes;
+const marco = item.tipo === 'entrega' || item.tipo === 'apresentacao';
+const classes = ['crono-item', 'tipo-' + item.tipo, 'modal-' + String(item.modalidade || '').toLowerCase(), 'parte-' + item.parte];
+if (marco) classes.push('marco');
+if (chaveMes !== mesAtual) {
+if (mesAtual !== null) { %></ol></section><% }
+mesAtual = chaveMes; %>
+<section class="crono-mes">
+<div class="crono-mes-titulo"><%= MESES[mes - 1] %> <span><%= ano %></span></div>
+<ol class="crono-lista">
+<%   } %>
+<li class="<%= classes.join(' ') %>"
+data-data="<%= item.data %>" data-inicio="<%= item.inicio %>" data-fim="<%= item.fim %>"
+data-rotulo="<%= esc(item.rotulo) %>" data-titulo="<%= esc(item.titulo) %>"
+data-modalidade="<%= esc(item.modalidade) %>" data-quem="<%= esc(item.quem) %>">
+<div class="crono-data" aria-hidden="true">
+<span class="crono-dia"><%= String(dia).padStart(2, '0') %></span>
+<span class="crono-sem"><%= SEMANA[dt.getUTCDay()] %></span>
+</div>
+<div class="crono-card">
+<div class="crono-meta">
+<span class="crono-badge crono-badge-tipo"><%= item.rotulo %></span>
+<span class="crono-badge crono-badge-modal"><%= item.modalidade %></span>
+<span class="crono-hora"><i class="bi bi-clock"></i> <span class="visually-hidden"><%= SEMANA[dt.getUTCDay()] %> <%= dia %>/<%= mes %>, </span><%= item.tipo === 'entrega' ? 'até ' + hora(item.fim) : hora(item.inicio) + '-' + hora(item.fim) %></span>
+<% if (item.quem) { %><span class="crono-quem"><i class="bi bi-person"></i> <%= item.quem %></span><% } %>
+<span class="crono-status" data-crono-status></span>
+</div>
+<div class="crono-titulo"><%= item.titulo %></div>
+<% if (item.descricao) { %><p class="crono-desc"><%= item.descricao %></p><% } %>
+<% const mats = item.materiais || []; const sl = item.slides || []; %>
+<% if (mats.length || sl.length) { %>
+<div class="crono-links">
+<% for (const m of mats) { %><a class="crono-link" href="<%= m.href.replace(/\.(qmd|ipynb)(#|$)/, '.html$2') %>"><i class="bi bi-journal-text"></i> <%= m.texto %></a><% } %>
+<% for (const s of sl) { %><a class="crono-link crono-link-slides" href="<%= s.href %>"><i class="bi bi-easel"></i> <%= s.texto || 'Slides' %></a><% } %>
+</div>
+<% } %>
+</div>
+</li>
+<% } %>
+<% if (mesAtual !== null) { %></ol></section><% } %>
+<p class="crono-vazio" data-crono-vazio hidden>Nenhuma sessão com esse filtro.</p>
+</div>
+<script>
+(function () {
+const raiz = document.querySelector('[data-crono]');
+if (!raiz) return;
+const itens = Array.from(raiz.querySelectorAll('.crono-item'));
+const fimDe = (li) => new Date(li.dataset.data + 'T' + li.dataset.fim + ':00-03:00');
+const iniDe = (li) => new Date(li.dataset.data + 'T' + li.dataset.inicio + ':00-03:00');
+const agora = new Date();
+// Passadas, em andamento e próxima
+let proxima = null;
+itens.forEach((li) => {
+const st = li.querySelector('[data-crono-status]');
+if (fimDe(li) < agora) { li.classList.add('passada'); st.textContent = 'concluída'; }
+else if (iniDe(li) <= agora) { li.classList.add('agora'); st.textContent = 'acontecendo agora'; proxima = proxima || li; }
+else if (!proxima) { proxima = li; }
+});
+if (proxima) {
+proxima.classList.add('proxima');
+const st = proxima.querySelector('[data-crono-status]');
+if (!st.textContent) st.textContent = 'próxima';
+const box = raiz.querySelector('[data-crono-proxima-resumo]');
+const [a, m, d] = proxima.dataset.data.split('-');
+box.querySelector('.crono-stat-txt').textContent = proxima.dataset.rotulo + ' · ' + d + '/' + m;
+box.hidden = false;
+}
+// Filtros
+const chips = Array.from(raiz.querySelectorAll('.crono-chip'));
+chips.forEach((chip) => chip.addEventListener('click', () => {
+chips.forEach((c) => { c.classList.toggle('ativo', c === chip); c.setAttribute('aria-pressed', c === chip); });
+const f = chip.dataset.filtro;
+let visiveis = 0;
+itens.forEach((li) => {
+const ok = f === 'todos' || li.classList.contains(f);
+li.hidden = !ok;
+if (ok) visiveis++;
+});
+raiz.querySelectorAll('.crono-mes').forEach((sec) => {
+sec.hidden = !sec.querySelector('.crono-item:not([hidden])');
+});
+raiz.querySelector('[data-crono-vazio]').hidden = visiveis > 0;
+}));
+// Ir para a próxima
+const btnIr = raiz.querySelector('[data-crono-ir]');
+if (!proxima) btnIr.hidden = true;
+btnIr.addEventListener('click', () => {
+proxima.scrollIntoView({ behavior: 'smooth', block: 'center' });
+proxima.classList.add('pisca');
+setTimeout(() => proxima.classList.remove('pisca'), 1600);
+});
+// Exporta .ics (horário de Brasília = UTC-3, sem horário de verão)
+raiz.querySelector('[data-crono-ics]').addEventListener('click', () => {
+const fmt = (dt) => dt.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+const limpa = (s) => String(s || '').replace(/[,;\\]/g, (c) => '\\' + c);
+const titulo = document.title.split('|').pop().trim() || 'Financial Analytics';
+const linhas = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//PADS Insper//Financial Analytics//PT', 'CALSCALE:GREGORIAN'];
+itens.forEach((li, k) => {
+let ini = iniDe(li);
+const fim = fimDe(li);
+if (li.classList.contains('tipo-entrega')) ini = new Date(fim.getTime() - 59 * 60000);
+linhas.push('BEGIN:VEVENT',
+'UID:fa-' + li.dataset.data + '-' + k + '@padsinsper',
+'DTSTAMP:' + fmt(new Date()),
+'DTSTART:' + fmt(ini), 'DTEND:' + fmt(fim),
+'SUMMARY:' + limpa('FA ' + li.dataset.rotulo + ': ' + li.dataset.titulo),
+'LOCATION:' + limpa(li.dataset.modalidade),
+'DESCRIPTION:' + limpa(li.dataset.quem + ' · ' + location.href),
+'END:VEVENT');
+});
+linhas.push('END:VCALENDAR');
+const blob = new Blob([linhas.join('\r\n')], { type: 'text/calendar' });
+const a = document.createElement('a');
+a.href = URL.createObjectURL(blob);
+a.download = 'financial-analytics.ics';
+document.body.appendChild(a); a.click(); a.remove();
+});
+})();
+</script>

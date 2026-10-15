@@ -17,7 +17,7 @@ csv_text = (AQUI / "dados_carteira.csv").read_text(encoding="utf-8")
 
 CABECALHO = '''---
 title: "App: Monte sua Carteira"
-subtitle: "Dinâmica do Lab 3 rodando no navegador (shinylive)"
+subtitle: "Dinâmica do Lab 4 rodando no navegador (shinylive)"
 format:
   html:
     toc: false
@@ -25,7 +25,7 @@ filters:
   - shinylive
 ---
 
-Este é o app interativo da dinâmica do Lab 3, rodando **inteiramente no seu navegador**
+Este é o app interativo da dinâmica do Lab 4, rodando **inteiramente no seu navegador**
 (via shinylive, sem servidor). Escolha ativos pelo nome, mexa nos pesos e veja ao vivo o
 retorno, a volatilidade, o Sharpe, o VaR, a fronteira eficiente, o backtest contra o
 Ibovespa e a matriz de correlação.

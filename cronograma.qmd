@@ -1,184 +1,26 @@
 ---
 title: "Cronograma"
-subtitle: "Visão geral de todas as sessões"
+subtitle: "Turma {{< var turma >}} · {{< var edicao >}} · {{< var periodo >}}"
+toc: false
+listing:
+  id: crono
+  contents: cronograma.yml
+  template: assets/cronograma.ejs
+  sort: false
+  page-size: 500
+  filter-ui: false
+  sort-ui: false
+  feed: false
 ---
 
-## Calendário Visual
+Aulas são conduzidas pela professora (com o monitor nos encontros presenciais); labs são conduzidos pelo monitor. Horários de Brasília. Use **Baixar .ics** para importar todas as sessões no seu calendário (Google, Outlook, Apple).
 
-```{mermaid}
-%%| fig-width: 10
-gantt
-    title Financial Analytics: PADS Insper 2026.2
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d/%m
-
-    section Parte 1
-    Aula 1 Fundamentos (manhã)   :a1, 2026-04-25, 1d
-    Aula 2 ARIMA (tarde)         :a2, 2026-04-25, 1d
-    Lab 1 Exploração             :a3, 2026-04-27, 1d
-    Aula 3 SARIMA e Prophet      :a4, 2026-05-04, 1d
-    Aula 4 Previsão e Validação  :a5, 2026-05-11, 1d
-    Lab 2 Pipeline               :a6, 2026-05-18, 1d
-
-    section Transição
-    Prévia Intermediário + Bridge :t1, 2026-05-22, 1d
-    Discussão Predição Agregada  :t2, 2026-05-23, 1d
-    Entrega Intermediário        :milestone, t3, 2026-06-01, 0d
-
-    section Parte 2
-    Aula 5 Volatilidade          :b1, 2026-05-25, 1d
-    Aula 6 VaR                   :b2, 2026-06-01, 1d
-    Lab 3 Financeiras+Portfólios :b3, 2026-06-08, 1d
-    Aulas 7+8 CAPM e Avançados   :b4, 2026-06-13, 1d
-    Lab 4 Projeto Final          :b5, 2026-06-15, 1d
-    Apresentações finais         :b6, 2026-06-22, 1d
-```
-
-## Detalhamento
-
-::: {.schedule-card .tipo-juntos}
-::: {.date}
-Sábado, 25 de Abril — 08h00 a 12h00
-:::
-[Aula]{.tipo .tipo-juntos-badge} **Presencial** — 4h (2 blocos)
-
-**Aula 1 — Fundamentos de Séries Temporais.** Manhã do sábado dobrado.
-
-**Bloco 1 (08h–10h):** Abertura do curso, motivação de negócios, componentes de séries temporais (tendência, sazonalidade, ciclo, ruído) e decomposição (clássica e STL).
-
-**Bloco 2 (10h–12h):** Estacionariedade, testes ADF e KPSS, diferenciação, tendências estocásticas; ACF/PACF — intuição, leitura de gráficos e identificação de padrões.
+::: {#crono}
 :::
 
-::: {.schedule-card .tipo-juntos}
-::: {.date}
-Sábado, 25 de Abril — 13h00 a 17h00
-:::
-[Aula]{.tipo .tipo-juntos-badge} **Presencial** — 4h (2 blocos)
+## Entregas
 
-**Aula 2 — Modelos ARIMA.** Tarde do sábado dobrado, ancorada no material produzido pela manhã.
-
-**Bloco 1 (13h–15h):** Modelos AR, MA, ARMA — simulação e leitura de ACF/PACF; ARIMA com diferenciação; polinômios de defasagem e condições de estacionariedade.
-
-**Bloco 2 (15h–17h):** Procedimento Box-Jenkins (identificação → estimação → diagnóstico), critérios de informação (AICc), diagnóstico residual (Ljung-Box), seleção automática via `AutoARIMA` aplicada à Selic mensal (SGS 4189). Saída de aula: o aluno tem um pipeline ARIMA rodando, pronto para o Lab 1.
-:::
-
-::: {.schedule-card .tipo-lab}
-::: {.date}
-Segunda, 27 de Abril — 19h00 a 22h30
-:::
-[Lab]{.tipo .tipo-lab-badge} **Remota** — 3.5h
-
-**Lab 1 — Exploração de Séries Temporais em Python.** Notebook guiado: `pandas`, `statsmodels`, `plotly`. Dados reais de IPCA mensal (BCB SGS 433). Dinâmica: *Bingo da ACF*. Primeira experiência prática aplicando decomposição, estacionariedade e leitura de ACF/PACF sobre séries reais.
-:::
-
-::: {.schedule-card .tipo-aula}
-::: {.date}
-Segunda, 4 de Maio — 19h00 a 22h30
-:::
-[Aula]{.tipo .tipo-aula-badge} **Remota** — 3.5h
-
-**Aula 3 — SARIMA e Prophet.** Sazonalidade estocástica vs. determinística, operador $(P,D,Q)_s$, identificação sazonal via ACF/PACF nos lags múltiplos de $s$. Caso prático: IBC-Br original (sem ajuste sazonal, SGS 24363) ajustado via `AutoARIMA(season_length=12)`. Introdução ao **Prophet** como alternativa moderna (tendência linear por partes + Fourier + feriados) e comparação SARIMA vs. Prophet.
-:::
-
-::: {.schedule-card .tipo-aula}
-::: {.date}
-Segunda, 11 de Maio — 19h00 a 22h30
-:::
-[Aula]{.tipo .tipo-aula-badge} **Remota** — 3.5h
-
-**Aula 4 — Previsão e Validação.** Métricas de erro (MAE, RMSE, MAPE, MASE) e quando usar cada uma. Cross-validation temporal (*expanding* vs. *sliding window*). Backtest com `statsforecast`. Panorama de ferramentas modernas (DARTS, foundation models). Discussão: *quando o modelo falha* (quebras estruturais, outliers, regime shifts).
-:::
-
-::: {.schedule-card .tipo-lab}
-::: {.date}
-Segunda, 18 de Maio — 19h00 a 22h30
-:::
-[Lab]{.tipo .tipo-lab-badge} **Remota** — 3.5h
-
-**Lab 2 — ML para Séries Temporais + Office Hours do Intermediário.** Estrutura em três blocos:
-
-- **0–30 min:** Revisão consolidada da Parte 1 (decomposição, ARIMA/SARIMA, validação).
-- **30–90 min:** Overview de **machine learning para séries temporais** — o que muda em relação ao ML tabular, as 8 tarefas (predição, classificação, anomalia, etc.), feature engineering temporal (lags, rolling, calendário cíclico, tsfresh), famílias de modelos (boosting, híbridos ARIMA-Boost, neurais clássicas, foundation models como Chronos/TimesFM/Moirai), pipeline comparativo SARIMA vs. boosting vs. híbrido em Transferências Federais (BCB SGS 7478), spoiler de Transformer e tendências 2024–2026.
-- **90–210 min:** **Office hours do trabalho intermediário** — tempo dedicado para os grupos avançarem, com o monitor circulando para tirar dúvidas pontuais sobre tratamento da aquisição, escolha de modelo, validação e exportação do `previsao.csv`.
-:::
-
-::: {.schedule-card .tipo-juntos}
-::: {.date}
-Sexta, 22 de Maio — 18h00 a 22h00
-:::
-[Aula]{.tipo .tipo-juntos-badge} **Presencial** — 4h (2 blocos)
-
-**Bloco 1 (18h–20h):** Fechamento da Parte 1 — revisão integrada dos conceitos de séries temporais (decomposição, estacionariedade, ARIMA/SARIMA, previsão e validação) e **prévia (sem nota) do trabalho intermediário**: cada grupo mostra rapidamente onde está e recebe feedback da turma e do monitor.
-
-**Bloco 2 (20h–22h):** Bridge para finanças — preços, retornos, log-retornos, fatos estilizados de séries financeiras. Abertura da Parte 2.
-:::
-
-::: {.schedule-card .tipo-lab}
-::: {.date}
-Sábado, 23 de Maio — 15h00 a 17h00
-:::
-[Lab]{.tipo .tipo-lab-badge} **Presencial** — 2h
-
-**Trabalho Intermediário — Predição Agregada.** A turma discute e decide a melhor forma de construir a predição agregada (consenso). Também serve de office hours: o monitor circula para tirar dúvidas sobre modelagem, validação, diagnóstico e interpretação. **Entrega final (relatório + previsões) prorrogada para 1/jun.**
-:::
-
-::: {.schedule-card .tipo-aula}
-::: {.date}
-Segunda, 25 de Maio — 19h00 a 22h30
-:::
-[Aula]{.tipo .tipo-aula-badge} **Remota** — 3.5h
-
-**Aula 5 — Volatilidade e GARCH.** ARCH, GARCH e variantes (EGARCH, GJR-GARCH). Distribuição $t$ de Student, persistência, efeito alavancagem. Interpretação e uso em risco.
-:::
-
-::: {.schedule-card .tipo-aula}
-::: {.date}
-Segunda, 1 de Junho — 19h00 a 22h30
-:::
-[Aula]{.tipo .tipo-aula-badge} **Remota** — 3.5h
-
-**Aula 6 — VaR e Risco.** VaR paramétrico, histórico e Monte Carlo. Expected Shortfall. Backtesting do VaR e leitura das violações. Conexão com a volatilidade GARCH da aula anterior.
-:::
-
-::: {.schedule-card .tipo-lab}
-::: {.date}
-Segunda, 8 de Junho — 19h00 a 22h30
-:::
-[Lab]{.tipo .tipo-lab-badge} **Remota** — 3.5h
-
-**Lab 3 — Séries Financeiras, GARCH e Portfólios.** Laboratório remoto em quatro momentos:
-
-- **Bloco A (0:00 a 0:30): resultados do trabalho intermediário.** Apresentação da correção das previsões (componente competitivo por grupo e predição agregada da turma) e discussão das lições.
-- **Bloco B (0:30 a 1:00): leitura conjunta do trabalho final.** Passamos o enunciado em conjunto, alinhamos escopo, formato de entrega e a ideia da análise surpreendente.
-- **Bloco C (1:00 a 2:30): código do lab linha a linha.** `yfinance` em fundos imobiliários brasileiros, construção de retornos, fatos estilizados (cauda pesada, clusters de volatilidade, autocorrelação dos retornos ao quadrado), grid de modelos GARCH e previsão de volatilidade, fronteira eficiente por Monte Carlo (mínima variância e máximo Sharpe), VaR via t de Student e betas/CAPM contra o Ibovespa. Prepara o terreno para a formalização de CAPM na aula presencial seguinte.
-- **Bloco D (2:30 a 3:30): dinâmica Monte sua Carteira.** Em grupos, os alunos usam um [app interativo](labs/app-carteira.qmd) (Shiny for Python, rodando no navegador) para mexer nos pesos, visualizar a fronteira e comparar risco, retorno, Sharpe e VaR ao vivo, escolhendo uma carteira para defender. Serve de semente para a análise surpreendente do trabalho final.
-:::
-
-::: {.schedule-card .tipo-juntos}
-::: {.date}
-Sábado, 13 de Junho — 13h00 a 17h00
-:::
-[Aula]{.tipo .tipo-juntos-badge} **Presencial** — 4h (2 blocos)
-
-**Bloco 1 (13h–15h):** Aula 7 — CAPM e Portfólios. Beta, alpha, fronteira eficiente, otimização com restrições. Exercício: *Monte sua Carteira*.
-
-**Bloco 2 (15h–17h):** Aula 8 — Tópicos Avançados + Pitch. VAR multivariado, cointegração, pair trading, DCC-GARCH, panorama de IA em finanças. Fechamento com pitch dos projetos finais e alinhamento de escopo.
-:::
-
-::: {.schedule-card .tipo-lab}
-::: {.date}
-Segunda, 15 de Junho — 19h00 a 22h30
-:::
-[Lab]{.tipo .tipo-lab-badge} **Remota** — 3.5h
-
-**Lab 4 — Projeto Final (Office Hours).** Tempo dedicado para finalizar o trabalho final. Notebook de referência com tópicos avançados. Office hours remoto com o monitor.
-:::
-
-::: {.schedule-card .tipo-aula}
-::: {.date}
-Segunda, 22 de Junho — 19h00 a 21h00
-:::
-[Aula]{.tipo .tipo-aula-badge} **Remota** — 2h
-
-**Apresentações Finais.** Apresentação dos projetos finais, feedback em grupo, encerramento do curso e direções para aplicar os conceitos no dia a dia corporativo.
-:::
+| Entrega | Prévia / apoio | Prazo |
+|---|---|---|
+| [Trabalho intermediário](trabalhos/intermediario.qmd) (Parte 1) | Prévia: {{< var intermediario.previa >}}. Office hours: {{< var intermediario.office-hours >}} | **{{< var intermediario.prazo >}}** |
+| [Trabalho final](trabalhos/final.qmd) (Parte 2) | Office hours: {{< var final.office-hours >}} | **{{< var final.prazo >}}** |

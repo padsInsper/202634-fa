@@ -1,0 +1,135 @@
+---
+title: "Fechamento da Parte 1"
+subtitle: "Revisão integrada de séries temporais e prévia do trabalho intermediário"
+---
+
+::: {.objetivos}
+#### Objetivos de Aprendizagem
+
+- **Integrar** decomposição, estacionariedade, ARIMA/SARIMA, Prophet e validação em um fluxo único de análise
+- **Escolher** a família de modelos adequada a partir das características da série e do problema de negócio
+- **Criticar** análises de séries temporais, identificando armadilhas comuns
+- **Comunicar** decisões de modelagem para uma audiência de negócios (prévia do trabalho intermediário)
+:::
+
+## Roteiro do encontro
+
+| Bloco | O quê |
+|---|---|
+| **1. Revisão integrada** (cerca de 45 min) | O fluxo completo de uma análise de série temporal, com as perguntas que cada etapa responde |
+| **2. Prévia do trabalho intermediário** (cerca de 75 min) | Cada grupo mostra onde está; a turma e os docentes dão feedback (sem nota) |
+
+## O fluxo de uma análise de série temporal
+
+```{mermaid}
+%%| fig-align: center
+flowchart TD
+    A["<b>1. Entender o problema</b><br/>Qual decisão a previsão apoia?<br/>Horizonte, granularidade, custo do erro"] --> B["<b>2. Olhar os dados</b><br/>Gráfico, decomposição STL<br/>Outliers, quebras, intervenções"]
+    B --> C["<b>3. Estacionariedade</b><br/>ADF + KPSS<br/>Diferenciar (d, D) ou transformar (log)"]
+    C --> D["<b>4. Identificar</b><br/>ACF / PACF<br/>Ordens candidatas"]
+    D --> E["<b>5. Estimar candidatos</b><br/>SARIMA, ETS, Prophet, ML<br/>Baseline: SeasonalNaive"]
+    E --> F["<b>6. Diagnosticar</b><br/>Resíduos: Ljung-Box, ACF<br/>Média zero, variância constante"]
+    F --> G["<b>7. Validar</b><br/>CV temporal (expanding)<br/>MAE, RMSE, MASE"]
+    G --> H["<b>8. Prever e comunicar</b><br/>Intervalos de 80% e 95%<br/>Decisões e limitações"]
+    F -. "resíduo com estrutura" .-> D
+    G -. "pior que o baseline" .-> B
+
+    classDef etapa fill:#ffffff,stroke:#3F3F3F,stroke-width:1.5px,color:#3F3F3F
+    classDef fim fill:#E50505,stroke:#3F3F3F,stroke-width:2px,color:#fff
+    class A,B,C,D,E,F,G etapa
+    class H fim
+```
+
+Cada etapa tem uma página de referência:
+
+| Etapa | Onde revisar |
+|---|---|
+| Componentes, decomposição, ACF/PACF, estacionariedade | [Fundamentos](fundamentos.qmd) |
+| AR, MA, ARIMA, Box-Jenkins, AICc, diagnóstico | [Modelos ARIMA](arima.qmd) |
+| Sazonalidade estocástica, SARIMA, Prophet | [SARIMA e Prophet](sarima-prophet.qmd) |
+| Métricas, validação cruzada temporal, quebras estruturais | [Previsão e Validação](previsao.qmd) |
+| Prática guiada em Python | [Lab 1](../labs/lab01-exploracao.qmd) |
+
+## Qual modelo, quando?
+
+Não existe modelo "melhor" em abstrato. A escolha depende da série, do horizonte e de quanto você precisa explicar o resultado.
+
+| Família | Quando brilha | Cuidado com |
+|---|---|---|
+| **SeasonalNaive** | Sempre, como **baseline**. Se você não o vence, o modelo não está agregando valor | Nada: é o piso que todo modelo precisa superar |
+| **ARIMA / SARIMA** | Séries curtas e médias, dinâmica linear, sazonalidade estável; parâmetros interpretáveis | Quebras estruturais, múltiplas sazonalidades, séries muito longas |
+| **ETS** | Tendência e sazonalidade que evoluem suavemente; muito robusto em competições | Pouca flexibilidade para variáveis externas |
+| **Prophet** | Dados diários com feriados, múltiplas sazonalidades, changepoints | Séries mensais curtas; tende a "inventar" tendência |
+| **ML (boosting com lags)** | Muitas séries ao mesmo tempo, variáveis externas ricas, relações não lineares | *Leakage*, poucos dados, extrapolação de tendência |
+| **Foundation models** (Chronos, TimesFM) | Baseline rápido sem treino (*zero-shot*) | Caixa-preta; nem sempre vence o SARIMA bem ajustado |
+
+::: {.callout-tip}
+## Regra prática
+Comece simples (baseline + SARIMA/ETS), valide com CV temporal e só aumente a complexidade se o ganho de MASE compensar a perda de interpretabilidade. Combinações simples (média de dois ou três modelos bons) costumam ser difíceis de bater.
+:::
+
+## Armadilhas mais comuns
+
+::: {.caso-negocio}
+#### Checklist antes de entregar uma previsão
+
+1. **Baseline**: comparei com o `SeasonalNaive`? Meu modelo é melhor que ele na validação?
+2. **Leakage**: alguma feature, transformação ou normalização usou dados do período de teste?
+3. **Validação**: avaliei em várias janelas (*expanding window*), e não em um único corte?
+4. **Métrica**: a métrica faz sentido para a série? (MAPE explode com valores perto de zero; MASE é comparável entre séries)
+5. **Intervenções**: tratei choques conhecidos (COVID, aquisição, mudança de metodologia)?
+6. **Resíduos**: o Ljung-Box indica que sobrou estrutura não modelada?
+7. **Incerteza**: reportei intervalos de previsão, e não só a previsão pontual?
+8. **Negócio**: a conclusão responde à pergunta da diretoria, em linguagem que ela entende?
+:::
+
+## Prévia do trabalho intermediário (sem nota)
+
+A prévia é um **checkpoint**: o objetivo é trocar ideias e ajustar o rumo antes da entrega final ({{< var intermediario.prazo >}}). O enunciado completo está em [Trabalho Intermediário](../trabalhos/intermediario.qmd).
+
+**Formato**: cerca de 5 minutos por grupo, sem slides elaborados (o notebook aberto basta), seguidos de 3 minutos de feedback.
+
+Cada grupo tenta responder:
+
+- Qual estratégia de análise adotaram, e como trataram a **aquisição**?
+- Que modelos estão comparando, e como validaram?
+- Qual foi a decisão mais difícil até agora?
+- Qual é a principal dúvida do grupo neste momento?
+
+**Feedback da turma** (estrutura sugerida): **uma coisa que funcionou**, **uma pergunta** e **uma sugestão concreta**.
+
+::: {.callout-note}
+## Depois da prévia
+Ideias sobre como combinar as previsões dos grupos na **predição agregada da turma** são bem-vindas desde já: a decisão acontece no Lab 2.
+:::
+
+## Quizzes: Teste seu Entendimento
+
+::: {.callout-caution collapse="true"}
+## Questão 1: Seu SARIMA tem MASE de 1,15 na validação cruzada. O que isso significa, e o que você faz?
+
+MASE acima de 1 significa que o modelo erra **mais** que o baseline ingênuo (sazonal, quando o MASE é escalado pelo SeasonalNaive). Antes de sofisticar o modelo, volte aos dados: há quebra estrutural, outlier ou intervenção não tratada? A transformação (log, diferença) está adequada? Muitas vezes o problema está na etapa 2 do fluxo, e não na etapa 5.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 2: O AICc escolheu um SARIMA(3,1,2)(2,1,1)[12], mas um SARIMA(1,1,1)(0,1,1)[12] tem MASE quase igual na validação. Qual você apresenta à diretoria?
+
+Na dúvida, o **mais parcimonioso**. O AICc compara ajuste dentro da amostra; a validação cruzada mede o que importa (erro fora da amostra). Se a diferença de MASE é pequena, o modelo menor é mais estável, mais fácil de explicar e menos sujeito a sobreajuste.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 3: Um grupo descartou todo o histórico anterior à aquisição. Que argumentos a favor e contra essa decisão você esperaria ver?
+
+**A favor**: o processo gerador mudou (nova escala, possivelmente nova sazonalidade), e misturar regimes viesaria o modelo. **Contra**: sobra pouca série para estimar sazonalidade anual com segurança; alternativas como somar a série da adquirida no período anterior, usar uma dummy de nível ou modelar em log (o efeito vira um degrau) aproveitam mais informação. O ponto central é **justificar com evidência** (gráficos, testes, validação).
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 4: Por que a validação cruzada de séries temporais não pode embaralhar as observações?
+
+Porque a ordem carrega a informação: embaralhar faria o modelo "ver o futuro" ao prever o passado (*leakage*), produzindo erros otimistas. Na validação temporal, cada janela de teste fica sempre **depois** dos dados de treino, reproduzindo o uso real do modelo.
+:::
+
+## Para Saber Mais
+
+- Hyndman, R.J., & Athanasopoulos, G. (2021). *Forecasting: Principles and Practice*, 3rd ed., Cap. 5 (*The forecaster's toolbox*) e Cap. 13 (*Some practical forecasting issues*). [otexts.com/fpp3](https://otexts.com/fpp3/)
+- Makridakis, S., Spiliotis, E., & Assimakopoulos, V. (2020). *The M4 Competition: 100,000 time series and 61 forecasting methods*. International Journal of Forecasting, 36(1).

@@ -1,6 +1,6 @@
-# Monte sua Carteira (app do Lab 3)
+# Monte sua Carteira (app do Lab 4)
 
-App interativo da dinâmica do Lab 3, em **Shiny for Python**. Roda de duas formas:
+App interativo da dinâmica do Lab 4, em **Shiny for Python**. Roda de duas formas:
 
 1. **No site, dentro do navegador** (shinylive, sem servidor): página
    [`labs/app-carteira.qmd`](../app-carteira.qmd). O Python sobe no navegador via Pyodide

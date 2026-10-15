@@ -13,7 +13,7 @@ subtitle: "Seu primeiro contato prático com séries temporais em Python"
 
 ## Configuração do Ambiente
 
-Antes de começar, você precisa ter o Python e as bibliotecas necessárias instaladas. Recomendamos usar o **[uv](https://docs.astral.sh/uv/)** — um gerenciador de pacotes Python ultrarrápido.
+Antes de começar, você precisa ter o Python e as bibliotecas necessárias instaladas. Recomendamos usar o **[uv](https://docs.astral.sh/uv/)**, um gerenciador de pacotes Python ultrarrápido.
 
 ### Instalando o `uv`
 
@@ -37,8 +37,8 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 
 ```bash
 # Clone o repositório (se ainda não fez)
-git clone https://github.com/padsInsper/202632-fa.git
-cd 202632-fa
+git clone https://github.com/padsInsper/202634-fa.git
+cd 202634-fa
 
 # Crie o ambiente virtual
 uv venv
@@ -114,7 +114,7 @@ INSPER_GRAY = '#5B5B5B'
 
 ## Parte 1: Carregando e Explorando Dados
 
-Vamos trabalhar com o **IPCA mensal** (inflação brasileira) — um dado que qualquer profissional de finanças precisa entender.
+Vamos trabalhar com o **IPCA mensal** (inflação brasileira), um dado que qualquer profissional de finanças precisa entender.
 
 ```{python}
 # Dados do IPCA mensal (IBGE via Banco Central)
@@ -132,7 +132,7 @@ ipca.head()
 # Gráfico interativo com plotly
 fig = px.line(
     ipca, y='ipca',
-    title='IPCA Mensal — Variação % ao mês',
+    title='IPCA Mensal: Variação % ao mês',
     labels={'data': 'Data', 'ipca': 'IPCA (%)'},
     template='plotly_white'
 )
@@ -216,13 +216,13 @@ plt.show()
 
 Olhe os gráficos acima e responda:
 
-1. **Qual processo tem ACF que decai lentamente?** O Random Walk — a ACF decai muito lentamente porque a série é não-estacionária (tem raiz unitária). Cada observação é altamente correlacionada com as anteriores.
+1. **Qual processo tem ACF que decai lentamente?** O Random Walk: a ACF decai muito lentamente porque a série é não-estacionária (tem raiz unitária). Cada observação é altamente correlacionada com as anteriores.
 
-2. **No AR(1), a PACF corta em qual lag?** No lag 1 — essa é a "assinatura" de um AR(1). A PACF é significativa apenas no lag 1 e depois cai abruptamente para zero.
+2. **No AR(1), a PACF corta em qual lag?** No lag 1: essa é a "assinatura" de um AR(1). A PACF é significativa apenas no lag 1 e depois cai abruptamente para zero.
 
-3. **No MA(1), a ACF corta em qual lag?** No lag 1 — essa é a "assinatura" de um MA(1). A ACF é significativa apenas no lag 1 e depois cai abruptamente para zero.
+3. **No MA(1), a ACF corta em qual lag?** No lag 1: essa é a "assinatura" de um MA(1). A ACF é significativa apenas no lag 1 e depois cai abruptamente para zero.
 
-4. **O ruído branco tem alguma autocorrelação significativa?** Não — por definição, ruído branco não tem autocorrelação. Todas as barras da ACF e PACF devem estar dentro das bandas de confiança (exceto possíveis falsos positivos ao nível de 5%).
+4. **O ruído branco tem alguma autocorrelação significativa?** Não: por definição, ruído branco não tem autocorrelação. Todas as barras da ACF e PACF devem estar dentro das bandas de confiança (exceto possíveis falsos positivos ao nível de 5%).
 :::
 
 ## Parte 3: ACF/PACF dos Dados Reais
@@ -259,7 +259,7 @@ plotar_diagnostico(ipca['ipca'], 'IPCA Mensal (%)')
 def testar_estacionariedade(serie, nome="Série"):
     """Aplica testes ADF e KPSS e interpreta resultados"""
     print(f"{'='*50}")
-    print(f"Testes de Estacionariedade — {nome}")
+    print(f"Testes de Estacionariedade: {nome}")
     print(f"{'='*50}\n")
 
     # ADF
@@ -294,7 +294,7 @@ def testar_estacionariedade(serie, nome="Série"):
     elif not adf_estacionaria and not kpss_estacionaria:
         print("CONCLUSÃO: Série provavelmente NÃO ESTACIONÁRIA")
     else:
-        print("CONCLUSÃO: Resultados INCONCLUSIVOS — análise adicional necessária")
+        print("CONCLUSÃO: Resultados INCONCLUSIVOS: análise adicional necessária")
 
 testar_estacionariedade(ipca['ipca'], 'IPCA mensal')
 ```
@@ -324,7 +324,7 @@ for ax, (nome, comp), cor in zip(axes, componentes.items(), cores):
     ax.set_ylabel(nome, fontweight='bold')
     ax.axhline(y=0, color='gray', linestyle='--', alpha=0.3)
 
-plt.suptitle('Decomposição STL — IPCA Mensal', fontsize=14, fontweight='bold')
+plt.suptitle('Decomposição STL: IPCA Mensal', fontsize=14, fontweight='bold')
 plt.tight_layout()
 plt.show()
 ```
@@ -332,7 +332,7 @@ plt.show()
 ::: {.callout-caution collapse="true"}
 ## Exercício 2: Interpretação da Decomposição
 
-1. **A tendência mostra algum padrão interessante?** Identifique períodos de alta e baixa inflação. Espera-se observar picos em períodos de crise (2015–2016, 2021–2022) e vales em períodos de estabilidade.
+1. **A tendência mostra algum padrão interessante?** Identifique períodos de alta e baixa inflação. Espera-se observar picos em períodos de crise (2015-2016, 2021-2022) e vales em períodos de estabilidade.
 
 2. **A sazonalidade é constante ao longo do tempo?** A STL permite sazonalidade que varia lentamente, diferente da decomposição clássica. Se a sazonalidade parece mudar de amplitude, isso sugere que o STL está capturando essa variação.
 
@@ -351,7 +351,7 @@ axes[0].plot(ipca['ipca'], color=INSPER_RED, linewidth=0.8)
 axes[0].set_title('IPCA Original', fontweight='bold')
 
 axes[1].plot(ipca_diff, color=INSPER_TURQUESA, linewidth=0.8)
-axes[1].set_title('IPCA — Primeira Diferença', fontweight='bold')
+axes[1].set_title('IPCA: Primeira Diferença', fontweight='bold')
 axes[1].axhline(y=0, color='gray', linestyle='--', alpha=0.5)
 
 plt.tight_layout()
@@ -363,7 +363,7 @@ testar_estacionariedade(ipca_diff, 'IPCA (1ª diferença)')
 
 ```{python}
 # Diagnóstico da série diferenciada
-plotar_diagnostico(ipca_diff, 'IPCA — Primeira Diferença')
+plotar_diagnostico(ipca_diff, 'IPCA: Primeira Diferença')
 ```
 
 ## Exercícios
@@ -404,5 +404,5 @@ series_bcb = {
 
 ## Leituras para a Próxima Aula
 
-- [FPP3, Cap. 9: ARIMA Models](https://otexts.com/fpp3/arima.html) — leia até a seção 9.5
+- [FPP3, Cap. 9: ARIMA Models](https://otexts.com/fpp3/arima.html) (leia até a seção 9.5)
 - Revise os conceitos de **máxima verossimilhança** se necessário

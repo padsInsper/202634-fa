@@ -1,5 +1,5 @@
 ---
-title: "Lab 3: Séries Financeiras, GARCH e Portfólios"
+title: "Labs 3 e 4: Séries Financeiras, GARCH e Portfólios"
 subtitle: "Fundos imobiliários: fatos estilizados, volatilidade, fronteira, VaR e CAPM"
 jupyter: python3
 ---
@@ -17,11 +17,12 @@ jupyter: python3
 ## Estrutura do Lab
 
 Trabalhamos com o **mesmo pool de ativos** do começo ao fim, num pipeline end-to-end de
-séries financeiras. São dois blocos complementares:
+séries financeiras. São dois blocos complementares, em dois encontros:
 
-- **Bloco 3.1:** séries financeiras e GARCH. Preços, log-retornos, fatos estilizados,
+- **Bloco 3.1 (Lab 3, remoto):** séries financeiras e GARCH (Partes 1 a 3). Preços, log-retornos, fatos estilizados,
   grid de modelos GARCH, previsão de volatilidade.
-- **Bloco 3.2:** portfólio. Retorno e risco por ativo, fronteira eficiente por Monte
+- **Bloco 3.2 (Lab 4, presencial):** portfólio (Partes 4 a 6), logo depois das aulas de VaR e
+  CAPM, seguido da dinâmica [Monte sua Carteira](lab04-carteira.qmd). Retorno e risco por ativo, fronteira eficiente por Monte
   Carlo (mínima variância e máximo Sharpe), VaR via t de Student e betas/CAPM contra o
   Ibovespa.
 :::
@@ -455,7 +456,7 @@ print(f"VaR (95%): {VaR:.5f}  ->  {VaR * 100:.2f}% por dia")
 O VaR resume, num número só, "qual é uma perda plausível num dia ruim". Aqui ele usa a
 cauda da t de Student (graus de liberdade baixos = caudas pesadas), então é mais
 conservador que a normal. Repare que `nu` precisa ser maior que 2 para a variância existir;
-com `nu` muito baixo, o termo `nu / (nu - 2)` infla bastante a cauda. Na Aula 6 formalizamos
+com `nu` muito baixo, o termo `nu / (nu - 2)` infla bastante a cauda. Na aula de [VaR](../aulas/var.qmd) formalizamos
 VaR paramétrico, histórico e Monte Carlo, além de Expected Shortfall.
 :::
 
@@ -499,7 +500,7 @@ print(f"Alpha diário (intercepto): {capm.params.iloc[0]:.5f}")
 Os betas dos FIIs costumam ficar **bem abaixo de 1**: eles se movem pouco com o Ibovespa.
 Isso é exatamente o ponto de ter FIIs na carteira (descorrelação com a bolsa), e não um
 sinal de mau investimento por si só. "Péssimo ou apenas ruim" depende do retorno
-ajustado ao risco, não só do retorno absoluto. Na Aula 7 formalizamos o CAPM e a leitura
+ajustado ao risco, não só do retorno absoluto. Na aula de [CAPM e Portfólios](../aulas/portfolios.qmd) formalizamos o CAPM e a leitura
 de beta, alpha e a reta de mercado.
 :::
 
@@ -536,8 +537,7 @@ O passo a passo e como atualizar o catálogo estão no `labs/app-carteira/README
 ::: {.callout-tip}
 ## Ponte para o trabalho final
 
-Essa dinâmica é a semente da **análise surpreendente** (15% da nota do trabalho final):
-nada impede que o artefato extra do grupo seja exatamente um app desses, adaptado aos
-ativos que vocês escolherem. Visualizar carteiras ao vivo costuma impressionar o comitê
+Essa dinâmica é a semente do **trabalho final**: nada impede que o grupo apresente
+exatamente um app desses, adaptado aos ativos que vocês escolherem. Visualizar carteiras ao vivo costuma impressionar o comitê
 muito mais que uma tabela estática.
 :::

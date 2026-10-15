@@ -1,7 +1,7 @@
 [project]
 name = "fa-insper-2026"
 version = "0.1.0"
-description = "Financial Analytics — PADS Insper 2026.2"
+description = "Financial Analytics: PADS Insper (material do curso)"
 requires-python = ">=3.11"
 dependencies = [
     "pandas>=2.0",

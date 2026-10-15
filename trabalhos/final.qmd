@@ -11,7 +11,8 @@ Aplicar os conceitos da **Parte 2** (volatilidade, CAPM, otimização de carteir
 ## Formato da Entrega
 - **Notebook Jupyter** (.ipynb) com código reprodutível ou site com os códigos e resultados compilados (ex: GitHub Pages, etc)
 - **Apresentação** de 10 minutos (slides ou notebook, de preferência slides, considerando a importância do storytelling)
-- **Prazo**: 22/jun (online, sessão de apresentação)
+- **Prazo**: {{< var final.prazo >}}
+- **Apresentação**: {{< var final.apresentacao >}}
 :::
 
 ## Especificação
@@ -42,7 +43,7 @@ Adicionar uma análise de risco qualitativa e/ou quantitativa do portfólio, com
 
 ### 5. Apresentação e Conclusão
 
-Na aula online de **22 de junho**, cada grupo apresentará em **10 minutos**. A apresentação deve ser clara, objetiva e orientada a decisão, com visualizações informativas e conclusões críticas. O foco deve ser na parte de negócios, mas também deve abordar os aspectos técnicos de modelagem e otimização de forma precisa, com interpretação dos resultados e conexão com o contexto de mercado.
+Na sessão de apresentações (**{{< var final.apresentacao >}}**), cada grupo apresentará em **10 minutos**. A apresentação deve ser clara, objetiva e orientada a decisão, com visualizações informativas e conclusões críticas. O foco deve ser na parte de negócios, mas também deve abordar os aspectos técnicos de modelagem e otimização de forma precisa, com interpretação dos resultados e conexão com o contexto de mercado.
 
 ## Critérios de Avaliação
 

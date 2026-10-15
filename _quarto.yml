@@ -3,12 +3,17 @@ project:
   output-dir: _site
   resources:
     - "dinamicas/recap-aulas-01-02.html"
+    - "slides/*.pdf"
+    - "slides/*.pptx"
+    - "slides/**/*.pdf"
 
+# EDICAO: ao criar uma nova turma, atualize site-url, repo-url, o link do GitHub
+# na navbar e o rodapé (os demais valores ficam em _variables.yml e cronograma.yml).
 website:
   title: "Financial Analytics: PADS"
   favicon: assets/img/logo-insper-preto.png
-  site-url: "https://padsinsper.github.io/202632-fa"
-  repo-url: "https://github.com/padsInsper/202632-fa"
+  site-url: "https://padsinsper.github.io/202634-fa"
+  repo-url: "https://github.com/padsInsper/202634-fa"
   repo-actions: [issue]
   page-navigation: true
   back-to-top-navigation: true
@@ -26,41 +31,48 @@ website:
         href: cronograma.qmd
       - text: "Parte 1: Séries Temporais"
         menu:
-          - text: "Aula 1: Fundamentos (25/abr manhã)"
-            href: aulas/aula01-fundamentos.qmd
-          - text: "Aula 2: ARIMA (25/abr tarde)"
-            href: aulas/aula02-arima.qmd
-          - text: "Lab 1: Exploração de Séries (27/abr)"
+          - text: "Aulas 1 e 2: Fundamentos"
+            href: aulas/fundamentos.qmd
+          - text: "Aulas 3 e 4: Modelos ARIMA"
+            href: aulas/arima.qmd
+          - text: "Aula 5: SARIMA e Prophet"
+            href: aulas/sarima-prophet.qmd
+          - text: "Lab 1: Exploração de Séries"
             href: labs/lab01-exploracao.qmd
-          - text: "Aula 3: SARIMA e Prophet (04/mai)"
-            href: aulas/aula03-sarima.qmd
-          - text: "Aula 4: Previsão e Validação (11/mai)"
-            href: aulas/aula04-previsao.qmd
-          - text: "Lab 2: ML para Séries Temporais (18/mai)"
+          - text: "Aula 6: Previsão e Validação"
+            href: aulas/previsao.qmd
+          - text: "Aula 7: Fechamento da Parte 1"
+            href: aulas/fechamento-parte1.qmd
+          - text: "Lab 2: ML para Séries Temporais"
             href: labs/lab02-pipeline.qmd
           - text: "---"
           - text: "Trabalho Intermediário"
             href: trabalhos/intermediario.qmd
       - text: "Parte 2: Financial Analytics"
         menu:
-          - text: "Aula 5: Volatilidade e GARCH (25/mai)"
-            href: aulas/aula05-volatilidade.qmd
-          - text: "Aula 6: VaR e Risco (01/jun)"
-            href: aulas/aula06-var.qmd
-          - text: "Lab 3: Séries Financeiras e Portfólios (08/jun)"
+          - text: "Aula 8: Ponte para Finanças"
+            href: aulas/retornos.qmd
+          - text: "Aula 9: Volatilidade e GARCH"
+            href: aulas/volatilidade.qmd
+          - text: "Lab 3: Séries Financeiras e GARCH"
             href: labs/lab03-financeiras.qmd
-          - text: "Lab 3 (versão alternativa): blue-chips"
+          - text: "Aula 10: VaR e Risco"
+            href: aulas/var.qmd
+          - text: "Aula 11: CAPM e Portfólios"
+            href: aulas/portfolios.qmd
+          - text: "Lab 4: Monte sua Carteira"
+            href: labs/lab04-carteira.qmd
+          - text: "Aula 12: Tópicos Avançados"
+            href: aulas/avancados.qmd
+          - text: "---"
+          - text: "Lab 3: versão alternativa (blue-chips)"
             href: labs/lab03-financeiras-alternativo.qmd
-          - text: "Lab 3 (versão em R)"
+          - text: "Lab 3: versão em R"
             href: labs/lab03-financeiras-r.qmd
-          - text: "App: Monte sua Carteira (interativo)"
-            href: labs/app-carteira.qmd
-          - text: "App: Perfil de Risco e Recomendação"
+          - text: "App: Perfil de Risco"
             href: labs/app-perfil-risco.qmd
-          - text: "Aula 7: CAPM e Portfólios (13/jun)"
-            href: aulas/aula07-portfolios.qmd
-          - text: "Aula 8: Tópicos Avançados (13/jun)"
-            href: aulas/aula08-avancados.qmd
+          - text: "App: Monte sua Carteira"
+            href: labs/app-carteira.qmd
           - text: "---"
           - text: "Trabalho Final"
             href: trabalhos/final.qmd
@@ -69,42 +81,40 @@ website:
           - text: "Visão geral e mapeamento"
             href: complementar/index.qmd
           - text: "---"
-          - text: "Aula 1: Fundamentos (notebook)"
-            href: complementar/aula01-fundamentos-notebook.ipynb
-          - text: "Aula 2: ARIMA (notebook)"
-            href: complementar/aula02-arima-prophet-notebook.ipynb
-          - text: "Aula 3: Prophet e SARIMA (notebook)"
-            href: complementar/aula02-arima-prophet-notebook.ipynb
-          - text: "Aula 4: DARTS forecasting (notebook)"
-            href: complementar/aula03-darts-forecasting.ipynb
+          - text: "Fundamentos (notebook)"
+            href: complementar/fundamentos-notebook.ipynb
+          - text: "ARIMA, SARIMA e Prophet (notebook)"
+            href: complementar/arima-prophet-notebook.ipynb
+          - text: "Previsão com DARTS (notebook)"
+            href: complementar/previsao-darts-notebook.ipynb
           - text: "Lab 2: ML para séries (notebook)"
             href: complementar/lab02-ml-series-notebook.ipynb
           - text: "---"
-          - text: "Aula 5: Volatilidade — arch (Python)"
-            href: complementar/aula04-volatilidade-arch-python.ipynb
-          - text: "Aula 5: Volatilidade — statsforecast"
-            href: complementar/aula04-volatilidade-statsforecast.ipynb
-          - text: "Aula 5: GARCH e SV em R"
-            href: complementar/aula04-volatilidade-garch-r.qmd
+          - text: "Volatilidade com arch (Python)"
+            href: complementar/volatilidade-arch-python.ipynb
+          - text: "Volatilidade com statsforecast"
+            href: complementar/volatilidade-statsforecast.ipynb
+          - text: "GARCH e SV em R"
+            href: complementar/volatilidade-garch-r.qmd
+          - text: "CAPM e VaR (Python)"
+            href: complementar/capm-var-yfinance.ipynb
+          - text: "Otimização de carteira"
+            href: complementar/otimizacao-markowitz.ipynb
           - text: "---"
-          - text: "Aula 6: CAPM e VaR (Python)"
-            href: complementar/aula05-capm-var-yfinance.ipynb
-          - text: "Aula 7: Otimização de carteira"
-            href: complementar/aula06-otimizacao-markowitz.ipynb
-          - text: "---"
-          - text: "Aula 8: VAR, cointegração, pair trading"
-            href: complementar/aula07-var-cointegracao-pairtrading.ipynb
-          - text: "Aula 8: VAR multivariado em R (MTS)"
-            href: complementar/aula07-var-multivariado-r.qmd
+          - text: "VAR, cointegração e pair trading"
+            href: complementar/var-cointegracao-pairtrading.ipynb
+          - text: "VAR multivariado em R (MTS)"
+            href: complementar/var-multivariado-r.qmd
     right:
       - icon: github
-        href: "https://github.com/padsInsper/202632-fa"
+        href: "https://github.com/padsInsper/202634-fa"
+        aria-label: "Repositório no GitHub"
 
   sidebar: false
 
   page-footer:
     left: |
-      Financial Analytics: PADS Insper 2026.2
+      Financial Analytics: PADS Insper 2026.34
     center: |
       Programa Avançado de Data Science e Decisão
     right: |

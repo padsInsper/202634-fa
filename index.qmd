@@ -3,6 +3,15 @@ title: "Financial Analytics"
 subtitle: "Programa Avançado de Data Science e Decisão: Insper"
 page-layout: full
 toc: false
+listing:
+  id: proximas
+  contents: cronograma.yml
+  template: assets/proximas.ejs
+  sort: false
+  page-size: 500
+  filter-ui: false
+  sort-ui: false
+  feed: false
 ---
 
 ::: {.hero-banner}
@@ -14,7 +23,8 @@ Modelos de séries temporais, gestão de risco e otimização de portfólios apl
 :::
 
 ::: {.badge-line}
-[48 horas]{.badge-item}
+[Turma {{< var turma >}} · {{< var edicao >}}]{.badge-item}
+[{{< var carga >}}]{.badge-item}
 [Python]{.badge-item}
 [Séries Temporais]{.badge-item}
 [GARCH]{.badge-item}
@@ -22,6 +32,11 @@ Modelos de séries temporais, gestão de risco e otimização de portfólios apl
 [Portfólios]{.badge-item}
 :::
 
+:::
+
+## Próximas sessões
+
+::: {#proximas}
 :::
 
 ## Sobre a Disciplina
@@ -41,6 +56,7 @@ Baseada no livro [Forecasting: Principles and Practice](https://otexts.com/fpp3/
 - Modelos ARIMA e SARIMA
 - Previsão e validação cruzada temporal
 - Prophet e modelos automáticos
+- Machine learning e foundation models para séries
 
 :::
 
@@ -70,10 +86,19 @@ Mais importante do que gerar resultados é **entender o método**, desenvolver *
 
 ## Entregas
 
-| Entrega | Prazo | Conteúdo |
-|---------|-------|----------|
-| **Intermediária** | 1/jun | Análise completa de série temporal (Parte 1) |
-| **Final** | Semana de 15/jun | Análise de portfólio com gestão de risco (Parte 2) |
+| Entrega | Conteúdo | Prazo |
+|---------|----------|-------|
+| [**Intermediária**](trabalhos/intermediario.qmd) | Previsão de 12 meses para uma empresa que passou por uma aquisição (Parte 1) | {{< var intermediario.prazo >}} |
+| [**Final**](trabalhos/final.qmd) | Análise e otimização de portfólio com gestão de risco (Parte 2) | {{< var final.prazo >}} |
+
+## Equipe
+
+| Papel | Nome | Conduz |
+|---|---|---|
+| Professora | {{< var docente >}} | Aulas |
+| Monitor | {{< var monitor >}} | Labs e office hours (e apoio nas aulas presenciais) |
+
+Dúvidas sobre o conteúdo podem ser abertas como [issue no repositório](https://github.com/padsInsper/202634-fa/issues) ou levadas aos labs.
 
 ## Ferramentas sugeridas
 

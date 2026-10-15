@@ -24,47 +24,47 @@ Os materiais em R (`.qmd`) abrem em página renderizada nesta plataforma.
 
 | Aula | Tópico | Abrir / baixar |
 |---|---|---|
-| Aula 1 | Fundamentos de séries temporais | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202632-fa/blob/main/complementar/aula01-fundamentos-notebook.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/aula01-fundamentos-notebook.ipynb) |
-| Aulas 2 e 3 | Modelagem ARIMA e Prophet | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202632-fa/blob/main/complementar/aula02-arima-prophet-notebook.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/aula02-arima-prophet-notebook.ipynb) |
-| Aula 4 | Forecasting com DARTS | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202632-fa/blob/main/complementar/aula03-darts-forecasting.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/aula03-darts-forecasting.ipynb) |
-| Lab 2 | ML para séries temporais (feature engineering, ARIMA-Boost, ETS, foundation models) | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202632-fa/blob/main/complementar/lab02-ml-series-notebook.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/lab02-ml-series-notebook.ipynb) |
-| Aula 5 | Volatilidade com `arch` (Python) | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202632-fa/blob/main/complementar/aula04-volatilidade-arch-python.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/aula04-volatilidade-arch-python.ipynb) |
-| Aula 5 | Volatilidade com `statsforecast` | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202632-fa/blob/main/complementar/aula04-volatilidade-statsforecast.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/aula04-volatilidade-statsforecast.ipynb) |
-| Aula 5 | **GARCH, rugarch e SV em R** | [📄 Página renderizada](aula04-volatilidade-garch-r.qmd) |
-| Aula 6 | CAPM e VaR com Yahoo Finance | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202632-fa/blob/main/complementar/aula05-capm-var-yfinance.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/aula05-capm-var-yfinance.ipynb) |
-| Aula 7 | Otimização de carteira (Markowitz) | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202632-fa/blob/main/complementar/aula06-otimizacao-markowitz.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/aula06-otimizacao-markowitz.ipynb) |
-| Aula 8 | VAR, cointegração e pair trading (Python) | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202632-fa/blob/main/complementar/aula07-var-cointegracao-pairtrading.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/aula07-var-cointegracao-pairtrading.ipynb) |
-| Aula 8 | **VAR multivariado em R (MTS)** | [📄 Página renderizada](aula07-var-multivariado-r.qmd) |
+| Aulas 1 e 2 | Fundamentos de séries temporais | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/fundamentos-notebook.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/fundamentos-notebook.ipynb) |
+| Aulas 3 a 5 | Modelagem ARIMA, SARIMA e Prophet | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/arima-prophet-notebook.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/arima-prophet-notebook.ipynb) |
+| Aula 6 | Forecasting com DARTS | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/previsao-darts-notebook.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/previsao-darts-notebook.ipynb) |
+| Lab 2 | ML para séries temporais (feature engineering, ARIMA-Boost, ETS, foundation models) | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/lab02-ml-series-notebook.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/lab02-ml-series-notebook.ipynb) |
+| Aula 9 | Volatilidade com `arch` (Python) | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/volatilidade-arch-python.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/volatilidade-arch-python.ipynb) |
+| Aula 9 | Volatilidade com `statsforecast` | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/volatilidade-statsforecast.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/volatilidade-statsforecast.ipynb) |
+| Aula 9 | **GARCH, rugarch e SV em R** | [📄 Página renderizada](volatilidade-garch-r.qmd) |
+| Aulas 10 e 11 | CAPM e VaR com Yahoo Finance | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/capm-var-yfinance.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/capm-var-yfinance.ipynb) |
+| Aula 11 | Otimização de carteira (Markowitz) | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/otimizacao-markowitz.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/otimizacao-markowitz.ipynb) |
+| Aula 12 | VAR, cointegração e pair trading (Python) | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/var-cointegracao-pairtrading.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/var-cointegracao-pairtrading.ipynb) |
+| Aula 12 | **VAR multivariado em R (MTS)** | [📄 Página renderizada](var-multivariado-r.qmd) |
 
 ## Material extra: laboratórios e scripts de apoio
 
-Conjunto adicional de notebooks e scripts (R e Python) cobrindo exploração, ARIMA,
+Conjunto adicional de notebooks e scripts (R e Python), herdados de edições anteriores, cobrindo exploração, ARIMA,
 validação cruzada, séries hierárquicas, TimeGPT, volatilidade e GARCH.
 
 ### Notebooks e labs
 
 | Tópico | Linguagem | Abrir |
 |---|---|---|
-| Lab 1: Exploração de séries temporais | Python/R | [📄 Página](extras/notebooks/lab01.qmd) |
-| Lab 2: ARIMA, validação cruzada e testes | R | [📄 Página](extras/notebooks/lab02.qmd) |
-| Lab 3: Séries hierárquicas | R | [📄 Página](extras/notebooks/lab03_hierarquica.qmd) |
-| Lab 3: TimeGPT (foundation models) | Python | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202632-fa/blob/main/complementar/extras/notebooks/lab03_timegpt.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/extras/notebooks/lab03_timegpt.ipynb) |
-| Lab 4: Séries financeiras (Python) | Python | [📄 Página](extras/notebooks/lab04-py.qmd) |
-| Lab 4: GARCH com `rugarch` | R | [📄 Página](extras/notebooks/lab04-r.qmd) |
+| Exploração de séries temporais | Python/R | [📄 Página](extras/notebooks/lab01.qmd) |
+| ARIMA, validação cruzada e testes | R | [📄 Página](extras/notebooks/lab02.qmd) |
+| Séries hierárquicas | R | [📄 Página](extras/notebooks/lab03_hierarquica.qmd) |
+| TimeGPT (foundation models) | Python | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/extras/notebooks/lab03_timegpt.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/extras/notebooks/lab03_timegpt.ipynb) |
+| Séries financeiras (Python) | Python | [📄 Página](extras/notebooks/lab04-py.qmd) |
+| GARCH com `rugarch` | R | [📄 Página](extras/notebooks/lab04-r.qmd) |
 | Aula de volatilidade (versão R) | R | [📄 Página](extras/notebooks/aula_vol.qmd) |
-| Volatility in Python (notebook alternativo) | Python | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202632-fa/blob/main/complementar/extras/notebooks/volatility-in-python.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/extras/notebooks/volatility-in-python.ipynb) |
+| Volatility in Python (notebook alternativo) | Python | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/extras/notebooks/volatility-in-python.ipynb) [⬇ Download](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/extras/notebooks/volatility-in-python.ipynb) |
 
 ### Scripts de apoio
 
 | Arquivo | Descrição | Download |
 |---|---|---|
-| `bingo_arima.R` | Gerador de séries ARIMA para identificação de ordem (R · `fable`/`feasts`) | [⬇](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/extras/scripts/bingo_arima.R) |
-| `bingo_arima.py` | Mesma dinâmica em Python (`statsforecast` + `statsmodels`) | [⬇](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/extras/scripts/bingo_arima.py) |
-| `lab01_python.py` | Exploração de séries em Python | [⬇](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/extras/scripts/lab01_python.py) |
-| `lab01_r.R` | Exploração de séries em R (`tsibble`, `fpp3`) | [⬇](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/extras/scripts/lab01_r.R) |
+| `bingo_arima.R` | Gerador de séries ARIMA para identificação de ordem (R · `fable`/`feasts`) | [⬇](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/extras/scripts/bingo_arima.R) |
+| `bingo_arima.py` | Mesma dinâmica em Python (`statsforecast` + `statsmodels`) | [⬇](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/extras/scripts/bingo_arima.py) |
+| `lab01_python.py` | Exploração de séries em Python | [⬇](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/extras/scripts/lab01_python.py) |
+| `lab01_r.R` | Exploração de séries em R (`tsibble`, `fpp3`) | [⬇](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/extras/scripts/lab01_r.R) |
 
 ### Dados de exemplo
 
-- [`ansett.csv`](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/extras/data/ansett.csv): série de passageiros aéreos (Ansett)
-- [`dados_amostra.csv`](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/extras/data/dados_amostra.csv): dataset de exemplo para labs
-- [`forecast_timegpt.csv`](https://raw.githubusercontent.com/padsInsper/202632-fa/main/complementar/extras/data/forecast_timegpt.csv): previsões geradas pelo TimeGPT
+- [`ansett.csv`](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/extras/data/ansett.csv): série de passageiros aéreos (Ansett)
+- [`dados_amostra.csv`](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/extras/data/dados_amostra.csv): dataset de exemplo para labs
+- [`forecast_timegpt.csv`](https://raw.githubusercontent.com/padsInsper/202634-fa/main/complementar/extras/data/forecast_timegpt.csv): previsões geradas pelo TimeGPT

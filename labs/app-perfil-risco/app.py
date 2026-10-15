@@ -1,4 +1,4 @@
-"""Perfil de risco e recomendação de ativos: app individual do Lab 3 (Shiny for Python).
+"""Perfil de risco e recomendação de ativos: app individual do Lab 4 (Shiny for Python).
 
 Cada aluno responde a um formulário curto (loterias estilo Kahneman para medir aversão a
 risco, horizonte de investimento e preferência de diversificação) e, ao clicar em "Calcular
@@ -168,7 +168,7 @@ histórico suficiente na janela.
 - Markowitz, H. (1952). Portfolio Selection. *Journal of Finance*.
 - Sharpe, W. F. (1964). Capital Asset Prices: A Theory of Market Equilibrium under Conditions of Risk. *Journal of Finance*.
 
-Material didático do Lab 3 de Financial Analytics. Não é recomendação de investimento.
+Material didático do Lab 4 de Financial Analytics. Não é recomendação de investimento.
 """
 
 
@@ -286,7 +286,7 @@ app_ui = ui.page_fluid(
         ui.card_header("Nota metodológica"),
         ui.markdown(NOTA_METODOLOGICA),
     ),
-    title="Lab 3: Perfil de risco",
+    title="Perfil de risco",
 )
 
 

@@ -502,7 +502,7 @@ c(rt_final = rt_final, st_dev = st_dev_final, nu = nu, VaR = VaR) |> round(5)
 
 O VaR resume, num número só, "qual é uma perda plausível num dia ruim", usando a cauda da
 t de Student (graus de liberdade baixos = caudas pesadas). O `nu` precisa ser maior que 2
-para a variância existir. Na Aula 6 formalizamos VaR paramétrico, histórico e Monte Carlo.
+para a variância existir. Na aula de [VaR](../aulas/var.qmd) formalizamos VaR paramétrico, histórico e Monte Carlo.
 :::
 
 ## Parte 6: CAPM e betas
@@ -567,7 +567,7 @@ lm(portfolio ~ ibov, data = all_returns) |>
 Os betas dos FIIs costumam ficar bem abaixo de 1: eles se movem pouco com o Ibovespa. Isso
 é exatamente o ponto de ter FIIs na carteira (descorrelação com a bolsa), e não um sinal de
 mau investimento por si só. "Péssimo ou apenas ruim" depende do retorno ajustado ao risco.
-Na Aula 7 formalizamos o CAPM e a leitura de beta, alpha e a reta de mercado.
+Na aula de [CAPM e Portfólios](../aulas/portfolios.qmd) formalizamos o CAPM e a leitura de beta, alpha e a reta de mercado.
 :::
 
 # Dinâmica: Monte sua Carteira

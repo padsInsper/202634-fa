@@ -1,4 +1,4 @@
-"""Monte sua Carteira: app do Lab 3 (Shiny for Python, compatível com shinylive).
+"""Monte sua Carteira: app do Lab 4 (Shiny for Python, compatível com shinylive).
 
 Roda tanto local (`shiny run labs/app-carteira/app.py`) quanto embutido no site via
 shinylive (Pyodide, no navegador). Para funcionar no navegador não usa `yfinance`: lê os
@@ -148,7 +148,7 @@ app_ui = ui.page_sidebar(
         ui.card(ui.card_header("Correlação dos ativos na carteira"), output_widget("plot_corr")),
         col_widths=(7, 5),
     ),
-    title="Lab 3: Monte sua Carteira",
+    title="Monte sua Carteira",
     fillable=True,
 )
 

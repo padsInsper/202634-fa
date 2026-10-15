@@ -1,0 +1,320 @@
+# Cronograma da edição. Fonte única para a página Cronograma e para
+# "Próximas sessões" da página inicial.
+#
+# Campos de cada sessão:
+#   data        AAAA-MM-DD
+#   inicio/fim  HH:MM (horário de Brasília)
+#   tipo        aula | lab | entrega | apresentacao
+#   rotulo      ex.: "Aula 1", "Lab 2"
+#   titulo      título curto
+#   modalidade  Presencial | Remota
+#   parte       1 | 2
+#   quem        responsável(is) pela sessão
+#   descricao   texto (aceita HTML simples: <b>, <i>, <code>, <br>)
+#   materiais   lista de {texto, href}: páginas do site (caminhos a partir da raiz)
+#   slides      lista de {texto, href}: slides da professora (PDF em slides/ ou link externo)
+
+- data: "2026-10-16"
+  inicio: "18:00"
+  fim: "20:00"
+  tipo: aula
+  rotulo: "Aula 1"
+  titulo: "Fundamentos I: o que é uma série temporal"
+  modalidade: Presencial
+  parte: 1
+  quem: "Paloma e Julio"
+  descricao: "Abertura do curso e motivação de negócios. Componentes de uma série (tendência, sazonalidade, ciclo, ruído), decomposição aditiva e multiplicativa, clássica e STL. MSTL no IBC-Br."
+  materiais:
+    - texto: "Fundamentos (bloco 1)"
+      href: aulas/fundamentos.qmd
+    - texto: "Notebook da aula"
+      href: complementar/index.qmd
+  slides: []
+
+- data: "2026-10-16"
+  inicio: "20:00"
+  fim: "22:00"
+  tipo: aula
+  rotulo: "Aula 2"
+  titulo: "Fundamentos II: autocorrelação e estacionariedade"
+  modalidade: Presencial
+  parte: 1
+  quem: "Paloma e Julio"
+  descricao: "ACF e PACF: intuição, leitura e o mapa de identificação. Estacionariedade, raiz unitária, tendência determinística vs. estocástica, testes ADF e KPSS, diferenciação. Dinâmica <i>Mistério do PIB do 4º trimestre</i>."
+  materiais:
+    - texto: "Fundamentos (bloco 2)"
+      href: aulas/fundamentos.qmd#autocorrelação-acf
+    - texto: "Dinâmica: sazonalidade do PIB"
+      href: complementar/dinamica-sazonalidade-pib.ipynb
+  slides: []
+
+- data: "2026-10-17"
+  inicio: "08:00"
+  fim: "10:00"
+  tipo: aula
+  rotulo: "Aula 3"
+  titulo: "Modelos ARIMA I: AR, MA e integração"
+  modalidade: Presencial
+  parte: 1
+  quem: "Paloma e Julio"
+  descricao: "Processos AR(p) e MA(q) com simuladores, leitura de ACF/PACF, ARMA, o \"I\" de ARIMA (diferenciação), polinômios de defasagem e condição de estacionariedade."
+  materiais:
+    - texto: "Modelos ARIMA (bloco 1)"
+      href: aulas/arima.qmd
+  slides: []
+
+- data: "2026-10-17"
+  inicio: "10:00"
+  fim: "12:00"
+  tipo: aula
+  rotulo: "Aula 4"
+  titulo: "Modelos ARIMA II: Box-Jenkins na prática"
+  modalidade: Presencial
+  parte: 1
+  quem: "Paloma e Julio"
+  descricao: "Identificação, estimação e diagnóstico. Critérios de informação (AICc, BIC), Ljung-Box, <code>AutoARIMA</code> aplicado à Selic mensal, ARIMAX. Saída: um pipeline ARIMA rodando."
+  materiais:
+    - texto: "Modelos ARIMA (bloco 2)"
+      href: aulas/arima.qmd#procedimento-box-jenkins
+    - texto: "Notebook ARIMA e Prophet"
+      href: complementar/index.qmd
+  slides: []
+
+- data: "2026-10-21"
+  inicio: "19:00"
+  fim: "22:30"
+  tipo: aula
+  rotulo: "Aula 5"
+  titulo: "SARIMA e Prophet"
+  modalidade: Remota
+  parte: 1
+  quem: "Paloma"
+  descricao: "Sazonalidade determinística vs. estocástica, operador (P,D,Q)<sub>s</sub>, identificação sazonal. IBC-Br sem ajuste sazonal com <code>AutoARIMA(season_length=12)</code>. Prophet (tendência por partes, Fourier, feriados) e comparação com SARIMA."
+  materiais:
+    - texto: "SARIMA e Prophet"
+      href: aulas/sarima-prophet.qmd
+  slides: []
+
+- data: "2026-10-28"
+  inicio: "19:00"
+  fim: "22:30"
+  tipo: lab
+  rotulo: "Lab 1"
+  titulo: "Exploração de séries temporais em Python"
+  modalidade: Remota
+  parte: 1
+  quem: "Julio"
+  descricao: "Ambiente com <code>uv</code>, IPCA mensal (BCB SGS 433): decomposição, estacionariedade, ACF/PACF em dados reais. Dinâmica <i>Bingo do ARIMA</i>. Apresentação do trabalho intermediário."
+  materiais:
+    - texto: "Lab 1"
+      href: labs/lab01-exploracao.qmd
+    - texto: "Trabalho intermediário"
+      href: trabalhos/intermediario.qmd
+  slides: []
+
+- data: "2026-10-30"
+  inicio: "19:00"
+  fim: "22:30"
+  tipo: aula
+  rotulo: "Aula 6"
+  titulo: "Previsão e validação"
+  modalidade: Remota
+  parte: 1
+  quem: "Paloma"
+  descricao: "Métricas (MAE, RMSE, MAPE, MASE) e quando usar cada uma. Validação cruzada temporal (<i>expanding</i> vs. <i>sliding</i>), intervalos de previsão, quebras estruturais. Panorama de ferramentas (DARTS, foundation models)."
+  materiais:
+    - texto: "Previsão e Validação"
+      href: aulas/previsao.qmd
+  slides: []
+
+- data: "2026-11-07"
+  inicio: "13:00"
+  fim: "15:00"
+  tipo: aula
+  rotulo: "Aula 7"
+  titulo: "Fechamento da Parte 1 e prévia do intermediário"
+  modalidade: Presencial
+  parte: 1
+  quem: "Paloma e Julio"
+  descricao: "Revisão integrada: o fluxo completo de uma análise de série temporal e qual modelo usar quando. <b>Prévia sem nota</b> do trabalho intermediário: cada grupo mostra onde está e recebe feedback."
+  materiais:
+    - texto: "Fechamento da Parte 1"
+      href: aulas/fechamento-parte1.qmd
+  slides: []
+
+- data: "2026-11-07"
+  inicio: "15:00"
+  fim: "17:00"
+  tipo: aula
+  rotulo: "Aula 8"
+  titulo: "Ponte para finanças: retornos e fatos estilizados"
+  modalidade: Presencial
+  parte: 2
+  quem: "Paloma e Julio"
+  descricao: "Abertura da Parte 2. Preço ajustado, retorno simples e log-retorno, agregação e anualização. Fatos estilizados no Ibovespa: caudas pesadas, clusters de volatilidade, ACF de r<sub>t</sub> vs. r<sub>t</sub><sup>2</sup>. Mercado eficiente."
+  materiais:
+    - texto: "Ponte para Finanças"
+      href: aulas/retornos.qmd
+  slides: []
+
+- data: "2026-11-09"
+  inicio: "19:00"
+  fim: "22:30"
+  tipo: lab
+  rotulo: "Lab 2"
+  titulo: "ML para séries temporais e office hours do intermediário"
+  modalidade: Remota
+  parte: 1
+  quem: "Julio"
+  descricao: "<b>0h00-1h00:</b> machine learning para séries (features de lags e janelas, <i>leakage</i>, boosting, ARIMA-Boost, foundation models). <b>1h00-2h00:</b> a turma decide a regra da <b>predição agregada</b>. <b>2h00-3h30:</b> office hours do trabalho intermediário."
+  materiais:
+    - texto: "Lab 2"
+      href: labs/lab02-pipeline.qmd
+    - texto: "Trabalho intermediário"
+      href: trabalhos/intermediario.qmd
+  slides: []
+
+- data: "2026-11-15"
+  inicio: "23:59"
+  fim: "23:59"
+  tipo: entrega
+  rotulo: "Entrega"
+  titulo: "Trabalho intermediário"
+  modalidade: Online
+  parte: 1
+  quem: "Grupos"
+  descricao: "Notebook, <code>previsao.csv</code> do grupo e predição agregada da turma."
+  materiais:
+    - texto: "Enunciado"
+      href: trabalhos/intermediario.qmd
+  slides: []
+
+- data: "2026-11-16"
+  inicio: "19:00"
+  fim: "22:30"
+  tipo: aula
+  rotulo: "Aula 9"
+  titulo: "Volatilidade e modelos GARCH"
+  modalidade: Remota
+  parte: 2
+  quem: "Paloma"
+  descricao: "Variância condicional, ARCH, GARCH(1,1), persistência e half-life. IGARCH e RiskMetrics. Assimetria (EGARCH, GJR-GARCH), distribuição t, volatilidade estocástica e diagnóstico."
+  materiais:
+    - texto: "Volatilidade e GARCH"
+      href: aulas/volatilidade.qmd
+  slides: []
+
+- data: "2026-11-23"
+  inicio: "19:00"
+  fim: "22:30"
+  tipo: lab
+  rotulo: "Lab 3"
+  titulo: "Séries financeiras e GARCH"
+  modalidade: Remota
+  parte: 2
+  quem: "Julio"
+  descricao: "<b>0h00-0h30:</b> resultados do trabalho intermediário (ranking e predição agregada). <b>0h30-1h00:</b> leitura conjunta do trabalho final. <b>1h00-3h30:</b> bloco 3.1 do lab: <code>yfinance</code> em FIIs, log-retornos, fatos estilizados, grid de modelos GARCH e previsão de volatilidade."
+  materiais:
+    - texto: "Lab 3 (Partes 1 a 3)"
+      href: labs/lab03-financeiras.qmd
+    - texto: "Versão em R"
+      href: labs/lab03-financeiras-r.qmd
+    - texto: "Trabalho final"
+      href: trabalhos/final.qmd
+  slides: []
+
+- data: "2026-11-28"
+  inicio: "10:00"
+  fim: "12:00"
+  tipo: aula
+  rotulo: "Aula 10"
+  titulo: "VaR e gestão de risco"
+  modalidade: Presencial
+  parte: 2
+  quem: "Paloma e Julio"
+  descricao: "VaR paramétrico, histórico e Monte Carlo. Normal vs. t de Student, regra da raiz, VaR de portfólio, Expected Shortfall e backtesting (semáforo de Basileia). Conexão com o GARCH."
+  materiais:
+    - texto: "VaR e Gestão de Risco"
+      href: aulas/var.qmd
+  slides: []
+
+- data: "2026-11-28"
+  inicio: "13:00"
+  fim: "15:00"
+  tipo: aula
+  rotulo: "Aula 11"
+  titulo: "CAPM e otimização de portfólios"
+  modalidade: Presencial
+  parte: 2
+  quem: "Paloma e Julio"
+  descricao: "Beta, alpha de Jensen, risco sistemático vs. idiossincrático, SML. Fronteira eficiente de Markowitz, CML, restrições práticas, Sharpe e Sortino."
+  materiais:
+    - texto: "CAPM e Portfólios"
+      href: aulas/portfolios.qmd
+  slides: []
+
+- data: "2026-11-28"
+  inicio: "15:00"
+  fim: "17:00"
+  tipo: lab
+  rotulo: "Lab 4"
+  titulo: "Portfólios na prática: Monte sua Carteira"
+  modalidade: Presencial
+  parte: 2
+  quem: "Julio"
+  descricao: "Bloco 3.2 do lab: fronteira eficiente, VaR do portfólio e betas contra o Ibovespa. Dinâmica em grupos com os apps <i>Perfil de Risco</i> e <i>Monte sua Carteira</i>: cada grupo escolhe e defende uma carteira, semente do trabalho final."
+  materiais:
+    - texto: "Roteiro do Lab 4"
+      href: labs/lab04-carteira.qmd
+    - texto: "Lab 3 (Partes 4 a 6)"
+      href: labs/lab03-financeiras.qmd
+    - texto: "App Perfil de Risco"
+      href: labs/app-perfil-risco.qmd
+    - texto: "App Monte sua Carteira"
+      href: labs/app-carteira.qmd
+  slides: []
+
+- data: "2026-12-07"
+  inicio: "19:00"
+  fim: "22:30"
+  tipo: aula
+  rotulo: "Aula 12"
+  titulo: "Tópicos avançados"
+  modalidade: Remota
+  parte: 2
+  quem: "Paloma"
+  descricao: "VAR multivariado, causalidade de Granger, funções de resposta ao impulso, cointegração, VECM e pair trading. Panorama de IA em finanças."
+  materiais:
+    - texto: "Tópicos Avançados"
+      href: aulas/avancados.qmd
+  slides: []
+
+- data: "2026-12-09"
+  inicio: "19:00"
+  fim: "21:00"
+  tipo: lab
+  rotulo: "Lab 5"
+  titulo: "Office hours do trabalho final"
+  modalidade: Remota
+  parte: 2
+  quem: "Julio"
+  descricao: "Tempo dedicado para os grupos finalizarem o trabalho final, com dúvidas sobre modelagem de volatilidade, otimização, VaR, betas e storytelling da apresentação."
+  materiais:
+    - texto: "Trabalho final"
+      href: trabalhos/final.qmd
+  slides: []
+
+- data: "2026-12-11"
+  inicio: "19:00"
+  fim: "21:00"
+  tipo: apresentacao
+  rotulo: "Apresentações"
+  titulo: "Apresentações finais e entrega do trabalho final"
+  modalidade: Remota
+  parte: 2
+  quem: "Paloma e Julio"
+  descricao: "Cada grupo apresenta em 10 minutos ao \"comitê de investimentos\". Feedback, encerramento do curso e próximos passos."
+  materiais:
+    - texto: "Trabalho final"
+      href: trabalhos/final.qmd
+  slides: []

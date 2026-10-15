@@ -15,7 +15,7 @@ csv_text = (AQUI / "dados_carteira.csv").read_text(encoding="utf-8")
 
 CABECALHO = '''---
 title: "App: Perfil de Risco e Recomendação de Ativos"
-subtitle: "Formulário individual do Lab 3 (shinylive)"
+subtitle: "Formulário individual do Lab 4 (shinylive)"
 format:
   html:
     toc: false
@@ -23,7 +23,7 @@ filters:
   - shinylive
 ---
 
-Formulário individual da dinâmica do Lab 3, rodando **inteiramente no seu navegador** (via
+Formulário individual da dinâmica do Lab 4, rodando **inteiramente no seu navegador** (via
 shinylive, sem servidor). Você responde às perguntas (perfil de risco, horizonte e
 diversificação) e o app recomenda automaticamente um conjunto de ativos do catálogo, com
 justificativas calculadas a partir da relação risco-retorno do período e da correlação
