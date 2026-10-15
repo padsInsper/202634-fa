@@ -1,0 +1,235 @@
+/*-- scss:defaults --*/
+
+// ============================================================
+// Insper Brand Identity — PADS Pos-Graduacao
+// Based on: insper-guia-de-marca.pdf (April 2024)
+// Segment: Pos-Graduacao (cinza destaque + secundarias)
+// ============================================================
+
+// Primary colors
+$red:       #E50505;
+$black:     #000000;
+$white:     #FFFFFF;
+
+// Grays (Pos-Graduacao emphasis)
+$gray-100:  #f8f9fa;
+$gray-200:  #DCDCDC;
+$gray-400:  #ABABAB;
+$gray-600:  #808080;
+$gray-800:  #5B5B5B;
+$gray-900:  #3F3F3F;
+
+// Secondary colors
+$turquesa:  #3ACC9F;
+$verde:     #92D053;
+$amarelo:   #FFCC00;
+$laranja:   #F89D49;
+$rosa:      #F47DCD;
+$roxo:      #730D9F;
+
+// Theme mappings
+$primary:   $red;
+$secondary: $gray-800;
+$success:   $turquesa;
+$info:      #3ACC9F;
+$warning:   $amarelo;
+$danger:    $red;
+$light:     $gray-100;
+$dark:      $black;
+
+// Typography
+$font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$headings-font-family:   "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$font-size-base:         1rem;
+$headings-font-weight:   700;
+
+// Body
+$body-bg:    $white;
+$body-color: #2d2d2d;
+
+// Links
+$link-color: $red;
+
+// Code
+$code-color: $red;
+$code-bg:    #f5f5f5;
+
+// Cards
+$card-border-radius: 0.5rem;
+$card-cap-bg:        $gray-100;
+
+/*-- scss:rules --*/
+
+// ============================================================
+// GT Ultra Fine Bold — titulos especiais
+// ============================================================
+@font-face {
+  font-family: 'GT Ultra Fine';
+  src: url('assets/fonts/GTUltraFine-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+// ============================================================
+// Titulo principal do site
+// ============================================================
+.navbar-brand {
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+}
+
+// ============================================================
+// Headings com estilo Insper
+// ============================================================
+h1, .h1 {
+  font-family: 'GT Ultra Fine', Georgia, serif;
+  font-weight: bold;
+  color: $black;
+  border-bottom: 3px solid $red;
+  padding-bottom: 0.3em;
+  margin-bottom: 0.8em;
+}
+
+h2, .h2 {
+  color: $red;
+  font-weight: 700;
+  margin-top: 1.8em;
+}
+
+h3, .h3 {
+  color: $gray-800;
+  font-weight: 600;
+}
+
+// ============================================================
+// Callout boxes customizados
+// ============================================================
+.callout-note {
+  border-left-color: $turquesa !important;
+}
+
+.callout-tip {
+  border-left-color: $verde !important;
+}
+
+.callout-warning {
+  border-left-color: $amarelo !important;
+}
+
+.callout-important {
+  border-left-color: $red !important;
+}
+
+// ============================================================
+// Cards de conceito
+// ============================================================
+.conceito-card {
+  background: linear-gradient(135deg, $gray-100, $white);
+  border-left: 4px solid $red;
+  border-radius: $card-border-radius;
+  padding: 1.2em 1.5em;
+  margin: 1.5em 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.conceito-card h4 {
+  color: $red;
+  margin-top: 0;
+  font-weight: 700;
+}
+
+// ============================================================
+// Quiz boxes
+// ============================================================
+.quiz-box {
+  background: #fff8e1;
+  border: 2px solid $amarelo;
+  border-radius: $card-border-radius;
+  padding: 1.2em 1.5em;
+  margin: 1.5em 0;
+}
+
+.quiz-box h4::before {
+  content: "🧠 ";
+}
+
+// ============================================================
+// Caso de negocio
+// ============================================================
+.caso-negocio {
+  background: linear-gradient(135deg, #f0f7f4, $white);
+  border-left: 4px solid $turquesa;
+  border-radius: $card-border-radius;
+  padding: 1.2em 1.5em;
+  margin: 1.5em 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.caso-negocio h4 {
+  color: #2a8c6e;
+  margin-top: 0;
+}
+
+// ============================================================
+// Badge de nivel Bloom
+// ============================================================
+.bloom-badge {
+  display: inline-block;
+  padding: 0.2em 0.6em;
+  border-radius: 1em;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bloom-lembrar   { background: #e8eaf6; color: #3949ab; }
+.bloom-entender  { background: #e3f2fd; color: #1565c0; }
+.bloom-aplicar   { background: #e8f5e9; color: #2e7d32; }
+.bloom-analisar  { background: #fff3e0; color: #e65100; }
+.bloom-avaliar   { background: #fce4ec; color: #c62828; }
+.bloom-criar     { background: #f3e5f5; color: #6a1b9a; }
+
+// ============================================================
+// Tabelas
+// ============================================================
+.table {
+  border-color: $gray-200;
+}
+
+.table thead th {
+  background-color: $gray-900;
+  color: $white;
+  font-weight: 600;
+  border-bottom: 2px solid $red;
+}
+
+// ============================================================
+// TOC sidebar
+// ============================================================
+.sidebar nav[role=doc-toc] {
+  border-left: 2px solid $gray-200;
+}
+
+.sidebar nav[role=doc-toc] a.active {
+  border-left: 3px solid $red;
+  color: $red;
+  font-weight: 600;
+}
+
+// ============================================================
+// Footer
+// ============================================================
+.nav-footer {
+  background-color: $gray-900 !important;
+  color: $gray-400;
+}
+
+// ============================================================
+// Responsividade
+// ============================================================
+@media (max-width: 768px) {
+  h1, .h1 {
+    font-size: 1.8rem;
+  }
+}

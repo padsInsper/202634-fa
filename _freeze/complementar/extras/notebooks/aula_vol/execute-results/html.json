@@ -1,0 +1,15 @@
+{
+  "hash": "c2d8e460bd78d765f8accb36dd2a90b8",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Aula de Volatilidade\"\n---\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(yfR)\ndata_r = yf_get(\n  c('PETR4.SA', 'VALE3.SA', '^BVSP'),\n  first_date = '2007-01-01',\n  last_date = Sys.Date(),\n  bench_ticker = \"^BVSP\",\n  type_return = \"log\",\n  freq_data = \"daily\",\n  do_complete_data = TRUE\n)\ndata_r\n\nts.plot(data_r$ret_closing_prices[data_r$ticker == \"PETR4.SA\"])\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nacf(na.omit(data_r$ret_closing_prices[data_r$ticker == \"PETR4.SA\"]))\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nacf(na.omit(data_r$ret_closing_prices[data_r$ticker == \"PETR4.SA\"])^2))\n```\n:::\n\n\n::: {.cell}\n\n```{.python .cell-code}\nimport yfinance as yf\n\nativos = [\"PETR4.SA\", \"VALE3.SA\", \"^BVSP\"]\nstart_date = \"2007-01-01\"\n# Baixar dados\ndata_py = yf.download(ativos, start=start_date, interval=\"1d\", auto_adjust=False)\ndata_py = data_py.loc[:, ([\"Adj Close\"], ativos)]\ndata_py\n```\n:::\n\n\n\n::: {.cell}\n\n```{.python .cell-code}\nimport matplotlib.pyplot as plt\nimport numpy as np\n# log retorno dos preços ajustados\ndata_py_ret = data_py.pct_change().apply(lambda x: np.log(1 + x))\nplt.plot(data_py_ret[\"Adj Close\"][\"PETR4.SA\"])\n```\n:::\n\n\n\n::: {.cell}\n\n```{.python .cell-code}\nfrom statsmodels.graphics.tsaplots import plot_acf\n\nplot_acf(data_py_ret[\"Adj Close\"][\"PETR4.SA\"].dropna(), lags=40)\n\n# quadratic return\nplot_acf(data_py_ret[\"Adj Close\"][\"PETR4.SA\"].dropna() ** 2, lags=40)\n```\n:::\n\n\n\n\n::: {.cell}\n\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,556 @@
+---
+title: "Aula 6: VaR e Gestão de Risco"
+subtitle: "Quantificando perdas potenciais"
+format:
+  html:
+    code-fold: true
+---
+
+::: {.objetivos}
+#### Objetivos de Aprendizagem
+
+- **Definir** VaR e Expected Shortfall formalmente
+- **Calcular** VaR usando três abordagens (paramétrico, histórico, Monte Carlo)
+- **Avaliar** a qualidade do VaR via backtesting
+- **Aplicar** esses conceitos a um portfólio real
+:::
+
+## Value at Risk (VaR)
+
+### O que é VaR?
+
+O VaR é provavelmente a medida de risco mais usada na indústria financeira. Ele responde a uma pergunta simples e poderosa:
+
+> *"Qual é a perda máxima que posso esperar, com um certo nível de confiança, em um determinado horizonte de tempo?"*
+
+Exemplo: *"Com 95% de confiança, não perderemos mais que R\$ 2 milhões nos próximos 10 dias."*
+
+::: {.formula-highlight}
+[Definição Formal do VaR]{.formula-label}
+$$P(L > \text{VaR}_\alpha) = 1 - \alpha$$
+:::
+
+onde $L$ é a perda do portfólio, $\alpha$ é o nível de confiança (tipicamente 95% ou 99%) e o horizonte temporal deve ser especificado (1 dia, 10 dias, etc.).
+
+### Visualizando o VaR
+
+O VaR é simplesmente um **quantil** da distribuição de perdas:
+
+```{ojs}
+//| echo: false
+
+viewof var_alpha = Inputs.range([0.90, 0.99], {
+  value: 0.95, step: 0.01, label: "Nível de confiança (α):"
+})
+
+viewof var_sigma = Inputs.range([0.5, 3.0], {
+  value: 1.5, step: 0.1, label: "Volatilidade (σ%):"
+})
+```
+
+```{ojs}
+//| echo: false
+
+{
+  const alpha = var_alpha;
+  const sigma = var_sigma;
+
+  // Quantil normal
+  function normalQuantile(p) {
+    // Aproximação de Abramowitz & Stegun
+    const a1 = -3.969683028665376e+01, a2 = 2.209460984245205e+02;
+    const a3 = -2.759285104469687e+02, a4 = 1.383577518672690e+02;
+    const a5 = -3.066479806614716e+01, a6 = 2.506628277459239e+00;
+    const b1 = -5.447609879822406e+01, b2 = 1.615858368580409e+02;
+    const b3 = -1.556989798598866e+02, b4 = 6.680131188771972e+01;
+    const b5 = -1.328068155288572e+01;
+    const c1 = -7.784894002430293e-03, c2 = -3.223964580411365e-01;
+    const c3 = -2.400758277161838e+00, c4 = -2.549732539343734e+00;
+    const c5 = 4.374664141464968e+00, c6 = 2.938163982698783e+00;
+    const d1 = 7.784695709041462e-03, d2 = 3.224671290700398e-01;
+    const d3 = 2.445134137142996e+00, d4 = 3.754408661907416e+00;
+
+    const pLow = 0.02425, pHigh = 1 - pLow;
+    let q;
+    if (p < pLow) {
+      q = Math.sqrt(-2 * Math.log(p));
+      return (((((c1*q+c2)*q+c3)*q+c4)*q+c5)*q+c6) / ((((d1*q+d2)*q+d3)*q+d4)*q+1);
+    } else if (p <= pHigh) {
+      q = p - 0.5; const r = q*q;
+      return (((((a1*r+a2)*r+a3)*r+a4)*r+a5)*r+a6)*q / (((((b1*r+b2)*r+b3)*r+b4)*r+b5)*r+1);
+    } else {
+      q = Math.sqrt(-2 * Math.log(1 - p));
+      return -(((((c1*q+c2)*q+c3)*q+c4)*q+c5)*q+c6) / ((((d1*q+d2)*q+d3)*q+d4)*q+1);
+    }
+  }
+
+  function normalPDF(x) {
+    return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
+  }
+
+  const zAlpha = normalQuantile(1 - alpha);
+  const varValue = -(0 + zAlpha * sigma); // VaR positivo (perda)
+
+  // Fixar eixo x para visualizar a normal ficando mais fina/grossa
+  const xMin = -15, xMax = 15;
+  const nPoints = 300;
+  let curveData = [];
+  let tailData = [];
+
+  for (let i = 0; i <= nPoints; i++) {
+    const x = xMin + (xMax - xMin) * i / nPoints;
+    const y = normalPDF(x / sigma) / sigma;
+    curveData.push({x: x, y: y});
+    if (x < -varValue) {
+      tailData.push({x: x, y: y});
+    }
+  }
+
+  // Calcular ES (Expected Shortfall) analítico
+  const esPDF = normalPDF(zAlpha);
+  const esValue = sigma * esPDF / (1 - alpha);
+
+  return Plot.plot({
+    width: 800, height: 350,
+    marks: [
+      Plot.areaY(tailData, {x: "x", y: "y", fill: "#E50505", fillOpacity: 0.4}),
+      Plot.lineY(curveData, {x: "x", y: "y", stroke: "#3F3F3F", strokeWidth: 2}),
+      Plot.ruleX([-varValue], {stroke: "#E50505", strokeWidth: 2, strokeDasharray: "6,3"}),
+      Plot.ruleX([-esValue], {stroke: "#FFCC00", strokeWidth: 2, strokeDasharray: "6,3"}),
+      Plot.text([{x: -varValue, y: normalPDF(zAlpha)/sigma + 0.02,
+        text: `VaR ${(alpha*100).toFixed(0)}% = ${varValue.toFixed(2)}%`}],
+        {x: "x", y: "y", text: "text", fill: "#E50505", fontSize: 12, textAnchor: "start", dx: 5}),
+      Plot.text([{x: -esValue, y: normalPDF(zAlpha)/sigma + 0.05,
+        text: `ES ${(alpha*100).toFixed(0)}% = ${esValue.toFixed(2)}%`}],
+        {x: "x", y: "y", text: "text", fill: "#b8860b", fontSize: 12, textAnchor: "start", dx: 5}),
+    ],
+    x: {label: "Retorno (%)", domain: [xMin, xMax]},
+    y: {label: "Densidade"},
+    title: `Distribuição de retornos: VaR e ES ao nível de ${(alpha*100).toFixed(0)}%`,
+    subtitle: `Área vermelha = ${((1-alpha)*100).toFixed(0)}% piores cenários`
+  });
+}
+```
+
+::: {.callout-tip}
+## Experimente!
+- Aumente a confiança para 99%: o VaR se desloca para a esquerda (perda maior), cobrindo cenários mais extremos
+- Aumente a volatilidade: toda a distribuição se alarga, e o VaR cresce proporcionalmente
+- Note que o ES (linha amarela) está **sempre à esquerda** do VaR — ele captura a perda média nos cenários mais extremos
+:::
+
+## Três Abordagens para Calcular VaR
+
+### 1. VaR Paramétrico (Variância-Covariância)
+
+Assume que os retornos seguem uma distribuição conhecida (tipicamente normal ou t de Student):
+
+::: {.formula-highlight}
+[VaR Paramétrico — caso normal]{.formula-label}
+$$\text{VaR}_\alpha = -(\mu + z_\alpha \cdot \sigma) \cdot W$$
+:::
+
+onde $z_\alpha$ é o quantil da distribuição normal ($z_{0.95} = -1.645$, $z_{0.99} = -2.326$) e $W$ é o valor do portfólio.
+
+::: {.callout-note}
+## Posição comprada vs. posição vendida
+A fórmula acima vale para uma **posição comprada** (long): você perde se o ativo cai, e o VaR usa a **cauda esquerda** da distribuição de retornos. Numa **posição vendida** (short), a lógica inverte — você perde se o ativo sobe, e o VaR usa a **cauda direita**:
+
+$$\text{VaR}_\alpha^{\text{short}} = (\mu + z_{1-\alpha} \cdot \sigma) \cdot W$$
+
+Para uma normal simétrica as magnitudes são iguais; para distribuições assimétricas (skewed-$t$), os dois lados precisam ser calculados separadamente.
+:::
+
+### Conexão com a Aula 5: RiskMetrics como VaR paramétrico
+
+O RiskMetrics™ (visto na Aula 5) é exatamente um VaR paramétrico com $\mu = 0$, distribuição normal e $\sigma_t$ estimado por IGARCH/EWMA:
+
+$$\text{VaR}_{\alpha,t}^{\text{RM}} = -z_\alpha \cdot \sqrt{h_t}, \qquad h_t = \lambda h_{t-1} + (1-\lambda) r_{t-1}^2$$
+
+É por isso que o RiskMetrics virou o baseline regulatório: é um VaR paramétrico com uma recursão simples de volatilidade e zero parâmetros a estimar.
+
+**Hipóteses**: retornos normais (ou t), volatilidade constante (ou estimada por GARCH).
+
+**Ponto forte**: rápido, analítico, fácil de implementar.
+
+**Ponto fraco**: se os retornos não forem normais (e geralmente não são!), subestima o risco nas caudas.
+
+### 2. VaR Histórico
+
+Usa a **distribuição empírica** dos retornos — não assume nenhuma forma paramétrica:
+
+1. Colete os $T$ retornos históricos: $r_1, r_2, \ldots, r_T$
+2. Ordene do menor ao maior
+3. O VaR $\alpha$ é o quantil $(1 - \alpha)$ da distribuição empírica
+
+**Exemplo**: com 1000 retornos e $\alpha = 95\%$, o VaR é o 50º menor retorno.
+
+**Ponto forte**: não assume distribuição — captura caudas pesadas naturalmente.
+
+**Ponto fraco**: depende da janela histórica escolhida e assume que o futuro será como o passado.
+
+### 3. VaR Monte Carlo
+
+1. Estime os parâmetros da distribuição dos retornos (ex: GARCH para volatilidade)
+2. Simule $N$ cenários futuros (tipicamente $N = 10{,}000$ ou mais)
+3. Calcule a perda do portfólio em cada cenário
+4. O VaR é o quantil da distribuição simulada
+
+**Ponto forte**: o mais flexível — permite não-linearidades, opções, portfólios complexos.
+
+**Ponto fraco**: computacionalmente custoso e depende das hipóteses do modelo usado para simular.
+
+### Comparativo
+
+| Método | Hipóteses | Complexidade | Flexibilidade | Quando usar |
+|--------|-----------|-------------|---------------|-------------|
+| **Paramétrico** | Distribuição conhecida | Baixa | Baixa | Portfólios lineares simples |
+| **Histórico** | Nenhuma explícita | Baixa | Média | Primeira estimativa, portfólios simples |
+| **Monte Carlo** | Modelo paramétrico | Alta | Alta | Portfólios com opções, não-linearidades |
+
+## Normal vs. t de Student: Por que a Distribuição Importa
+
+A escolha da distribuição tem impacto **direto** no VaR calculado. A distribuição normal subestima a probabilidade de eventos extremos — as "caudas" da distribuição real são mais pesadas.
+
+### Por que a normal falha?
+
+Retornos financeiros apresentam **excesso de curtose** (curtose > 3): eventos extremos ocorrem com frequência muito maior do que a normal prevê. A distribuição t de Student, com seu parâmetro de graus de liberdade $\nu$, consegue modelar essas caudas pesadas:
+
+- $\nu = 4$: caudas muito pesadas (mercados emergentes, criptos)
+- $\nu = 8$: caudas moderadamente pesadas (ações de mercados desenvolvidos)
+- $\nu \to \infty$: converge para a normal
+
+### Comparação visual: Normal vs. t de Student
+
+```{ojs}
+//| echo: false
+
+viewof dist_nu = Inputs.range([3, 30], {
+  value: 5, step: 1, label: "Graus de liberdade (ν) da t-Student:"
+})
+
+viewof dist_conf = Inputs.range([0.90, 0.99], {
+  value: 0.95, step: 0.01, label: "Nível de confiança (α):"
+})
+```
+
+```{ojs}
+//| echo: false
+
+{
+  const nu = dist_nu;
+  const alpha = dist_conf;
+
+  // Normal PDF
+  function normalPDF(x) {
+    return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
+  }
+
+  // t-Student PDF
+  function tPDF(x, v) {
+    // Gamma function approximation via Stirling for the ratio
+    function logGamma(z) {
+      const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
+                 -1.231739572450155, 0.001208650973866179, -0.000005395239384953];
+      let y = z, tmp = z + 5.5;
+      tmp -= (z + 0.5) * Math.log(tmp);
+      let ser = 1.000000000190015;
+      for (let j = 0; j < 6; j++) ser += c[j] / ++y;
+      return -tmp + Math.log(2.5066282746310005 * ser / z);
+    }
+    const lg1 = logGamma((v + 1) / 2);
+    const lg2 = logGamma(v / 2);
+    const coef = Math.exp(lg1 - lg2) / Math.sqrt(v * Math.PI);
+    return coef * Math.pow(1 + x * x / v, -(v + 1) / 2);
+  }
+
+  // Normal quantile (Abramowitz & Stegun)
+  function normalQuantile(p) {
+    const a1 = -3.969683028665376e+01, a2 = 2.209460984245205e+02;
+    const a3 = -2.759285104469687e+02, a4 = 1.383577518672690e+02;
+    const a5 = -3.066479806614716e+01, a6 = 2.506628277459239e+00;
+    const b1 = -5.447609879822406e+01, b2 = 1.615858368580409e+02;
+    const b3 = -1.556989798598866e+02, b4 = 6.680131188771972e+01;
+    const b5 = -1.328068155288572e+01;
+    const c1 = -7.784894002430293e-03, c2 = -3.223964580411365e-01;
+    const c3 = -2.400758277161838e+00, c4 = -2.549732539343734e+00;
+    const c5 = 4.374664141464968e+00, c6 = 2.938163982698783e+00;
+    const d1 = 7.784695709041462e-03, d2 = 3.224671290700398e-01;
+    const d3 = 2.445134137142996e+00, d4 = 3.754408661907416e+00;
+    const pLow = 0.02425, pHigh = 1 - pLow;
+    let q;
+    if (p < pLow) {
+      q = Math.sqrt(-2 * Math.log(p));
+      return (((((c1*q+c2)*q+c3)*q+c4)*q+c5)*q+c6) / ((((d1*q+d2)*q+d3)*q+d4)*q+1);
+    } else if (p <= pHigh) {
+      q = p - 0.5; const r = q*q;
+      return (((((a1*r+a2)*r+a3)*r+a4)*r+a5)*r+a6)*q / (((((b1*r+b2)*r+b3)*r+b4)*r+b5)*r+1);
+    } else {
+      q = Math.sqrt(-2 * Math.log(1 - p));
+      return -(((((c1*q+c2)*q+c3)*q+c4)*q+c5)*q+c6) / ((((d1*q+d2)*q+d3)*q+d4)*q+1);
+    }
+  }
+
+  // t-Student quantile via Newton's method
+  function tQuantile(p, v) {
+    // Start from normal quantile
+    let x = normalQuantile(p);
+    for (let i = 0; i < 20; i++) {
+      // CDF approximation via numerical integration (simple)
+      const h = 0.001;
+      let cdf = 0.5;
+      for (let t = 0; t < x; t += h) {
+        cdf += tPDF(t, v) * h;
+      }
+      for (let t = 0; t > x; t -= h) {
+        cdf -= tPDF(t, v) * h;
+      }
+      const err = cdf - p;
+      const deriv = tPDF(x, v);
+      if (Math.abs(deriv) < 1e-15) break;
+      x -= err / deriv;
+      if (Math.abs(err) < 1e-8) break;
+    }
+    return x;
+  }
+
+  const zNorm = normalQuantile(1 - alpha);
+  const zT = tQuantile(1 - alpha, nu);
+
+  const varNorm = -zNorm;
+  const varT = -zT;
+
+  // Generate curves
+  const xMin = -6, xMax = 6;
+  const nPoints = 400;
+  let normData = [], tData = [];
+  let normTail = [], tTail = [];
+
+  for (let i = 0; i <= nPoints; i++) {
+    const x = xMin + (xMax - xMin) * i / nPoints;
+    const yN = normalPDF(x);
+    const yT = tPDF(x, nu);
+    normData.push({x, y: yN, dist: "Normal"});
+    tData.push({x, y: yT, dist: `t-Student (ν=${nu})`});
+    if (x < zNorm) normTail.push({x, y: yN, dist: "Normal"});
+    if (x < zT) tTail.push({x, y: yT, dist: `t-Student (ν=${nu})`});
+  }
+
+  const ratio = (varT / varNorm * 100 - 100).toFixed(0);
+
+  return Plot.plot({
+    width: 800, height: 380,
+    marks: [
+      Plot.areaY(normTail, {x: "x", y: "y", fill: "#3ACC9F", fillOpacity: 0.3}),
+      Plot.areaY(tTail, {x: "x", y: "y", fill: "#E50505", fillOpacity: 0.3}),
+      Plot.lineY(normData, {x: "x", y: "y", stroke: "#3ACC9F", strokeWidth: 2.5}),
+      Plot.lineY(tData, {x: "x", y: "y", stroke: "#E50505", strokeWidth: 2.5}),
+      Plot.ruleX([zNorm], {stroke: "#3ACC9F", strokeWidth: 2, strokeDasharray: "6,3"}),
+      Plot.ruleX([zT], {stroke: "#E50505", strokeWidth: 2, strokeDasharray: "6,3"}),
+      Plot.text([{x: zNorm, y: 0.38, text: `VaR Normal = ${varNorm.toFixed(2)}σ`}],
+        {x: "x", y: "y", text: "text", fill: "#2a8c6e", fontSize: 11, textAnchor: "start", dx: 5}),
+      Plot.text([{x: zT, y: 0.35, text: `VaR t-Student = ${varT.toFixed(2)}σ`}],
+        {x: "x", y: "y", text: "text", fill: "#E50505", fontSize: 11, textAnchor: "end", dx: -5}),
+    ],
+    x: {label: "Retornos padronizados (em unidades de σ)", domain: [xMin, xMax]},
+    y: {label: "Densidade"},
+    title: `Normal vs. t-Student (ν=${nu}): VaR ${(alpha*100).toFixed(0)}%`,
+    subtitle: `A t-Student exige VaR ${ratio}% maior que a normal para o mesmo nível de confiança`
+  });
+}
+```
+
+::: {.callout-tip}
+## Experimente!
+- Com $\nu = 5$: as caudas da t são **muito** mais pesadas — o VaR pode ser 30–50% maior que o da normal
+- Com $\nu = 30$: as distribuições ficam quase idênticas — a t converge para a normal
+- Aumente a confiança para 99%: a diferença entre normal e t **se amplifica** nas caudas extremas
+- Usar normal quando os dados são t-Student **subestima o risco** nos cenários mais críticos
+:::
+
+### Impacto prático no VaR
+
+| Distribuição | VaR 95% (em σ) | VaR 99% (em σ) | Quando usar |
+|-------------|----------------|----------------|-------------|
+| Normal | 1.645 | 2.326 | Baseline, estimativa rápida |
+| t (ν=5) | 2.015 | 3.365 | Ações, mercados emergentes |
+| t (ν=4) | 2.132 | 3.747 | Criptomoedas, alta volatilidade |
+| t (ν=8) | 1.860 | 2.896 | Mercados desenvolvidos, FX |
+
+::: {.callout-important}
+## Regra prática
+Na dúvida, **use t de Student**. É sempre mais conservador que a normal, e o custo de superestimar o risco (manter um pouco mais de capital) é muito menor que o custo de subestimá-lo (perdas não cobertas). A maioria das mesas de risco usa t com $\nu$ entre 4 e 8.
+:::
+
+## Horizonte Temporal: A Regra do $\sqrt{k}$
+
+Até aqui calculamos o VaR de **1 dia**. Como estimar o VaR para um horizonte de $k$ dias a partir do VaR diário?
+
+Se os retornos diários forem i.i.d. com variância $\sigma^2$, a variância do retorno acumulado em $k$ dias é $k\sigma^2$ (porque variâncias somam para variáveis independentes). Logo, o desvio padrão escala com $\sqrt{k}$:
+
+::: {.formula-highlight}
+[Regra do $\sqrt{k}$]{.formula-label}
+$$\text{VaR}_\alpha(k\text{ dias}) = \sqrt{k} \cdot \text{VaR}_\alpha(1\text{ dia})$$
+:::
+
+**Exemplo**: se o VaR diário é R\$ 100 mil, o VaR 10 dias (horizonte regulatório de Basileia) é $\sqrt{10} \cdot 100 \approx R\$ 316$ mil — **não** 10 × 100 = R\$ 1 milhão.
+
+::: {.callout-caution}
+## Atenção às hipóteses
+A regra $\sqrt{k}$ exige **retornos i.i.d.** e é quase sempre usada como aproximação. Ela **quebra** quando:
+- Há **autocorrelação** nos retornos (raro em ações, comum em títulos)
+- A **volatilidade é heterocedástica** (GARCH) e o horizonte é longo o suficiente para a volatilidade reverter à média
+- Há **efeitos de iliquidez** que aparecem apenas em horizontes longos
+
+Para GARCH, a fórmula correta usa a previsão multi-passo de $h_t$; $\sqrt{k}$ tende a **superestimar** o VaR quando a volatilidade atual está acima da média de longo prazo, e a **subestimar** quando está abaixo.
+:::
+
+## VaR de Portfólio: O Papel da Correlação
+
+Para um portfólio com dois ativos $A$ e $B$ com pesos $w_A, w_B$, a variância é
+
+$$\sigma_P^2 = w_A^2 \sigma_A^2 + w_B^2 \sigma_B^2 + 2 w_A w_B \rho_{AB} \sigma_A \sigma_B,$$
+
+e o VaR paramétrico do portfólio torna-se uma função direta dessa variância. Uma forma prática, quando os VaRs individuais já foram calculados ($\text{VaR}_i = -z_\alpha \sigma_i W_i$), é:
+
+::: {.formula-highlight}
+[VaR de portfólio com dois ativos]{.formula-label}
+$$\text{VaR}_P = \sqrt{\text{VaR}_A^2 + \text{VaR}_B^2 + 2 \rho_{AB}\, \text{VaR}_A \text{VaR}_B}$$
+:::
+
+Três casos limites:
+
+| Correlação | VaR do portfólio | Interpretação |
+|------------|------------------|---------------|
+| $\rho = +1$ | $\text{VaR}_A + \text{VaR}_B$ | **Nenhuma** diversificação: os ativos se movem juntos |
+| $\rho = 0$ | $\sqrt{\text{VaR}_A^2 + \text{VaR}_B^2}$ | Diversificação "clássica" |
+| $\rho = -1$ | $\lvert \text{VaR}_A - \text{VaR}_B \rvert$ | Diversificação **máxima**: hedge quase perfeito |
+
+::: {.conceito-card}
+#### Benefício de diversificação
+$$\text{Benefício} = (\text{VaR}_A + \text{VaR}_B) - \text{VaR}_P$$
+Para $\rho < 1$, o benefício é **positivo** — a soma dos VaRs individuais superestima o risco do portfólio. Em portfólios de $n$ ativos, a fórmula se generaliza via a matriz de covariância:
+
+$$\text{VaR}_P = z_\alpha \sqrt{\mathbf{w}^\top \Sigma \mathbf{w}} \cdot W$$
+:::
+
+## Correção para Caudas Pesadas: VaR com $t$-Student
+
+Quando se usa a distribuição $t$-Student com $\nu$ graus de liberdade, é importante lembrar que a variância da $t$ padrão **não é 1**, mas sim $\nu/(\nu-2)$. Para manter consistência com $\sigma$ estimado em unidades "normais", o VaR paramétrico com $t$ é
+
+::: {.formula-highlight}
+[VaR paramétrico com $t$-Student (variância reescalada)]{.formula-label}
+$$\text{VaR}_\alpha = -\left( \mu + t^*_\nu(1-\alpha) \cdot \sigma \cdot \sqrt{\frac{\nu-2}{\nu}} \right) \cdot W$$
+:::
+
+onde $t^*_\nu(1-\alpha)$ é o quantil da $t$-Student padrão. O fator $\sqrt{(\nu-2)/\nu}$ **corrige** a escala para que $\sigma$ continue representando o desvio padrão amostral. Esquecer essa correção é uma fonte comum de erro de implementação — e leva a VaRs sistematicamente **superestimados**.
+
+## Expected Shortfall (CVaR)
+
+### Limitação fundamental do VaR
+
+O VaR diz *qual* é o limiar de perda, mas **não diz nada sobre o que acontece além desse limiar**. Dois portfólios podem ter o mesmo VaR 95%, mas perdas completamente diferentes nos 5% piores cenários.
+
+::: {.formula-highlight}
+[Expected Shortfall (ES)]{.formula-label}
+$$\text{ES}_\alpha = E[L \mid L > \text{VaR}_\alpha]$$
+:::
+
+O ES é a **perda média** nos cenários em que o VaR é violado. Ele responde: *"Quando as coisas dão errado, quão errado elas dão em média?"*
+
+::: {.callout-important}
+## Por que o ES é preferido ao VaR?
+O ES é uma **medida coerente de risco** — satisfaz a propriedade de **subaditividade**: $\text{ES}(A + B) \leq \text{ES}(A) + \text{ES}(B)$. Isso garante que diversificação **sempre reduz** o ES. O VaR **não** é coerente e pode violar essa propriedade. Por isso, o **Basileia III** (2013) adotou o ES como medida padrão para capital regulatório.
+:::
+
+## Backtesting de VaR
+
+### Como saber se o VaR está bom?
+
+Compare as **violações observadas** (dias em que a perda superou o VaR) com as **violações esperadas**. Para VaR 95% em 250 dias úteis: esperamos $250 \times 0.05 = 12.5$ violações.
+
+| Teste | O que avalia | Hipótese nula |
+|-------|-------------|---------------|
+| **Kupiec (POF)** | A frequência de violações é consistente com $\alpha$? | A taxa de violação é igual a $(1-\alpha)$ |
+| **Christoffersen** | As violações são independentes? | As violações não vêm em clusters |
+
+### O Semáforo de Basileia
+
+O Comitê de Basileia classifica modelos VaR com base no número de violações em 250 dias (VaR 99%):
+
+| Zona | Violações (VaR 99%, 250 dias) | Ação |
+|------|-------------------------------|------|
+| Verde | 0–4 | Modelo aceito |
+| Amarela | 5–9 | Investigação necessária |
+| Vermelha | 10+ | Modelo rejeitado, penalidade de capital |
+
+::: {.caso-negocio}
+#### Caso: Comitê de Risco
+
+Você apresenta o VaR diário do fundo para o comitê de risco. Nos últimos 250 dias:
+
+- VaR 99%: houve **8 violações** (esperado: 2.5)
+
+O comitê pergunta: *"O modelo está subestimando o risco?"*
+
+**Análise com o teste de Kupiec:**
+
+- $H_0$: taxa de violação = 1% (modelo correto)
+- Taxa observada: $8/250 = 3.2\%$
+- Isso está na **zona amarela** de Basileia — a taxa é mais que o triplo do esperado
+- Probabilidade de observar 8+ violações por acaso (se o modelo estivesse correto) é muito baixa
+
+**Recomendação**: investigar se (a) a distribuição assumida subestima as caudas (trocar normal por t?), (b) a volatilidade está sendo subestimada (usar GARCH em vez de volatilidade fixa?), (c) há correlações não capturadas entre ativos.
+:::
+
+## Quizzes: Teste seu Entendimento
+
+::: {.callout-caution collapse="true"}
+## Questão 1: O VaR 95% diário de um portfólio é R\$ 100 mil. Qual a interpretação exata?
+
+*"Em condições normais de mercado, esperamos que a perda diária do portfólio **não exceda** R\$ 100 mil em **95% dos dias de negociação**."* Equivalentemente: em 1 a cada 20 dias úteis (cerca de uma vez por mês), a perda pode ser **maior** que R\$ 100 mil. O VaR **não diz** quão grande será a perda nesses dias — para isso, usamos o Expected Shortfall.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 2: Se você estima VaR usando GARCH em vez de volatilidade histórica, qual abordagem você está usando?
+
+**VaR Paramétrico** com volatilidade condicional. O GARCH fornece uma estimativa de $\sigma_t$ que muda ao longo do tempo, mas o VaR ainda é calculado como $\text{VaR} = -(\mu + z_\alpha \cdot \sigma_t) \cdot W$, usando uma distribuição paramétrica (normal ou t). A diferença é que $\sigma_t$ agora é **dinâmica** e se adapta a períodos de alta e baixa volatilidade, tornando o VaR mais responsivo a mudanças de regime.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 3: O Expected Shortfall 95% é sempre maior, menor ou igual ao VaR 95%?
+
+**Sempre maior** (ou igual, no limite). O ES é a perda **média** nos cenários em que o VaR é violado. Como o VaR é o limiar desses cenários, a média das perdas nesses cenários é necessariamente $\geq$ ao próprio limiar. Para a distribuição normal: $\text{ES}_{95\%} \approx 2.06\sigma$ enquanto $\text{VaR}_{95\%} \approx 1.65\sigma$. Para distribuições com caudas mais pesadas (t de Student), a diferença entre ES e VaR é ainda maior.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 4: Em 500 dias, o VaR 99% teve 15 violações. Isso parece adequado?
+
+Esperado: $500 \times 0.01 = 5$ violações. Observado: 15, ou seja, **3x mais** que o esperado. Isso é um sinal forte de que o modelo está **subestimando o risco**. Pelo teste de Kupiec, a probabilidade de observar 15 ou mais violações por acaso (se o modelo estivesse correto) é extremamente baixa ($p < 0.001$). Ações: revisar a distribuição (trocar normal por t?), recalibrar a volatilidade (GARCH?), verificar correlações.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 5: Um portfólio com 2 ativos tem VaR individual de R\$ 50 mil cada. O VaR do portfólio é necessariamente R\$ 100 mil?
+
+**Não!** Se os ativos não forem perfeitamente correlacionados ($\rho < 1$), o VaR do portfólio será **menor** que a soma dos VaR individuais — este é o efeito da **diversificação**. Apenas se $\rho = 1$ (correlação perfeita) o VaR do portfólio será exatamente R\$ 100 mil. Na prática, a diversificação reduz o risco. Note, porém, que esta propriedade nem sempre vale para o VaR (ele não é subaditivo) — um caso raro, mas possível, onde VaR(A+B) > VaR(A) + VaR(B). Esse é um dos motivos pelos quais o ES (que é subaditivo) é preferido.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 6: O VaR 1 dia de um portfólio é R\$ 80 mil. Qual o VaR 10 dias aproximado?
+
+Pela regra do $\sqrt{k}$ (válida se os retornos forem i.i.d.): $\text{VaR}(10) = \sqrt{10} \cdot 80{,}000 \approx R\$ 253{,}000$. **Não** é 10 × 80 mil = R\$ 800 mil — esse seria o caso se a variância escalasse linearmente, o que só aconteceria com correlação perfeita entre dias. A intuição: perdas ruins em um dia tendem a ser compensadas por outros dias, de modo que o desvio padrão cresce com $\sqrt{k}$, não com $k$. Atenção: a regra falha se há autocorrelação nos retornos, clusters de volatilidade significativos ou horizonte muito longo.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 7: Dois ativos têm VaR 95% individual de R\$ 60 mil e R\$ 40 mil, com correlação $\rho = 0{,}3$. Qual o VaR do portfólio?
+
+$$\text{VaR}_P = \sqrt{60^2 + 40^2 + 2 \cdot 0{,}3 \cdot 60 \cdot 40} = \sqrt{3600 + 1600 + 1440} = \sqrt{6640} \approx R\$ 81{,}5 \text{ mil}$$
+
+Comparado à soma bruta (R\$ 100 mil), há um **benefício de diversificação** de ~R\$ 18,5 mil. Se a correlação fosse 1, o VaR seria exatamente R\$ 100 mil; se fosse 0, seria $\sqrt{60^2 + 40^2} \approx R\$ 72{,}1$ mil; se fosse −1, seria apenas R\$ 20 mil. A correlação é o principal driver do benefício de diversificação — e mede o quanto os ativos "se movem juntos" em termos lineares.
+:::
+
+## Para Saber Mais
+
+- McNeil, A.J., Frey, R., & Embrechts, P. (2015). *Quantitative Risk Management*. Cap. 2 e 4.
+- Jorion, P. (2007). *Value at Risk*. 3rd ed. McGraw-Hill.
+- Dowd, K. (2005). *Measuring Market Risk*. 2nd ed. Wiley.

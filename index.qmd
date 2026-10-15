@@ -1,0 +1,96 @@
+---
+title: "Financial Analytics"
+subtitle: "Programa Avançado de Data Science e Decisão: Insper"
+page-layout: full
+toc: false
+---
+
+::: {.hero-banner}
+
+# Financial Analytics {.unnumbered}
+
+::: {.subtitle}
+Modelos de séries temporais, gestão de risco e otimização de portfólios aplicados a problemas reais de negócios.
+:::
+
+::: {.badge-line}
+[48 horas]{.badge-item}
+[Python]{.badge-item}
+[Séries Temporais]{.badge-item}
+[GARCH]{.badge-item}
+[VaR]{.badge-item}
+[Portfólios]{.badge-item}
+:::
+
+:::
+
+## Sobre a Disciplina
+
+Esta disciplina combina **fundamentos estatísticos** com **aplicações práticas em finanças**, preparando você para tomar decisões baseadas em dados no contexto corporativo.
+
+::: {.grid}
+
+::: {.g-col-6}
+
+### Parte 1: Séries Temporais
+
+Baseada no livro [Forecasting: Principles and Practice](https://otexts.com/fpp3/) (Hyndman & Athanasopoulos), esta parte cobre:
+
+- Decomposição e estacionariedade
+- ACF, PACF e testes de raiz unitária
+- Modelos ARIMA e SARIMA
+- Previsão e validação cruzada temporal
+- Prophet e modelos automáticos
+
+:::
+
+::: {.g-col-6}
+
+### Parte 2: Financial Analytics
+
+Aplicando os fundamentos a problemas financeiros reais:
+
+- Retornos e fatos estilizados de séries financeiras
+- Modelos de volatilidade (ARCH/GARCH)
+- Value at Risk (VaR) e Expected Shortfall
+- CAPM e fronteira eficiente
+- Otimização de portfólios
+- Tópicos avançados: pair trading, VAR multivariado
+
+:::
+
+:::
+
+## Metodologia
+
+::: {.callout-tip}
+## Foco em Pensamento Crítico
+Mais importante do que gerar resultados é **entender o método**, desenvolver **pensamento crítico** e dominar **estratégias de resolução de problemas**. Cada conceito é conectado a um problema real de negócios.
+:::
+
+## Entregas
+
+| Entrega | Prazo | Conteúdo |
+|---------|-------|----------|
+| **Intermediária** | 1/jun | Análise completa de série temporal (Parte 1) |
+| **Final** | Semana de 15/jun | Análise de portfólio com gestão de risco (Parte 2) |
+
+## Ferramentas sugeridas
+
+| Biblioteca | Uso |
+|------------|-----|
+| **`pandas` / `numpy`** | Manipulação de dados e séries temporais |
+| **`statsmodels`** | Modelos estatísticos, ACF/PACF, testes |
+| **`statsforecast`** | ARIMA automático, cross-validation |
+| **`arch`** | Modelos GARCH e variantes |
+| **`yfinance`** | Download de dados financeiros |
+| **`scipy.optimize`** | Otimização de portfólios |
+| **`plotly`** | Gráficos interativos |
+| **`matplotlib` / `seaborn`** | Visualização estatística |
+
+## Referências
+
+- Hyndman, R.J., & Athanasopoulos, G. (2021). Forecasting: Principles and Practice. [Em R](https://otexts.com/fpp3/) | [Em Python](https://otexts.com/fpppy/)
+- Tsay, R.S. (2010). *Analysis of Financial Time Series*, 3rd edition. Wiley.
+- Morettin, P.A. (2017). *Econometria Financeira: um curso em séries temporais financeiras*. Blucher.
+- McNeil, A.J., Frey, R., & Embrechts, P. (2015). *Quantitative Risk Management*. Princeton.

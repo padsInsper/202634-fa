@@ -1,0 +1,60 @@
+---
+title: "Aula de Volatilidade"
+---
+
+
+```{r}
+library(yfR)
+data_r = yf_get(
+  c('PETR4.SA', 'VALE3.SA', '^BVSP'),
+  first_date = '2007-01-01',
+  last_date = Sys.Date(),
+  bench_ticker = "^BVSP",
+  type_return = "log",
+  freq_data = "daily",
+  do_complete_data = TRUE
+)
+data_r
+
+ts.plot(data_r$ret_closing_prices[data_r$ticker == "PETR4.SA"])
+```
+
+```{r}
+acf(na.omit(data_r$ret_closing_prices[data_r$ticker == "PETR4.SA"]))
+```
+
+```{r}
+acf(na.omit(data_r$ret_closing_prices[data_r$ticker == "PETR4.SA"])^2))
+```
+```{python}
+import yfinance as yf
+
+ativos = ["PETR4.SA", "VALE3.SA", "^BVSP"]
+start_date = "2007-01-01"
+# Baixar dados
+data_py = yf.download(ativos, start=start_date, interval="1d", auto_adjust=False)
+data_py = data_py.loc[:, (["Adj Close"], ativos)]
+data_py
+```
+
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+# log retorno dos preços ajustados
+data_py_ret = data_py.pct_change().apply(lambda x: np.log(1 + x))
+plt.plot(data_py_ret["Adj Close"]["PETR4.SA"])
+```
+
+```{python}
+from statsmodels.graphics.tsaplots import plot_acf
+
+plot_acf(data_py_ret["Adj Close"]["PETR4.SA"].dropna(), lags=40)
+
+# quadratic return
+plot_acf(data_py_ret["Adj Close"]["PETR4.SA"].dropna() ** 2, lags=40)
+```
+
+
+```{r}
+
+```

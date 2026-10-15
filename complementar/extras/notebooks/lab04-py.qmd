@@ -1,0 +1,186 @@
+---
+title: "Lab 03 - Séries financeiras"
+format:
+  html:
+    theme: flatly
+    embed-resources: true
+---
+
+Quiz para aquecer: <https://forms.gle/DVXTDSgoDAqEjdFHA>
+
+```{python}
+# não estava funcionando o yfinance, então pedi ajuda para o chatgpt
+
+import requests
+
+# Monkey-patch para definir um User-Agent global
+old_request = requests.Session.request
+
+def new_request(self, method, url, *args, **kwargs):
+    headers = kwargs.get('headers', {})
+    headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+    kwargs['headers'] = headers
+    return old_request(self, method, url, *args, **kwargs)
+
+requests.Session.request = new_request
+```
+
+```{python}
+import yfinance as yf
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+from arch import arch_model
+import statsmodels.api as sm
+import scipy.stats as stats
+
+# Definir data de início
+start_date = "2018-01-01"
+
+# Ativos de fundos imobiliários
+ativos = ["HGRE11.SA", "BTLG11.SA", "HGRU11.SA", "VGIR11.SA"]
+
+# Baixar dados
+data = yf.download(ativos, start=start_date, auto_adjust=False)["Adj Close"]
+
+# Calcular retornos logarítmicos diários
+returns = np.log(data / data.shift(1)).dropna()
+```
+
+```{python}
+# Plotar preços ajustados
+data.plot(subplots=True, layout=(len(ativos), 1), figsize=(10, 8), sharex=False)
+plt.show()
+```
+
+
+```{python}
+# Plotar retornos logarítmicos
+returns.plot(subplots=True, layout=(len(ativos), 1), figsize=(10, 8), sharex=False)
+plt.show()
+
+# Data mínima comum a todas as séries
+data_corte = returns.index.min()
+
+# Filtrar dados para treino
+da_train = returns.loc[data_corte:]
+returns_squared = da_train**2
+
+# Função para plotar ACF e PACF
+def plot_acf_pacf(series, lags=40):
+    fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+    sm.graphics.tsa.plot_acf(series, lags=lags, ax=axes[0])
+    sm.graphics.tsa.plot_pacf(series, lags=lags, ax=axes[1])
+    plt.show()
+
+# Descritivas bacanas: ACF/PACF dos retornos
+plot_acf_pacf(da_train['HGRE11.SA'])
+```
+
+
+```{python}
+# Visualizar os retornos ao quadrado
+returns_squared.plot(subplots=True, layout=(len(ativos), 1), figsize=(10, 8), sharex=False)
+plt.show()
+
+```
+
+
+```{python}
+
+# ACF/PACF dos retornos ao quadrado
+plot_acf_pacf(returns_squared['HGRE11.SA'])
+
+```
+
+
+```{python}
+# Normalidade
+# Histograma dos retornos
+for ticker in ativos:
+    sns.histplot(da_train[ticker], bins=90)
+    plt.title(f'Histograma de {ticker}')
+    plt.show()
+
+# QQ-Plot para cada ticker
+for ticker in ativos:
+    sm.qqplot(da_train[ticker], line ='45')
+    plt.title(f'QQ-Plot de {ticker}')
+    plt.show()
+
+# QQ-Plot com distribuição t de Student
+for ticker in ativos:
+    stats.probplot(da_train[ticker], dist="t", sparams=(3,), plot=plt)
+    plt.title(f'QQ-Plot de {ticker} com distribuição t de Student')
+    plt.show()
+```
+
+## Parte 2: ajustando os modelos
+
+
+```{python}
+import itertools
+
+# Ajustar modelo GARCH individual
+def garch_individual(parms, ret):
+    garch_model = arch_model(ret, vol='Garch', p=parms['p'], q=parms['q'], dist=parms['dist'])
+    try:
+        fit = garch_model.fit(disp="off")
+    except:
+        fit = None
+    return fit
+
+# Testando para um ativo
+params = {'p': 1, 'q': 1, 'dist': 't'}
+ret = returns['HGRE11.SA']
+resultado = garch_individual(params, ret * 100)
+
+resultado
+
+# Exibir critérios de informação
+# if resultado:
+#     print(resultado.summary())
+
+# Função para ajustar uma grid de GARCHs e pegar as informações
+
+## OMITIDO
+
+# Rodando as funções
+# melhores_por_ativo = {}
+# for ativo in ativos:
+#     melhores_por_ativo[ativo] = melhor_garch(ativo, range(1, 3), range(3))
+
+
+```
+
+
+```{python}
+# Função que ajusta o modelo e faz as previsões
+def prever_volatilidade(parms, n_steps=5):
+    ret = returns[parms['ticker']]
+    garch_model = arch_model(ret * 100, vol='Garch', p=parms['p'], q=parms['q'], dist=parms['dist'])
+    fit = garch_model.fit(disp="off")
+
+    forecasts = fit.forecast(horizon=n_steps, reindex=False)
+    sigma_forecasts = forecasts.variance.values[-1, :]
+    mean_forecasts = forecasts.mean.values[-1, :]
+
+    return pd.DataFrame({
+        'ticker': parms['ticker'],
+        'serie': mean_forecasts,
+        'volatilidade': sigma_forecasts
+    })
+
+# Ajustando modelos finais e prevendo volatilidade futura
+parametros_melhores = pd.DataFrame([
+    {'ticker': ativo, **melhores_por_ativo[ativo].iloc[0]}
+    for ativo in ativos
+])
+
+vol_futuro = []
+
+## OMITIDO
+
+```
+

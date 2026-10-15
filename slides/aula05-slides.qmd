@@ -1,0 +1,150 @@
+---
+title: "Volatilidade e Modelos GARCH"
+subtitle: "Financial Analytics: PADS Insper 2026.2"
+author: "Programa Avançado de Data Science e Decisão"
+format:
+  revealjs:
+    theme: [default, ../assets/insper-theme.scss]
+    logo: ../assets/img/logo-insper-branco.png
+    footer: "Financial Analytics: Aula 4"
+    slide-number: true
+    transition: fade
+    width: 1280
+    height: 720
+    highlight-style: monokai
+    code-fold: true
+    smaller: true
+    scrollable: true
+---
+
+## De Séries Temporais para Finanças
+
+Séries financeiras são **fundamentalmente diferentes**:
+
+- Retornos quase sem autocorrelação (mercado eficiente)
+- Retornos ao quadrado **com** autocorrelação forte
+- Caudas pesadas (eventos extremos)
+- Clusters de volatilidade
+- Efeito alavancagem (quedas → mais volatilidade)
+
+## Log-Retorno
+
+$$r_t = \ln\left(\frac{P_t}{P_{t-1}}\right)$$
+
+**Vantagens:**
+
+1. Aditividade temporal: $r_{t:t+k} = r_t + r_{t+1} + \cdots + r_{t+k}$
+2. Simetria: queda e recuperação são simétricas em log
+3. Para $|R_t| < 10\%$: $r_t \approx R_t$
+
+## O Paradoxo Fundamental
+
+::: {.callout-important}
+**Retornos** parecem imprevisíveis (mercado eficiente)
+
+**Retornos ao quadrado** são previsíveis (volatilidade é persistente)
+:::
+
+→ Não podemos prever a **direção**, mas podemos prever a **magnitude**
+
+→ Fundamento dos modelos GARCH
+
+## ARCH — Engle (1982)
+
+A variância muda ao longo do tempo:
+
+$$\sigma_t^2 = \omega + \alpha_1 \varepsilon_{t-1}^2 + \cdots + \alpha_q \varepsilon_{t-q}^2$$
+
+"Se ontem houve choque grande, hoje a volatilidade é alta"
+
+**Problema**: precisa de muitos lags ($q$ grande)
+
+## GARCH(1,1) — Bollerslev (1986)
+
+$$\sigma_t^2 = \omega + \alpha \varepsilon_{t-1}^2 + \beta \sigma_{t-1}^2$$
+
+| Parâmetro | Significado | Típico |
+|-----------|-------------|--------|
+| $\alpha$ | Reação a choques | 0.03–0.10 |
+| $\beta$ | Persistência | 0.85–0.95 |
+| $\alpha + \beta$ | Persistência total | 0.95–0.99 |
+
+O GARCH(1,1) é suficiente em **~90% dos casos**.
+
+## Interpretando os Parâmetros
+
+- **$\alpha$ alto, $\beta$ baixo**: picos agudos e curtos de volatilidade
+- **$\alpha$ baixo, $\beta$ alto**: transições lentas entre regimes
+- **$\alpha + \beta \approx 1$**: choques "nunca" desaparecem (IGARCH)
+- **Half-life**: $\ln(0.5) / \ln(\alpha + \beta)$ dias para choque reduzir pela metade
+
+## Efeito Alavancagem
+
+Quedas geram **mais** volatilidade que altas de mesma magnitude.
+
+O GARCH padrão não captura isso ($\varepsilon^2$ trata + e - igualmente).
+
+### Variantes assimétricas:
+
+| Modelo | Como captura | Parâmetro |
+|--------|-------------|-----------|
+| **EGARCH** | Log da variância | $\gamma < 0$ |
+| **GJR-GARCH** | Indicadora $I(\varepsilon < 0)$ | $\gamma > 0$ |
+
+## IGARCH e RiskMetrics (EWMA)
+
+Quando $\alpha + \beta = 1$, reparametrize $\beta = \lambda$, $\omega = 0$:
+
+$$h_t = \lambda\, h_{t-1} + (1-\lambda)\, r_{t-1}^2$$
+
+É exatamente o **RiskMetrics™** (J.P. Morgan, 1996):
+
+- $\lambda = 0{,}94$ para dados diários
+- Sem estimação — parâmetro fixo
+- Baseline universal em VaR regulatório
+
+## Volatilidade Estocástica (SV)
+
+No GARCH, $h_t$ é **determinística** dado o passado. No SV, a volatilidade tem **seu próprio choque**:
+
+$$r_t = \exp(h_t/2)\, z_t$$
+$$h_t = \mu + \phi(h_{t-1} - \mu) + \sigma_\eta\, \eta_t$$
+
+**Duas fontes de ruído**: $z_t$ (retorno) e $\eta_t$ (volatilidade)
+
+- Captura melhor certos saltos de volatilidade
+- Base para Heston e modelos de precificação de opções
+- Estimação cara (MCMC, filtros de partículas)
+
+## Diagnóstico: Toolkit Mínimo
+
+Resíduos padronizados $\hat z_t = \hat\varepsilon_t / \sqrt{\hat h_t}$ devem ser i.i.d.
+
+| Teste | O que checa |
+|-------|-------------|
+| **ARCH-LM** | Volatilidade residual em $\hat z_t^2$ |
+| **Ljung-Box** em $\hat z_t$ | Autocorrelação no nível |
+| **Ljung-Box** em $\hat z_t^2$ | Clusters remanescentes |
+| **Shapiro-Wilk** | Normalidade dos $\hat z_t$ |
+
+→ Se ARCH-LM rejeita, o GARCH **não capturou** a volatilidade
+
+## Distribuição dos Erros
+
+Retornos têm **caudas mais pesadas** que a normal:
+
+| Distribuição | Quando | Parâmetro |
+|-------------|--------|-----------|
+| Normal | Baseline (inadequada) | — |
+| **t-Student** | Caudas simétricas | $\nu \approx 4$–$8$ |
+| Skewed-t | Caudas assimétricas | $\nu$ + assimetria |
+
+::: {.callout-warning}
+Usar normal **subestima** eventos extremos → perigoso para risco!
+:::
+
+## Próximos Passos
+
+1. **Lab 3**: ajustar GARCH em ativos da B3 com Python (`arch`)
+2. **Aula 5**: VaR e gestão de risco
+3. Como usar a volatilidade GARCH para calcular VaR dinâmico

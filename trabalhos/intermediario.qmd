@@ -1,0 +1,187 @@
+---
+title: "Trabalho Intermediário"
+subtitle: "Previsão para uma empresa que passou por uma aquisição"
+---
+
+## Contexto
+
+Vocês formam uma assessoria econômica chamada **PADS Forecasting**.
+Foram contratados pela **Distribuidora BR S.A.**, uma empresa do setor de
+**distribuição de combustíveis no Brasil** que, há alguns anos, **adquiriu
+uma empresa concorrente** do mesmo setor.
+
+A diretoria está montando o orçamento do próximo ano e precisa da previsão
+dos próximos **12 meses** da operação para apoiar o planejamento de compras
+e estoque. Vocês têm a série mensal completa desde 2014, incluindo o
+"antes" e o "depois" da aquisição.
+
+```{python}
+#| label: fig-contexto
+#| fig-cap: "Série mensal da Distribuidora BR (azul) e da empresa adquirida no período em que operou separadamente (laranja). A linha vermelha marca o mês da aquisição."
+#| echo: false
+#| out-width: 100%
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+serie = pd.read_csv("../dados/distribr_serie.csv", parse_dates=["data"])
+adquirida = pd.read_csv("../dados/distribr_adquirida.csv", parse_dates=["data"])
+
+fig, ax = plt.subplots(figsize=(10, 4))
+ax.plot(serie["data"], serie["valor"], color="C0", label="Distribuidora BR (série principal)")
+ax.plot(adquirida["data"], adquirida["valor"], color="C1", label="Empresa adquirida (período solo)")
+ax.axvline(pd.Timestamp("2019-07-01"), color="red", linestyle="--", linewidth=1, label="Aquisição (jul/2019)")
+ax.set_xlabel("Data")
+ax.set_ylabel("Valor mensal")
+ax.legend(loc="lower right", fontsize=9)
+ax.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+Note como a série principal fica após jul/2019: a partir
+desse mês, o volume da adquirida passa a entrar no consolidado. É essa
+mudança que vocês vão ter que tratar na modelagem.
+
+## O que vocês entregam, e quando
+
+| Quando | O quê |
+|---|---|
+| **Sex 22/mai, 18h–20h** | Apresentação de uma **prévia** do trabalho — sem nota, só feedback dos colegas e do monitor |
+| **Sáb 23/mai, 15h–17h** | Discussão da turma sobre a melhor forma de construir a **predição agregada** |
+| **Seg 1/jun** | Entrega final, valendo nota: relatório (notebook), `previsao.csv` do grupo e a predição agregada da turma |
+
+## Avaliação
+
+A avaliação tem 3 componentes, totalizando 10 pontos:
+
+| Componente | Pontos |
+|---|---|
+| Relatório (notebook) | 6,0 |
+| (Competitivo) Previsão do grupo (ranking MASE) | 3,0 |
+| (Colaborativo) Predição agregada da turma (todos recebem o mesmo) | 1,0 |
+
+A apresentação de sexta (22/mai) é uma **prévia sem nota**: serve para a turma
+trocar ideias e ajustar o rumo antes da entrega final de 1/jun.
+
+## Dados
+
+Os dois arquivos abaixo estão no repositório do curso, na pasta `dados/`.
+Os links de download direto:
+
+- [📥 `distribr_serie.csv`](https://raw.githubusercontent.com/padsInsper/202632-fa/main/dados/distribr_serie.csv):
+  série mensal principal da Distribuidora BR, jan/2014 a dez/2023
+  (120 meses). Os 12 meses de 2024 foram **ocultados** e serão usados
+  para avaliar a precisão das previsões.
+- [📥 `distribr_adquirida.csv`](https://raw.githubusercontent.com/padsInsper/202632-fa/main/dados/distribr_adquirida.csv):
+  série mensal da empresa **adquirida**, cobrindo só o período em que
+  ela operou separadamente (antes da aquisição). Uso opcional.
+
+Cada CSV tem duas colunas: `data` (primeiro dia de cada mês) e `valor`.
+
+## O que entregar no notebook (6 pontos)
+
+1. **Descrição inicial dos dados**: gráfico da série mostrando
+   a aquisição, decomposição em tendência, sazonalidade e resíduo, testes
+   ADF e KPSS com conclusão escrita, identificação de sazonalidade e
+   outliers visíveis.
+
+2. **Como vocês trataram a aquisição**. Descrevam a abordagem
+   escolhida e a justificativa. Por exemplo, se decidiram descartar o
+   histórico pré-aquisição, expliquem por que os dados antigos não são
+   relevantes para prever o futuro. Outras abordagens são possíveis:
+   discutam, decidam e defendam usando evidências dos dados.
+
+3. **Comparação de modelos**, com justificativa (SARIMA,
+   ETS, Prophet, machine learning, etc.). Diagnóstico residual (ACF dos
+   resíduos, teste de Ljung-Box) do modelo escolhido.
+
+4. **Validação cruzada temporal** com MAE, RMSE e MASE. Sugerimos comparar
+   contra um baseline ingênuo (`SeasonalNaive`).
+
+5. **Previsão final** dos próximos 12 meses com intervalos de 80% e 95%,
+   gráfico, e o arquivo `previsao.csv` (colunas: `data`, `previsao`).
+
+6. **Discussão e decisões**: uma seção curta listando 3 a 5 decisões
+   importantes tomadas no trabalho. Para cada uma:
+   - Qual era a escolha?
+   - O que fez vocês decidirem por aquele caminho? Cite o gráfico, o
+     teste, a métrica que usaram.
+   - O que foi descartado e por quê?
+
+7. **Descrição de uso de IA**: uma seção curta no final do notebook,
+   contando que ferramentas usaram, em que partes elas ajudaram mais, e
+   alguma sugestão da IA que vocês rejeitaram, com a justificativa.
+   Depois compartilhamos as experiências na turma para todo mundo aprender.
+
+**Obs**: Recomendamos escrever 6 e 7 sem usar IA.
+
+**Como entra na nota (6 pontos)**:
+
+| Critério | Pontos |
+|---|---|
+| Descrição dos dados (item 1) | 1,0 |
+| Tratamento da aquisição (item 2) | 1,0 |
+| Modelos comparados e diagnóstico (item 3) | 1,0 |
+| Validação cruzada temporal (item 4) | 1,0 |
+| Previsão final e gráfico (item 5) | 1,0 |
+| Discussão, decisões e uso de IA (itens 6 e 7) | 1,0 |
+
+## Prévia na sexta (sem nota)
+
+Cada grupo apresenta brevemente uma **prévia** do que fez até ali. **Não vale
+nota** — é um checkpoint para a turma comentar, o monitor dar feedback e todos
+saírem com ideias para o sábado e para a entrega final de 1/jun.
+
+Mesmo sendo prévia, vale a pena já tentar responder:
+
+- Qual estratégia de análise adotaram?
+- Que modelo escolheram, e como ele funciona?
+- Qual foi a decisão mais difícil que tomaram?
+- Por que acham que a previsão de vocês é boa?
+
+## Previsão do grupo (3 pontos)
+
+A previsão de cada grupo é avaliada contra os 12 meses ocultados de 2024,
+usando a métrica **MASE**. Pontos por **ranking entre os grupos** serão
+computados de acordo com o MASE, proporcional à distância para o `SeasonalNaive`.
+
+O `SeasonalNaive` é o baseline. Ele será o marcador de 1,5 pontos: 
+se a previsão de um grupo tiver MASE igual, ganha 1,5 pontos. 
+Se for melhor, ganha mais; se for pior, ganha menos. Vamos ajustar
+a pontuação de forma que o primeiro lugar receba 3 pontos. O último
+lugar pode ficar com um pouco mais de 0, mas não pode ficar negativo.
+
+## Predição agregada da turma (1 ponto)
+
+Depois de ouvir as prévias da sexta, vocês têm a noite para pensar. No
+**sábado (23/mai)**, a turma discute e decide **a melhor forma de construir
+uma predição agregada única**. A predição agregada final é entregue junto
+com o restante do trabalho, em **1/jun**.
+
+**Estrutura da discussão de sábado (2h)**:
+
+Após a abertura, iniciamos um debate. Os alunos defendem suas propostas.
+Se ficar difícil de acompanhar as discussões, faremos inscrições para falar.
+O objetivo é chegar a um consenso sobre como construir a "predição da turma".
+
+**Dica**: A predição agregada pode ser:
+
+- A previsão de um dos grupos que a turma concorda ser a melhor
+- Uma média (simples ou ponderada) das previsões
+- Uma combinação de abordagens diferentes
+- Outra estratégia que a turma achar melhor
+
+Não há votação formal: o consenso é construído na discussão.
+
+**Como entra na nota (1 ponto)**: a predição agregada é avaliada
+contra os 12 meses ocultados pelo MASE e comparada às previsões
+individuais. **Todos os alunos recebem a mesma pontuação**:
+
+| Posição da predição agregada entre as submissões | Pontos para todos |
+|---|---|
+| Entre as 2 melhores | 1,0 |
+| Acima da mediana | 0,5 |
+| Abaixo da mediana mas melhor que `SeasonalNaive` | 0,2 |
+| Pior que `SeasonalNaive` | 0,0 |
+

@@ -1,0 +1,197 @@
+/* ============================================================
+   Insper Financial Analytics — Custom Styles
+   ============================================================ */
+
+/* Hero section for landing page */
+.hero-banner {
+  background: linear-gradient(135deg, #1a1a1a 0%, #3F3F3F 50%, #E50505 100%);
+  color: #fff;
+  padding: 3em 2em;
+  border-radius: 0.8rem;
+  margin-bottom: 2em;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-banner h1 {
+  font-family: 'GT Ultra Fine', Georgia, serif;
+  color: #fff !important;
+  border-bottom: none;
+  font-size: 2.8em;
+  margin-bottom: 0.3em;
+}
+
+.hero-banner .subtitle {
+  font-size: 1.3em;
+  color: #DCDCDC;
+  margin-bottom: 1em;
+}
+
+.hero-banner .badge-line {
+  display: flex;
+  gap: 0.8em;
+  flex-wrap: wrap;
+}
+
+.hero-banner .badge-item {
+  background: rgba(255,255,255,0.15);
+  padding: 0.4em 1em;
+  border-radius: 2em;
+  font-size: 0.85em;
+  backdrop-filter: blur(4px);
+}
+
+/* Timeline / Schedule cards */
+.schedule-card {
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 1em 1.2em;
+  margin: 0.5em 0;
+  border-left: 4px solid #DCDCDC;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.schedule-card:hover {
+  border-left-color: #E50505;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  transform: translateX(4px);
+}
+
+.schedule-card.tipo-aula {
+  border-left-color: #E50505;
+}
+
+.schedule-card.tipo-lab {
+  border-left-color: #3ACC9F;
+}
+
+.schedule-card.tipo-juntos {
+  border-left-color: #FFCC00;
+}
+
+.schedule-card .date {
+  font-weight: 700;
+  color: #3F3F3F;
+}
+
+.schedule-card .tipo {
+  display: inline-block;
+  padding: 0.15em 0.5em;
+  border-radius: 0.3em;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.tipo-aula-badge  { background: #fde8e8; color: #E50505; }
+.tipo-lab-badge   { background: #e6f9f1; color: #2a8c6e; }
+.tipo-juntos-badge { background: #fff8e1; color: #b8860b; }
+
+/* Progress indicator */
+.progress-section {
+  display: flex;
+  gap: 0.3em;
+  margin: 1.5em 0;
+}
+
+.progress-dot {
+  width: 2em;
+  height: 0.4em;
+  border-radius: 0.2em;
+  background: #DCDCDC;
+}
+
+.progress-dot.done {
+  background: #E50505;
+}
+
+.progress-dot.current {
+  background: #FFCC00;
+}
+
+/* Interactive tabs for R/Python */
+.tab-content {
+  border: 1px solid #DCDCDC;
+  border-top: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+  padding: 1em;
+}
+
+/* Diagram containers */
+.diagram-container {
+  background: #f8f9fa;
+  border-radius: 0.5rem;
+  padding: 1.5em;
+  margin: 1.5em 0;
+  text-align: center;
+}
+
+/* Key formula highlight */
+.formula-highlight {
+  background: linear-gradient(135deg, #f8f9fa, #fff);
+  border: 1px solid #DCDCDC;
+  border-radius: 0.5rem;
+  padding: 1.5em;
+  margin: 1.5em 0;
+  text-align: center;
+  font-size: 1.1em;
+}
+
+.formula-highlight .formula-label {
+  display: block;
+  font-size: 0.8em;
+  color: #808080;
+  margin-bottom: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Mermaid diagram styling */
+.mermaid {
+  margin: 1.5em 0;
+}
+
+/* Objective list */
+.objetivos {
+  background: #f0f7f4;
+  border-radius: 0.5rem;
+  padding: 1.2em 1.5em;
+  margin: 1.5em 0;
+}
+
+.objetivos h4 {
+  color: #2a8c6e;
+  margin-top: 0;
+}
+
+.objetivos ul {
+  margin-bottom: 0;
+}
+
+/* Quiz colapsável — estilo pergunta/resposta */
+.callout-caution.callout[data-collapse="true"] {
+  border-left-color: #FFCC00 !important;
+  background: #fffdf5;
+}
+
+.callout-caution.callout[data-collapse="true"] .callout-header {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.callout-caution.callout[data-collapse="true"] .callout-body {
+  border-top: 1px solid #f0e6c0;
+  padding-top: 0.8em;
+  color: #3F3F3F;
+}
+
+/* Animate on scroll (subtle) */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

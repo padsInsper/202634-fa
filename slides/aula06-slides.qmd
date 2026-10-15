@@ -1,0 +1,138 @@
+---
+title: "VaR e Gestão de Risco"
+subtitle: "Financial Analytics: PADS Insper 2026.2"
+author: "Programa Avançado de Data Science e Decisão"
+format:
+  revealjs:
+    theme: [default, ../assets/insper-theme.scss]
+    logo: ../assets/img/logo-insper-branco.png
+    footer: "Financial Analytics: Aula 5"
+    slide-number: true
+    transition: fade
+    width: 1280
+    height: 720
+    highlight-style: monokai
+    code-fold: true
+    smaller: true
+    scrollable: true
+---
+
+## O que é VaR?
+
+> *"Com 95% de confiança, não perderemos mais que R\$ X nos próximos 10 dias."*
+
+$$P(L > \text{VaR}_\alpha) = 1 - \alpha$$
+
+- $L$: perda do portfólio
+- $\alpha$: nível de confiança (95% ou 99%)
+- Horizonte temporal (1 dia, 10 dias)
+
+## Três Abordagens
+
+| Método | Hipóteses | Flexibilidade |
+|--------|-----------|---------------|
+| **Paramétrico** | Distribuição conhecida | Baixa |
+| **Histórico** | Nenhuma explícita | Média |
+| **Monte Carlo** | Modelo paramétrico | Alta |
+
+## VaR Paramétrico
+
+$$\text{VaR}_\alpha = -(\mu + z_\alpha \cdot \sigma) \cdot W$$
+
+- Rápido e analítico
+- Funciona bem com GARCH ($\sigma_t$ dinâmico)
+- **Problema**: subestima risco se retornos não são normais
+
+## VaR Histórico
+
+1. Colete $T$ retornos históricos
+2. Ordene do menor ao maior
+3. VaR 95% = percentil 5%
+
+- Não assume distribuição
+- **Problema**: depende da janela e assume que futuro = passado
+
+## VaR Monte Carlo
+
+1. Estime modelo (GARCH, cópulas, etc.)
+2. Simule $N$ cenários (10.000+)
+3. VaR = quantil da distribuição simulada
+
+- O mais flexível (opções, não-linearidades)
+- **Problema**: computacionalmente custoso
+
+## Horizonte: Regra do $\sqrt{k}$
+
+Para retornos i.i.d., a variância escala linearmente, o desvio padrão com $\sqrt{k}$:
+
+$$\text{VaR}_\alpha(k \text{ dias}) = \sqrt{k} \cdot \text{VaR}_\alpha(1 \text{ dia})$$
+
+- VaR 1 dia = R\$ 100 mil $\Rightarrow$ VaR 10 dias $\approx$ R\$ 316 mil
+- **Não** é R\$ 1 milhão
+- Quebra se há autocorrelação ou heterocedasticidade forte
+
+## VaR de Portfólio: Correlação Importa
+
+$$\text{VaR}_P = \sqrt{\text{VaR}_A^2 + \text{VaR}_B^2 + 2\rho\, \text{VaR}_A \text{VaR}_B}$$
+
+| $\rho$ | VaR do portfólio |
+|--------|------------------|
+| $+1$ | $\text{VaR}_A + \text{VaR}_B$ (sem diversificação) |
+| $0$ | $\sqrt{\text{VaR}_A^2 + \text{VaR}_B^2}$ |
+| $-1$ | $|\text{VaR}_A - \text{VaR}_B|$ (hedge) |
+
+Portfólio $n$-dimensional: $\text{VaR}_P = z_\alpha \sqrt{\mathbf{w}^\top \Sigma \mathbf{w}} \cdot W$
+
+## Correção $t$-Student
+
+Como a $t$ tem variância $\nu/(\nu-2)$, o VaR paramétrico precisa de um ajuste:
+
+$$\text{VaR}_\alpha = -\left(\mu + t^*_\nu(1-\alpha) \cdot \sigma \cdot \sqrt{\tfrac{\nu-2}{\nu}}\right) \cdot W$$
+
+Esquecer o fator $\sqrt{(\nu-2)/\nu}$ leva a VaRs **superestimados**.
+
+## Expected Shortfall (ES)
+
+$$\text{ES}_\alpha = E[L \mid L > \text{VaR}_\alpha]$$
+
+O VaR diz *onde* está o limiar. O ES diz **quão ruim é quando ultrapassa**.
+
+::: {.callout-important}
+ES é **subaditivo** (diversificação sempre ajuda).
+VaR **não é** (pode dar resultados contra-intuitivos).
+
+**Basileia III** adotou ES como padrão.
+:::
+
+## Backtesting
+
+Compare violações observadas vs. esperadas:
+
+| Teste | Avalia |
+|-------|--------|
+| **Kupiec** | Frequência de violações |
+| **Christoffersen** | Independência das violações |
+
+### Semáforo de Basileia (VaR 99%, 250 dias):
+
+| Zona | Violações | Ação |
+|------|-----------|------|
+| Verde | 0–4 | OK |
+| Amarela | 5–9 | Investigar |
+| Vermelha | 10+ | Modelo rejeitado |
+
+## Caso: Comitê de Risco
+
+VaR 99%, 250 dias: **8 violações** (esperado: 2.5)
+
+- Taxa observada: 3.2% (deveria ser 1%)
+- Zona **amarela** de Basileia
+- Modelo provavelmente subestima o risco
+
+**Ações**: revisar distribuição (normal → t?), recalibrar volatilidade (GARCH?), verificar correlações.
+
+## Próximos Passos
+
+1. **Aula 6**: CAPM, fronteira eficiente, otimização de portfólios
+2. **Lab 4**: implementar VaR + fronteira eficiente em Python
+3. **Projeto Final**: análise completa com gestão de risco

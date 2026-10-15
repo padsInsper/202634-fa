@@ -1,0 +1,308 @@
+---
+title: "Lab 04 - Séries financeiras"
+format:
+  html:
+    theme: flatly
+    embed-resources: true
+---
+
+Quiz para aquecer: <https://forms.gle/DVXTDSgoDAqEjdFHA>
+
+Vamos fazer a descritiva e rodar os modelos GARCH
+
+Vamos dividir em grupos. Quem estiver na frente, pode avançar.
+
+```{r}
+#| code-fold: show
+#| message: false
+library(fpp3)
+library(rugarch)
+```
+
+```{r}
+#| code-fold: show
+#| message: false
+start_date <- '2018-01-01'
+# esses são ativos de fundos imobiliários que eu ja tive
+# e queria saber fiz um péssimo investimento
+# ou apenas ruim.
+ativos <- c(
+  "HGRE11.SA",
+  "BTLG11.SA",
+  "HGRU11.SA",
+  "VGIR11.SA"
+)
+```
+
+Vamos trabalhar tanto com os dados no formado de tibble quanto no formato de tsibble.
+
+```{r}
+#| code-fold: show
+#| message: false
+# library(curl)
+# has_internet_via_proxy <<- TRUE
+da <- yfR::yf_get(
+  ativos,
+  first_date = start_date,
+  type_return = "log",
+  freq_data = "daily",
+  do_complete_data = TRUE
+)
+
+View(da)
+
+da_tsibble <- da |>
+  as_tsibble(key = ticker, index = ref_date, regular = FALSE)
+```
+
+Plotar
+
+```{r}
+#| fig.height: 10
+#| fig.width: 8
+da_tsibble |>
+  autoplot(price_close, colour = "black") +
+  facet_wrap(~ticker, scales = "free_y", ncol = 1)
+```
+
+```{r}
+#| fig.height: 10
+#| fig.width: 8
+da_tsibble |>
+  autoplot(ret_closing_prices, colour = "black") +
+  facet_wrap(~ticker, scales = "free_y", ncol = 1)
+```
+
+Data mínima comum a todas as séries
+
+```{r}
+data_corte <- da |>
+  dplyr::group_by(ticker) |>
+  dplyr::filter(ref_date == min(ref_date)) |>
+  dplyr::ungroup() |>
+  with(max(ref_date))
+
+data_corte
+```
+
+```{r}
+da_train <- da |>
+  dplyr::filter(ref_date > data_corte)
+```
+
+
+# Descritivas bacanas
+
+- ACF/PACF dos retornos
+- visualizar os retornos ao quadrado
+- ACF/PACF dos retornos ao quadrado
+
+```{r}
+da_tsibble |>
+  ACF(ret_closing_prices) |>
+  autoplot()
+```
+
+
+```{r}
+da_tsibble |>
+  PACF(ret_closing_prices) |>
+  autoplot()
+```
+
+
+```{r}
+da_tsibble |>
+  dplyr::mutate(ret2 = ret_closing_prices^2) |>
+  autoplot(ret2, colour = "black") +
+  facet_wrap(~ticker, ncol = 1)
+```
+
+
+```{r}
+da_tsibble |>
+  dplyr::mutate(ret2 = ret_closing_prices^2) |>
+  ACF(ret2) |>
+  autoplot()
+```
+
+```{r}
+da_tsibble |>
+  dplyr::mutate(ret2 = ret_closing_prices^2) |>
+  PACF(ret2) |>
+  autoplot()
+```
+
+Normalidade
+
+```{r}
+# histogram with geom_histogram of each ticker
+da_train |>
+  ggplot(aes(x = ret_closing_prices)) +
+  geom_histogram(bins = 90) +
+  facet_wrap(~ticker, ncol = 3)
+```
+
+```{r}
+da_train |>
+  group_by(ticker) |>
+  summarise(
+    gg = list(
+      ggplot(pick(everything()), aes(sample = ret_closing_prices)) +
+        geom_qq() +
+        geom_qq_line() +
+        labs(title = cur_group())
+    )
+  ) |>
+  dplyr::pull(gg) |>
+  patchwork::wrap_plots()
+```
+
+Com outra distribuição
+
+```{r}
+da_train |>
+  group_by(ticker) |>
+  summarise(
+    gg = list(
+      ggplot(pick(everything()), aes(sample = ret_closing_prices)) +
+        geom_qq(distribution = qt, dparams = list(df = 3)) +
+        geom_qq_line(distribution = qt, dparams = list(df = 3)) +
+        labs(title = cur_group())
+    )
+  ) |>
+  dplyr::pull(gg) |>
+  patchwork::wrap_plots()
+```
+
+## Ajustando modelos garch
+
+Função para ajustar um garch
+
+```{r}
+garch_individual <- function(parms, ret, prog = NULL) {
+  if (!is.null(prog)) {
+    prog()
+  }
+  # daria para adicionar mais hiperparametros!!!
+  garch_model = ugarchspec(
+    variance.model = list(
+      model = "fGARCH",
+      submodel = "GARCH",
+      garchOrder = c(parms$m, parms$n)
+    ),
+    mean.model = list(
+      armaOrder = c(parms$p, parms$q),
+      include.mean = TRUE
+    ),
+    distribution.model = parms$dist
+  )
+  # as vezes ele nao converge
+  suppressWarnings({
+    fit <- ugarchfit(garch_model, data = ret)
+  })
+  fit
+}
+```
+
+Testando para um ativo
+
+```{r}
+garch_individual(
+  parms = list(
+    p = 0,
+    q = 0,
+    m = 1,
+    n = 1,
+    dist = "std"
+  ),
+  ret = da_train |>
+    dplyr::filter(ticker == "HGRE11.SA") |>
+    pull(ret_closing_prices)
+)
+```
+
+Função para ajustar uma grid de garchs e pegar as informações
+
+```{r}
+
+### OMITIDO
+
+```
+
+Rodando as funções
+
+```{r}
+#| eval: false
+melhores_por_ativo <- ativos |>
+  purrr::set_names() |>
+  purrr::map(melhor_garch, .progress = TRUE) |>
+  dplyr::bind_rows(.id = "ticker")
+```
+
+
+```{r}
+#| echo: false
+melhores_por_ativo <- readr::read_rds("melhores_por_ativo.rds")
+```
+
+
+## Prever volatilidade um passo à frente
+
+Função que ajusta o modelo e faz as previsões
+
+```{r}
+prever_volatilidade <- function(parms, n_steps = 5) {
+  usethis::ui_info("Prevendo volatilidade para {parms$ticker}...")
+
+  ret <- da_train |>
+    dplyr::filter(ticker == parms$ticker) |>
+    pull(ret_closing_prices)
+
+  garch_model = ugarchspec(
+    variance.model = list(
+      model = "fGARCH",
+      submodel = "GARCH",
+      garchOrder = c(parms$m, parms$n)
+    ),
+    mean.model = list(
+      armaOrder = c(parms$p, parms$q),
+      include.mean = TRUE
+    ),
+    distribution.model = parms$dist
+  )
+
+  fit <- ugarchfit(garch_model, data = ret, out.sample = n_steps - 1)
+
+  if (parms$dist == "std") {
+    shape <- as.numeric(fit@fit$coef["shape"])
+  } else {
+    shape <- NA_real_
+  }
+
+  forecasts <- ugarchforecast(fit, n.ahead = n_steps)@forecast
+  tibble::tibble(
+    ticker = parms$ticker,
+    serie = as.numeric(forecasts$seriesFor),
+    volatilidade = as.numeric(forecasts$sigmaFor),
+    shape = shape
+  )
+}
+```
+
+Ajustando modelos finais e prevendo volatilidade futura
+
+```{r}
+parametros_melhores <- melhores_por_ativo |>
+  group_by(ticker) |>
+  slice_head(n = 1) |>
+  ungroup()
+
+vol_futuro <- parametros_melhores |>
+  group_split(ticker) |>
+  purrr::map(\(x) prever_volatilidade(x, n_steps = 5)) |>
+  dplyr::bind_rows()
+
+vol_futuro
+```
+

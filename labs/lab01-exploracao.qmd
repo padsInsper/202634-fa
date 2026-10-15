@@ -1,0 +1,408 @@
+---
+title: "Lab 1: Exploração de Séries Temporais"
+subtitle: "Seu primeiro contato prático com séries temporais em Python"
+---
+
+::: {.objetivos}
+#### Objetivos do Lab
+
+- [Aplicar]{.bloom-badge .bloom-aplicar} funções de manipulação de séries temporais com pandas
+- [Analisar]{.bloom-badge .bloom-analisar} gráficos de ACF/PACF e decomposição
+- [Avaliar]{.bloom-badge .bloom-avaliar} estacionariedade usando testes formais
+:::
+
+## Configuração do Ambiente
+
+Antes de começar, você precisa ter o Python e as bibliotecas necessárias instaladas. Recomendamos usar o **[uv](https://docs.astral.sh/uv/)** — um gerenciador de pacotes Python ultrarrápido.
+
+### Instalando o `uv`
+
+::: {.panel-tabset}
+
+#### macOS / Linux
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+#### Windows
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+:::
+
+### Criando o ambiente do curso
+
+```bash
+# Clone o repositório (se ainda não fez)
+git clone https://github.com/padsInsper/202632-fa.git
+cd 202632-fa
+
+# Crie o ambiente virtual
+uv venv
+
+# Entre no ambiente virtual
+
+# Linux/macOS
+source .venv/bin/activate
+
+# Windows
+.venv\Scripts\activate
+
+# Sincronize as dependências
+uv sync
+```
+
+### Abrindo o notebook
+
+```bash
+# Ative o ambiente e inicie o Jupyter
+source .venv/bin/activate   # Linux/macOS
+# .venv\Scripts\activate    # Windows
+
+jupyter lab
+```
+
+::: {.callout-tip}
+## Quarto ou Jupyter?
+
+Eu recomendo usar o **Quarto** para uma experiência mais fluida (renderização instantânea, melhor formatação, integração com Git). Mas se preferir, pode abrir o notebook `.ipynb` diretamente no Jupyter Lab. O conteúdo é o mesmo! Para converter entre formatos, use:
+
+```bash
+quarto convert labs/lab01-exploracao.qmd
+```
+
+:::
+
+::: {.callout-tip}
+## Alternativa: Google Colab
+Se preferir não instalar nada localmente, abra o notebook no [Google Colab](https://colab.research.google.com/). Basta instalar as dependências com `!pip install statsmodels statsforecast plotly` na primeira célula.
+:::
+
+## Setup
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+from statsmodels.tsa.seasonal import STL, seasonal_decompose
+from statsmodels.tsa.stattools import adfuller, kpss
+
+import warnings
+warnings.filterwarnings('ignore')
+
+# Estilo dos gráficos
+plt.rcParams.update({
+    'figure.figsize': (12, 5),
+    'axes.spines.top': False,
+    'axes.spines.right': False,
+    'font.size': 12
+})
+
+INSPER_RED = '#E50505'
+INSPER_TURQUESA = '#3ACC9F'
+INSPER_AMARELO = '#FFCC00'
+INSPER_GRAY = '#5B5B5B'
+```
+
+## Parte 1: Carregando e Explorando Dados
+
+Vamos trabalhar com o **IPCA mensal** (inflação brasileira) — um dado que qualquer profissional de finanças precisa entender.
+
+```{python}
+# Dados do IPCA mensal (IBGE via Banco Central)
+# Em produção, você usaria a API do BCB ou o pacote python-bcb
+url_ipca = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=csv"
+ipca = pd.read_csv(url_ipca, sep=";", decimal=",")
+ipca['data'] = pd.to_datetime(ipca['data'], format='%d/%m/%Y')
+ipca = ipca.set_index('data').sort_index()
+ipca.columns = ['ipca']
+ipca = ipca.loc['2000':]
+ipca.head()
+```
+
+```{python}
+# Gráfico interativo com plotly
+fig = px.line(
+    ipca, y='ipca',
+    title='IPCA Mensal — Variação % ao mês',
+    labels={'data': 'Data', 'ipca': 'IPCA (%)'},
+    template='plotly_white'
+)
+fig.update_traces(line_color=INSPER_RED)
+fig.update_layout(
+    font_family="Inter",
+    title_font_size=18,
+    hovermode='x unified'
+)
+fig.show()
+```
+
+::: {.callout-note}
+## Observe e Anote
+Antes de rodar qualquer modelo, **olhe para o gráfico** e responda:
+
+1. Existe tendência? De que tipo?
+2. Existe sazonalidade? Qual o período?
+3. Existem outliers ou quebras estruturais?
+4. A variância parece constante?
+:::
+
+## Parte 2: Simulando Processos para Entender
+
+Antes de analisar dados reais, vamos **gerar** séries conhecidas para calibrar nosso olho.
+
+```{python}
+np.random.seed(42)
+n = 300
+
+# Ruído branco
+ruido = np.random.normal(0, 1, n)
+
+# AR(1) com phi=0.9
+ar1 = np.zeros(n)
+for t in range(1, n):
+    ar1[t] = 0.9 * ar1[t-1] + np.random.normal(0, 1)
+
+# MA(1) com theta=0.7
+ma1 = np.zeros(n)
+eps = np.random.normal(0, 1, n)
+for t in range(1, n):
+    ma1[t] = eps[t] + 0.7 * eps[t-1]
+
+# Random walk (raiz unitária)
+rw = np.cumsum(np.random.normal(0, 1, n))
+
+processos = {
+    'Ruído Branco': ruido,
+    'AR(1), φ=0.9': ar1,
+    'MA(1), θ=0.7': ma1,
+    'Random Walk': rw
+}
+```
+
+```{python}
+fig, axes = plt.subplots(4, 3, figsize=(16, 14))
+
+for i, (nome, serie) in enumerate(processos.items()):
+    # Série
+    axes[i, 0].plot(serie, color=INSPER_RED, linewidth=0.8)
+    axes[i, 0].set_title(f'{nome}', fontweight='bold')
+    axes[i, 0].set_ylabel('Valor')
+
+    # ACF
+    plot_acf(serie, ax=axes[i, 1], lags=30, zero=False,
+             color=INSPER_GRAY, vlines_kwargs={'colors': INSPER_GRAY})
+    axes[i, 1].set_title('ACF')
+
+    # PACF
+    plot_pacf(serie, ax=axes[i, 2], lags=30, zero=False,
+              color=INSPER_GRAY, vlines_kwargs={'colors': INSPER_GRAY})
+    axes[i, 2].set_title('PACF')
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-caution collapse="true"}
+## Exercício 1: Identificação Visual
+
+Olhe os gráficos acima e responda:
+
+1. **Qual processo tem ACF que decai lentamente?** O Random Walk — a ACF decai muito lentamente porque a série é não-estacionária (tem raiz unitária). Cada observação é altamente correlacionada com as anteriores.
+
+2. **No AR(1), a PACF corta em qual lag?** No lag 1 — essa é a "assinatura" de um AR(1). A PACF é significativa apenas no lag 1 e depois cai abruptamente para zero.
+
+3. **No MA(1), a ACF corta em qual lag?** No lag 1 — essa é a "assinatura" de um MA(1). A ACF é significativa apenas no lag 1 e depois cai abruptamente para zero.
+
+4. **O ruído branco tem alguma autocorrelação significativa?** Não — por definição, ruído branco não tem autocorrelação. Todas as barras da ACF e PACF devem estar dentro das bandas de confiança (exceto possíveis falsos positivos ao nível de 5%).
+:::
+
+## Parte 3: ACF/PACF dos Dados Reais
+
+```{python}
+def plotar_diagnostico(serie, titulo="Série", lags=36):
+    """Plota série + ACF + PACF em layout 3x1"""
+    fig, axes = plt.subplots(3, 1, figsize=(12, 10))
+
+    # Série
+    axes[0].plot(serie, color=INSPER_RED, linewidth=0.8)
+    axes[0].set_title(f'{titulo}', fontweight='bold', fontsize=14)
+    axes[0].axhline(y=serie.mean(), color=INSPER_GRAY, linestyle='--', alpha=0.5)
+
+    # ACF
+    plot_acf(serie.dropna(), ax=axes[1], lags=lags, zero=False,
+             color=INSPER_GRAY, vlines_kwargs={'colors': INSPER_GRAY})
+    axes[1].set_title('Autocorrelação (ACF)')
+
+    # PACF
+    plot_pacf(serie.dropna(), ax=axes[2], lags=lags, zero=False,
+              color=INSPER_GRAY, vlines_kwargs={'colors': INSPER_GRAY})
+    axes[2].set_title('Autocorrelação Parcial (PACF)')
+
+    plt.tight_layout()
+    plt.show()
+
+plotar_diagnostico(ipca['ipca'], 'IPCA Mensal (%)')
+```
+
+## Parte 4: Testes de Estacionariedade
+
+```{python}
+def testar_estacionariedade(serie, nome="Série"):
+    """Aplica testes ADF e KPSS e interpreta resultados"""
+    print(f"{'='*50}")
+    print(f"Testes de Estacionariedade — {nome}")
+    print(f"{'='*50}\n")
+
+    # ADF
+    resultado_adf = adfuller(serie.dropna(), autolag='AIC')
+    print(f"Teste ADF (H0: raiz unitária)")
+    print(f"  Estatística: {resultado_adf[0]:.4f}")
+    print(f"  p-valor:     {resultado_adf[1]:.4f}")
+    print(f"  Lags usados: {resultado_adf[2]}")
+
+    if resultado_adf[1] < 0.05:
+        print(f"  → Rejeita H0: evidência de estacionariedade\n")
+    else:
+        print(f"  → Não rejeita H0: evidência de raiz unitária\n")
+
+    # KPSS
+    resultado_kpss = kpss(serie.dropna(), regression='c', nlags='auto')
+    print(f"Teste KPSS (H0: estacionária)")
+    print(f"  Estatística: {resultado_kpss[0]:.4f}")
+    print(f"  p-valor:     {resultado_kpss[1]:.4f}")
+
+    if resultado_kpss[1] < 0.05:
+        print(f"  → Rejeita H0: evidência de não-estacionariedade\n")
+    else:
+        print(f"  → Não rejeita H0: evidência de estacionariedade\n")
+
+    # Conclusão conjunta
+    adf_estacionaria = resultado_adf[1] < 0.05
+    kpss_estacionaria = resultado_kpss[1] >= 0.05
+
+    if adf_estacionaria and kpss_estacionaria:
+        print("CONCLUSÃO: Série provavelmente ESTACIONÁRIA")
+    elif not adf_estacionaria and not kpss_estacionaria:
+        print("CONCLUSÃO: Série provavelmente NÃO ESTACIONÁRIA")
+    else:
+        print("CONCLUSÃO: Resultados INCONCLUSIVOS — análise adicional necessária")
+
+testar_estacionariedade(ipca['ipca'], 'IPCA mensal')
+```
+
+## Parte 5: Decomposição
+
+```{python}
+# Decomposição STL
+ipca_mensal = ipca['ipca'].asfreq('MS')
+ipca_mensal = ipca_mensal.interpolate()
+
+stl = STL(ipca_mensal, period=12, robust=True)
+resultado = stl.fit()
+
+fig, axes = plt.subplots(4, 1, figsize=(12, 10), sharex=True)
+
+componentes = {
+    'Observado': ipca_mensal,
+    'Tendência': resultado.trend,
+    'Sazonalidade': resultado.seasonal,
+    'Resíduo': resultado.resid
+}
+cores = [INSPER_RED, INSPER_TURQUESA, INSPER_AMARELO, INSPER_GRAY]
+
+for ax, (nome, comp), cor in zip(axes, componentes.items(), cores):
+    ax.plot(comp, color=cor, linewidth=0.8)
+    ax.set_ylabel(nome, fontweight='bold')
+    ax.axhline(y=0, color='gray', linestyle='--', alpha=0.3)
+
+plt.suptitle('Decomposição STL — IPCA Mensal', fontsize=14, fontweight='bold')
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-caution collapse="true"}
+## Exercício 2: Interpretação da Decomposição
+
+1. **A tendência mostra algum padrão interessante?** Identifique períodos de alta e baixa inflação. Espera-se observar picos em períodos de crise (2015–2016, 2021–2022) e vales em períodos de estabilidade.
+
+2. **A sazonalidade é constante ao longo do tempo?** A STL permite sazonalidade que varia lentamente, diferente da decomposição clássica. Se a sazonalidade parece mudar de amplitude, isso sugere que o STL está capturando essa variação.
+
+3. **Os resíduos parecem aleatórios?** Se houver padrões visíveis nos resíduos (tendência, sazonalidade remanescente, clusters de variância), a decomposição não está capturando toda a estrutura dos dados.
+:::
+
+## Parte 6: Diferenciação
+
+```{python}
+# Primeira diferença
+ipca_diff = ipca['ipca'].diff().dropna()
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+axes[0].plot(ipca['ipca'], color=INSPER_RED, linewidth=0.8)
+axes[0].set_title('IPCA Original', fontweight='bold')
+
+axes[1].plot(ipca_diff, color=INSPER_TURQUESA, linewidth=0.8)
+axes[1].set_title('IPCA — Primeira Diferença', fontweight='bold')
+axes[1].axhline(y=0, color='gray', linestyle='--', alpha=0.5)
+
+plt.tight_layout()
+plt.show()
+
+# Testes na série diferenciada
+testar_estacionariedade(ipca_diff, 'IPCA (1ª diferença)')
+```
+
+```{python}
+# Diagnóstico da série diferenciada
+plotar_diagnostico(ipca_diff, 'IPCA — Primeira Diferença')
+```
+
+## Exercícios
+
+::: {.callout-important}
+## Exercício Principal
+
+Escolha **uma série temporal** relevante para sua área de atuação profissional. Pode ser:
+
+- Dados públicos (BCB, IBGE, World Bank)
+- Dados do Yahoo Finance (veremos isso nos próximos labs)
+- Dados da sua empresa (anonimizados se necessário)
+
+Faça a análise exploratória completa:
+
+1. Plote a série e descreva o que você observa
+2. Calcule e interprete ACF/PACF
+3. Aplique testes de estacionariedade
+4. Faça a decomposição STL
+5. Se necessário, diferencie e repita os testes
+6. Com base na sua análise, qual modelo ARIMA você **sugeriria** como ponto de partida? Justifique.
+:::
+
+::: {.callout-tip}
+## Dicas para Dados do BCB
+
+```python
+# Algumas séries úteis do Banco Central
+series_bcb = {
+    433: "IPCA mensal",
+    4390: "Selic meta",
+    1: "Dólar comercial (compra)",
+    7845: "PIB mensal (proxy)",
+    21619: "Dívida bruta/PIB",
+}
+```
+:::
+
+## Leituras para a Próxima Aula
+
+- [FPP3, Cap. 9: ARIMA Models](https://otexts.com/fpp3/arima.html) — leia até a seção 9.5
+- Revise os conceitos de **máxima verossimilhança** se necessário

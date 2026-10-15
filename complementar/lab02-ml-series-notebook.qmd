@@ -1,0 +1,563 @@
+---
+title: Lab 2 - Machine Learning para Séries Temporais (notebook)
+jupyter: python3
+execute:
+  enabled: false
+---
+
+Versão enxuta e executável do Lab 2.
+
+Dados: **produção de veículos no Brasil** (Banco Central, SGS 1373).
+
+Para todos os exemplos, vamos utilizar o esquema de validação cruzada temporal com 4 janelas de teste de 12 meses cada, *expanding*. Ou seja, a cada janela o modelo treina com tudo que viu até ali, sem embaralhar os dados. Assim a comparação entre modelos é justa, pois todos preveem os mesmos 48 pontos (4 janelas × 12 meses) e o mesmo protocolo de treino/teste.
+
+```{python}
+import warnings
+warnings.filterwarnings("ignore")
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from scipy.fft import rfft, rfftfreq
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsforecast import StatsForecast
+from statsforecast.models import AutoARIMA, AutoETS, SeasonalNaive
+```
+
+*Obs*: tem mais pacotes usados mais adiante, mas deixei para importar na hora de cada exemplo. Tome cuidado pois alguns podem ser difíceis de instalar (torch, pycatch22, por exemplo)
+
+## 1. Dados - SGS 1373 (produção de veículos, mensal)
+
+```{python}
+url = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.1373/dados?formato=csv&dataInicial=01/01/2012"
+df = pd.read_csv(url, sep=";", decimal=",")
+df["data"] = pd.to_datetime(df["data"], format="%d/%m/%Y")
+df = df.set_index("data").sort_index().rename(columns={"valor": "y"})
+df = df.asfreq("MS")
+df["y"] = df["y"].interpolate()
+
+print(f"{len(df)} meses, de {df.index.min().date()} a {df.index.max().date()}")
+df.tail(3)
+```
+
+```{python}
+plt.figure(figsize=(11, 4))
+plt.plot(df.index, df["y"])
+plt.title("Producao de veiculos no Brasil - SGS 1373")
+plt.ylabel("Unidades/mes")
+plt.grid(alpha=0.3)
+plt.show()
+```
+
+## 2. Feature engineering
+
+Lags (curtos + sazonais), janelas móveis (sempre com `shift(1)` para não vazar
+o presente), calendário cíclico e uma dummy para o choque da COVID
+(fábricas paradas em 2020).
+
+```{python}
+def construir_features(s: pd.Series) -> pd.DataFrame:
+    """Lags + rolling + calendario + dummy COVID. Tudo causal."""
+    X = pd.DataFrame(index=s.index)
+
+    for lag in [1, 2, 3, 6, 12, 24]:
+        X[f"lag_{lag}"] = s.shift(lag)
+
+    for win in [3, 6, 12]:
+        X[f"roll_mean_{win}"] = s.shift(1).rolling(win).mean()
+        X[f"roll_std_{win}"]  = s.shift(1).rolling(win).std()
+
+    mes = s.index.month
+    X["mes_sin"] = np.sin(2 * np.pi * mes / 12)
+    X["mes_cos"] = np.cos(2 * np.pi * mes / 12)
+
+    X["covid"] = ((s.index >= "2020-03-01") & (s.index <= "2020-06-01")).astype(int)
+    return X
+
+X_full = construir_features(df["y"])
+X_full.head(13)
+```
+
+### FFT: periodograma
+
+A Transformada de Fourier revela quais ciclos dominam a série. Tiramos a
+tendência antes para a FFT enxergar melhor o ciclo.
+
+```{python}
+y = df["y"].values.astype(float)
+y_detrend = y - np.polyval(np.polyfit(np.arange(len(y)), y, 1), np.arange(len(y)))
+
+amp = np.abs(rfft(y_detrend - y_detrend.mean()))
+freq = rfftfreq(len(y_detrend), d=1)
+periodo = np.divide(1, freq, where=freq > 0)
+
+mask = (periodo >= 2) & (periodo <= 48)
+top = periodo[mask][np.argmax(amp[mask])]
+
+plt.figure(figsize=(10, 4))
+plt.plot(periodo[mask], amp[mask])
+plt.axvline(top, color="green", ls="--", label=f"Pico ~{top:.1f} meses")
+plt.xlabel("Periodo (meses por ciclo)")
+plt.ylabel("Amplitude")
+plt.title("Periodograma")
+plt.legend()
+plt.grid(alpha=0.3)
+plt.show()
+
+```
+
+## 3. ML "tabular": features manuais e automáticas
+
+Aqui juntamos o que antes estava em dois pontos separados: o **pipeline de
+ML tabular** com GradientBoosting, comparando **três jeitos de montar as
+features** sob a **mesma** validação cruzada (4 janelas × 12 meses,
+*expanding*):
+
+1. **Manual** - lags, rolling e calendário.
+2. **tsfresh** - centenas de features automáticas (configurável).
+3. **catch22** - 22 features canônicas, validadas em larga escala.
+
+Padrão de uso em previsão: para cada mês $t$, pega-se a janela das últimas
+$L$ observações e calculam-se as features sobre ela (autocorrelações,
+entropia, estatísticas de picos, etc.).
+
+```{python}
+# helper: mesma CV expanding 4x12 com GradientBoosting sobre QUALQUER matriz X
+def cv_gb(X, y, n_windows=4, h=12):
+    n = len(X)
+    starts = [n - (n_windows - i) * h for i in range(n_windows)]
+    out = []
+    for s0 in starts:
+        # obs: daria para fazer um grid search para esses hiperparâmetros!
+        m = GradientBoostingRegressor(
+            n_estimators=500, 
+            max_depth=4, 
+            learning_rate=0.03, 
+            random_state=42
+        ).fit(X.iloc[:s0], y.iloc[:s0])
+        out.append(pd.Series(m.predict(X.iloc[s0:s0+h]), index=y.index[s0:s0+h]))
+    return pd.concat(out)
+
+y_train = df["y"].iloc[:-48].values
+def mase_sn(y_true, y_pred, m=12):
+    den = np.mean(np.abs(y_train[m:] - y_train[:-m]))
+    return mean_absolute_error(y_true, y_pred) / den
+
+L = 24  # janela de 24 meses por observação
+idx_comum = df.index[L:]                       # mesmas datas para os 3 conjuntos
+y_comum = df["y"].reindex(idx_comum)
+```
+
+```{python}
+# --- tsfresh: features automáticas sobre janelas móveis ---
+from tsfresh import extract_features
+from tsfresh.feature_extraction import ComprehensiveFCParameters
+from tsfresh.utilities.dataframe_functions import impute
+
+long = []
+for i in range(L, len(df)):
+    janela = df["y"].iloc[i-L:i].to_numpy()
+    long.append(pd.DataFrame({"id": i, "time": np.arange(L), "value": janela}))
+long = pd.concat(long, ignore_index=True)
+
+X_tsf = extract_features(
+    long, column_id="id", column_sort="time", column_value="value",
+    default_fc_parameters=ComprehensiveFCParameters(),
+    disable_progressbar=True, n_jobs=0,
+)
+X_tsf = impute(X_tsf)            # remove NaN/inf gerados em janelas degeneradas
+X_tsf.index = idx_comum
+print("tsfresh:", X_tsf.shape[1], "features")
+X_tsf.head(3)
+```
+
+```{python}
+# --- catch22: 22 features canônicas sobre as mesmas janelas ---
+import pycatch22
+
+linhas = []
+for i in range(L, len(df)):
+    res = pycatch22.catch22_all(df["y"].iloc[i-L:i].tolist())
+    linhas.append(res["values"])
+X_c22 = pd.DataFrame(linhas, columns=res["names"], index=idx_comum)
+print("catch22:", X_c22.shape[1], "features")
+X_c22.head(3)
+```
+
+```{python}
+# --- comparação: manual vs tsfresh vs catch22, todos no MESMO GradientBoosting/CV ---
+X_man = construir_features(df["y"]).reindex(idx_comum)
+
+X_all = pd.concat([X_man, X_tsf, X_c22], axis=1)
+resultados = {
+    "manual (lags+rolling+cal)": cv_gb(X_man, y_comum),
+    "tsfresh (ComprehensiveFC)": cv_gb(X_tsf, y_comum),
+    "catch22":                   cv_gb(X_c22, y_comum),
+    "todos juntos":              cv_gb(X_all, y_comum),
+}
+
+y_obs = y_comum.iloc[-48:]
+cmp_feats = (
+    pd.Series({
+        nome: mase_sn(y_obs, pred.iloc[-48:]) for nome, pred in resultados.items()
+    }, name="MASE")
+    .sort_values().round(3)
+)
+cmp_feats
+```
+
+Leitura: features automáticas **não vencem por mágica**. Numa série curta e
+bem-comportada, o conjunto manual (lags sazonais + rolling) costuma empatar
+ou ganhar do tsfresh/catch22 - que brilham mais em **classificação de séries**
+ou quando você tem **muitas séries** e não sabe quais features importam.
+Ainda assim, são um ótimo *baseline* automático e um gerador de ideias.
+
+### Importância das features (os 3 conjuntos)
+
+Quais variáveis cada conjunto realmente usa? Ajustamos o GradientBoosting na
+janela alinhada inteira e olhamos as 10 features mais importantes de cada um.
+
+```{python}
+fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+for ax, (nome, X) in zip(
+    axes.flat, 
+    {"manual": X_man, "tsfresh": X_tsf, "catch22": X_c22, "todos": X_all}.items()
+):
+    gb = GradientBoostingRegressor(
+        n_estimators=500, max_depth=4, learning_rate=0.03, random_state=42
+    ).fit(X, y_comum)
+    (pd.Series(gb.feature_importances_, index=X.columns)
+       .sort_values().tail(10).plot.barh(ax=ax))
+    ax.set_title(f"Top features: {nome}")
+plt.tight_layout()
+plt.show()
+```
+
+O `cv_b` abaixo (GradientBoosting com features manuais) alimenta a comparação
+final da seção 6 - reaproveitamos o resultado **já calculado** na célula de
+comparação acima, sem re-treinar:
+
+```{python}
+cv_b = (
+    resultados["manual (lags+rolling+cal)"]
+    .rename("boost_manual").rename_axis("ds").reset_index()
+)
+cv_b.head(3)
+```
+
+### Frameworks modernos
+
+Muitas vezes não é necessário escrever a CV à mão. Os dois frameworks
+dominantes fazem **o mesmo esquema** (4 janelas × 12, *expanding*), só com
+nomes de método diferentes: no MLForecast é `cross_validation`; no DARTS é
+`historical_forecasts` (o mesmo que usamos no N-BEATS). O LightGBM do DARTS
+abaixo já entra na comparação final como `lgbm_darts`.
+
+```{python}
+# MLForecast (Nixtla) (pip install mlforecast lightgbm)
+from mlforecast import MLForecast
+from mlforecast.lag_transforms import RollingMean
+from lightgbm import LGBMRegressor
+
+sf_df = (
+    df
+    .reset_index()
+    .rename(columns={"data": "ds"})
+    .assign(unique_id="veiculos")[["unique_id", "ds", "y"]]
+)
+
+mlf = MLForecast(
+    models={"lgbm_mlf": LGBMRegressor(n_estimators=300, learning_rate=0.05)},
+    freq="MS", lags=[1, 2, 3, 12, 24],
+    lag_transforms={1: [RollingMean(3), RollingMean(12)]},
+    date_features=["month", "quarter"],
+)
+
+cv_mlf = mlf.cross_validation(df=sf_df, h=12, n_windows=4)
+```
+
+```{python}
+# DARTS (pip install u8darts[all])
+from darts import TimeSeries
+from darts.models import LightGBMModel
+
+serie = TimeSeries.from_dataframe(df.reset_index(), "data", "y", freq="MS")
+n = len(df)
+
+lgbm_darts = LightGBMModel(
+    lags=[-1, -2, -3, -12, -24], output_chunk_length=12, verbose=-1
+)
+
+# mesma CV dos outros: re-treina e prevê 12 meses a cada janela
+hf_lgbm = lgbm_darts.historical_forecasts(
+    serie,
+    start=serie.time_index[n - 48],   # últimos 48 meses = 4 janelas de 12
+    forecast_horizon=12,
+    stride=12,                        # janelas sem sobreposição
+    retrain=True,
+    last_points_only=False,
+    verbose=False,
+)
+
+cv_lgbm = (
+    pd.concat([h.to_series() for h in hf_lgbm])
+    .rename("lgbm_darts").rename_axis("ds").reset_index()
+)
+
+cv_lgbm.head(3)
+```
+
+
+## 4. modelos com a ordem na arquitetura
+
+ARIMA, ETS e SeasonalNaive via `statsforecast` (AutoARIMA/AutoETS escolhem
+ordens/forma por AICc). Já vimos esses antes.
+
+```{python}
+sf_df = (
+    df
+    .reset_index()
+    .rename(columns={"data": "ds"})
+    .assign(unique_id="veiculos")[["unique_id", "ds", "y"]]
+)
+
+sf = StatsForecast(
+    models=[
+        AutoARIMA(season_length=12, alias="arima"),
+        AutoETS(season_length=12, alias="ets"),
+        SeasonalNaive(season_length=12, alias="snaive"),
+    ],
+    freq="MS", n_jobs=1,
+)
+
+cv_sf = sf.cross_validation(df=sf_df, h=12, step_size=12, n_windows=4).reset_index()
+cv_sf.head(3)
+```
+
+### ARIMA-Boost (híbrido)
+
+O **AutoARIMA** (algoritmo de Hyndman, via `statsforecast`) escolhe as ordens
+por AICc e captura tendência+sazonalidade; o boosting aprende nos **resíduos**
+que sobram. Implementação na mão para conseguir os resíduos in-sample.
+
+```{python}
+from statsforecast.models import AutoARIMA
+
+def cv_arima_boost(s, n_windows=4, h=12):
+    # pega as features manuais
+    X_all = construir_features(s)
+    n = len(s)
+    test_starts = [n - (n_windows - i) * h for i in range(n_windows)]
+    rows = []
+    for i, start in enumerate(test_starts):
+        s_tr = s.iloc[:start]
+
+        # AutoARIMA (Hyndman) escolhe (p,d,q)(P,D,Q) por AICc a cada janela
+        arima = AutoARIMA(season_length=12)
+        arima.fit(s_tr.to_numpy())
+        prev_arima = arima.predict(h=h)["mean"]
+        fitted = arima.predict_in_sample()["fitted"]
+
+        resid = pd.Series(s_tr.to_numpy() - fitted,
+                          index=s_tr.index, name="r")
+        X_tr = X_all.loc[resid.index].dropna()
+        r_tr = resid.loc[X_tr.index]
+
+        boost = GradientBoostingRegressor(
+            n_estimators=200,
+            max_depth=3,
+            learning_rate=0.05,
+            random_state=42
+        ).fit(X_tr, r_tr)
+
+        X_te = X_all.iloc[start:start+h]
+
+        # previsão final = arima + boost nos resíduos
+        pred_sum = np.asarray(prev_arima) + boost.predict(X_te)
+        rows.append(pd.DataFrame({
+            "ds": X_te.index, "y": s.iloc[start:start+h].values,
+            "arima_boost": pred_sum, "window": i,
+        }))
+    return pd.concat(rows, ignore_index=True)
+
+cv_h = cv_arima_boost(df["y"])
+cv_h.head(3)
+```
+
+### N-BEATS (DARTS)
+
+N-BEATS treinado do zero (sem pré-treino). Para a comparação ser justa, ele
+precisa ser avaliado **no mesmo protocolo** dos outros modelos: 4 janelas de
+12 meses, *expanding*. O `historical_forecasts` do DARTS faz exatamente isso -
+re-treina e prevê 12 meses a cada janela (`stride=12` → janelas sem
+sobreposição, igual ao `step_size=12`).
+
+```{python}
+from darts.models import NBEATSModel
+
+n = len(df)
+nbeats = NBEATSModel(
+    input_chunk_length=24, 
+    output_chunk_length=12,
+    n_epochs=100, 
+    random_state=42,
+)
+
+hf = nbeats.historical_forecasts(
+    serie,
+    start=serie.time_index[n - 48],   # últimos 48 meses = 4 janelas de 12
+    forecast_horizon=12,
+    stride=12,
+    retrain=True,                     # re-treina a cada janela
+    last_points_only=False,           # devolve as 4 janelas inteiras
+    verbose=False,
+)
+
+cv_nb = (
+    pd.concat([h.to_series() for h in hf])
+    .rename("nbeats").rename_axis("ds").reset_index()
+)
+cv_nb.head(3)
+```
+
+### LSTM (DARTS)
+
+Rede recorrente, também do zero e no mesmo protocolo. Diferença prática: o
+LSTM é **sensível à escala**, então normalizamos a série com `Scaler` antes
+de treinar e desfazemos a transformação na previsão.
+
+```{python}
+from darts.models import RNNModel
+from darts.dataprocessing.transformers import Scaler
+
+sc = Scaler()                       # LSTM exige normalizar a serie
+serie_s = sc.fit_transform(serie)
+
+lstm = RNNModel(
+    model="LSTM",
+    input_chunk_length=24,
+    training_length=36,
+    n_epochs=200,
+    random_state=42,
+)
+hf_lstm = lstm.historical_forecasts(
+    serie_s,
+    start=serie_s.time_index[n - 48],
+    forecast_horizon=12,
+    stride=12,
+    retrain=True,
+    last_points_only=False,
+    verbose=False,
+)
+cv_lstm = (
+    pd.concat([sc.inverse_transform(h).to_series() for h in hf_lstm])
+    .rename("lstm").rename_axis("ds").reset_index()
+)
+cv_lstm.head(3)
+```
+
+## 5. Foundation model: Chronos (zero-shot)
+
+Modelos pré-treinados preveem *zero-shot* (sem treinar). O **Chronos**
+(Amazon) está **integrado no DARTS** (`Chronos2Model`), então usamos a mesma
+API `historical_forecasts` dos outros modelos - o código fica uniforme. O
+`fit` aqui **não treina** (o modelo já vem pré-treinado); ele só registra a
+série, e `retrain=False` garante o uso *zero-shot* a cada janela.
+
+```{python}
+# Chronos via DARTS - pip install "u8darts[all]"
+from darts import concatenate
+from darts.models import Chronos2Model
+
+n, H = len(df), 12
+chronos = Chronos2Model(input_chunk_length=96, output_chunk_length=H)
+chronos.fit(serie[:n - 48])          # nao treina (pre-treinado); so registra
+
+hf_ch = chronos.historical_forecasts(
+    serie,
+    start=serie.time_index[n - 48],  # ultimos 48 meses = 4 janelas de 12
+    forecast_horizon=H,
+    stride=H,                        # janelas sem sobreposicao
+    retrain=False,                   # zero-shot: usa o modelo como esta
+    last_points_only=False,
+    verbose=False,
+)
+cv_chronos = (
+    concatenate(hf_ch).to_series()
+    .rename("chronos").rename_axis("ds").reset_index()
+)
+cv_chronos.head(3)
+```
+
+**Zero-shot vs. fine-tuning.** O código acima é *zero-shot*: o modelo chega
+congelado e prevê direto. Para apertar mais, dá para fazer *fine-tuning* -
+continuar o treino do modelo pré-treinado por algumas épocas na sua própria
+série. Ajuda quando o seu domínio difere do que o Chronos viu no pré-treino,
+ao custo de GPU. Script oficial em `scripts/training` no
+[repo do Chronos](https://github.com/amazon-science/chronos-forecasting).
+
+## 6. Comparação dos modelos
+
+Agora **todos** os modelos têm previsões nos **mesmos 48 pontos** (4 janelas ×
+12 meses, *expanding*, sem embaralhar), alinhadas por data. Só assim o MASE é
+comparável entre eles.
+
+```{python}
+def mase(y_true, y_pred, y_train, m=12):
+    naive = np.mean(np.abs(y_train[m:] - y_train[:-m]))
+    return mean_absolute_error(y_true, y_pred) / naive
+
+def metricas(y_true, y_pred, y_train):
+    return {
+        "MAE":  mean_absolute_error(y_true, y_pred),
+        "RMSE": np.sqrt(mean_squared_error(y_true, y_pred)),
+        "MASE": mase(y_true, y_pred, y_train),
+    }
+
+
+# cada peça já é a previsão da MESMA CV, indexada por ds
+eval_df = (
+    cv_sf[["ds", "y", "arima", "ets", "snaive"]]
+    .merge(cv_b[["ds", "boost_manual"]], on="ds")
+    .merge(cv_h[["ds", "arima_boost"]], on="ds")
+    .merge(cv_mlf[["ds", "lgbm_mlf"]], on="ds")
+    .merge(cv_lgbm[["ds", "lgbm_darts"]], on="ds")
+    .merge(cv_nb[["ds", "nbeats"]], on="ds")
+    .merge(cv_lstm[["ds", "lstm"]], on="ds")
+    .merge(cv_chronos[["ds", "chronos"]], on="ds")
+)
+assert len(eval_df) == 48, f"esperava 48 pontos, obtive {len(eval_df)}"
+
+y_train = df["y"].iloc[:-48].values
+modelos = ["snaive", "ets", "arima", "arima_boost", "boost_manual",
+           "lgbm_mlf", "lgbm_darts", "nbeats", "lstm", "chronos"]
+resumo = pd.DataFrame({
+    nome: metricas(eval_df["y"], eval_df[nome], y_train)
+    for nome in modelos
+}).T.sort_values("MASE")
+resumo.round(2)
+```
+
+```{python}
+import plotly.graph_objects as go
+
+fig = go.Figure()
+fig.add_trace(go.Scatter(
+    x=df.index[-60:], y=df["y"].iloc[-60:],
+    mode="lines", name="Observado", line=dict(color="gray")))
+for nome in modelos:
+    fig.add_trace(go.Scatter(
+        x=eval_df["ds"], y=eval_df[nome], mode="lines", name=nome))
+fig.update_layout(
+    title="Cross-validation em 4 janelas - todos os modelos",
+    template="plotly_white", width=950, height=460,
+    legend_title_text="Modelos")
+fig.update_xaxes(showgrid=True, gridcolor="rgba(0,0,0,0.1)")
+fig.update_yaxes(showgrid=True, gridcolor="rgba(0,0,0,0.1)")
+fig.show()
+```
+
+Obs: Não é que LightGBM seja "ruim". Ele perde **neste cenário específico**, por vários motivos: poucos dados, menos covariáveis que nosso modelo manual, e sem tuning.

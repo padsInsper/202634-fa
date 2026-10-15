@@ -1,0 +1,216 @@
+---
+title: "Aula 3: SARIMA e Prophet"
+subtitle: "Modelando sazonalidade estocástica e alternativas modernas"
+format:
+  html:
+    code-fold: true
+---
+
+::: {.objetivos}
+#### Objetivos de Aprendizagem
+
+- **Reconhecer** sazonalidade estocástica em séries reais e distinguir de sazonalidade determinística
+- **Formular** modelos SARIMA com operadores sazonais $(P, D, Q)_s$
+- **Identificar** a ordem sazonal a partir de ACF/PACF e critérios de informação
+- **Comparar** SARIMA com Prophet como alternativas para séries sazonais
+:::
+
+## Relembrando: onde estamos
+
+Na Aula 2, modelamos a dinâmica **não-sazonal** de uma série via ARIMA$(p,d,q)$. Ficou pendente o caso em que a série tem **padrões que se repetem em períodos fixos** — vendas que sobem todo dezembro, PIB que dá um salto no 4º trimestre, demanda de energia que sobe todo verão. Para essas séries, ARIMA puro não basta: precisamos de uma extensão que trate a sazonalidade como parte da estrutura dinâmica.
+
+::: {.callout-note}
+## Sazonalidade determinística vs. estocástica
+
+| Tipo | Modelo | Tratamento |
+|------|--------|------------|
+| **Determinística** | $S_t$ é função fixa do calendário (dummies, Fourier) | Incluir regressores sazonais |
+| **Estocástica** | $S_t$ evolui no tempo (amplitude muda, fase muda) | **Diferença sazonal** $\Delta_s Y_t$ e termos $(P,D,Q)_s$ |
+
+SARIMA e Prophet adotam estratégias opostas: SARIMA trata a sazonalidade como **estocástica** (diferenciação sazonal), Prophet trata como **determinística** (base de Fourier com suavização).
+:::
+
+## Modelo SARIMA
+
+::: {.formula-highlight}
+[SARIMA$(p,d,q)(P,D,Q)_s$]{.formula-label}
+$$\underbrace{\phi(B)}_{\text{AR}} \underbrace{\Phi(B^s)}_{\text{AR sazonal}} \underbrace{(1-B)^d}_{\text{dif. regular}} \underbrace{(1-B^s)^D}_{\text{dif. sazonal}} Y_t = c + \underbrace{\theta(B)}_{\text{MA}} \underbrace{\Theta(B^s)}_{\text{MA sazonal}} \varepsilon_t$$
+:::
+
+| Parte | Parâmetros | Captura |
+|-------|-----------|---------|
+| Não-sazonal $(p,d,q)$ | Dependência entre períodos consecutivos | "Ontem afeta hoje" |
+| Sazonal $(P,D,Q)_s$ | Dependência entre mesmos períodos em ciclos diferentes | "Dezembro passado afeta dezembro deste ano" |
+
+### O operador de diferença sazonal
+
+A **diferença sazonal** de ordem $s$ é
+$$\Delta_s Y_t = (1-B^s) Y_t = Y_t - Y_{t-s}.$$
+
+Para dados mensais com sazonalidade anual ($s=12$):
+$$\Delta_{12} Y_t = Y_t - Y_{t-12}$$
+
+Isso remove uma **sazonalidade estocástica estável** — o valor de cada mês passa a ser expresso como a variação em relação ao mesmo mês do ano anterior. Se a sazonalidade for totalmente estável, $\Delta_{12} Y_t$ fica estacionária apenas com isso; caso contrário, pode ser preciso combinar com a diferença regular: $\Delta \Delta_{12} Y_t$.
+
+### Identificação: ACF/PACF com sazonalidade
+
+Em séries sazonais, a ACF tem **picos proeminentes nos lags múltiplos de $s$** (12, 24, 36... em dados mensais). Essa é a assinatura da sazonalidade.
+
+**Regra prática (Box-Jenkins estendido)**:
+
+1. Olhe a série → tem sazonalidade visível? Se sim, $s$ = período.
+2. Diferencie sazonalmente $\Delta_s$ → a série ficou estacionária? Se não, adicione $\Delta$ regular.
+3. Na ACF/PACF da série duplamente diferenciada:
+   - **Lags sazonais** (12, 24...) → sugerem $P$ e $Q$.
+   - **Lags pequenos** (1, 2, 3...) → sugerem $p$ e $q$.
+4. Compare candidatos via AICc e valide no diagnóstico residual.
+
+::: {.callout-tip}
+## Parcimônia
+Na prática, $(P, Q) \in \{0, 1, 2\}$ quase sempre são suficientes. SARIMA$(0,1,1)(0,1,1)_{12}$ — o famoso "airline model" de Box-Jenkins — é um ponto de partida surpreendentemente bom para muitas séries mensais.
+:::
+
+## Aplicação: IBC-Br com SARIMA
+
+O IBC-Br (índice de atividade econômica do BCB) é o melhor análogo mensal do PIB brasileiro. Na versão **sem ajuste sazonal** (série 24363), ele carrega padrões fortes: impulso de 13º salário no 4º trimestre, férias/carnaval no 1º, safra no 2º.
+
+```{python}
+#| code-fold: true
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+from bcb import sgs
+from statsforecast import StatsForecast
+from statsforecast.models import AutoARIMA
+
+# 1) IBC-Br mensal, sem ajuste sazonal
+ibcbr = sgs.get({'ibcbr': 24363}, start='2003-01-01').rename_axis('ds').reset_index()
+ibcbr['unique_id'] = 'ibcbr'
+ibcbr = ibcbr.rename(columns={'ibcbr': 'y'})[['unique_id', 'ds', 'y']]
+
+# 2) AutoARIMA com season_length=12 → considera modelos SARIMA
+sf = StatsForecast(models=[AutoARIMA(season_length=12)], freq='MS', n_jobs=1)
+sf.fit(df=ibcbr)
+
+arma = sf.fitted_[0, 0].model_['arma']
+# arma = (p, q, P, Q, s, d, D)
+print(f"SARIMA({arma[0]},{arma[5]},{arma[1]})({arma[2]},{arma[6]},{arma[3]})[{arma[4]}]")
+print(f"AICc: {sf.fitted_[0, 0].model_['aicc']:.2f}")
+```
+
+```{python}
+#| code-fold: true
+# 3) Previsão 24 meses à frente
+forecast = sf.forecast(df=ibcbr, h=24, level=[80, 95])
+
+fig, ax = plt.subplots(figsize=(12, 4))
+ax.plot(ibcbr['ds'], ibcbr['y'], color='#5B5B5B', linewidth=0.7, label='Histórico')
+ax.plot(forecast['ds'], forecast['AutoARIMA'], color='#E50505', linewidth=2, label='SARIMA (AutoARIMA)')
+ax.fill_between(forecast['ds'],
+                forecast['AutoARIMA-lo-95'], forecast['AutoARIMA-hi-95'],
+                alpha=0.15, color='#E50505', label='IC 95%')
+ax.set_title('IBC-Br — previsão com SARIMA (via AutoARIMA, season_length=12)')
+ax.set_ylabel('IBC-Br (sem ajuste sazonal)'); ax.legend(); ax.grid(alpha=0.3)
+plt.tight_layout(); plt.show()
+```
+
+::: {.callout-note}
+## O que observar
+- O `AutoARIMA` com `season_length=12` testa modelos com $(P, D, Q)$ não-triviais e seleciona pelo AICc.
+- O intervalo de confiança **respira** com a sazonalidade: em períodos tipicamente voláteis (Q4/Q1), o IC é mais largo.
+- A previsão reproduz o padrão sazonal para fora da amostra — é isso que o SARIMA traz em cima do ARIMA puro.
+:::
+
+## Prophet: decomposição moderna com tendência + Fourier
+
+O **Prophet** (Facebook/Meta, 2017) resolve o mesmo problema de outro ângulo: em vez de diferenciar, ele modela
+$$Y_t = g(t) + s(t) + h(t) + \varepsilon_t$$
+onde $g(t)$ é uma tendência (linear por partes ou logística), $s(t)$ é uma expansão de Fourier para cada sazonalidade, e $h(t)$ captura feriados.
+
+### Características
+
+- **Robustez a dados faltantes** e a outliers.
+- **Múltiplas sazonalidades** (anual, semanal, diária, customizadas).
+- **Feriados** (incluindo móveis como Carnaval e Páscoa) via dicionário.
+- **Mudanças de tendência** ("changepoints") detectadas automaticamente.
+- Custo: menor garantia estatística que SARIMA — é um modelo **curve-fitting**, não puramente probabilístico.
+
+### Aplicação: Prophet no IBC-Br
+
+```{python}
+#| code-fold: true
+from prophet import Prophet
+from prophet.plot import plot_plotly  # noqa: F401
+
+# Prophet espera colunas 'ds' e 'y'
+df_prophet = ibcbr[['ds', 'y']].copy()
+
+m = Prophet(yearly_seasonality=True, weekly_seasonality=False, daily_seasonality=False,
+            seasonality_mode='multiplicative', interval_width=0.95)
+m.fit(df_prophet)
+
+future = m.make_future_dataframe(periods=24, freq='MS')
+fcst = m.predict(future)
+
+fig, ax = plt.subplots(figsize=(12, 4))
+ax.plot(df_prophet['ds'], df_prophet['y'], color='#5B5B5B', linewidth=0.7, label='Histórico')
+ax.plot(fcst['ds'], fcst['yhat'], color='#730D9F', linewidth=2, label='Prophet')
+ax.fill_between(fcst['ds'], fcst['yhat_lower'], fcst['yhat_upper'],
+                alpha=0.15, color='#730D9F', label='IC 95%')
+ax.set_title('IBC-Br — previsão com Prophet (sazonalidade anual multiplicativa)')
+ax.set_ylabel('IBC-Br'); ax.legend(); ax.grid(alpha=0.3)
+plt.tight_layout(); plt.show()
+```
+
+```{python}
+#| code-fold: true
+# Componentes: tendência + sazonalidade anual
+fig = m.plot_components(fcst)
+plt.tight_layout(); plt.show()
+```
+
+### SARIMA vs. Prophet: quando usar cada um
+
+| Critério | SARIMA | Prophet |
+|----------|--------|---------|
+| Fundamento estatístico | Processo estocástico formal | Curva ajustada (regressão) |
+| Intervalo de confiança | Derivado da distribuição do ruído | Quantis empíricos/simulados |
+| Múltiplas sazonalidades | Via MSTL ou modelos state-space | Nativo |
+| Feriados móveis | Manual (dummy exógena) | Nativo |
+| Quantidade de dados | Funciona com poucos anos | Gosta de histórico mais longo |
+| Interpretabilidade | Coeficientes AR/MA | Componentes tendência/sazonalidade |
+| Diagnóstico residual clássico | Ljung-Box, ACF residual | Limitado |
+
+::: {.callout-important}
+## Regra prática
+- Para séries **mensais/trimestrais** com sazonalidade estável e história razoável: **SARIMA** é difícil de bater em AICc/RMSE.
+- Para séries **diárias** com múltiplas sazonalidades (semanal + anual) e feriados: **Prophet** resolve em poucas linhas.
+- Para comparação honesta: **nunca escolha sem backtest**. Veremos isso na Aula 4.
+:::
+
+## Quizzes
+
+::: {.callout-caution collapse="true"}
+## Questão 1: Uma série mensal apresenta picos marcantes a cada 12 meses na ACF. O que isso sugere para a modelagem SARIMA?
+
+**Há sazonalidade anual estocástica.** É provável que precise de pelo menos $D=1$ (uma diferença sazonal). Se após $\Delta_{12}$ a ACF ainda tiver picos no lag 12, pode ser necessário um $Q=1$ (ou $P=1$) para capturar a dependência sazonal residual.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 2: Quando a sazonalidade seria melhor tratada como determinística (dummies) em vez de estocástica (SARIMA)?
+
+Quando o padrão sazonal é **perfeitamente estável** ao longo do tempo — ex: demanda elétrica fortemente amarrada ao calendário. Dummies ficam mais parcimoniosas e fáceis de interpretar. Na prática, muitas séries de negócio têm sazonalidade **evolutiva** (supply chain mudando, hábitos de consumo mudando), o que favorece SARIMA/STL.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 3: O Prophet detecta changepoints automaticamente. Em que situação isso pode ser problemático?
+
+Quando a série tem **ruído alto** ou poucos anos, o Prophet pode identificar changepoints espúrios e produzir tendências erráticas. Mitigações: reduzir o número máximo de changepoints (`n_changepoints`) e/ou aumentar o prior de regularização (`changepoint_prior_scale` menor).
+:::
+
+## Para Saber Mais
+
+- [FPP3, Cap. 9: ARIMA Models — Seasonal ARIMA](https://otexts.com/fpppy/09-arima.html)
+- Taylor & Letham (2017). *Forecasting at Scale* — paper do Prophet.
+- Documentação do [Prophet](https://facebook.github.io/prophet/) e [statsforecast](https://nixtlaverse.nixtla.io/statsforecast/).

@@ -1,0 +1,578 @@
+---
+title: "Lab 3 (R): Séries Financeiras, GARCH e Portfólios"
+subtitle: "Mesma trilha do lab oficial, em R: fatos estilizados, GARCH, fronteira, VaR e CAPM"
+---
+
+::: {.objetivos}
+#### Objetivos do Lab
+
+- [Aplicar]{.bloom-badge .bloom-aplicar} download e tratamento de séries financeiras com `yfR`
+- [Analisar]{.bloom-badge .bloom-analisar} fatos estilizados em fundos imobiliários brasileiros
+- [Criar]{.bloom-badge .bloom-criar} modelos GARCH (`rugarch`) e portfólios pela fronteira eficiente
+- [Avaliar]{.bloom-badge .bloom-avaliar} risco e exposição via VaR e betas (CAPM)
+:::
+
+::: {.callout-note}
+## Qual versão usar?
+
+Este é o **espelho em R** do laboratório, fiel ao script de referência. A versão
+**oficial em Python** está em [Lab 3 oficial](lab03-financeiras.qmd), e há ainda uma
+[versão alternativa](lab03-financeiras-alternativo.qmd) com blue-chips e fronteira por
+otimização. Os três cobrem o mesmo pipeline: escolha a linguagem com que você se sente
+mais à vontade.
+:::
+
+::: {.callout-tip}
+## Estrutura do Lab
+
+- **Bloco 3.1:** séries financeiras e GARCH. Preços, log-retornos, fatos estilizados,
+  grid de modelos GARCH, previsão de volatilidade.
+- **Bloco 3.2:** portfólio. Retorno e risco por ativo, fronteira eficiente por Monte
+  Carlo, VaR via t de Student e betas/CAPM contra o Ibovespa.
+:::
+
+::: {.callout-note collapse="true"}
+## Por que fundos imobiliários?
+
+O pool são quatro FIIs que o monitor já teve na carteira (`HGRE11`, `BTLG11`, `HGRU11`,
+`VGIR11`). A pergunta de negócio é honesta: foi um péssimo investimento ou apenas ruim?
+FIIs costumam ter beta baixo contra o Ibovespa, então a parte de CAPM rende boa discussão.
+:::
+
+## Setup compartilhado
+
+```{r}
+#| message: false
+#| warning: false
+library(fpp3)
+library(rugarch)
+library(yfR)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(tibble)
+library(ggplot2)
+library(patchwork)
+library(timetk)
+library(broom)
+library(scales)
+library(forcats)
+```
+
+```{r}
+#| message: false
+start_date <- "2018-01-01"
+# Fundos imobiliários que o monitor já teve na carteira.
+ativos <- c("HGRE11.SA", "BTLG11.SA", "HGRU11.SA", "VGIR11.SA")
+```
+
+Trabalhamos tanto com os dados em formato de tibble quanto de tsibble.
+
+```{r}
+#| message: false
+da <- yfR::yf_get(
+  ativos,
+  first_date = start_date,
+  type_return = "log",
+  freq_data = "daily",
+  do_complete_data = TRUE
+)
+
+da_tsibble <- da |>
+  as_tsibble(key = ticker, index = ref_date, regular = FALSE)
+
+# Data mínima comum a todas as séries (alguns FIIs listaram depois de 2018)
+data_corte <- da |>
+  dplyr::group_by(ticker) |>
+  dplyr::filter(ref_date == min(ref_date)) |>
+  dplyr::ungroup() |>
+  with(max(ref_date))
+
+da_train <- da |>
+  dplyr::filter(ref_date > data_corte)
+
+data_corte
+```
+
+# Bloco 3.1: Séries Financeiras e GARCH
+
+## Parte 1: Preços e log-retornos
+
+```{r}
+#| fig-height: 9
+#| fig-width: 8
+da_tsibble |>
+  autoplot(price_close, colour = "black") +
+  facet_wrap(~ticker, scales = "free_y", ncol = 1) +
+  labs(x = NULL, y = "Preço de fechamento")
+```
+
+```{r}
+#| fig-height: 9
+#| fig-width: 8
+da_tsibble |>
+  autoplot(ret_adjusted_prices, colour = "black") +
+  facet_wrap(~ticker, scales = "free_y", ncol = 1) +
+  labs(x = NULL, y = "Log-retorno")
+```
+
+## Parte 2: Fatos estilizados
+
+ACF e PACF dos retornos e dos retornos ao quadrado, mais a checagem de normalidade.
+
+```{r}
+da_tsibble |>
+  ACF(ret_adjusted_prices) |>
+  autoplot() +
+  labs(title = "ACF dos retornos")
+```
+
+```{r}
+da_tsibble |>
+  dplyr::mutate(ret2 = ret_adjusted_prices^2) |>
+  ACF(ret2) |>
+  autoplot() +
+  labs(title = "ACF dos retornos ao quadrado")
+```
+
+```{r}
+da_tsibble |>
+  dplyr::mutate(ret2 = ret_adjusted_prices^2) |>
+  PACF(ret2) |>
+  autoplot() +
+  labs(title = "PACF dos retornos ao quadrado")
+```
+
+::: {.callout-caution collapse="true"}
+## Exercício: Interpretação
+
+1. Os retornos simples têm pouca autocorrelação (mercado eficiente), mas os retornos ao
+   quadrado têm autocorrelação forte e persistente: é o sinal de clusters de volatilidade.
+2. A ACF dos retornos ao quadrado mostra que a variância muda ao longo do tempo de forma
+   previsível: períodos de alta volatilidade puxam mais alta volatilidade.
+:::
+
+```{r}
+#| fig-height: 5
+#| fig-width: 9
+da_train |>
+  ggplot(aes(x = ret_adjusted_prices)) +
+  geom_histogram(bins = 90) +
+  facet_wrap(~ticker, ncol = 2) +
+  labs(x = "Log-retorno", y = NULL, title = "Distribuição dos retornos")
+```
+
+QQ-plot contra a normal e contra a t de Student (3 graus de liberdade).
+
+```{r}
+#| fig-height: 6
+#| fig-width: 9
+da_train |>
+  group_by(ticker) |>
+  summarise(
+    gg = list(
+      ggplot(pick(everything()), aes(sample = ret_adjusted_prices)) +
+        geom_qq() +
+        geom_qq_line() +
+        labs(title = cur_group()$ticker, x = NULL, y = NULL)
+    )
+  ) |>
+  dplyr::pull(gg) |>
+  patchwork::wrap_plots() +
+  patchwork::plot_annotation(title = "QQ-plot vs. Normal")
+```
+
+```{r}
+#| fig-height: 6
+#| fig-width: 9
+da_train |>
+  group_by(ticker) |>
+  summarise(
+    gg = list(
+      ggplot(pick(everything()), aes(sample = ret_adjusted_prices)) +
+        geom_qq(distribution = qt, dparams = list(df = 3)) +
+        geom_qq_line(distribution = qt, dparams = list(df = 3)) +
+        labs(title = cur_group()$ticker, x = NULL, y = NULL)
+    )
+  ) |>
+  dplyr::pull(gg) |>
+  patchwork::wrap_plots() +
+  patchwork::plot_annotation(title = "QQ-plot vs. t de Student (df = 3)")
+```
+
+## Parte 3: Modelos GARCH
+
+Função que ajusta um GARCH com a especificação do `rugarch`. A média é um ARMA simples
+(`p`, `q`) e a variância um GARCH de ordem (`m`, `n`).
+
+```{r}
+garch_individual <- function(parms, ret, prog = NULL) {
+  if (!is.null(prog)) {
+    prog()
+  }
+  garch_model <- ugarchspec(
+    variance.model = list(
+      model = "fGARCH",
+      submodel = "GARCH",
+      garchOrder = c(parms$m, parms$n)
+    ),
+    mean.model = list(
+      armaOrder = c(parms$p, parms$q),
+      include.mean = TRUE
+    ),
+    distribution.model = parms$dist
+  )
+  # às vezes não converge
+  suppressWarnings({
+    fit <- tryCatch(
+      ugarchfit(garch_model, data = ret),
+      error = function(e) NULL
+    )
+  })
+  fit
+}
+```
+
+Testando para um ativo:
+
+```{r}
+library(rugarch)
+fit_exemplo <- garch_individual(
+  parms = list(p = 0, q = 0, m = 1, n = 1, dist = "std"),
+  ret = da_train |>
+    dplyr::filter(ticker == "HGRE11.SA") |>
+    pull(ret_adjusted_prices)
+)
+fit_exemplo
+```
+
+### Um grid de modelos por ativo
+
+Em vez de chutar a ordem e a distribuição, varremos uma grade de `(m, n, dist)` e
+escolhemos pelo menor **AIC**. É o `melhor_garch` que ficava omitido no script de
+referência.
+
+```{r}
+melhor_garch <- function(ativo, prog = NULL) {
+  if (!is.null(prog)) {
+    prog()
+  }
+  ret <- da_train |>
+    dplyr::filter(ticker == ativo) |>
+    dplyr::pull(ret_adjusted_prices)
+
+  grid <- tidyr::expand_grid(
+    p = 0,
+    q = 0, # média (ARMA) simples
+    m = 1:2,
+    n = 1:2, # ordem do GARCH
+    dist = c("norm", "std") # normal e t de Student
+  )
+
+  purrr::pmap(grid, function(p, q, m, n, dist) {
+    parms <- list(p = p, q = q, m = m, n = n, dist = dist)
+    fit <- garch_individual(parms, ret)
+    ic <- tryCatch(rugarch::infocriteria(fit), error = function(e) NULL)
+    if (is.null(ic)) {
+      return(NULL)
+    }
+    tibble::tibble(
+      p = p,
+      q = q,
+      m = m,
+      n = n,
+      dist = dist,
+      aic = ic["Akaike", 1],
+      bic = ic["Bayes", 1]
+    )
+  }) |>
+    dplyr::bind_rows() |>
+    dplyr::arrange(aic)
+}
+```
+
+```{r}
+melhores_por_ativo <- ativos |>
+  purrr::set_names() |>
+  purrr::map(melhor_garch, .progress = TRUE) |>
+  dplyr::bind_rows(.id = "ticker")
+
+# Melhor modelo (menor AIC) por ativo
+parametros_melhores <- melhores_por_ativo |>
+  dplyr::group_by(ticker) |>
+  dplyr::slice_head(n = 1) |>
+  dplyr::ungroup()
+
+parametros_melhores
+```
+
+### Previsão de volatilidade um passo à frente
+
+Reajustamos o modelo escolhido de cada ativo e projetamos a volatilidade alguns passos à
+frente. Guardamos o `shape` (graus de liberdade da t) para reusar no VaR.
+
+```{r}
+prever_volatilidade <- function(parms, n_steps = 5) {
+  ret <- da_train |>
+    dplyr::filter(ticker == parms$ticker) |>
+    pull(ret_adjusted_prices)
+
+  garch_model <- ugarchspec(
+    variance.model = list(
+      model = "fGARCH",
+      submodel = "GARCH",
+      garchOrder = c(parms$m, parms$n)
+    ),
+    mean.model = list(armaOrder = c(parms$p, parms$q), include.mean = TRUE),
+    distribution.model = parms$dist
+  )
+
+  fit <- ugarchfit(garch_model, data = ret, out.sample = n_steps - 1)
+
+  shape <- if (parms$dist == "std") {
+    as.numeric(fit@fit$coef["shape"])
+  } else {
+    NA_real_
+  }
+  forecasts <- ugarchforecast(fit, n.ahead = n_steps)@forecast
+
+  tibble::tibble(
+    ticker = parms$ticker,
+    passo = seq_len(n_steps),
+    serie = as.numeric(forecasts$seriesFor),
+    volatilidade = as.numeric(forecasts$sigmaFor),
+    shape = shape
+  )
+}
+
+vol_futuro <- parametros_melhores |>
+  dplyr::group_split(ticker) |>
+  purrr::map(\(x) prever_volatilidade(as.list(x), n_steps = 5)) |>
+  dplyr::bind_rows()
+
+vol_futuro
+```
+
+# Bloco 3.2: Portfólio
+
+## Parte 4: Retorno, risco e fronteira eficiente
+
+Seguimos a receita do [codingfinance](https://www.codingfinance.com/post/2018-05-31-portfolio-opt-in-r/):
+retorno médio por ativo, matriz de covariância (em escala diária) e milhares de carteiras
+aleatórias.
+
+```{r}
+da_wide <- da_train |>
+  dplyr::select(ref_date, name = ticker, value = ret_adjusted_prices) |>
+  tidyr::pivot_wider()
+
+da_xts <- da_wide |>
+  timetk::tk_xts(select = -ref_date, date_var = ref_date)
+
+mean_ret <- colMeans(da_xts, na.rm = TRUE)
+cov_mat <- cov(da_xts, use = "complete.obs")
+round(mean_ret, 5)
+```
+
+Demonstrando em uma única carteira aleatória: pesos, retorno, risco e Sharpe.
+
+```{r}
+set.seed(2)
+wts <- runif(length(ativos))
+wts <- wts / sum(wts)
+
+port_returns <- sum(wts * mean_ret)
+port_risk <- sqrt(t(wts) %*% (cov_mat %*% wts))
+sharpe_ratio <- port_returns / port_risk
+
+tibble::tibble(
+  ativo = ativos,
+  peso = round(wts, 3)
+)
+c(
+  retorno = port_returns,
+  risco = as.numeric(port_risk),
+  sharpe = as.numeric(sharpe_ratio)
+) |>
+  round(5)
+```
+
+Agora 5000 carteiras aleatórias. As de menor risco e maior Sharpe são a mínima variância
+e a carteira de tangência.
+
+```{r}
+sim_returns <- function(i) {
+  wts <- rgamma(length(ativos), 1)
+  wts <- wts / sum(wts)
+  port_ret <- sum(wts * mean_ret)
+  port_sd <- as.numeric(sqrt(t(wts) %*% (cov_mat %*% wts)))
+
+  wts |>
+    purrr::set_names(ativos) |>
+    tibble::enframe() |>
+    tidyr::pivot_wider() |>
+    dplyr::mutate(
+      return = port_ret,
+      risk = port_sd,
+      sharpe = port_ret / port_sd
+    )
+}
+
+portfolio_values <- purrr::map(1:5000, sim_returns) |>
+  dplyr::bind_rows(.id = "run")
+
+min_var <- portfolio_values[which.min(portfolio_values$risk), ]
+max_sr <- portfolio_values[which.max(portfolio_values$sharpe), ]
+```
+
+```{r}
+min_var |>
+  tidyr::pivot_longer(all_of(ativos)) |>
+  dplyr::mutate(name = forcats::fct_reorder(name, value)) |>
+  ggplot(aes(name, value)) +
+  geom_col(fill = "#3ACC9F") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Ativo", y = "Peso", title = "Carteira de mínima variância")
+```
+
+```{r}
+max_sr |>
+  tidyr::pivot_longer(all_of(ativos)) |>
+  dplyr::mutate(name = forcats::fct_reorder(name, value)) |>
+  ggplot(aes(name, value)) +
+  geom_col(fill = "#E50505") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Ativo", y = "Peso", title = "Carteira de tangência (máximo Sharpe)")
+```
+
+```{r}
+portfolio_values |>
+  ggplot(aes(x = risk, y = return, color = sharpe)) +
+  geom_point(size = 0.6) +
+  scale_color_viridis_c() +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(labels = scales::percent) +
+  labs(
+    x = "Risco",
+    y = "Retorno",
+    title = "Fronteira eficiente por Monte Carlo (5000 carteiras)"
+  ) +
+  geom_point(
+    aes(x = risk, y = return),
+    data = min_var,
+    color = "#3ACC9F",
+    size = 3
+  ) +
+  geom_point(
+    aes(x = risk, y = return),
+    data = max_sr,
+    color = "#E50505",
+    size = 3
+  )
+```
+
+## Parte 5: VaR do portfólio
+
+Usamos a carteira de mínima variância e o `shape` (graus de liberdade) mais conservador
+estimado pelos GARCHs. O VaR sai de um quantil da t de Student.
+
+```{r}
+pesos_finais <- min_var |>
+  dplyr::select(all_of(ativos)) |>
+  as.numeric()
+
+# retorno esperado um passo à frente, por ativo, na ordem de `ativos`
+serie_1passo <- vol_futuro |>
+  dplyr::group_by(ticker) |>
+  dplyr::slice_head(n = 1) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(match(ticker, ativos))
+
+rt_final <- sum(serie_1passo$serie * pesos_finais)
+st_dev_final <- as.numeric(sqrt(pesos_finais %*% cov_mat %*% pesos_finais))
+nu <- min(vol_futuro$shape, na.rm = TRUE)
+valor_t <- qt(0.95, nu)
+
+VaR <- rt_final + valor_t * st_dev_final / sqrt(nu / (nu - 2))
+c(rt_final = rt_final, st_dev = st_dev_final, nu = nu, VaR = VaR) |> round(5)
+```
+
+::: {.callout-note}
+## Como ler esse VaR
+
+O VaR resume, num número só, "qual é uma perda plausível num dia ruim", usando a cauda da
+t de Student (graus de liberdade baixos = caudas pesadas). O `nu` precisa ser maior que 2
+para a variância existir. Na Aula 6 formalizamos VaR paramétrico, histórico e Monte Carlo.
+:::
+
+## Parte 6: CAPM e betas
+
+Medimos a exposição ao mercado. O beta de cada ativo vem de `cov / var` contra o Ibovespa;
+o beta da carteira é a média ponderada dos betas, e checamos com uma regressão.
+
+```{r}
+#| message: false
+market_returns <- yfR::yf_get(
+  "^BVSP",
+  first_date = data_corte + 1,
+  type_return = "log",
+  freq_data = "daily",
+  do_complete_data = TRUE
+) |>
+  dplyr::select(ref_date, ibov = ret_adjusted_prices)
+
+# retornos da carteira = soma ponderada por data (sem tidyquant)
+port_wide <- da_train |>
+  dplyr::select(ref_date, ticker, ret = ret_adjusted_prices) |>
+  tidyr::pivot_wider(names_from = ticker, values_from = ret) |>
+  tidyr::drop_na()
+
+port_wide$portfolio <- as.numeric(
+  as.matrix(port_wide[, ativos]) %*% pesos_finais
+)
+
+all_returns <- market_returns |>
+  dplyr::inner_join(
+    dplyr::select(port_wide, ref_date, portfolio),
+    "ref_date"
+  ) |>
+  tidyr::drop_na()
+
+beta_geral <- with(all_returns, cov(portfolio, ibov) / var(ibov))
+
+calcular_beta <- function(ativo) {
+  da_train |>
+    dplyr::filter(ticker == ativo) |>
+    dplyr::inner_join(market_returns, "ref_date") |>
+    tidyr::drop_na() |>
+    with(cov(ret_adjusted_prices, ibov) / var(ibov))
+}
+
+betas <- purrr::map_dbl(ativos, calcular_beta) |>
+  purrr::set_names(ativos)
+
+round(betas, 3)
+c(beta_ponderado = sum(betas * pesos_finais), beta_regressao = beta_geral) |>
+  round(3)
+```
+
+```{r}
+lm(portfolio ~ ibov, data = all_returns) |>
+  broom::tidy()
+```
+
+::: {.callout-important}
+## A resposta da pergunta de negócio
+
+Os betas dos FIIs costumam ficar bem abaixo de 1: eles se movem pouco com o Ibovespa. Isso
+é exatamente o ponto de ter FIIs na carteira (descorrelação com a bolsa), e não um sinal de
+mau investimento por si só. "Péssimo ou apenas ruim" depende do retorno ajustado ao risco.
+Na Aula 7 formalizamos o CAPM e a leitura de beta, alpha e a reta de mercado.
+:::
+
+# Dinâmica: Monte sua Carteira
+
+A dinâmica final é a mesma do lab oficial: o app interativo **Monte sua Carteira** (Shiny
+for Python). Em grupos, escolham ativos, mexam nos pesos e observem retorno, risco, Sharpe,
+VaR e o backtest contra o Ibovespa ao vivo. O passo a passo está no
+[Lab 3 oficial](lab03-financeiras.qmd) e em `labs/app-carteira/README.md`.

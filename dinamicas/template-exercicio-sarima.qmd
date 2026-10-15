@@ -1,0 +1,86 @@
+---
+title: "Exercício: SARIMA no comércio varejista brasileiro"
+format: html
+jupyter: python3
+---
+
+## Sobre o exercício
+
+A base é a **PMC** (Pesquisa Mensal do Comércio) do IBGE: índice de volume de vendas no **comércio varejista ampliado** (inclui veículos e materiais de construção), por **Unidade da Federação**, mensal de jan/2004 em diante. Base 2022 = 100, **sem ajuste sazonal**.
+
+Você receberá **uma UF de interesse**, e deve aplicar a análise abaixo:
+
+Setup
+
+1. Criar repositório no GitHub para o exercício, e configurar o GitHub Pages para servir o conteúdo do repositório.
+2. Clonar o repositório e criar um arquivo chamado `template-exercicio-sarima.qmd` (pode usar o template deste exercício, ou criar do zero, e pode usar jupyter notebook no lugar de Quarto, basta converter usando o comando `quarto convert`).
+3. Configure o `uv` com um `.venv` para gerenciar as dependências do exercício (pode usar o `requirements.txt` deste repositório como base, ou criar o seu do zero). Obs: Não é para subir a pasta `.venv` no GitHub, ele precisa estar no seu `.gitignore`.
+
+Código
+
+3. Análise descritiva (linha, ACF, PACF, diferenciação) e diagnóstico de tendência/sazonalidade.
+4. Testes de raiz unitária (ADF, KPSS) e estimativa de `ndiffs`.
+5. Ajuste de SARIMA via `AutoARIMA(season_length=12)`.
+6. Diagnóstico dos resíduos.
+7. Previsão de 24 meses à frente, com intervalos de 80% e 95%.
+
+Análise e entrega
+
+8. Discussão dos resultados (perguntas no final).
+9. Compilar este arquivo em um relatório em HTML chamado index.html e subir no repositório do GitHub que você criou para este lab. 
+10. Configure as github pages para servir o conteúdo do repositório, e compartilhe o link no formulário de entrega do BB.
+
+## Setup
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from statsmodels.tsa.stattools import adfuller, kpss
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+
+from statsforecast import StatsForecast
+from statsforecast.models import AutoARIMA, ARIMA
+```
+
+## Carregando a base PMC
+
+A base já foi pré-processada para conter apenas as colunas relevantes, e já no formato "long" (uma linha por data + UF). O nome da coluna de data é "data", e a coluna de interesse (índice de volume) é "volume_idx". A coluna "uf" indica a Unidade da Federação.
+
+```{python}
+pmc = pd.read_csv("https://github.com/padsInsper/202632-fa/releases/download/data/pmc_volume_uf.csv")
+```
+
+## Escolha sua UF
+
+```{python}
+
+MINHA_UF = "Guiana Brasleira" 
+
+
+df_sf = (
+    pmc.query("uf == @MINHA_UF")
+    .rename(columns={"uf": "unique_id", "data": "ds", "volume_idx": "y"})
+    [["unique_id", "ds", "y"]]
+    .reset_index(drop=True)
+)
+
+df_sf.head()
+```
+
+## Análise descritiva
+
+## Modelagem
+
+## Previsão · 24 meses à frente
+
+## Discussão
+
+Escreva 4-5 linhas comentando:
+
+1. O ACF/PACF da série original sugeriu sazonalidade? E tendência? Bate com o que você viu no gráfico de linha?
+2. Quantas diferenças (regular e sazonal) o AutoARIMA aplicou? E os componentes AR/MA? Conseguiu observar isso no ACF/PACF?
+3. Os resíduos parecem white noise? Algum padrão remanescente sazonal?
+4. A previsão pareceu razoável visualmente (captura a sazonalidade, fica bem ancorada no histórico, intervalos abrem muito com o horizonte)?
+5. Que outras UFs você imagina que dariam um SARIMA bem diferente do seu (e por quê)? Pense em estados de regiões diferentes, com perfil econômico distinto.

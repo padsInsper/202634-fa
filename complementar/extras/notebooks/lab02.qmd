@@ -1,0 +1,619 @@
+---
+title: "It's Modeltime!"
+format:
+  html:
+    theme: flatly
+    toc: true
+    number-sections: true
+    self-contained: true
+---
+
+# Bingo Arima
+
+```{r}
+#' Nosso objetivo é descobrir qual a ordem do ARIMA usando análise descritiva
+#p=2, d=0, q=0, 
+#modelo ARIMA(2,0,0)
+# gerando os dados --------------------------------------------------------
+
+ar <- sample(0:2, 1)
+ma <- sample(0:2, 1)
+dif <- sample(0:1, 1)
+
+ar_parm <- runif(ar, min = .3, max = .4)
+ma_parm <- runif(ma, min = .3, max = .4)
+
+dados <- data.frame(
+  unique_id = "Bingo Arima",
+  ds = 1:(300 + dif),
+  y = arima.sim(
+    list(
+      order = c(ar, dif, ma),
+      ma = ma_parm,
+      ar = ar_parm
+    ),
+    n = 300
+  )
+)
+```
+
+ARIMA(p,d,q)
+ARIMA(1,0,1)
+
+p = AR = 1 (auto regressivo)
+d = D = 0 (diferenciação)
+q = MA = 1 (moving average)
+
+$$
+y_t = \alpha + \phi_1 y_{t-1} + \epsilon_t + \theta_1 \epsilon_{t-1}  
+$$
+
+No nosso caso, ARIMA(2,0,0)
+
+$$
+y_t = \alpha + \phi_1 y_{t-1} + \phi_2 y_{t-2} + \epsilon_t
+$$
+
+
+## Descritiva em R
+
+```{r}
+#library(fpp3)
+
+dados_tsibble <- dados |>
+  dplyr::mutate(
+    ds = as.Date("1995-05-01") + months(ds),
+    ds = tsibble::yearmonth(ds)
+  ) |>
+  tsibble::as_tsibble(index = ds)
+
+# PASSO 1
+dados_tsibble |>
+  feasts::gg_tsdisplay(y, plot_type = "partial")
+
+```
+$$
+y_t = \alpha + \beta_1 y_{t-1} + \beta_2 y_{t-2} + \beta_3 y_{t-3}  
+$$
+
+
+## Descritiva em Python
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib
+
+matplotlib.use("module://positron.matplotlib_backend")
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+from utilsforecast.plotting import plot_series
+
+dados = r.dados
+
+
+def plotar_serie(y):
+    fig = plt.figure(figsize=(12, 8))
+    gs = fig.add_gridspec(2, 2)
+    ax1 = fig.add_subplot(gs[0, :])
+    ax2 = fig.add_subplot(gs[1, 0])
+    ax3 = fig.add_subplot(gs[1, 1])
+    ax1.plot(y, marker="o")
+    ax1.set_ylabel("y")
+    ax1.set_xlabel("Month")
+    plot_acf(y, ax2, zero=False, lags=24, bartlett_confint=False, auto_ylims=True)
+    plot_pacf(y, ax3, zero=False, lags=24, auto_ylims=True)
+    plt.savefig("acf_pacf_plot.png")
+    plt.show()
+    return
+
+
+plotar_serie(dados.y)
+
+```
+
+
+## Testes em R
+
+```{r}
+tseries::adf.test(dados_tsibble$y)
+
+dados_tsibble |>
+  fabletools::features(
+    dados_tsibble$y,
+    list(
+      feasts::unitroot_kpss,
+      feasts::unitroot_ndiffs,
+      feasts::unitroot_nsdiffs
+    )
+  )
+```
+
+
+## Testes em Python
+
+```{python}
+from statsmodels.tsa.stattools import kpss
+from statsforecast.arima import ndiffs, nsdiffs
+
+kpss_stat, kpss_pvalue, _, _ = kpss(dados.y, nlags=5)
+print(f"kpss_stat: {kpss_stat:.3f}, kpss_pvalue: {kpss_pvalue:.2f}")
+
+ndiffs(dados.y)
+
+```
+
+## Diferenças em R
+
+```{r}
+dados_tsibble |>
+  dplyr::mutate(dif = tsibble::difference(y)) |>
+  feasts::gg_tsdisplay(dif, plot_type = "partial", lag_max = 30)
+```
+
+## Diferenças em Python
+
+```{python}
+dif = dados.y.diff()[1:]
+plotar_serie(dif)
+```
+
+## Modelagem em R
+
+```{r}
+fit <- dados_tsibble |>
+  fabletools::model(
+    arima_manual1 = fable::ARIMA(y ~ 1 + pdq(1, 1, 1) + PDQ(0, 0, 0)),
+    arima_manual2 = fable::ARIMA(y ~ 1 + pdq(2, 1, 0) + PDQ(0, 0, 0)),
+    stepwise = fable::ARIMA(y ~ 1 + PDQ(0, 0, 0)),
+    search = fable::ARIMA(y ~ 1 + PDQ(0, 0, 0), stepwise = FALSE)
+  )
+
+dplyr::glimpse(fit)
+
+fit |>
+  broom::glance() |>
+  dplyr::select(.model, AICc) |>
+  dplyr::arrange(AICc)
+
+fit |>
+  broom::augment() |>
+  dplyr::filter(.model == "stepwise") |>
+  feasts::gg_tsdisplay(.resid, plot_type = "partial")
+
+```
+
+## Modelagem em Python
+
+```{python}
+from statsforecast import StatsForecast
+from statsforecast.models import AutoARIMA, ARIMA
+from statsforecast.arima import ARIMASummary
+
+dados = r.dados
+
+models = [
+    ARIMA(order=(2, 0, 0), alias="arima200"),
+    AutoARIMA(alias="stepwise"),
+    AutoARIMA(stepwise=False, alias="search"),
+]
+
+sf = StatsForecast(models=models, freq=1, n_jobs=-1)
+
+sf.fit(df=dados)
+
+print(ARIMASummary(sf.fitted_[0, 0].model_))
+print(ARIMASummary(sf.fitted_[0, 1].model_))
+print(ARIMASummary(sf.fitted_[0, 2].model_))
+```
+
+```{python}
+forecasts = sf.forecast(
+    df=dados[["ds", "y", "unique_id"]], h=0, fitted=True, level=[80, 95]
+)
+fitted_values = sf.forecast_fitted_values()
+insample_forecasts = fitted_values["stepwise"]
+residuals = fitted_values["y"] - insample_forecasts
+
+plotar_serie(residuals)
+```
+
+
+## GABARITO
+
+```{r}
+print(c(ar, dif, ma))
+```
+
+```{python}
+r.ar, r.dif, r.ma
+```
+
+```{r}
+print(ar_parm)
+print(ma_parm)
+```
+
+# Continuando...
+
+```{r}
+library(fpp3)
+
+link <- "https://www.tesourotransparente.gov.br/ckan/dataset/f85b6632-1c9c-4beb-9e60-72e91156c984/resource/f52c016b-1773-459b-a28f-6ddc4966a702/download/Transferencias---Dados-Consolidados.xlsx"
+
+
+g <- httr::GET(link, httr::write_disk(tmp <- fs::file_temp(ext = ".xlsx")))
+
+dados_raw <- tmp |>
+  readxl::read_excel(
+    1,
+    "C38:OQ38",
+    col_names = FALSE,
+    .name_repair = "minimal"
+  ) |>
+  janitor::clean_names() |>
+  tidyr::pivot_longer(dplyr::everything()) |>
+  dplyr::mutate(
+    date = seq(as.Date("1991-01-01"), as.Date("2024-09-01"), "1 month"),
+    value = value / 1e9
+  ) |>
+  dplyr::select(-name) |>
+  tidyr::fill(value) |>
+  dplyr::filter(lubridate::year(date) >= 1998)
+
+
+```
+
+# Entendimento da série
+
+1. Plote os gráficos da série e das ACF/PACF e discorra sobre o aspecto da série.
+Faça o teste de raíz unitária e explique as conclusões. Existe tendência
+estocástica?
+
+```{r}
+dados_raw |>
+  ggplot(aes(date, value)) +
+  geom_line()
+```
+
+```{r}
+dados_raw |>
+  ggplot(aes(date, log(value))) +
+  geom_line()
+```
+
+Parece que faz sentido deflacionar a base nesse caso.
+
+```{r}
+dados <- dados_raw |>
+  mutate(
+    value = deflateBR::deflate(
+      value,
+      date,
+      "09/2024",
+      index = "ipca"
+    )
+  )
+```
+
+
+$$
+y_t = \alpha + \phi_1 y_{t-1} + \Phi y_{t-12} + \epsilon_t
+$$
+
+$$
+\Delta^{12} y_t = y_t - y_{t-12}
+$$
+
+```{r}
+# série deflacionada
+dados |>
+  ggplot(aes(date, value)) +
+  geom_line()
+```
+
+```{r}
+tdata <- dados |>
+  mutate(date = yearmonth(date)) |>
+  as_tsibble(index = date)
+```
+
+```{r}
+tdata |>
+  gg_season(value)
+```
+
+```{r}
+tdata |>
+  gg_tsdisplay(value, plot_type = "partial")
+```
+
+```{r}
+tdata |>
+  mutate(value = difference(value, 12)) |>
+  gg_tsdisplay(value, plot_type = "partial")
+```
+
+## Teste de hipótese
+
+SARIMA(p,d=0,q)(P,D=1,Q)
+
+```{r}
+tdata |>
+  features(value, list(unitroot_ndiffs, unitroot_nsdiffs))
+```
+
+
+```{r}
+tdata |>
+  mutate(value = difference(value, 12)) |>
+  features(value, unitroot_ndiffs)
+
+```
+
+```{r}
+tdata |>
+  mutate(value = difference(value, 1)) |>
+  features(value, unitroot_nsdiffs)
+
+```
+
+## Decomposição
+
+2. Use um método de decomposição estudado e explique os componentes, tendo
+em vista o aspecto da série. Existe sazonalidade? Qual periodicidade?
+
+```{r}
+tdata |>
+  fabletools::model(
+    stl = feasts::STL(value)
+  ) |>
+  fabletools::components() |>
+  autoplot()
+```
+
+```{r}
+tdata |>
+  fabletools::model(
+    stl = feasts::classical_decomposition(value)
+  ) |>
+  fabletools::components() |>
+  autoplot()
+```
+
+# Modelo SARIMA
+
+3. Identifique um modelo SARIMA apropriado. Justifique o modelo escolhido
+através de critérios de informação e/ou usando a etapa de identificação da
+abordagem Box-Jenkins. Nesta etapa é possível utilizar um método automático
+de seleção das ordens do modelo.
+
+![](https://otexts.com/fpp3/figs/arimaflowchart.png)
+
+ARIMA(1,0,0)(2,1,1)[12]
+
+```{r}
+fit <- tdata |>
+  model(
+    arima_manual = ARIMA(value ~ 1 + pdq(1, 0, 0) + PDQ(2, 1, 1)),
+    stepwise = ARIMA(value),
+    search = ARIMA(value, stepwise = FALSE)
+  )
+
+fit |>
+  pivot_longer(
+    everything()
+  )
+```
+
+```{r}
+glance(fit)
+```
+
+## Diagnóstico
+
+4. Faça a verificação de diagnóstico residual de seu modelo ARIMA. Os resíduos
+são ruído branco?
+
+```{r}
+
+fit |>
+  select(stepwise) |>
+  gg_tsresiduals(lag = 36)
+
+```
+
+```{r}
+augment(fit) |>
+  filter(.model == "stepwise") |>
+  features(.innov, ljung_box, lag = 36, dof = 4)
+```
+
+## Previsão
+
+5. Use o modelo SARIMA de sua escolha para fazer previsões h (livre escolha) passos à frente.
+
+```{r}
+forecast(fit, h = 24) |>
+  filter(.model == "stepwise") |>
+  autoplot(tdata)
+```
+
+## [Extra] Comparação ARIMA e ETS
+
+```{r}
+train <- tdata |>
+  filter_index(. ~ "2019 dec")
+
+acuracia <- train |>
+  model(
+    ETS(value),
+    ARIMA(value)
+  ) |>
+  forecast(h = 24) |>
+  accuracy(tdata)
+
+acuracia
+```
+
+# Validação cruzada usando modeltime
+
+```{r}
+dados |>
+  timetk::plot_time_series(date, value)
+```
+
+Fizemos um primeiro split para ajustar o modelo. Vamos testar sua performance depois via backtesting.
+
+
+```{r}
+split_forecast <- timetk::time_series_split(
+  dados,
+  date_var = date,
+  initial = "11 years",
+  assess = "24 months"
+)
+```
+
+Vamos ajustar o modelo na parte azul e testar na parte vermelha!
+
+```{r}
+split_forecast |>
+  timetk::tk_time_series_cv_plan() |>
+  timetk::plot_time_series_cv_plan(date, value)
+```
+
+Além disso, aqui montamos um esquema de backtesting com vários recortes
+
+```{r}
+splits <- timetk::time_series_cv(
+  dados,
+  date_var = date,
+  initial = "60 months",
+  assess = "24 months",
+  skip = 12,
+  slice_limit = 10,
+  cumulative = FALSE
+)
+
+splits
+```
+
+```{r}
+#| fig-height: 20
+#| fig-width: 7
+splits |>
+  timetk::tk_time_series_cv_plan() |>
+  timetk::plot_time_series_cv_plan(date, value)
+```
+
+
+## Modelos SARIMA, ETS e Prophet
+
+6. Repita os passos acima ajustando um modelo que use o método do Prophet.
+Faça a previsão para o mesmo período e compare com o modelo SARIMA.
+
+```{r}
+library(modeltime)
+library(tidymodels)
+
+model_arima <- arima_reg() |>
+  set_engine("auto_arima") |>
+  fit(value ~ date, training(split_forecast))
+
+# [E]xponen[T]ial   [S]moothing
+# [E]rror, [T]rend, [S]easonal
+
+model_ets <- exp_smoothing() |>
+  set_engine("ets") |>
+  fit(value ~ date, training(split_forecast))
+
+model_prophet <- prophet_reg(seasonality_yearly = TRUE) |>
+  set_engine("prophet") |>
+  fit(value ~ date, training(split_forecast))
+
+```
+
+É possível tunar hiperparâmetros (por exemplo, os hiperparâmetros do Prophet). Uma referência para isso [está aqui](https://business-science.github.io/modeltime/articles/parallel-processing.html).
+
+```{r}
+mtable <- modeltime_table(
+  model_arima,
+  model_ets,
+  model_prophet
+)
+```
+
+## Comparação das métricas no teste (12 meses)
+
+```{r}
+dados_para_teste <- modeltime_calibrate(
+  mtable,
+  testing(split_forecast)
+)
+```
+
+
+```{r}
+dados_para_teste |>
+  modeltime_accuracy() |>
+  table_modeltime_accuracy(.interactive = FALSE)
+```
+
+Comparando os forecasts dos modelos
+
+```{r}
+dados_para_teste |>
+  modeltime_forecast(
+    new_data = testing(split_forecast),
+    actual_data = dados
+  ) |>
+  plot_modeltime_forecast()
+```
+
+Fazendo a previsão de um modelo específico
+
+```{r}
+fcast <- dados_para_teste |>
+  filter(.model_id == 3) |>
+  modeltime_refit(dados) |>
+  modeltime_forecast(
+    h = "24 months",
+    actual_data = dados,
+    conf_interval = .8
+  )
+
+fcast |>
+  plot_modeltime_forecast()
+```
+
+## Backtesting
+
+7. Faça um backtest e verifique qual modelo tem melhor poder preditivo (calcule
+medidas de performance que sejam comparáveis entre os dois modelos usando
+diferentes janelas de tempo). Nesta etapa você pode usar apenas um split
+treino/teste temporal ou vários. Justifique qual dos modelos você usaria.
+
+
+```{r}
+resamples <- mtable |>
+  modeltime.resample::modeltime_fit_resamples(
+    resamples = splits
+  )
+```
+
+
+```{r}
+resamples |>
+  modeltime.resample::plot_modeltime_resamples(
+    .point_size = 3,
+    .point_alpha = 0.8,
+    .interactive = FALSE
+  )
+```
+
+
+```{r}
+resamples |>
+  modeltime.resample::modeltime_resample_accuracy(summary_fns = mean) |>
+  table_modeltime_accuracy(.interactive = FALSE)
+```

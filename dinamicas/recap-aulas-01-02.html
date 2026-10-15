@@ -1,0 +1,1414 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Recap Aulas 1 e 2 — Séries Temporais (FA · PADS Insper)</title>
+
+<!-- KaTeX para matemática -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+<!-- Tipografia da marca Insper: Inter (texto) — GT Ultra Fine carregada via @font-face local -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+
+<!-- Firebase (compat para uso simples em <script>) -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
+
+<style>
+  /* Tipografia oficial Insper — GT Ultra Fine Bold (display) */
+  @font-face {
+    font-family: "GT Ultra Fine";
+    src: url("../manual_marca/GTUltraFine-Bold.f6fa8a8b.woff") format("woff"),
+         url("../manual_marca/GTUltraFine-Bold.f6fa8a8b.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    /* Paleta Insper: vermelho da marca + neutros (preto / branco) */
+    --insper: #e50505;
+    --insper-dark: #b80404;
+    --insper-deep: #780202;
+
+    --bg-0: #060606;
+    --bg-1: #0e0e0e;
+    --bg-2: #181818;
+    --fg: #ffffff;
+    --muted: #a3a3a3;
+
+    /* Acentos funcionais (UX do quiz) — tons sóbrios alinhados ao manual */
+    --accent: var(--insper);            /* destaque primário = vermelho Insper */
+    --accent-2: #1aa66a;                /* verde funcional p/ "correto" */
+    --warn: #d97706;                    /* âmbar p/ atenção */
+    --danger: var(--insper);
+
+    --card: rgba(255,255,255,0.035);
+    --card-border: rgba(255,255,255,0.10);
+    --shadow: 0 30px 80px rgba(0,0,0,0.65);
+
+    --font-display: "GT Ultra Fine", "Inter", "Helvetica Neue", Arial, sans-serif;
+    --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--fg);
+    background:
+      radial-gradient(1100px 560px at 18% -10%, rgba(229,5,5,0.22), transparent 60%),
+      radial-gradient(900px 520px at 110% 110%, rgba(229,5,5,0.08), transparent 65%),
+      linear-gradient(180deg, #050505 0%, #0a0a0a 100%);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body.voter { overflow: auto; user-select: none; }
+  body.projection { overflow: hidden; user-select: none; }
+
+  .stage {
+    position: absolute; inset: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 24px 44px 18px;
+  }
+
+  /* TOP BAR */
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 14px;
+    color: var(--muted); font-size: 13px; letter-spacing: 0.10em;
+    text-transform: uppercase; font-weight: 500;
+  }
+  .brand .logo {
+    height: 26px; width: auto; display: block;
+    filter: drop-shadow(0 2px 12px rgba(229,5,5,0.25));
+  }
+  .brand .sep {
+    width: 1px; height: 22px; background: rgba(255,255,255,0.18);
+    display: inline-block;
+  }
+  .brand .label { color: var(--muted); }
+
+  .level-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 16px; border-radius: 999px;
+    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    font-weight: 600;
+    transition: all 400ms ease;
+  }
+  .level-badge[data-level="1"] { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18); color: #e5e5e5; }
+  .level-badge[data-level="2"] { background: rgba(229,5,5,0.10); border: 1px solid rgba(229,5,5,0.35); color: #ffb3b3; }
+  .level-badge[data-level="3"] { background: rgba(229,5,5,0.18); border: 1px solid rgba(229,5,5,0.55); color: #ff7a7a; }
+  .level-badge[data-level="4"] { background: var(--insper); border: 1px solid var(--insper); color: #ffffff; box-shadow: 0 0 22px rgba(229,5,5,0.45); }
+
+  .progress-wrap {
+    flex: 1; height: 4px; max-width: 420px; margin: 0 24px;
+    border-radius: 999px; background: rgba(255,255,255,0.08);
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--insper-dark), var(--insper));
+    transition: width 600ms cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .counter { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 14px; }
+
+  .vote-status {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--muted); font-size: 13px; padding: 6px 12px;
+    border-radius: 999px; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .vote-status .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--muted);
+  }
+  .vote-status.online .dot { background: #1aa66a; box-shadow: 0 0 8px rgba(26,166,106,0.6); animation: pulse 2s infinite; }
+  .vote-status.locked .dot { background: var(--insper); box-shadow: 0 0 8px rgba(229,5,5,0.6); }
+
+  /* MAIN STAGE */
+  .panel {
+    align-self: stretch;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 22px;
+    padding-top: 8px;
+    min-height: 0;
+  }
+
+  .qhead { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+  .qkind {
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .qnum {
+    font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums;
+  }
+  .qtitle {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.2vw, 44px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+  .qtitle em {
+    font-style: normal;
+    color: var(--insper);
+  }
+  .katex { font-size: 1.05em; }
+
+  .qbody { display: grid; grid-template-columns: 1fr; gap: 22px; align-items: stretch; min-height: 0; }
+  .qbody.has-visual { grid-template-columns: minmax(320px, 1fr) minmax(360px, 1.1fr); }
+
+  .visual {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: 18px; padding: 14px;
+    display: grid; grid-template-rows: auto 1fr; gap: 6px;
+    box-shadow: var(--shadow);
+    min-height: 0;
+  }
+  .visual h4 { margin: 4px 8px; font-size: 13px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+  .visual canvas { width: 100%; height: 100%; display: block; }
+
+  /* Tabela de AIC (visual de algumas perguntas) */
+  .aic-table-wrap {
+    display: grid; grid-template-rows: 1fr auto; gap: 14px;
+    height: 100%; padding: 10px 6px 4px;
+  }
+  table.aic-table {
+    width: 100%; border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+    font-size: clamp(15px, 1.3vw, 19px);
+  }
+  table.aic-table th, table.aic-table td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  table.aic-table th {
+    color: var(--muted); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; font-size: 11px;
+  }
+  table.aic-table td:nth-child(2),
+  table.aic-table td:nth-child(3),
+  table.aic-table td:nth-child(4),
+  table.aic-table th:nth-child(2),
+  table.aic-table th:nth-child(3),
+  table.aic-table th:nth-child(4) {
+    text-align: right;
+  }
+  /* highlight só aparece após reveal (.visual.revealed adicionado em reveal()) */
+  table.aic-table tr.winner td,
+  table.aic-table tr.trap td {
+    /* default: sem destaque */
+  }
+  .visual.revealed table.aic-table tr.winner td {
+    background: linear-gradient(90deg, rgba(26,166,106,0.20), rgba(26,166,106,0.02));
+    color: #4ade80; font-weight: 600;
+  }
+  .visual.revealed table.aic-table tr.trap td {
+    background: linear-gradient(90deg, rgba(229,5,5,0.16), rgba(229,5,5,0.02));
+    color: #ff9a9a;
+  }
+  .aic-note {
+    font-size: 13px; color: var(--muted); padding: 0 8px;
+    line-height: 1.5;
+  }
+  .aic-note.spoiler { display: none; color: var(--insper); }
+  .visual.revealed .aic-note.neutral { display: none; }
+  .visual.revealed .aic-note.spoiler { display: block; }
+
+  .options { display: grid; gap: 12px; align-content: start; }
+  .opt {
+    position: relative; overflow: hidden;
+    display: grid; grid-template-columns: 44px 1fr auto; gap: 16px; align-items: center;
+    padding: 16px 22px;
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: 14px;
+    font-size: clamp(16px, 1.4vw, 20px);
+    line-height: 1.35;
+    transition: border-color 250ms ease, transform 250ms ease;
+  }
+  .opt .vbar {
+    position: absolute; inset: 0; right: auto;
+    background: linear-gradient(90deg, rgba(151,163,196,0.18), rgba(151,163,196,0.06));
+    width: 0%;
+    transition: width 500ms cubic-bezier(0.16,1,0.3,1);
+    z-index: 0; pointer-events: none;
+  }
+  .opt > * { position: relative; z-index: 1; }
+  .opt .key {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: grid; place-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    font-weight: 700; font-size: 16px; color: var(--muted);
+  }
+  .opt .vcount {
+    color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums;
+    min-width: 60px; text-align: right;
+    opacity: 0; transition: opacity 200ms ease;
+  }
+  .opt .vcount.show { opacity: 1; }
+  .opt.correct {
+    border-color: #1aa66a;
+    box-shadow: 0 0 0 1px rgba(26,166,106,0.45), 0 20px 50px rgba(26,166,106,0.18);
+  }
+  .opt.correct .vbar { background: linear-gradient(90deg, rgba(26,166,106,0.32), rgba(26,166,106,0.10)); }
+  .opt.correct .key { background: #1aa66a; color: #04140c; border-color: transparent; }
+  .opt.wrong { opacity: 0.55; border-color: rgba(229,5,5,0.30); }
+  .opt.wrong .vbar { background: linear-gradient(90deg, rgba(229,5,5,0.22), rgba(229,5,5,0.05)); }
+
+  .options.tf { grid-template-columns: 1fr 1fr; gap: 18px; }
+  .options.tf .opt {
+    justify-items: center; padding: 28px 18px;
+    grid-template-columns: 1fr; text-align: center;
+    font-size: clamp(24px, 2.6vw, 36px); font-weight: 700;
+  }
+  .options.tf .opt .key { display: none; }
+  .options.tf .opt .vcount { position: absolute; bottom: 10px; right: 14px; min-width: 0; }
+  .options.tf .opt .lbl { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .options.tf .opt .icon { font-size: 50px; line-height: 1; }
+
+  /* COVER */
+  .cover, .end {
+    text-align: center;
+    display: grid; place-content: center; gap: 24px;
+    height: 100%;
+  }
+  .cover h1 {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 6.5vw, 88px); margin: 0; line-height: 0.98;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+  .cover h1 span {
+    color: var(--insper);
+  }
+  .cover .sub { color: var(--muted); font-size: 20px; max-width: 760px; margin: 0 auto; line-height: 1.5; }
+  .cover .hint { font-size: 13px; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.85; }
+  .cover kbd, .end kbd, .hint kbd, .bottom kbd {
+    display: inline-block; padding: 3px 8px; border-radius: 6px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px; color: var(--fg); letter-spacing: normal;
+  }
+
+  .cover-vote {
+    margin-top: 8px;
+    display: inline-flex; flex-direction: column; align-items: center; gap: 14px;
+    padding: 22px 28px;
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+  }
+  .cover-vote .qrbox { background: white; padding: 14px; border-radius: 12px; }
+  .cover-vote .qrbox img { display: block; width: 220px; height: 220px; }
+  .cover-vote .url-line { font-family: ui-monospace, monospace; color: #ff7a7a; font-size: 16px; word-break: break-all; max-width: 400px; }
+  .cover-vote .label { font-size: 13px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+
+  .roadmap { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+  .roadmap .chip {
+    padding: 8px 14px; border-radius: 999px; font-size: 13px; letter-spacing: 0.06em;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: var(--muted);
+  }
+  .roadmap .chip b { color: var(--fg); font-weight: 700; margin-right: 8px; }
+
+  /* EXPLAIN */
+  .explain {
+    margin-top: 14px;
+    padding: 16px 20px;
+    background: linear-gradient(180deg, rgba(229,5,5,0.10), rgba(229,5,5,0.02));
+    border: 1px solid rgba(229,5,5,0.30);
+    border-left: 3px solid var(--insper);
+    border-radius: 12px;
+    color: #ffe5e5;
+    font-size: 16px; line-height: 1.5;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 350ms ease, transform 350ms ease;
+    max-height: 0; overflow: hidden; padding-top: 0; padding-bottom: 0; margin-top: 0; border-width: 0;
+  }
+  .explain.show { opacity: 1; transform: translateY(0); max-height: 360px; padding: 16px 20px; margin-top: 14px; border-width: 1px; border-left-width: 3px; }
+  .explain b { color: #ff7a7a; }
+
+  /* QR sidecar (always visible during questions, small) */
+  .qr-mini {
+    position: fixed; right: 20px; bottom: 60px;
+    background: white; padding: 8px; border-radius: 10px;
+    box-shadow: var(--shadow); z-index: 50;
+    cursor: pointer;
+    transition: transform 200ms ease;
+  }
+  .qr-mini:hover { transform: scale(1.05); }
+  .qr-mini img { display: block; width: 92px; height: 92px; }
+  .qr-mini .label {
+    position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%);
+    font-size: 11px; color: var(--muted); white-space: nowrap;
+  }
+
+  /* QR overlay (full screen for in-person mode) */
+  .qr-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.94);
+    display: none; place-items: center;
+    z-index: 1000; padding: 40px;
+  }
+  .qr-overlay.show { display: grid; }
+  .qr-overlay .qr-card {
+    text-align: center;
+    background: white; padding: 36px;
+    border-radius: 24px;
+    color: #0a0a0a;
+    border-top: 6px solid var(--insper);
+  }
+  .qr-overlay img { width: min(60vmin, 480px); height: min(60vmin, 480px); display: block; margin: 0 auto 20px; }
+  .qr-overlay .url { font-family: ui-monospace, monospace; font-size: 22px; color: #0a0a0a; margin: 12px 0; word-break: break-all; }
+  .qr-overlay .hint { color: #555; letter-spacing: 0.1em; text-transform: uppercase; font-size: 14px; }
+
+  /* BOTTOM */
+  .bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--muted); font-size: 13px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 12px;
+  }
+  .controls { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .end h2 { font-family: var(--font-display); font-size: clamp(40px, 5vw, 72px); margin: 0; letter-spacing: -0.02em; }
+  .end p { color: var(--muted); font-size: 20px; max-width: 720px; margin: 0 auto; line-height: 1.5; }
+
+  .fade-enter { animation: fadein 360ms ease both; }
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .pulse { animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 0.5 } 50% { opacity: 1 } }
+
+  /* ============================ VOTER PAGE ============================ */
+  body.voter { background: linear-gradient(180deg, #050505 0%, #141414 100%); }
+  body.voter h2 { font-family: var(--font-display); letter-spacing: -0.01em; }
+  .voter-shell {
+    min-height: 100vh; padding: 24px 18px 40px;
+    display: flex; flex-direction: column; gap: 20px;
+    max-width: 560px; margin: 0 auto;
+  }
+  .voter-shell .header { text-align: center; padding: 8px 0; color: var(--muted); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .voter-shell h2 { font-size: 22px; margin: 0; line-height: 1.3; }
+  .voter-shell .subtle { color: var(--muted); font-size: 14px; line-height: 1.5; }
+  .voter-shell .qcard {
+    background: var(--card); border: 1px solid var(--card-border);
+    padding: 20px; border-radius: 16px;
+  }
+  .voter-shell .opts { display: grid; gap: 12px; }
+  .voter-shell button.opt {
+    appearance: none; -webkit-tap-highlight-color: transparent;
+    width: 100%; text-align: left; cursor: pointer; color: var(--fg);
+    font-family: inherit; font-size: 17px; line-height: 1.35;
+    padding: 18px 20px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    display: flex; align-items: center; gap: 14px;
+    transition: transform 100ms ease, background 200ms ease;
+  }
+  .voter-shell button.opt:active { transform: scale(0.98); }
+  .voter-shell button.opt[aria-pressed="true"] {
+    background: rgba(229,5,5,0.18); border-color: var(--insper);
+    box-shadow: 0 0 0 1px rgba(229,5,5,0.55);
+  }
+  .voter-shell button.opt .key {
+    width: 32px; height: 32px; flex-shrink: 0; border-radius: 8px;
+    background: rgba(255,255,255,0.08); display: grid; place-items: center;
+    font-weight: 700; color: var(--muted);
+  }
+  .voter-shell button.opt[aria-pressed="true"] .key { background: var(--insper); color: #ffffff; }
+  .voter-shell button.opt:disabled { opacity: 0.55; cursor: not-allowed; }
+  .voter-shell .toast {
+    margin-top: 6px; padding: 12px 14px; border-radius: 10px;
+    background: rgba(229,5,5,0.10); border: 1px solid rgba(229,5,5,0.32);
+    color: #ff9a9a; font-size: 14px; text-align: center;
+  }
+  .voter-shell .toast.locked { background: rgba(120,2,2,0.20); border-color: rgba(229,5,5,0.45); color: #ff7a7a; }
+  .voter-shell .waiting {
+    text-align: center; padding: 40px 20px;
+    color: var(--muted); font-size: 15px; line-height: 1.6;
+  }
+  .voter-shell .footer-tag {
+    text-align: center; padding-top: 20px; color: var(--muted); font-size: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .qbody.has-visual { grid-template-columns: 1fr; }
+    .stage { padding: 18px 22px; }
+    .qr-mini { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Conteúdo gerado dinamicamente: projeção ou voter -->
+<div id="root"></div>
+
+<!-- Overlay de QR fullscreen -->
+<div class="qr-overlay" id="qrOverlay" onclick="this.classList.remove('show')">
+  <div class="qr-card" onclick="event.stopPropagation()">
+    <img id="qrOverlayImg" alt="QR Code"/>
+    <div class="hint">Vote pelo seu celular</div>
+    <div class="url" id="qrOverlayUrl"></div>
+    <div class="hint" style="margin-top:12px">Toque fora para fechar · <kbd>Q</kbd> alterna</div>
+  </div>
+</div>
+
+<script>
+/* =============================================================================
+ * Recap Aulas 01 e 02 — quiz com votação real via Firebase
+ *
+ * COMO ATIVAR VOTAÇÃO REAL DOS ALUNOS:
+ * 1. Acesse https://console.firebase.google.com → Add project (qualquer nome)
+ * 2. Build → Realtime Database → Create database → start in TEST MODE
+ * 3. Project Settings (engrenagem) → General → "Your apps" → Web (</>)
+ * 4. Registre o app, copie a `databaseURL` (algo como
+ *    https://SEU-PROJETO-default-rtdb.firebaseio.com)
+ * 5. Cole abaixo em FIREBASE_CONFIG.databaseURL e faça commit/push.
+ *
+ * Sem isso, o app funciona em modo TALLY MANUAL (aperte 1-4 conforme votos
+ * vão chegando no chat).
+ * ===========================================================================*/
+
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDb6koJJDK-Irm4kuS8baEsDMQrGF1h1d4",
+  authDomain: "labdados-4cc29.firebaseapp.com",
+  projectId: "labdados-4cc29",
+  // Se a região do RTDB for outra, ajuste para
+  // https://labdados-4cc29-default-rtdb.<region>.firebasedatabase.app
+  databaseURL: "https://labdados-4cc29-default-rtdb.firebaseio.com"
+};
+
+const SESSION_ID = new URLSearchParams(location.search).get("s") || "default";
+const IS_VOTER = new URLSearchParams(location.search).get("vote") === "1";
+
+const useFirebase = FIREBASE_CONFIG.databaseURL && FIREBASE_CONFIG.databaseURL.length > 12;
+let db = null;
+if (useFirebase) {
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    db = firebase.database();
+  } catch (e) {
+    console.error("Firebase init falhou:", e);
+  }
+}
+
+// ===== KaTeX render helper ===================================================
+function typeset(node) {
+  if (!window.renderMathInElement) return;
+  try {
+    renderMathInElement(node || document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true }
+      ],
+      throwOnError: false
+    });
+  } catch (e) {}
+}
+// Re-tenta tipografar quando KaTeX terminar de carregar
+window.addEventListener("load", () => setTimeout(() => typeset(), 50));
+
+// ===== random / canvas helpers ==============================================
+function mulberry32(seed) {
+  return function() {
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function gauss(rng) {
+  let u = 0, v = 0;
+  while (u === 0) u = rng();
+  while (v === 0) v = rng();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+function whiteNoise(n, seed = 1) {
+  const r = mulberry32(seed); const a = [];
+  for (let i = 0; i < n; i++) a.push(gauss(r));
+  return a;
+}
+function randomWalk(n, seed = 2) {
+  const r = mulberry32(seed); let s = 0; const a = [];
+  for (let i = 0; i < n; i++) { s += gauss(r); a.push(s); }
+  return a;
+}
+function trendSeries(n, slope = 0.05, seed = 3) {
+  const r = mulberry32(seed); const a = [];
+  for (let i = 0; i < n; i++) a.push(slope * i + gauss(r) * 0.8);
+  return a;
+}
+function seasonalSeries(n, period = 24, amp = 2, seed = 4) {
+  const r = mulberry32(seed); const a = [];
+  for (let i = 0; i < n; i++)
+    a.push(amp * Math.sin((2 * Math.PI * i) / period) + gauss(r) * 0.4);
+  return a;
+}
+function multiplicativeSeasonalSeries(n, period = 12, seed = 5) {
+  // amplitude sazonal proporcional ao nível: clássico padrão multiplicativo
+  const r = mulberry32(seed); const a = [];
+  for (let i = 0; i < n; i++) {
+    const trend = 50 + 0.45 * i;
+    const seasonal = 1 + 0.32 * Math.sin((2 * Math.PI * i) / period);
+    a.push(trend * seasonal + gauss(r) * 1.4);
+  }
+  return a;
+}
+
+function plotSeries(canvas, data, opts = {}) {
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = canvas.clientWidth, cssH = canvas.clientHeight;
+  if (cssW < 4 || cssH < 4) return;
+  canvas.width = cssW * dpr; canvas.height = cssH * dpr;
+  const ctx = canvas.getContext("2d"); ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, cssW, cssH);
+  const pad = { l: 28, r: 14, t: 14, b: 22 };
+  const w = cssW - pad.l - pad.r;
+  const h = cssH - pad.t - pad.b;
+  const min = Math.min(...data), max = Math.max(...data);
+  const range = max - min || 1;
+  const x = i => pad.l + (i / (data.length - 1)) * w;
+  const y = v => pad.t + h - ((v - min) / range) * h;
+  ctx.strokeStyle = "rgba(255,255,255,0.12)"; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + h);
+  ctx.lineTo(pad.l + w, pad.t + h); ctx.stroke();
+  if (min < 0 && max > 0) {
+    ctx.strokeStyle = "rgba(255,255,255,0.08)"; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(pad.l, y(0)); ctx.lineTo(pad.l + w, y(0)); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  ctx.strokeStyle = opts.color || "#ff7a7a";
+  ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  data.forEach((v, i) => { if (i === 0) ctx.moveTo(x(i), y(v)); else ctx.lineTo(x(i), y(v)); });
+  ctx.stroke();
+}
+
+function plotACF(canvas, coeffs, opts = {}) {
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = canvas.clientWidth, cssH = canvas.clientHeight;
+  if (cssW < 4 || cssH < 4) return;
+  canvas.width = cssW * dpr; canvas.height = cssH * dpr;
+  const ctx = canvas.getContext("2d"); ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, cssW, cssH);
+  const pad = { l: 32, r: 14, t: 14, b: 26 };
+  const w = cssW - pad.l - pad.r, h = cssH - pad.t - pad.b;
+  const n = coeffs.length;
+  const x = i => pad.l + ((i + 0.5) / n) * w;
+  const y0 = pad.t + h / 2;
+  const yScale = (h / 2) * 0.92;
+  ctx.strokeStyle = "rgba(255,255,255,0.18)";
+  ctx.beginPath(); ctx.moveTo(pad.l, y0); ctx.lineTo(pad.l + w, y0); ctx.stroke();
+  const band = 1.96 / Math.sqrt(opts.n || 200);
+  ctx.strokeStyle = "rgba(26,166,106,0.65)"; ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  ctx.moveTo(pad.l, y0 - band * yScale); ctx.lineTo(pad.l + w, y0 - band * yScale);
+  ctx.moveTo(pad.l, y0 + band * yScale); ctx.lineTo(pad.l + w, y0 + band * yScale);
+  ctx.stroke(); ctx.setLineDash([]);
+  const bw = Math.max(2, w / n - 4);
+  coeffs.forEach((c, i) => {
+    const cx = x(i);
+    const top = y0 - c * yScale;
+    ctx.fillStyle = Math.abs(c) > band ? (opts.color || "#e50505") : "rgba(255,255,255,0.45)";
+    ctx.fillRect(cx - bw / 2, Math.min(y0, top), bw, Math.abs(c * yScale));
+  });
+  ctx.fillStyle = "rgba(255,255,255,0.55)";
+  ctx.font = "11px ui-sans-serif, system-ui";
+  ctx.textAlign = "center";
+  for (let i = 0; i < n; i += 2) ctx.fillText(String(i), x(i), pad.t + h + 14);
+  ctx.fillText(opts.label || "lag", pad.l + w / 2, pad.t + h + 22);
+}
+
+// ============================================================================
+// QUESTÕES (com $...$ para LaTeX)
+// ============================================================================
+const Q = [];
+
+// LEVEL 1 — aquecimento -------------------------------------------------------
+Q.push({
+  id: "q1", level: 1, kind: "Verdadeiro / Falso",
+  title: "Em séries temporais, embaralhar a ordem das observações <em>não</em> altera o significado dos dados.",
+  type: "tf", correct: 1,
+  explain: "<b>Falso.</b> Diferente de cross-section, em série temporal a ordem carrega a dinâmica. Embaralhar destrói tendência, sazonalidade e qualquer estrutura de autocorrelação."
+});
+
+Q.push({
+  id: "q2", level: 1, kind: "Verdadeiro / Falso",
+  title: "Ruído branco (white noise) é um processo <em>estacionário</em>.",
+  type: "tf", correct: 0,
+  explain: "<b>Verdadeiro.</b> White noise tem $E[\\varepsilon_t]=0$, $\\mathrm{Var}(\\varepsilon_t)=\\sigma^2$ constante e $\\mathrm{Cov}(\\varepsilon_t,\\varepsilon_{t-k})=0$ — atende à estacionariedade fraca."
+});
+
+Q.push({
+  id: "q3", level: 1, kind: "Verdadeiro / Falso",
+  title: "Um random walk $Y_t = Y_{t-1} + \\varepsilon_t$ <em>também</em> é estacionário.",
+  type: "tf", correct: 1,
+  explain: "<b>Falso.</b> $\\mathrm{Var}(Y_t)=t\\,\\sigma^2$ — a variância cresce linearmente com $t$. Por isso precisamos diferenciar antes de modelar."
+});
+
+Q.push({
+  id: "q4", level: 1, kind: "Múltipla escolha",
+  title: "Qual destes <em>não</em> é um componente clássico de uma série temporal?",
+  type: "mc",
+  options: ["Tendência", "Sazonalidade", "Polaridade", "Ciclo"],
+  correct: 2,
+  explain: "<b>Polaridade</b> não faz parte da decomposição clássica. Os componentes são tendência, sazonalidade (período fixo), ciclo (período variável) e ruído/resíduo."
+});
+
+// LEVEL 2 — intuição ---------------------------------------------------------
+Q.push({
+  id: "q5", level: 2, kind: "Identifique a série",
+  title: "Qual destes gráficos é um <em>random walk</em>?",
+  type: "mc", visual: "fourSeries",
+  options: ["Série A", "Série B", "Série C", "Série D"],
+  correct: 1,
+  explain: "<b>B</b> é o random walk: trajetória que vagueia sem retornar à média, sem período fixo. A: white noise. C: tendência linear + ruído. D: sazonalidade."
+});
+
+Q.push({
+  id: "q5b", level: 2, kind: "Decomposição · aditiva ou multiplicativa?",
+  title: "Você observa esta série mensal. Qual decomposição você aplica e por quê?",
+  type: "mc", visual: "multiplicativeSeries",
+  options: [
+    "Aditiva — $Y_t = T_t + S_t + R_t$, porque a sazonalidade tem amplitude constante ao longo do tempo",
+    "Multiplicativa — $Y_t = T_t \\cdot S_t \\cdot R_t$, porque a amplitude sazonal cresce proporcionalmente ao nível",
+    "Aditiva — sempre é a primeira escolha por simplicidade",
+    "Multiplicativa — porque a série tem tendência crescente"
+  ],
+  correct: 1,
+  explain: "<b>Multiplicativa.</b> A pista é a <i>amplitude sazonal crescendo com o nível</i> — picos cada vez maiores e vales mais profundos em valores absolutos. Aplicando $\\log$, a série voltaria a ter sazonalidade de amplitude constante (forma aditiva no log). A opção (3) usa uma falsa regra de simplicidade. A (4) confunde efeito (tendência crescente) com causa (amplitude proporcional ao nível): uma série pode ter tendência crescente e sazonalidade aditiva ao mesmo tempo."
+});
+
+Q.push({
+  id: "q6", level: 2, kind: "Múltipla escolha",
+  title: "Para identificar a ordem $p$ de um $\\mathrm{AR}(p)$ puro, qual gráfico é mais informativo?",
+  type: "mc",
+  options: ["ACF (autocorrelação)", "PACF (autocorrelação parcial)", "Histograma dos resíduos", "Q-Q plot"],
+  correct: 1,
+  explain: "<b>PACF.</b> Em $\\mathrm{AR}(p)$ puro, a PACF corta abruptamente após o lag $p$, enquanto a ACF decai gradualmente. Em $\\mathrm{MA}(q)$ é o contrário."
+});
+
+Q.push({
+  id: "q7", level: 2, kind: "Múltipla escolha",
+  title: "No modelo $\\mathrm{ARIMA}(p,d,q)$, o que representa o $d$?",
+  type: "mc",
+  options: [
+    "Número de defasagens da parte AR",
+    "Número de diferenciações para tornar a série estacionária",
+    "Quantidade de outliers detectados",
+    "Grau de sazonalidade (período)"
+  ],
+  correct: 1,
+  explain: "<b>$d$ = ordem de integração</b> — quantas vezes diferenciamos a série até remover tendência estocástica. $\\mathrm{ARIMA}(p,d,q)$ = $\\mathrm{ARMA}(p,q)$ aplicado a $\\Delta^d Y_t$."
+});
+
+Q.push({
+  id: "q8", level: 2, kind: "Múltipla escolha",
+  title: "A metodologia clássica de modelagem de séries temporais é conhecida como…",
+  type: "mc",
+  options: ["Box-Cox", "Box-Jenkins", "Durbin-Watson", "Holt-Winters"],
+  correct: 1,
+  explain: "<b>Box-Jenkins</b>: identificação (ACF/PACF) → estimação → diagnóstico (resíduos) → previsão. Box-Cox é transformação; Durbin-Watson é teste; Holt-Winters é suavização."
+});
+
+// LEVEL 3 — pós-graduação ----------------------------------------------------
+Q.push({
+  id: "q9", level: 3, kind: "Múltipla escolha · estatística",
+  title: "No teste ADF (Dickey-Fuller aumentado), qual é a <em>hipótese nula</em>?",
+  type: "mc",
+  options: [
+    "A série é estacionária",
+    "A série tem raiz unitária (não-estacionária)",
+    "Os resíduos são normais",
+    "Existe sazonalidade"
+  ],
+  correct: 1,
+  explain: "<b>$H_0$: existe raiz unitária</b> (não-estacionária). Rejeitar $H_0$ (p-valor pequeno) ⇒ podemos assumir estacionariedade. É o oposto do KPSS."
+});
+
+Q.push({
+  id: "q10", level: 3, kind: "Múltipla escolha · álgebra",
+  title: "Para que um $\\mathrm{AR}(1)$ com $Y_t = \\phi\\,Y_{t-1} + \\varepsilon_t$ seja <em>estacionário</em>, precisamos…",
+  type: "mc",
+  options: ["$\\phi > 0$", "$\\phi = 1$", "$|\\phi| < 1$", "$\\phi < 0$"],
+  correct: 2,
+  explain: "<b>$|\\phi|<1$.</b> A raiz do polinômio característico $1-\\phi z=0$ é $z=1/\\phi$ — precisa estar fora do círculo unitário, $|1/\\phi|>1 \\iff |\\phi|<1$. Se $\\phi=1$ é random walk."
+});
+
+Q.push({
+  id: "q11", level: 3, kind: "Múltipla escolha · conceitual",
+  title: "Tendência <em>determinística</em> vs. <em>estocástica</em> — qual afirmação é correta?",
+  type: "mc",
+  options: [
+    "Determinística: remover por diferenciação; estocástica: por regressão em $t$",
+    "Determinística: remover por regressão em $t$; estocástica: por diferenciação",
+    "São equivalentes — qualquer método remove ambas",
+    "Apenas a estocástica afeta a previsão"
+  ],
+  correct: 1,
+  explain: "<b>Determinística</b> ($\\mu+\\beta t$) sai com regressão em $t$. <b>Estocástica</b> (raiz unitária) sai com diferenciação. Confundir uma com a outra leva a <i>spurious regression</i> ou <i>over-differencing</i>."
+});
+
+Q.push({
+  id: "q12", level: 3, kind: "Múltipla escolha · seleção de modelo",
+  title: "Comparando $\\mathrm{AIC}$ e $\\mathrm{BIC}$ na seleção de modelos ARIMA…",
+  type: "mc",
+  options: [
+    "AIC penaliza complexidade mais que BIC",
+    "BIC penaliza complexidade mais que AIC (cresce com $\\log n$)",
+    "Ambos penalizam igualmente — só mudam a constante",
+    "BIC ignora a verossimilhança"
+  ],
+  correct: 1,
+  explain: "<b>$\\mathrm{AIC}=-2\\ell+2k$</b>; <b>$\\mathrm{BIC}=-2\\ell+k\\log n$</b>. Para $n\\geq 8$, $\\log n>2$, então BIC penaliza mais — tende a modelos parcimoniosos. AIC tende a sobrefitar; BIC a subfitar."
+});
+
+// LEVEL 4 — hardcore ---------------------------------------------------------
+Q.push({
+  id: "q13", level: 4, kind: "Pegadinha · economista atento",
+  title: "No teste <em>KPSS</em>, qual é a hipótese nula?",
+  type: "mc",
+  options: [
+    "Existe raiz unitária (não-estacionariedade)",
+    "A série é estacionária (em torno de nível ou tendência)",
+    "Os resíduos são iid",
+    "A série tem sazonalidade"
+  ],
+  correct: 1,
+  explain: "<b>$H_0$ do KPSS: estacionariedade</b> — exatamente o oposto do ADF. Por isso usamos os dois em conjunto: ADF rejeita E KPSS não rejeita ⇒ evidência forte de estacionariedade. Ambos rejeitam ⇒ inconclusivo."
+});
+
+Q.push({
+  id: "q14", level: 4, kind: "Identifique o processo",
+  title: "A ACF/PACF abaixo (n=200) sugere qual modelo?",
+  type: "mc", visual: "acfPacfAR2",
+  options: [
+    "$\\mathrm{MA}(2)$: ACF corta no lag 2, PACF decai",
+    "$\\mathrm{AR}(2)$: PACF corta no lag 2, ACF decai",
+    "Random walk: ACF decai linearmente",
+    "White noise: tudo dentro da banda"
+  ],
+  correct: 1,
+  explain: "<b>$\\mathrm{AR}(2)$.</b> PACF tem dois picos significativos seguidos de zeros (corte em $p=2$); ACF decai como mistura de senoides amortecidas. Em MA é o contrário."
+});
+
+Q.push({
+  id: "q14b", level: 4, kind: "Hardcore · raízes do polinômio característico",
+  title: "Considere o $\\mathrm{AR}(2)$:&nbsp;&nbsp; $Y_t = Y_{t-1} - \\tfrac{1}{2}\\,Y_{t-2} + \\varepsilon_t$.&nbsp;&nbsp; O processo é estacionário?",
+  type: "mc",
+  options: [
+    "Não — $\\phi_1 = 1$ implica raiz unitária; a série é não-estacionária como um random walk",
+    "Sim — as raízes do polinômio característico são $z = 1 \\pm i$, com $|z|=\\sqrt{2}>1$ (fora do círculo unitário)",
+    "Não — falha na condição $|\\phi_1| + |\\phi_2| < 1$, pois $1 + 0{,}5 = 1{,}5 > 1$",
+    "Sim — discriminante negativo garante raízes complexas, logo o sistema é estável"
+  ],
+  correct: 1,
+  explain: "<b>É estacionário.</b> O polinômio característico é $\\Phi(z) = 1 - z + \\tfrac{1}{2}z^2 = 0$, ou equivalentemente $z^2 - 2z + 2 = 0$. Pela fórmula quadrática: $z = \\dfrac{2 \\pm \\sqrt{4-8}}{2} = \\dfrac{2 \\pm 2i}{2} = 1 \\pm i$. Raízes <i>complexas conjugadas</i>, módulo $|z| = \\sqrt{1^2+1^2} = \\sqrt{2}\\approx 1{,}41 > 1$ — fora do círculo unitário, então estacionário (com oscilações pseudo-cíclicas amortecidas, típicas de raízes complexas). <br/>A (1) ignora o efeito de $\\phi_2$ — em AR(2) $\\phi_1$ sozinho não determina nada. A (3) confunde uma condição <i>suficiente</i> ($|\\phi_1|+|\\phi_2|<1$) com uma <i>necessária</i>: quando ela falha, o processo ainda pode ser estacionário; é preciso checar as raízes. A (4) confunde discriminante (raízes reais vs. complexas) com módulo (dentro vs. fora do círculo)."
+});
+
+Q.push({
+  id: "q15", level: 4, kind: "Aplicada · seleção de modelo",
+  title: "Você ajustou 4 modelos $\\mathrm{ARIMA}$ à mesma série (todos com $d=1$, mesma amostra). AICs abaixo. Qual modelo escolher?",
+  type: "mc", visual: "aicTable1",
+  options: [
+    "$\\mathrm{ARIMA}(2,1,2)$ — mais flexível, capta dinâmicas mais ricas",
+    "$\\mathrm{ARIMA}(1,1,1)$ — menor AIC entre os candidatos",
+    "$\\mathrm{ARIMA}(0,1,1)$ — preferir o mais parcimonioso por princípio",
+    "Empate técnico — qualquer um serve"
+  ],
+  correct: 1,
+  explain: "<b>$\\mathrm{ARIMA}(1,1,1)$.</b> Com $d$ fixo (mesma variável dependente, mesma amostra), AIC <i>é</i> diretamente comparável: escolha o menor. Aqui $\\Delta\\mathrm{AIC}>2$ versus os demais — diferença substantiva (regra de Burnham-Anderson). Parcimônia já está embutida na penalidade $2k$ do AIC."
+});
+
+Q.push({
+  id: "q16", level: 4, kind: "Final · pegadinha econométrica",
+  title: "Você compara $\\mathrm{ARIMA}(1,0,1)$ (sem diferenciar) com $\\mathrm{ARIMA}(1,1,1)$ (com $d=1$) na mesma série, e o segundo dá AIC <em>muito</em> menor. Você conclui que…",
+  type: "mc", visual: "aicTable2",
+  options: [
+    "$\\mathrm{ARIMA}(1,1,1)$ é claramente superior — pode escolher direto",
+    "AIC entre modelos com $d$ diferentes <em>não</em> é comparável; defina $d$ por testes (ADF/KPSS) primeiro, depois compare $(p,q)$ com $d$ fixo",
+    "Tira a média ponderada dos dois AICs",
+    "BIC resolveria — ele é imune a esse problema"
+  ],
+  correct: 1,
+  explain: "<b>Pegadinha clássica.</b> $\\mathrm{ARIMA}(p,0,q)$ modela $Y_t$; $\\mathrm{ARIMA}(p,1,q)$ modela $\\Delta Y_t$ — variáveis dependentes <i>diferentes</i> e amostras de tamanhos diferentes ($n$ vs $n-d$). A log-verossimilhança é calculada sobre escalas distintas. Comparar AIC entre eles é como comparar AIC de modelos em $Y$ vs $\\log Y$: numericamente possível, semanticamente sem sentido. <b>BIC sofre do mesmo problema</b> (mesma log-verossimilhança). Procedimento correto: ADF/KPSS para fixar $d$ → comparar $(p,q)$ via AIC/BIC."
+});
+
+
+// ============================================================================
+// VOTER PAGE
+// ============================================================================
+if (IS_VOTER) {
+  document.body.classList.add("voter");
+  initVoter();
+} else {
+  document.body.classList.add("projection");
+  initProjection();
+}
+
+function getVoterId() {
+  let id = localStorage.getItem("voterId");
+  if (!id) {
+    id = "v_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+    localStorage.setItem("voterId", id);
+  }
+  return id;
+}
+
+function initVoter() {
+  const root = document.getElementById("root");
+  root.innerHTML = `
+    <div class="voter-shell">
+      <div class="header">FA · PADS Insper · Recap aulas 1–2</div>
+      <div id="vbody"></div>
+      <div class="footer-tag">Sessão: ${SESSION_ID}</div>
+    </div>
+  `;
+  const vbody = document.getElementById("vbody");
+
+  if (!useFirebase) {
+    vbody.innerHTML = `
+      <div class="qcard">
+        <h2>Votação online indisponível</h2>
+        <p class="subtle">A página de votação remota requer configuração do Firebase pelo professor. Enquanto isso, vote pelo chat da aula — A, B, C ou D.</p>
+      </div>`;
+    return;
+  }
+
+  let currentIdx = -1;
+  const voterId = getVoterId();
+  const sessionRef = db.ref(`sessions/${SESSION_ID}`);
+
+  sessionRef.child("currentIndex").on("value", snap => {
+    const idx = snap.val();
+    if (idx === null || idx === undefined) {
+      vbody.innerHTML = `<div class="waiting">⏳ Aguardando o professor iniciar…</div>`;
+      currentIdx = -1; return;
+    }
+    if (idx === -1) {
+      vbody.innerHTML = `<div class="waiting">⏳ Aguardando a primeira pergunta…<br/><span style="font-size:13px">A votação abre quando o professor avançar.</span></div>`;
+      currentIdx = -1; return;
+    }
+    if (idx >= Q.length) {
+      vbody.innerHTML = `<div class="waiting">🎉 Recap encerrado!<br/><span style="font-size:13px">Obrigado pela participação.</span></div>`;
+      currentIdx = idx; return;
+    }
+    if (idx !== currentIdx) {
+      currentIdx = idx;
+      renderVoterQuestion(idx);
+    }
+  });
+
+  function renderVoterQuestion(idx) {
+    const q = Q[idx];
+    const labels = q.type === "tf"
+      ? [{ key: "V", lbl: "Verdadeiro" }, { key: "F", lbl: "Falso" }]
+      : q.options.map((o, i) => ({ key: ["A", "B", "C", "D"][i], lbl: o }));
+    vbody.innerHTML = `
+      <div class="qcard">
+        <div class="subtle" style="margin-bottom:8px">Pergunta ${idx + 1} de ${Q.length}</div>
+        <h2>${q.title}</h2>
+        <div class="opts" id="vopts" style="margin-top:18px">
+          ${labels.map((l, i) => `
+            <button class="opt" data-idx="${i}" aria-pressed="false">
+              <div class="key">${l.key}</div>
+              <div>${l.lbl}</div>
+            </button>`).join("")}
+        </div>
+        <div id="vtoast"></div>
+      </div>
+    `;
+    typeset(vbody);
+
+    const qRef = sessionRef.child(`q${idx}`);
+    let myVote = null;
+    let locked = false;
+
+    function refreshUI() {
+      const btns = vbody.querySelectorAll("button.opt");
+      btns.forEach(b => {
+        const i = +b.dataset.idx;
+        b.setAttribute("aria-pressed", i === myVote ? "true" : "false");
+        b.disabled = locked;
+      });
+      const toast = document.getElementById("vtoast");
+      if (locked) {
+        toast.innerHTML = `<div class="toast locked">🔒 Votação encerrada.${myVote !== null ? " Seu voto: <b>" + (q.type === "tf" ? (myVote === 0 ? "V" : "F") : ["A","B","C","D"][myVote]) + "</b>" : ""}</div>`;
+      } else if (myVote !== null) {
+        toast.innerHTML = `<div class="toast">✓ Voto registrado: <b>${q.type === "tf" ? (myVote === 0 ? "Verdadeiro" : "Falso") : ["A","B","C","D"][myVote]}</b>. Você pode mudar enquanto estiver aberto.</div>`;
+      } else {
+        toast.innerHTML = "";
+      }
+    }
+
+    qRef.child(`votes/${voterId}`).on("value", s => { myVote = s.val(); if (myVote !== null) myVote = +myVote; refreshUI(); });
+    qRef.child("locked").on("value", s => { locked = !!s.val(); refreshUI(); });
+
+    vbody.querySelectorAll("button.opt").forEach(b => {
+      b.addEventListener("click", () => {
+        if (locked) return;
+        const i = +b.dataset.idx;
+        qRef.child(`votes/${voterId}`).set(i);
+      });
+    });
+  }
+}
+
+// ============================================================================
+// PROJECTION PAGE
+// ============================================================================
+function initProjection() {
+  const voterUrl = location.origin + location.pathname + "?vote=1" + (SESSION_ID !== "default" ? "&s=" + SESSION_ID : "");
+  const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=0&data=${encodeURIComponent(voterUrl)}`;
+
+  document.getElementById("qrOverlayImg").src = qrSrc;
+  document.getElementById("qrOverlayUrl").textContent = voterUrl;
+
+  document.getElementById("root").innerHTML = `
+    <div class="stage" id="stage">
+      <div class="top">
+        <div class="brand">
+          <img class="logo" src="../manual_marca/LOGOTIPO-INSPER/INSPER/USO%20DIGITAL/logo-insper-branco.png" alt="Insper"/>
+          <span class="sep"></span>
+          <span class="label">Financial Analytics · PADS</span>
+        </div>
+        <div class="progress-wrap"><div class="progress-bar" id="progress"></div></div>
+        <div class="vote-status" id="voteStatus"><span class="dot"></span><span id="voteStatusLabel">${useFirebase ? "Votação online" : "Modo manual"}</span></div>
+        <div class="counter" id="counter">— / —</div>
+      </div>
+      <div id="content"></div>
+      <div class="bottom">
+        <div class="controls">
+          <span><kbd>Espaço</kbd> revela / avança</span>
+          <span><kbd>←</kbd> volta</span>
+          <span><kbd>V</kbd> mostra/esconde votos</span>
+          <span><kbd>C</kbd> limpa votos</span>
+          <span><kbd>Q</kbd> QR grande</span>
+          <span><kbd>R</kbd> reinicia</span>
+          ${useFirebase ? "" : "<span><kbd>1-4</kbd> tally manual</span>"}
+        </div>
+        <div>Recap · Aulas 1 e 2 · Séries Temporais</div>
+      </div>
+    </div>
+  `;
+
+  const state = { index: -1, revealed: false, showVotes: false, votes: [0, 0, 0, 0], voterCount: 0, fbDetached: null };
+  const content = document.getElementById("content");
+  const counter = document.getElementById("counter");
+  const progress = document.getElementById("progress");
+  const voteStatus = document.getElementById("voteStatus");
+  const voteStatusLabel = document.getElementById("voteStatusLabel");
+
+  const levelNames = {
+    1: "Nível 1 · Aquecimento",
+    2: "Nível 2 · Intuição",
+    3: "Nível 3 · Pós-Graduação",
+    4: "Nível 4 · Hardcore"
+  };
+
+  let sessionRef = null;
+  if (useFirebase && db) {
+    sessionRef = db.ref(`sessions/${SESSION_ID}`);
+    sessionRef.child("currentIndex").set(-1);
+  }
+
+  function detachFirebase() {
+    if (state.fbDetached) { state.fbDetached(); state.fbDetached = null; }
+  }
+
+  function attachFirebaseForQuestion(idx) {
+    detachFirebase();
+    if (!sessionRef || idx < 0 || idx >= Q.length) return;
+    const q = Q[idx];
+    const optCount = q.type === "tf" ? 2 : (q.options ? q.options.length : 4);
+    state.votes = new Array(optCount).fill(0);
+    state.voterCount = 0;
+    const qRef = sessionRef.child(`q${idx}/votes`);
+    const handler = qRef.on("value", snap => {
+      const v = snap.val() || {};
+      const counts = new Array(optCount).fill(0);
+      let n = 0;
+      Object.values(v).forEach(opt => {
+        const i = +opt;
+        if (Number.isFinite(i) && i >= 0 && i < optCount) { counts[i]++; n++; }
+      });
+      state.votes = counts;
+      state.voterCount = n;
+      updateBars();
+    });
+    state.fbDetached = () => qRef.off("value", handler);
+  }
+
+  function updateBars() {
+    const totalVotes = state.votes.reduce((a, b) => a + b, 0);
+    const showBars = state.showVotes || state.revealed;
+    const eyeIcon = showBars ? "👁" : "🙈";
+    voteStatusLabel.innerHTML = useFirebase
+      ? `${eyeIcon} ${state.voterCount} ${state.voterCount === 1 ? "voto" : "votos"}`
+      : `${eyeIcon} Tally manual · ${totalVotes} votos`;
+    voteStatus.classList.toggle("online", useFirebase);
+    voteStatus.classList.toggle("locked", state.revealed);
+    voteStatus.classList.toggle("hidden-bars", !showBars);
+
+    const total = totalVotes || 1;
+    document.querySelectorAll(".opt").forEach(el => {
+      const i = +el.dataset.idx;
+      const count = state.votes[i] || 0;
+      const pct = (count / total) * 100;
+      const bar = el.querySelector(".vbar");
+      if (bar) bar.style.width = showBars ? `${pct}%` : "0%";
+      const c = el.querySelector(".vcount");
+      if (c) {
+        if (!showBars) {
+          c.textContent = "";
+          c.classList.remove("show");
+        } else {
+          c.textContent = state.revealed
+            ? `${count} (${Math.round(pct)}%)`
+            : (count > 0 ? `${count}` : "");
+          c.classList.toggle("show", count > 0 || state.revealed);
+        }
+      }
+    });
+  }
+
+  function clearVotes() {
+    if (state.index < 0 || state.index >= Q.length) return;
+    if (sessionRef) {
+      // As rules permitem write apenas por $voterId — não dá pra remover o
+      // subtree "votes" inteiro de uma vez. Então listamos os voterIds e
+      // setamos cada um como null (delete granular).
+      const votesRef = sessionRef.child(`q${state.index}/votes`);
+      votesRef.once("value").then(snap => {
+        const v = snap.val() || {};
+        const ids = Object.keys(v);
+        if (ids.length === 0) return;
+        const updates = {};
+        ids.forEach(vid => { updates[vid] = null; });
+        votesRef.update(updates).catch(err => console.error("clearVotes:", err));
+      });
+      sessionRef.child(`q${state.index}/locked`).set(false);
+    }
+    const q = Q[state.index];
+    const optCount = q.type === "tf" ? 2 : q.options.length;
+    state.votes = new Array(optCount).fill(0);
+    state.voterCount = 0;
+    if (state.revealed) {
+      // se já tinha revelado, "des-revelar"
+      state.revealed = false;
+      document.querySelectorAll(".opt").forEach(el => {
+        el.classList.remove("correct", "wrong");
+      });
+      const visual = document.getElementById("visual");
+      if (visual) visual.classList.remove("revealed");
+      const ex = document.getElementById("explain");
+      if (ex) ex.classList.remove("show");
+    }
+    updateBars();
+  }
+
+  function toggleVotes() {
+    state.showVotes = !state.showVotes;
+    updateBars();
+  }
+
+  function render() {
+    content.innerHTML = "";
+    detachFirebase();
+
+    if (state.index === -1) { renderCover(); return; }
+    if (state.index >= Q.length) { renderEnd(); return; }
+
+    const q = Q[state.index];
+    counter.textContent = `${state.index + 1} / ${Q.length}`;
+    progress.style.width = `${((state.index + 1) / Q.length) * 100}%`;
+
+    const wrap = document.createElement("div");
+    wrap.className = "panel fade-enter";
+    wrap.innerHTML = `
+      <div class="qhead">
+        <span class="level-badge" data-level="${q.level}">${levelNames[q.level]}</span>
+        <span class="qkind">${q.kind}</span>
+        <span class="qnum">Pergunta ${state.index + 1}</span>
+      </div>
+      <div class="qbody ${q.visual ? "has-visual" : ""}">
+        ${q.visual ? `<div class="visual" id="visual"></div>` : ""}
+        <div>
+          <h2 class="qtitle">${q.title}</h2>
+          <div class="options ${q.type === "tf" ? "tf" : ""}" id="options"></div>
+          <div class="explain" id="explain">${q.explain}</div>
+        </div>
+      </div>
+    `;
+    content.appendChild(wrap);
+
+    if (q.visual) renderVisual(q.visual, document.getElementById("visual"));
+
+    const optsEl = document.getElementById("options");
+    const labels = q.type === "tf"
+      ? [{ icon: "✓", lbl: "Verdadeiro" }, { icon: "✕", lbl: "Falso" }]
+      : q.options.map((o, i) => ({ key: ["A", "B", "C", "D"][i], lbl: o }));
+
+    labels.forEach((l, i) => {
+      const el = document.createElement("div");
+      el.className = "opt";
+      el.dataset.idx = i;
+      if (q.type === "tf") {
+        el.innerHTML = `
+          <div class="vbar"></div>
+          <div class="lbl"><div class="icon">${l.icon}</div><div>${l.lbl}</div></div>
+          <div class="vcount"></div>
+        `;
+      } else {
+        el.innerHTML = `
+          <div class="vbar"></div>
+          <div class="key">${l.key}</div>
+          <div>${l.lbl}</div>
+          <div class="vcount"></div>
+        `;
+      }
+      optsEl.appendChild(el);
+    });
+
+    typeset(content);
+
+    if (sessionRef) {
+      sessionRef.child("currentIndex").set(state.index);
+      sessionRef.child(`q${state.index}/locked`).set(false);
+      attachFirebaseForQuestion(state.index);
+    } else {
+      // modo manual — zera votos
+      state.votes = new Array(labels.length).fill(0);
+      state.voterCount = 0;
+    }
+    updateBars();
+  }
+
+  function renderVisual(kind, host) {
+    if (kind === "fourSeries") {
+      host.innerHTML = `<h4>Quatro processos · qual é o random walk?</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:8px;height:100%;">
+          <div style="position:relative"><canvas id="cA"></canvas><span style="position:absolute;top:6px;left:10px;font-size:12px;color:var(--muted)">A</span></div>
+          <div style="position:relative"><canvas id="cB"></canvas><span style="position:absolute;top:6px;left:10px;font-size:12px;color:var(--muted)">B</span></div>
+          <div style="position:relative"><canvas id="cC"></canvas><span style="position:absolute;top:6px;left:10px;font-size:12px;color:var(--muted)">C</span></div>
+          <div style="position:relative"><canvas id="cD"></canvas><span style="position:absolute;top:6px;left:10px;font-size:12px;color:var(--muted)">D</span></div>
+        </div>`;
+      requestAnimationFrame(() => {
+        const c = "#cfd8ee";
+        plotSeries(document.getElementById("cA"), whiteNoise(220, 11), { color: c });
+        plotSeries(document.getElementById("cB"), randomWalk(220, 17), { color: c });
+        plotSeries(document.getElementById("cC"), trendSeries(220, 0.05, 23), { color: c });
+        plotSeries(document.getElementById("cD"), seasonalSeries(220, 24, 2.2, 29), { color: c });
+      });
+    } else if (kind === "multiplicativeSeries") {
+      host.innerHTML = `<h4>Série mensal · 16 anos</h4>
+        <div style="position:relative;height:100%"><canvas id="cMul"></canvas></div>`;
+      requestAnimationFrame(() => {
+        plotSeries(document.getElementById("cMul"),
+          multiplicativeSeasonalSeries(192, 12, 41), { color: "#cfd8ee" });
+      });
+    } else if (kind === "acfPacfAR2") {
+      host.innerHTML = `<h4>ACF e PACF — n = 200</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;height:100%;">
+          <div style="position:relative;display:grid;grid-template-rows:auto 1fr">
+            <div style="font-size:12px;color:var(--muted);text-align:center;letter-spacing:0.1em;text-transform:uppercase;padding:4px">ACF</div>
+            <canvas id="acfC"></canvas>
+          </div>
+          <div style="position:relative;display:grid;grid-template-rows:auto 1fr">
+            <div style="font-size:12px;color:var(--muted);text-align:center;letter-spacing:0.1em;text-transform:uppercase;padding:4px">PACF</div>
+            <canvas id="pacfC"></canvas>
+          </div>
+        </div>`;
+      const phi1 = 0.6, phi2 = 0.25;
+      const acf = [1];
+      acf[1] = phi1 / (1 - phi2);
+      for (let k = 2; k < 16; k++) acf[k] = phi1 * acf[k - 1] + phi2 * acf[k - 2];
+      const pacf = [1, phi1 / (1 - phi2), phi2];
+      const r = mulberry32(7);
+      for (let k = 3; k < 16; k++) pacf[k] = (r() - 0.5) * 0.06;
+      requestAnimationFrame(() => {
+        plotACF(document.getElementById("acfC"), acf.slice(1), { n: 200, color: "#e50505" });
+        plotACF(document.getElementById("pacfC"), pacf.slice(1), { n: 200, color: "#1aa66a" });
+      });
+    } else if (kind === "aicTable1") {
+      host.innerHTML = `<h4>Saída do auto.arima — mesma série, $d=1$ fixo</h4>
+        <div class="aic-table-wrap">
+          <table class="aic-table">
+            <thead><tr><th>Modelo</th><th>AIC</th></tr></thead>
+            <tbody>
+              <tr data-row="0"><td>ARIMA(1,1,0)</td><td>528.4</td></tr>
+              <tr data-row="1"><td>ARIMA(0,1,1)</td><td>524.9</td></tr>
+              <tr data-row="2" class="winner"><td>ARIMA(1,1,1)</td><td>519.7</td></tr>
+              <tr data-row="3"><td>ARIMA(2,1,2)</td><td>522.3</td></tr>
+            </tbody>
+          </table>
+          <div class="aic-note neutral">$\\mathrm{AIC} = -2\\ell + 2k$ &nbsp;·&nbsp; menor é melhor para o mesmo conjunto de dados.</div>
+        </div>`;
+      requestAnimationFrame(() => typeset(host));
+    } else if (kind === "aicTable2") {
+      host.innerHTML = `<h4>Comparação cruzada — atenção ao $d$</h4>
+        <div class="aic-table-wrap">
+          <table class="aic-table">
+            <thead><tr><th>Modelo</th><th>$d$</th><th>AIC</th></tr></thead>
+            <tbody>
+              <tr><td>ARIMA(1,0,1)</td><td>0</td><td>1842.5</td></tr>
+              <tr><td>ARIMA(2,0,1)</td><td>0</td><td>1839.1</td></tr>
+              <tr class="trap"><td>ARIMA(1,1,1)</td><td>1</td><td>521.3</td></tr>
+              <tr class="trap"><td>ARIMA(0,1,1)</td><td>1</td><td>523.8</td></tr>
+            </tbody>
+          </table>
+          <div class="aic-note neutral">Mesma série, mesma amostra. Você compararia esses AICs para escolher um modelo?</div>
+          <div class="aic-note spoiler">⚠ $d$ diferente ⇒ variável dependente diferente ($Y_t$ vs $\\Delta Y_t$) ⇒ log-verossimilhanças <i>não</i> são comparáveis.</div>
+        </div>`;
+      requestAnimationFrame(() => typeset(host));
+    }
+  }
+
+  function reveal() {
+    if (state.revealed) return;
+    state.revealed = true;
+    const q = Q[state.index];
+    if (sessionRef) sessionRef.child(`q${state.index}/locked`).set(true);
+    document.querySelectorAll(".opt").forEach((el, i) => {
+      if (i === q.correct) el.classList.add("correct");
+      else el.classList.add("wrong");
+    });
+    const visual = document.getElementById("visual");
+    if (visual) visual.classList.add("revealed");
+    document.getElementById("explain").classList.add("show");
+    typeset(document.getElementById("explain"));
+    updateBars();
+  }
+
+  function renderCover() {
+    counter.textContent = `— / ${Q.length}`;
+    progress.style.width = "0%";
+    const wrap = document.createElement("div");
+    wrap.className = "cover fade-enter";
+    wrap.innerHTML = `
+      <div class="hint pulse">Aulas 1 e 2 · Recap interativo</div>
+      <h1>Séries Temporais:<br/><span>O que ficou da última aula?</span></h1>
+      <p class="sub">${Q.length} perguntas em 4 níveis. Vai começar de aquecimento e terminar em coisa que dá calafrio em economista.</p>
+      <div class="roadmap">
+        <div class="chip"><b>Nível 1</b>Aquecimento</div>
+        <div class="chip"><b>Nível 2</b>Intuição</div>
+        <div class="chip"><b>Nível 3</b>Pós-Graduação</div>
+        <div class="chip"><b>Nível 4</b>Hardcore</div>
+      </div>
+      ${useFirebase ? `
+        <div class="cover-vote">
+          <div class="label">Vote pelo celular</div>
+          <div class="qrbox"><img src="${qrSrc}" alt="QR para votação"/></div>
+          <div class="url-line">${voterUrl}</div>
+        </div>
+      ` : `
+        <div class="hint" style="opacity:0.7">Votação remota não configurada. <kbd>1-4</kbd> tally manual.</div>
+      `}
+      <div class="hint">Pressione <kbd>Espaço</kbd> para começar · <kbd>F</kbd> tela cheia</div>
+    `;
+    content.appendChild(wrap);
+    if (sessionRef) sessionRef.child("currentIndex").set(-1);
+  }
+
+  function renderEnd() {
+    counter.textContent = `${Q.length} / ${Q.length}`;
+    progress.style.width = "100%";
+    const wrap = document.createElement("div");
+    wrap.className = "end fade-enter";
+    wrap.innerHTML = `
+      <div class="hint">Recap completo</div>
+      <h2>Bom trabalho! 🎯</h2>
+      <p>Vocês acabaram de revisar fundamentos, ACF/PACF, estacionariedade, ADF/KPSS, AR/MA/ARIMA e seleção via AIC. Pronto para SARIMA, Prophet e previsão.</p>
+      <div class="hint"><kbd>←</kbd> volta · <kbd>R</kbd> reinicia</div>
+    `;
+    content.appendChild(wrap);
+    if (sessionRef) sessionRef.child("currentIndex").set(Q.length);
+  }
+
+  function next() {
+    if (state.index >= 0 && state.index < Q.length && !state.revealed) {
+      reveal(); return;
+    }
+    if (state.index < Q.length) {
+      state.index++;
+      state.revealed = false;
+      state.showVotes = false;
+      render();
+    }
+  }
+  function prev() {
+    if (state.index > -1) {
+      state.index--;
+      state.revealed = false;
+      state.showVotes = false;
+      render();
+    }
+  }
+  function restart() { state.index = -1; state.revealed = false; state.showVotes = false; render(); }
+
+  // QR overlay toggle
+  const qrOverlay = document.getElementById("qrOverlay");
+  function toggleQR() { qrOverlay.classList.toggle("show"); }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === " " || e.key === "ArrowRight" || e.key === "Enter") {
+      e.preventDefault(); next();
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault(); prev();
+    } else if (e.key.toLowerCase() === "r") {
+      restart();
+    } else if (e.key.toLowerCase() === "q") {
+      e.preventDefault(); toggleQR();
+    } else if (e.key.toLowerCase() === "c") {
+      if (state.index >= 0 && state.index < Q.length) { e.preventDefault(); clearVotes(); }
+    } else if (e.key.toLowerCase() === "v") {
+      if (state.index >= 0 && state.index < Q.length) { e.preventDefault(); toggleVotes(); }
+    } else if (e.key.toLowerCase() === "f") {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    } else if (!useFirebase && state.index >= 0 && state.index < Q.length && !state.revealed) {
+      // tally manual: 1-4 adicionam um voto na opção
+      const q = Q[state.index];
+      const optCount = q.type === "tf" ? 2 : q.options.length;
+      const map = { "1": 0, "2": 1, "3": 2, "4": 3 };
+      const idx = map[e.key];
+      if (idx !== undefined && idx < optCount) {
+        state.votes[idx] = (state.votes[idx] || 0) + 1;
+        updateBars();
+      }
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (state.index >= 0 && state.index < Q.length && Q[state.index].visual) {
+      const v = document.getElementById("visual");
+      if (v) renderVisual(Q[state.index].visual, v);
+    }
+  });
+
+  render();
+}
+</script>
+</body>
+</html>

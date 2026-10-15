@@ -1,0 +1,780 @@
+---
+title: "Aula 1: Fundamentos de Séries Temporais"
+subtitle: "O que são, por que importam e como descrevê-las"
+format:
+  html:
+    code-fold: true
+---
+
+::: {.objetivos}
+#### Objetivos de Aprendizagem
+
+- **Reconhecer** os componentes de uma série temporal (tendência, sazonalidade, ciclo, ruído)
+- **Interpretar** gráficos de autocorrelação (ACF) e autocorrelação parcial (PACF)
+- **Aplicar** métodos de decomposição para separar componentes
+- **Avaliar** se uma série é estacionária usando testes formais
+:::
+
+## O que é uma Série Temporal?
+
+Uma série temporal é uma sequência de observações indexadas pelo tempo. Diferente de dados cross-section (onde a ordem não importa), em séries temporais a **ordem é fundamental** — ela carrega informação sobre a dinâmica do fenômeno.
+
+Pense na diferença entre uma planilha de vendas por loja (cross-section) e vendas mensais de uma mesma loja ao longo de 5 anos (série temporal). Na segunda, o mês de dezembro pode sistematicamente vender mais que junho, e uma queda brusca pode indicar uma crise. Essa **dependência temporal** é o que torna séries temporais especiais — e exige métodos próprios.
+
+::: {.conceito-card}
+#### Definição Formal
+
+Formalmente, um processo estocástico é uma família indexada de variáveis aleatórias $\{Y_t\}_{t \in T}$, todas definidas sobre um mesmo espaço de probabilidade $(\Omega, \mathcal{F}, P)$. Cada $\omega \in \Omega$ determina uma trajetória inteira $t \mapsto Y_t(\omega)$ - uma "história possível" do processo. Uma série temporal observada é exatamente uma dessas trajetórias.
+
+Quando ajustamos um modelo, tentamos recuperar propriedades do processo (média, covariância, distribuição) a partir de uma única trajetória. Isso só é possível sob hipóteses como estacionariedade e ergodicidade, que veremos adiante.
+:::
+
+::: {.caso-negocio}
+#### Onde você encontra séries temporais no trabalho?
+
+- **Itaú**: preços de ativos, taxa de inadimplência mensal, volume de transações por canal
+- **JohnDeere**: vendas de maquinário por trimestre, preço de commodities agrícolas, demanda sazonal de peças
+- **Coca-Cola**: demanda por SKU e região, temperatura e consumo sazonal, eficácia de campanhas ao longo do tempo
+- **McKinsey**: KPIs de transformação digital ao longo de trimestres, séries de market share, projeções para due diligence
+:::
+
+## Componentes de uma Série
+
+Toda série temporal pode ser pensada como a combinação de componentes sistemáticos e aleatórios:
+
+```{mermaid}
+flowchart LR
+    Y["Y(t)<br/>Série Observada"] --> T["T(t)<br/>Tendência"]
+    Y --> S["S(t)<br/>Sazonalidade"]
+    Y --> C["C(t)<br/>Ciclo"]
+    Y --> R["R(t)<br/>Resíduo"]
+
+    style Y fill:#E50505,color:#fff
+    style T fill:#3ACC9F,color:#fff
+    style S fill:#FFCC00,color:#000
+    style C fill:#F89D49,color:#fff
+    style R fill:#808080,color:#fff
+```
+
+| Componente | O que é | Exemplo | Característica |
+|-----------|---------|---------|----------------|
+| **Tendência** | Movimento de longo prazo (crescimento ou declínio) | PIB brasileiro crescendo ao longo de décadas | Persistente, suave |
+| **Sazonalidade** | Padrão que se repete em período **fixo e conhecido** | Vendas de sorvete maiores todo verão | Período constante |
+| **Ciclo** | Flutuações de período **variável e desconhecido** | Ciclos econômicos de expansão/recessão (3-10 anos) | Menos previsível |
+| **Resíduo** | Variação aleatória após remover os outros componentes | Choques imprevistos (greves, desastres) | Idealmente ruído branco |
+
+::: {.callout-note}
+## Tendência vs. Ciclo
+Na prática, tendência e ciclo são difíceis de separar. Muitos métodos os tratam juntos como "tendência-ciclo". A sazonalidade, por ter período fixo, é mais fácil de isolar.
+:::
+
+### Simulador interativo: Componentes de uma Série Temporal
+
+Use os controles abaixo para construir uma série temporal a partir de seus componentes. Observe como cada um contribui para o formato final.
+
+```{ojs}
+//| echo: false
+
+viewof trend_slope = Inputs.range([-0.5, 0.5], {
+  value: 0.1, step: 0.01, label: "Inclinação da tendência"
+})
+
+viewof seasonal_amp = Inputs.range([0, 5], {
+  value: 2, step: 0.1, label: "Amplitude sazonal"
+})
+
+viewof seasonal_period = Inputs.range([4, 24], {
+  value: 12, step: 1, label: "Período sazonal"
+})
+
+viewof noise_sd = Inputs.range([0, 3], {
+  value: 0.5, step: 0.1, label: "Desvio padrão do ruído"
+})
+
+viewof comp_seed = Inputs.button("Gerar outra realização", {value: 0, reduce: v => v + 1})
+```
+
+```{ojs}
+//| echo: false
+
+{
+  const n = 120;
+  const t = d3.range(n);
+
+  // Gerar ruído com seed fixa para estabilidade
+  function seededRandom(seed) {
+    let s = seed;
+    return function() {
+      s = (s * 16807) % 2147483647;
+      return (s - 1) / 2147483646;
+    };
+  }
+  const rng = seededRandom(42 + comp_seed * 197);
+  function boxMuller() {
+    const u1 = rng(), u2 = rng();
+    return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  }
+
+  const noise = t.map(() => boxMuller() * noise_sd);
+  const trend = t.map(i => trend_slope * i);
+  const seasonal = t.map(i => seasonal_amp * Math.sin(2 * Math.PI * i / seasonal_period));
+  const series = t.map(i => trend[i] + seasonal[i] + noise[i]);
+
+  const data = t.flatMap(i => [
+    {t: i, value: series[i], component: "Série observada"},
+    {t: i, value: trend[i], component: "Tendência"},
+    {t: i, value: seasonal[i], component: "Sazonalidade"},
+    {t: i, value: noise[i], component: "Ruído"},
+  ]);
+
+  return Plot.plot({
+    width: 800,
+    height: 500,
+    color: {
+      domain: ["Série observada", "Tendência", "Sazonalidade", "Ruído"],
+      range: ["#E50505", "#3ACC9F", "#FFCC00", "#ABABAB"]
+    },
+    facet: {data, y: "component"},
+    fy: {domain: ["Série observada", "Tendência", "Sazonalidade", "Ruído"]},
+    marks: [
+      Plot.lineY(data, {x: "t", y: "value", stroke: "component", strokeWidth: 1.5}),
+      Plot.ruleY([0], {stroke: "#ddd"})
+    ],
+    y: {label: "Valor"},
+    x: {label: "Tempo (meses)"}
+  });
+}
+```
+
+### Decomposição Aditiva vs. Multiplicativa
+
+A forma como os componentes se combinam define o tipo de decomposição:
+
+::: {.formula-highlight}
+[Aditiva: a amplitude sazonal é constante]{.formula-label}
+$$Y_t = T_t + S_t + R_t$$
+:::
+
+::: {.formula-highlight}
+[Multiplicativa: a amplitude sazonal cresce com o nível]{.formula-label}
+$$Y_t = T_t \times S_t \times R_t$$
+:::
+
+::: {.callout-tip}
+## Quando usar cada uma?
+Se a amplitude da sazonalidade **cresce com o nível da série**, use multiplicativa. Se ela permanece constante, use aditiva. Na dúvida, aplique log e use aditiva — pois $\log(Y_t) = \log(T_t) + \log(S_t) + \log(R_t)$.
+
+**Regra prática**: plote a série. Se o "zigue-zague" sazonal fica maior quando a série sobe, é multiplicativa.
+:::
+
+#### Simulador: Aditiva vs. Multiplicativa
+
+Compare visualmente as duas formas de decomposição. Na série **multiplicativa**, observe como a amplitude sazonal cresce com a tendência:
+
+```{ojs}
+//| echo: false
+
+viewof decomp_trend_rate = Inputs.range([0, 0.05], {
+  value: 0.02, step: 0.005, label: "Taxa de crescimento da tendência:"
+})
+
+viewof decomp_seed = Inputs.button("Gerar outra realização", {value: 0, reduce: v => v + 1})
+```
+
+```{ojs}
+//| echo: false
+
+{
+  const n = 120;
+  const rate = decomp_trend_rate;
+  function seededRandom(seed) {
+    let s = seed;
+    return function() {
+      s = (s * 16807) % 2147483647;
+      return (s - 1) / 2147483646;
+    };
+  }
+  const rng = seededRandom(77 + decomp_seed * 131);
+  function bm() {
+    const u1 = rng(), u2 = rng();
+    return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  }
+
+  let dataAdd = [], dataMul = [];
+  for (let t = 0; t < n; t++) {
+    const T = 10 + rate * t * 10; // tendência crescente
+    const S_add = 3 * Math.sin(2 * Math.PI * t / 12); // sazonal constante
+    const S_mul = 1 + 0.3 * Math.sin(2 * Math.PI * t / 12); // sazonal proporcional
+    const noise = bm() * 1.5;
+
+    const yAdd = T + S_add + noise;
+    const yMul = T * S_mul + noise;
+
+    dataAdd.push({t, value: yAdd, tipo: "Aditiva: Y = T + S + R"});
+    dataMul.push({t, value: yMul, tipo: "Multiplicativa: Y = T × S × R"});
+  }
+
+  const all = [...dataAdd, ...dataMul];
+
+  return Plot.plot({
+    width: 800, height: 350,
+    facet: {data: all, y: "tipo"},
+    fy: {domain: ["Aditiva: Y = T + S + R", "Multiplicativa: Y = T × S × R"]},
+    marks: [
+      Plot.lineY(all, {x: "t", y: "value", stroke: "tipo", strokeWidth: 1.2}),
+    ],
+    color: {domain: ["Aditiva: Y = T + S + R", "Multiplicativa: Y = T × S × R"], range: ["#3ACC9F", "#E50505"]},
+    x: {label: "Tempo (meses)"}, y: {label: "Valor"},
+    title: "Aditiva vs. Multiplicativa: observe a amplitude sazonal"
+  });
+}
+```
+
+::: {.callout-tip}
+## Experimente!
+- Com **taxa de crescimento alta** (0.04–0.05), a diferença fica evidente: na multiplicativa, os picos sazonais ficam cada vez maiores
+- Com **taxa zero**, ambas são idênticas (sem tendência, não há diferença entre aditiva e multiplicativa)
+- Na prática, a maioria das séries de vendas e demanda é **multiplicativa** (sazonalidade proporcional ao nível)
+:::
+
+### Decomposição Clássica (Médias Móveis)
+
+Antes de métodos mais modernos, a decomposição clássica era o padrão. Ela usa **médias móveis** para estimar a tendência:
+
+**Algoritmo:**
+
+1. **Estimar tendência** $\hat{T}_t$ usando média móvel centrada de ordem $m$ (onde $m$ é o período sazonal):
+   - Para $m$ ímpar: $\hat{T}_t = \frac{1}{m}\sum_{j=-(m-1)/2}^{(m-1)/2} Y_{t+j}$
+   - Para $m$ par (ex: $m=12$): usa-se média móvel $2 \times m$ para centralizar
+2. **Remover tendência**: calcular $Y_t - \hat{T}_t$ (aditiva) ou $Y_t / \hat{T}_t$ (multiplicativa)
+3. **Estimar sazonalidade**: fazer a média dos valores desazonalizados para cada período (ex: todos os janeiros, todos os fevereiros...)
+4. **Resíduo**: $\hat{R}_t = Y_t - \hat{T}_t - \hat{S}_t$
+
+::: {.callout-warning}
+## Limitações da decomposição clássica
+1. **Perde dados nas pontas**: a média móvel não produz estimativas para os primeiros e últimos $m/2$ pontos
+2. **Sazonalidade fixa**: assume que o padrão sazonal é constante ao longo do tempo
+3. **Sensível a outliers**: um valor extremo afeta toda a média móvel ao redor
+4. **Não é robusta**: não tem mecanismo para lidar com mudanças estruturais
+:::
+
+### Decomposição STL
+
+O método **STL** (Seasonal and Trend decomposition using Loess) — Cleveland et al. (1990) — resolve todas as limitações da decomposição clássica. É o método **recomendado pelo FPP** e o que usaremos no curso.
+
+| Característica | Clássica | STL |
+|---------------|----------|-----|
+| Estimação da tendência | Média móvel | Loess (regressão local) |
+| Sazonalidade | Fixa no tempo | **Pode variar** ao longo do tempo |
+| Robustez a outliers | Não | Sim (pesos robustos no Loess) |
+| Controle de suavização | Nenhum | Parâmetros `seasonal` e `trend` |
+| Tipo de decomposição | Aditiva ou multiplicativa | Aditiva (usar log para multiplicativa) |
+
+**Como funciona o STL (intuição):**
+
+1. Começa com uma estimativa inicial da tendência (Loess sobre toda a série)
+2. Remove a tendência e estima a sazonalidade (Loess aplicado a cada subsérie sazonal — todos os janeiros, todos os fevereiros, etc.)
+3. Remove a sazonalidade e re-estima a tendência
+4. Repete até convergir (tipicamente 2–3 iterações)
+
+```{mermaid}
+flowchart TD
+    A["Série Original Y(t)"] --> B["Extrair Tendência<br/>(regressão local: Loess)"]
+    B --> C["Remover Tendência:<br/>Y(t) - T(t)"]
+    C --> D["Estimar Sazonalidade<br/>(Loess por subsérie sazonal)"]
+    D --> E["Resíduo = Y - T - S"]
+    E --> F{Convergiu?}
+    F -->|Não| B
+    F -->|Sim| G["Componentes Finais:<br/>T(t), S(t), R(t)"]
+
+    style A fill:#E50505,color:#fff
+    style G fill:#3ACC9F,color:#fff
+```
+
+### Exemplo em Python: Clássica vs. STL
+
+```{python}
+#| code-fold: true
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from statsmodels.tsa.seasonal import seasonal_decompose, STL
+
+# Criar série exemplo com sazonalidade que muda ao longo do tempo
+np.random.seed(42)
+n = 144  # 12 anos mensais
+t = np.arange(n)
+trend = 100 + 0.5 * t
+seasonal = 10 * np.sin(2 * np.pi * t / 12) * (1 + 0.01 * t)  # sazonalidade crescente
+noise = np.random.normal(0, 3, n)
+y = trend + seasonal + noise
+
+dates = pd.date_range('2014-01', periods=n, freq='MS')
+serie = pd.Series(y, index=dates)
+
+# Decomposição clássica
+dec_classica = seasonal_decompose(serie, model='additive', period=12)
+
+# Decomposição STL
+dec_stl = STL(serie, period=12, robust=True).fit()
+
+# Comparar
+fig, axes = plt.subplots(4, 2, figsize=(14, 10), sharex=True)
+fig.suptitle('Decomposição Clássica vs. STL', fontsize=14, fontweight='bold')
+
+for i, (comp, label) in enumerate([
+    ('observed', 'Série Original'),
+    ('trend', 'Tendência'),
+    ('seasonal', 'Sazonalidade'),
+    ('resid', 'Resíduo')
+]):
+    # Clássica
+    axes[i, 0].plot(getattr(dec_classica, comp), color='#E50505', linewidth=0.8)
+    axes[i, 0].set_ylabel(label)
+    if i == 0:
+        axes[i, 0].set_title('Clássica (Médias Móveis)')
+
+    # STL
+    axes[i, 1].plot(getattr(dec_stl, comp), color='#3ACC9F', linewidth=0.8)
+    if i == 0:
+        axes[i, 1].set_title('STL (Loess)')
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-tip}
+## O que observar na comparação
+- A **tendência STL** é mais suave e se estende até as pontas (sem perder dados)
+- A **sazonalidade STL** pode variar ao longo do tempo — note se a amplitude muda
+- Os **resíduos STL** tendem a ser menores e mais "limpos" (menos estrutura remanescente)
+- A decomposição **clássica** tem `NaN` nos extremos — dados perdidos pela média móvel
+:::
+
+### Em Python com `statsforecast`: MSTL no IBC-Br
+
+O pacote `statsforecast` da Nixtla oferece decomposição via **MSTL** (Multiple Seasonal-Trend decomposition using Loess), que suporta **múltiplas sazonalidades** simultaneamente. Vamos aplicar no IBC-Br (proxy mensal do PIB real brasileiro, série 24363 no SGS/BCB):
+
+```{python}
+#| code-fold: true
+
+from bcb import sgs
+from statsforecast import StatsForecast
+from statsforecast.models import MSTL, AutoARIMA
+
+# 1) Carrega o IBC-Br (sem ajuste sazonal) e prepara no formato Nixtla
+ibcbr = sgs.get({'ibcbr': 24363}, start='2003-01-01').rename_axis('ds').reset_index()
+ibcbr['unique_id'] = 'ibcbr'
+ibcbr = ibcbr.rename(columns={'ibcbr': 'y'})[['unique_id', 'ds', 'y']]
+
+# 2) MSTL decompõe (tendência + sazonalidade) e ajusta AutoARIMA no resíduo
+sf = StatsForecast(
+    models=[MSTL(season_length=12, trend_forecaster=AutoARIMA())],
+    freq='MS',
+    n_jobs=1,
+)
+sf.fit(df=ibcbr)
+
+# 3) Componentes estimados
+componentes = sf.fitted_[0, 0].model_
+componentes.tail()
+```
+
+```{python}
+#| code-fold: true
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(3, 1, figsize=(12, 8), sharex=True)
+axes[0].plot(ibcbr['ds'], componentes['data'], color='#E50505', linewidth=0.8)
+axes[0].set_ylabel('IBC-Br (original)')
+axes[1].plot(ibcbr['ds'], componentes['trend'], color='#3ACC9F', linewidth=1.2)
+axes[1].set_ylabel('Tendência (MSTL)')
+axes[2].plot(ibcbr['ds'], componentes['seasonal'], color='#FFCC00', linewidth=0.8)
+axes[2].set_ylabel('Sazonalidade anual')
+axes[2].set_xlabel('Data')
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-tip}
+## Por que o IBC-Br?
+Ele é a série mensal mais próxima do PIB real e tem **sazonalidade fortíssima** (13º salário, safras agrícolas, férias). É o material perfeito para ver a decomposição "funcionando" antes de partirmos para ARIMA/SARIMA na Aula 2.
+:::
+
+## Autocorrelação (ACF)
+
+A função de autocorrelação é a ferramenta mais importante na análise descritiva de séries temporais. Ela mede **o quanto o valor atual está correlacionado com valores passados**.
+
+::: {.formula-highlight}
+[Autocorrelação no lag $k$]{.formula-label}
+$$\rho_k = \text{Cor}(Y_t, Y_{t-k}) = \frac{\text{Cov}(Y_t, Y_{t-k})}{\text{Var}(Y_t)}$$
+:::
+
+A ideia é simples: se $\rho_1 = 0.8$, isso significa que o valor de hoje está fortemente correlacionado com o de ontem. Se $\rho_{12} = 0.6$ em dados mensais, há correlação com o mesmo mês do ano passado (sazonalidade!).
+
+### Simulador: ACF de diferentes processos
+
+Escolha um tipo de processo e observe como a ACF se comporta:
+
+```{ojs}
+//| echo: false
+
+viewof processo_tipo = Inputs.radio(
+  ["Ruído branco", "AR(1) φ=0.9", "AR(1) φ=-0.5", "MA(1) θ=0.7", "Random Walk"],
+  {value: "AR(1) φ=0.9", label: "Processo:"}
+)
+
+viewof acf_seed = Inputs.button("Gerar outra realização", {value: 0, reduce: v => v + 1})
+```
+
+```{ojs}
+//| echo: false
+
+{
+  const n = 300;
+  const maxLag = 25;
+
+  function seededRandom(seed) {
+    let s = seed;
+    return function() {
+      s = (s * 16807) % 2147483647;
+      return (s - 1) / 2147483646;
+    };
+  }
+  const rng = seededRandom(123 + acf_seed * 173);
+  function bm() {
+    const u1 = rng(), u2 = rng();
+    return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  }
+
+  const eps = d3.range(n).map(() => bm());
+  let y;
+
+  if (processo_tipo === "Ruído branco") {
+    y = eps;
+  } else if (processo_tipo === "AR(1) φ=0.9") {
+    y = [eps[0]];
+    for (let i = 1; i < n; i++) y.push(0.9 * y[i-1] + eps[i]);
+  } else if (processo_tipo === "AR(1) φ=-0.5") {
+    y = [eps[0]];
+    for (let i = 1; i < n; i++) y.push(-0.5 * y[i-1] + eps[i]);
+  } else if (processo_tipo === "MA(1) θ=0.7") {
+    y = [eps[0]];
+    for (let i = 1; i < n; i++) y.push(eps[i] + 0.7 * eps[i-1]);
+  } else {
+    y = [eps[0]];
+    for (let i = 1; i < n; i++) y.push(y[i-1] + eps[i]);
+  }
+
+  // Calcular ACF
+  const mean = d3.mean(y);
+  const variance = d3.mean(y.map(v => (v - mean) ** 2));
+  const acf = d3.range(1, maxLag + 1).map(k => {
+    let sum = 0;
+    for (let t = k; t < n; t++) sum += (y[t] - mean) * (y[t-k] - mean);
+    return {lag: k, acf: sum / (n * variance)};
+  });
+
+  const ci = 1.96 / Math.sqrt(n);
+
+  const seriesData = y.map((v, i) => ({t: i, value: v}));
+
+  const seriesPlot = Plot.plot({
+    width: 800, height: 200,
+    marks: [
+      Plot.lineY(seriesData, {x: "t", y: "value", stroke: "#E50505", strokeWidth: 0.8}),
+      Plot.ruleY([0], {stroke: "#ccc"})
+    ],
+    x: {label: "Tempo"}, y: {label: "Valor"},
+    title: `Série: ${processo_tipo}`
+  });
+
+  const acfPlot = Plot.plot({
+    width: 800, height: 250,
+    marks: [
+      Plot.ruleY([0], {stroke: "#ccc"}),
+      Plot.ruleY([ci], {stroke: "#E50505", strokeDasharray: "4,4", strokeOpacity: 0.5}),
+      Plot.ruleY([-ci], {stroke: "#E50505", strokeDasharray: "4,4", strokeOpacity: 0.5}),
+      Plot.barY(acf, {x: "lag", y: "acf", fill: d => Math.abs(d.acf) > ci ? "#E50505" : "#5B5B5B"}),
+    ],
+    x: {label: "Lag", tickFormat: d3.format("d")},
+    y: {label: "ACF", domain: [-1, 1]},
+    title: "Função de Autocorrelação (ACF)"
+  });
+
+  const div = document.createElement("div");
+  div.appendChild(seriesPlot);
+  div.appendChild(acfPlot);
+  return div;
+}
+```
+
+### Como interpretar a ACF?
+
+| Padrão na ACF | O que indica | Por quê |
+|---------------|-------------|---------|
+| Decaimento **lento** | Série não estacionária (tendência ou raiz unitária) | Valores distantes continuam correlacionados |
+| Picos em lags **periódicos** (12, 24, 36...) | Sazonalidade | Correlação com o mesmo período em anos anteriores |
+| Corte **abrupto** após lag $q$ | Processo MA($q$) | Apenas $q$ choques passados importam |
+| Decaimento **exponencial** | Processo AR | Dependência diminui geometricamente |
+| Alternância de sinais (+, -, +, -) | AR com coeficiente negativo | Oscilação ao redor da média |
+
+## Autocorrelação Parcial (PACF)
+
+A PACF mede a correlação entre $Y_t$ e $Y_{t-k}$ **após remover o efeito linear** de todos os lags intermediários ($Y_{t-1}, Y_{t-2}, \ldots, Y_{t-k+1}$).
+
+Em outras palavras: a ACF no lag 3 captura a correlação *total* entre $Y_t$ e $Y_{t-3}$, incluindo a correlação que passa "via" $Y_{t-1}$ e $Y_{t-2}$. A PACF no lag 3 captura apenas a correlação **direta** entre $Y_t$ e $Y_{t-3}$.
+
+### Como a PACF é calculada?
+
+A PACF no lag $k$, denotada $\phi_{kk}$, é o **último coeficiente** da regressão de $Y_t$ sobre seus $k$ valores passados:
+
+$$Y_t = \phi_{k1} Y_{t-1} + \phi_{k2} Y_{t-2} + \cdots + \phi_{kk} Y_{t-k} + \text{erro}$$
+
+O algoritmo mais usado para calculá-la é o **Levinson-Durbin**, que funciona recursivamente:
+
+1. **Lag 1**: $\phi_{11} = \rho_1$ (igual à ACF no lag 1)
+2. **Lag 2**: $\phi_{22} = \frac{\rho_2 - \rho_1^2}{1 - \rho_1^2}$
+3. **Lag $k$ geral** (recursão):
+
+::: {.formula-highlight}
+[Recursão de Levinson-Durbin]{.formula-label}
+$$\phi_{kk} = \frac{\rho_k - \sum_{j=1}^{k-1} \phi_{k-1,j} \cdot \rho_{k-j}}{1 - \sum_{j=1}^{k-1} \phi_{k-1,j} \cdot \rho_j}$$
+:::
+
+onde os coeficientes são atualizados por $\phi_{k,j} = \phi_{k-1,j} - \phi_{kk} \cdot \phi_{k-1,k-j}$.
+
+**Intuição**: a cada passo, estamos "limpando" a correlação no lag $k$ de toda a dependência que já foi capturada pelos lags anteriores. Se $\phi_{kk} \approx 0$, o lag $k$ não traz informação nova — toda a correlação com $Y_{t-k}$ era indireta, passando pelos intermediários.
+
+::: {.callout-tip}
+## Por que a PACF é tão útil?
+Para um AR($p$), a PACF é exatamente zero para todo lag $> p$. Isso porque, num AR($p$), a dependência de $Y_t$ com $Y_{t-k}$ para $k > p$ é totalmente explicada pelos lags intermediários. A PACF "limpa" essa dependência indireta, deixando apenas a contribuição direta — que é zero.
+:::
+
+### Regra de Identificação: O "Mapa" ACF/PACF
+
+::: {.callout-important}
+## A Tabela de Referência
+
+| Comportamento | ACF | PACF | Modelo sugerido |
+|--------------|-----|------|-----------------|
+| ACF corta, PACF decai | Corte abrupto em $q$ | Decaimento exponencial | **MA($q$)** |
+| ACF decai, PACF corta | Decaimento exponencial | Corte abrupto em $p$ | **AR($p$)** |
+| Ambas decaem | Decaimento exponencial | Decaimento exponencial | **ARMA($p,q$)** |
+| ACF não decai | Decaimento muito lento | Pico no lag 1 | **Não estacionário** → diferenciar |
+
+Esta tabela é seu principal instrumento de diagnóstico na etapa de identificação.
+:::
+
+### Observações práticas importantes
+
+::: {.callout-warning}
+## Na prática, o mapa ACF/PACF nem sempre é óbvio!
+
+A tabela acima descreve o comportamento **teórico** (população infinita). Com dados reais, vários fatores complicam a leitura:
+
+1. **Variabilidade amostral**: com amostras finitas, a ACF e PACF têm **erro de estimação**. Um pico que parece significativo pode ser apenas flutuação aleatória. Use as bandas de confiança ($\pm 1.96/\sqrt{n}$) como guia, mas saiba que elas são aproximações.
+
+2. **Decaimento vs. corte nem sempre é nítido**: na teoria, a ACF de um AR "decai exponencialmente". Na prática, o decaimento pode ser tão rápido que parece um corte, ou tão lento que parece não decair. Exige julgamento.
+
+3. **ARMA misturado**: quando o processo é ARMA($p,q$) com $p > 0$ e $q > 0$, **ambas** ACF e PACF decaem — e é muito difícil determinar $p$ e $q$ visualmente. Nesse caso, critérios de informação (AICc) são mais confiáveis que a inspeção visual.
+
+4. **Fatores sazonais**: em dados com sazonalidade (ex: mensais), haverá picos na ACF nos lags 12, 24, 36... Esses picos são a "assinatura" sazonal e devem ser interpretados separadamente da estrutura não-sazonal.
+
+5. **Picos espúrios**: ao nível de 5%, esperamos que ~1 em cada 20 lags seja "significativo" por acaso. Se você olha 30 lags, é **normal** ter 1–2 barras cruzando a linha por acaso.
+
+**Recomendação**: use a tabela como **ponto de partida** para gerar hipóteses (candidatos de modelo), não como diagnóstico definitivo. Compare múltiplos candidatos via AICc e diagnóstico residual.
+:::
+
+## Estacionariedade
+
+::: {.conceito-card}
+#### O que é estacionariedade?
+
+Uma série é **estacionária** (no sentido fraco) quando três propriedades são constantes ao longo do tempo:
+
+1. **Média**: $E[Y_t] = \mu$ para todo $t$
+2. **Variância**: $\text{Var}(Y_t) = \sigma^2$ para todo $t$
+3. **Autocovariância**: $\text{Cov}(Y_t, Y_{t-k})$ depende apenas de $k$, não de $t$
+
+Em termos práticos: se você "recortasse" qualquer trecho da série, as propriedades estatísticas seriam semelhantes. A série não tem tendência, e sua variabilidade não muda ao longo do tempo.
+:::
+
+**Por que estacionariedade importa?** A maioria dos modelos clássicos (AR, MA, ARMA) assume estacionariedade. Se a série não é estacionária, os estimadores podem ser enviesados e as previsões, absurdas. Por isso, o primeiro passo é sempre *verificar* e, se necessário, *transformar* a série para torná-la estacionária.
+
+### O que é uma Raiz Unitária?
+
+Este conceito é central e merece explicação cuidadosa.
+
+Considere o modelo AR(1) mais simples possível:
+
+$$Y_t = \phi Y_{t-1} + \varepsilon_t$$
+
+O comportamento da série depende inteiramente do valor de $\phi$:
+
+```{ojs}
+//| echo: false
+
+viewof phi_val = Inputs.range([-1.0, 1.05], {
+  value: 0.8, step: 0.05, label: "Parâmetro φ:"
+})
+
+viewof phi_seed = Inputs.button("Gerar outra realização", {value: 0, reduce: v => v + 1})
+```
+
+```{ojs}
+//| echo: false
+
+{
+  const n = 200;
+  function seededRandom(seed) {
+    let s = seed;
+    return function() {
+      s = (s * 16807) % 2147483647;
+      return (s - 1) / 2147483646;
+    };
+  }
+  const rng = seededRandom(99 + phi_seed * 251);
+  function bm() {
+    const u1 = rng(), u2 = rng();
+    return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  }
+
+  const eps = d3.range(n).map(() => bm());
+  let y = [0];
+  for (let i = 1; i < n; i++) {
+    y.push(phi_val * y[i-1] + eps[i]);
+  }
+
+  const data = y.map((v, i) => ({t: i, value: v}));
+
+  const estavel = Math.abs(phi_val) < 1;
+  const titulo = estavel
+    ? `AR(1) com φ = ${phi_val.toFixed(2)} — ESTACIONÁRIO (|φ| < 1)`
+    : phi_val === 1.0
+      ? `AR(1) com φ = 1.00 — RAIZ UNITÁRIA (random walk)`
+      : `AR(1) com φ = ${phi_val.toFixed(2)} — ${Math.abs(phi_val) > 1 ? "EXPLOSIVO" : "RAIZ UNITÁRIA"}`;
+
+  return Plot.plot({
+    width: 800, height: 300,
+    marks: [
+      Plot.lineY(data, {x: "t", y: "value",
+        stroke: estavel ? "#3ACC9F" : "#E50505", strokeWidth: 1.2}),
+      Plot.ruleY([0], {stroke: "#ccc"})
+    ],
+    x: {label: "Tempo"}, y: {label: "Y(t)"},
+    title: titulo,
+    subtitle: estavel
+      ? "A série oscila ao redor da média e 'volta' — memória finita"
+      : "A série 'vagueia' sem voltar — memória infinita, tendência estocástica"
+  });
+}
+```
+
+::: {.conceito-card}
+#### Os três regimes do AR(1)
+
+| Condição | Comportamento | Nome |
+|----------|--------------|------|
+| $|\phi| < 1$ | Série **estacionária** — oscila ao redor da média, choques se dissipam | Estável |
+| $\phi = 1$ | **Random walk** — choques se acumulam para sempre, sem reversão à média | Raiz unitária |
+| $|\phi| > 1$ | Série **explosiva** — diverge para $\pm\infty$ rapidamente | Instável |
+
+O caso $\phi = 1$ é chamado de **raiz unitária** porque, ao reescrever o AR(1) usando o operador de defasagem $B$ (onde $BY_t = Y_{t-1}$):
+
+$$Y_t = \phi B Y_t + \varepsilon_t \implies (1 - \phi B) Y_t = \varepsilon_t$$
+
+A "raiz" da equação $1 - \phi z = 0$ é $z = 1/\phi$. Quando $\phi = 1$, a raiz está **exatamente no círculo unitário** ($z = 1$), o que torna o processo não estacionário.
+:::
+
+::: {.callout-note}
+## Tendência Determinística vs. Estocástica
+
+| Tipo | Modelo | Exemplo | Como tratar |
+|------|--------|---------|-------------|
+| **Determinística** | $Y_t = \alpha + \beta t + \varepsilon_t$ | Crescimento linear previsível | Incluir tendência no modelo (regressão) |
+| **Estocástica** | $Y_t = Y_{t-1} + \varepsilon_t$ (random walk) | "Vagueio" aleatório | **Diferenciar** a série |
+
+A diferença é crucial: se a tendência é determinística, basta incluir $t$ como variável no modelo. Se é estocástica (raiz unitária), precisamos **diferenciar** a série. Aplicar o tratamento errado gera resultados enganosos — o famoso problema da **regressão espúria**.
+:::
+
+### Testes Formais de Raiz Unitária
+
+| Teste | Hipótese nula ($H_0$) | Hipótese alternativa ($H_1$) | Interpretação |
+|-------|----------------------|------------------------------|---------------|
+| **ADF** (Augmented Dickey-Fuller) | Existe raiz unitária (não estacionária) | Série é estacionária | Rejeitar = bom (estacionária) |
+| **KPSS** | Série é estacionária | Existe raiz unitária | Rejeitar = ruim (não estacionária) |
+
+::: {.callout-warning}
+## Use os dois testes juntos!
+Os testes têm hipóteses nulas **opostas**, o que permite uma triangulação:
+
+| ADF | KPSS | Conclusão |
+|-----|------|-----------|
+| Rejeita $H_0$ | Não rejeita $H_0$ | ✅ Evidência de **estacionariedade** |
+| Não rejeita $H_0$ | Rejeita $H_0$ | ⚠️ Evidência de **raiz unitária** — diferenciar |
+| Ambos rejeitam | — | ❓ Inconclusivo — pode ser tendência determinística |
+| Nenhum rejeita | — | ❓ Inconclusivo — aumente a amostra |
+:::
+
+### Diferenciação
+
+Se a série tem raiz unitária, aplicamos a **diferenciação** para torná-la estacionária:
+
+::: {.formula-highlight}
+[Primeira diferença]{.formula-label}
+$$\Delta Y_t = Y_t - Y_{t-1}$$
+:::
+
+::: {.formula-highlight}
+[Diferença sazonal (período $s$)]{.formula-label}
+$$\Delta_s Y_t = Y_t - Y_{t-s}$$
+:::
+
+A primeira diferença remove **tendência**. A diferença sazonal remove **sazonalidade com raiz unitária**. Podemos aplicar ambas: $\Delta \Delta_{12} Y_t$ remove tendência *e* sazonalidade.
+
+O número de diferenças regulares necessárias será o $d$ no modelo ARIMA$(p,d,q)$. O número de diferenças sazonais será o $D$ no SARIMA$(p,d,q)(P,D,Q)_s$.
+
+## Quizzes: Teste seu Entendimento
+
+::: {.callout-caution collapse="true"}
+## Questão 1: Uma série de vendas mensais mostra picos em dezembro todo ano. Isso é tendência, sazonalidade ou ciclo?
+
+**Sazonalidade.** Picos que se repetem em período fixo e conhecido (todo dezembro = período de 12 meses) configuram sazonalidade. Se os picos ocorressem a cada 3-7 anos sem período fixo, seria ciclo. Se as vendas estivessem sempre crescendo sem repetição, seria tendência.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 2: Se a ACF decai lentamente e a PACF tem um único pico significativo no lag 1, qual processo isso sugere?
+
+**Série não estacionária** (provavelmente com raiz unitária). O decaimento lento da ACF é o sinal clássico de não-estacionariedade. A PACF com pico apenas no lag 1 sugere AR(1) com $\phi$ próximo de 1. A série provavelmente precisa de diferenciação.
+
+Se, *após diferenciar*, a ACF e a PACF cortam rapidamente, o modelo original é um ARIMA com $d=1$.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 3: O teste KPSS retornou p-valor = 0.01. O que você conclui?
+
+**A série provavelmente NÃO é estacionária.** No KPSS, a hipótese nula é que a série *é* estacionária. Com p-valor = 0.01, rejeitamos $H_0$ a 5%, o que indica evidência contra estacionariedade.
+
+Mas cuidado: confirme com o ADF. Se o ADF também não rejeitar sua $H_0$ (raiz unitária), temos evidência robusta de não estacionariedade.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 4: Você aplica uma diferença e a série torna-se estacionária. Qual o valor de $d$ no ARIMA(p,d,q)?
+
+**$d = 1$**, pois foi necessária uma diferenciação regular para atingir estacionariedade. Se precisasse de duas diferenciações, seria $d = 2$ (raro na prática — $d > 2$ quase nunca ocorre).
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 5: Um colega propôs ajustar um AR(2) diretamente a uma série com tendência crescente. Qual o problema?
+
+O modelo AR assume estacionariedade (média constante). Com tendência, a média está mudando, e o AR vai tentar "perseguir" essa mudança com coeficientes artificialmente altos — os resíduos serão autocorrelacionados e as previsões serão ruins. O correto é: (a) verificar o tipo de tendência (determinística ou estocástica), (b) tratar adequadamente (incluir tendência ou diferenciar), e (c) só então ajustar o modelo AR à série estacionária resultante.
+:::
+
+## Para Saber Mais
+
+- [FPP3, Cap. 2: Time Series Graphics](https://otexts.com/fpppy/02-graphics.html)
+- [FPP3, Cap. 3: Time Series Decomposition](https://otexts.com/fpppy/03-decomposition.html)
+- [FPP3, Cap. 9.1: Stationarity and differencing](https://otexts.com/fpppy/09-arima.html)
+- Hamilton, J.D. (1994). *Time Series Analysis*, Cap. 15 — Unit Roots.

@@ -1,0 +1,54 @@
+---
+title: "Trabalho Final"
+subtitle: "Análise e Otimização de Portfólio"
+---
+
+## Objetivo
+
+Aplicar os conceitos da **Parte 2** (volatilidade, CAPM, otimização de carteira) para construir, avaliar e comunicar um portfólio de investimentos, simulando uma apresentação ao comitê de investimentos.
+
+::: {.callout-important}
+## Formato da Entrega
+- **Notebook Jupyter** (.ipynb) com código reprodutível ou site com os códigos e resultados compilados (ex: GitHub Pages, etc)
+- **Apresentação** de 10 minutos (slides ou notebook, de preferência slides, considerando a importância do storytelling)
+- **Prazo**: 22/jun (online, sessão de apresentação)
+:::
+
+## Especificação
+
+Monte um **relatório de análise financeira** que simule uma apresentação ao comitê de investimentos.
+
+### 1. Seleção de Ativos
+
+- Escolha um conjunto de ativos financeiros (ações, ETFs,  FIIs) do mercado brasileiro ou externo. Devem ter um histórico compatível com a modelagem de volatilidade. Como base, sugerimos a escolha de **6 ativos**, mas o número pode variar dependendo da complexidade que desejarem explorar.
+- Elabore uma justificativa de negócios para a escolha da carteira: entender o propósito de cada ativo na carteira, histórico das empresas e a relação entre os ativos, utilizando argumentos quantitativos e qualitativos sobre o mercado (*storytelling*).
+- Análise descritiva individual: gráficos de preços e retornos, com comentários sobre heterocedasticidade condicional.
+
+### 2. Modelagem de Volatilidade
+
+- Ajuste modelos **GARCH univariados** para cada ativo e escolha o mais adequado via critérios de informação e/ou validação cruzada. Se fizer sentido, explore variantes do GARCH (EGARCH, GJR-GARCH, IGARCH). Use uma distribuição adequada para os resíduos (normal, t-student, skewed) e justifique a escolha.
+- Faça a **previsão um passo à frente** da volatilidade de cada ativo usando os modelos ajustados e faça comparações entre ativos da carteira. Relacione com o *storytelling*. 
+
+### 3. CAPM e Otimização de Portfólio
+
+- Calcule os **betas individuais** de cada ativo estimados via regressão simples contra um índice
+  de mercado adequado (Ibovespa / S&P 500), com comentários sobre magnitude e sinal.
+- Construa a **fronteira eficiente** com seus ativos para encontrar as carteiras de mínimo risco e máximo Sharpe, usando volatilidade histórica ou volatilidade prevista pelos modelos. Escolha um portfólio otimizado para apresentar, justificando a escolha do ponto de vista de negócios e risco-retorno.
+- Repita a modelagem de volatilidade (com previsão um passo à frente) e calcule o **beta do portfólio otimizado**, comparando com as séries individuais: como fica o risco? Como fica o beta? Como interpretar?
+
+### 4. Análise de risco
+
+Adicionar uma análise de risco qualitativa e/ou quantitativa do portfólio, com base nos critérios que foram estudados em aula e outros que conhecerem ou pesquisarem. Relacione com o storytelling e a justificativa de negócios: Como tem sido o retorno nos últimos 12 meses vis-à-vis a volatilidade? Quais os riscos mais relevantes para o portfólio? Quais os eventos que poderiam impactar negativamente? Como o portfólio se comportaria em um cenário de crise?
+
+### 5. Apresentação e Conclusão
+
+Na aula online de **22 de junho**, cada grupo apresentará em **10 minutos**. A apresentação deve ser clara, objetiva e orientada a decisão, com visualizações informativas e conclusões críticas. O foco deve ser na parte de negócios, mas também deve abordar os aspectos técnicos de modelagem e otimização de forma precisa, com interpretação dos resultados e conexão com o contexto de mercado.
+
+## Critérios de Avaliação
+
+- Storytelling;
+- Visual e coerência do texto/ apresentação;
+- Conter ensinamentos das aulas;
+- Seleção correta dos modelos;
+- Códigos;
+- Conclusões desenvolvidas.

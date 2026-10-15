@@ -1,0 +1,130 @@
+---
+title: "CAPM e Otimização de Portfólios"
+subtitle: "Financial Analytics: PADS Insper 2026.2"
+author: "Programa Avançado de Data Science e Decisão"
+format:
+  revealjs:
+    theme: [default, ../assets/insper-theme.scss]
+    logo: ../assets/img/logo-insper-branco.png
+    footer: "Financial Analytics: Aula 6"
+    slide-number: true
+    transition: fade
+    width: 1280
+    height: 720
+    highlight-style: monokai
+    code-fold: true
+    smaller: true
+    scrollable: true
+---
+
+## CAPM
+
+$$E[R_i] = R_f + \beta_i \cdot (E[R_m] - R_f)$$
+
+Quanto de retorno um ativo **deve** oferecer dado seu risco?
+
+| Parâmetro | Significado |
+|-----------|-------------|
+| $R_f$ | Taxa livre de risco (CDI) |
+| $\beta_i$ | Sensibilidade ao mercado |
+| $E[R_m] - R_f$ | Prêmio de risco |
+
+## Interpretando o Beta
+
+$$\beta_i = \frac{\text{Cov}(R_i, R_m)}{\text{Var}(R_m)}$$
+
+| Beta | Significado | Exemplo |
+|------|-------------|---------|
+| $\beta = 0$ | Sem risco de mercado | CDI |
+| $\beta = 1$ | Move igual ao mercado | BOVA11 |
+| $\beta > 1$ | Mais volátil | Tech, small caps |
+| $\beta < 1$ | Menos volátil | Elétricas |
+
+## Alpha de Jensen
+
+$$\alpha_i = R_i - [R_f + \beta_i (R_m - R_f)]$$
+
+- $\alpha > 0$: gestor **gerou valor** além do risco
+- $\alpha = 0$: retorno consistente com risco
+- $\alpha < 0$: gestor **não compensou** o risco
+
+## Decomposição do Risco
+
+$$\underbrace{\sigma_i^2}_{\text{total}} = \underbrace{\beta_i^2 \sigma_m^2}_{\text{sistemático}} + \underbrace{\sigma^2(\varepsilon_i)}_{\text{idiossincrático}}$$
+
+- **Sistemático**: não diversificável, **remunerado** pelo mercado ($\beta$)
+- **Idiossincrático**: diversificável, **não remunerado**
+
+Portfólio com 20-30 ações já elimina a maior parte do idiossincrático.
+
+## Beta de um Portfólio
+
+$$\beta_p = \sum_{i=1}^{n} w_i\, \beta_i$$
+
+**Linear nos pesos**. Implicações práticas:
+
+- **Hedge**: vender $\beta_p \cdot W$ do índice futuro neutraliza o risco de mercado
+- **Alocação tática**: ajustar $\beta_p$ é ajustar exposição ao mercado
+- **Atribuição**: separa retorno de mercado vs. seleção de ativos
+
+## Security Market Line
+
+Ativos **acima** da SML: $\alpha > 0$ (subvalorizados)
+
+Ativos **abaixo** da SML: $\alpha < 0$ (sobrevalorizados)
+
+A SML é a reta: $E[R] = R_f + \beta \cdot \text{prêmio}$
+
+## Fronteira Eficiente de Markowitz
+
+$$\min_{\mathbf{w}} \quad \mathbf{w}^T \boldsymbol{\Sigma} \mathbf{w}$$
+$$\text{s.a.} \quad \mathbf{w}^T \boldsymbol{\mu} = \mu_{\text{alvo}}, \quad \mathbf{w}^T \mathbf{1} = 1$$
+
+**Ideia**: o risco do portfólio **não é** a média dos riscos — a diversificação reduz risco total.
+
+## O Poder da Diversificação
+
+- **Correlação alta** (0.9): pouco benefício
+- **Correlação baixa** (0.2): grande benefício
+- **Correlação negativa** (-0.5): benefício máximo
+
+Com $\rho = -1$ entre dois ativos: é possível **eliminar** todo o risco!
+
+## Restrições Práticas
+
+| Restrição | Motivação |
+|-----------|-----------|
+| $w_i \geq 0$ | Sem short selling |
+| $w_i \leq 30\%$ | Diversificação mínima |
+| Limite por setor | Concentração setorial |
+| Custos de transação | Realismo |
+
+::: {.callout-warning}
+Sem restrições, Markowitz frequentemente produz portfólios **extremos** (90% em 1 ativo) → "error maximization"
+:::
+
+## Sharpe = Inclinação da CML
+
+**Capital Market Line**: reta que liga $R_f$ ao portfólio de mercado.
+
+$$E[R_p] = R_f + \underbrace{\frac{E[R_m] - R_f}{\sigma_m}}_{\text{Sharpe do mercado}} \cdot \sigma_p$$
+
+- A inclinação da CML **é** o Sharpe ratio
+- O portfólio **tangente** à fronteira eficiente **maximiza** o Sharpe
+- Todos os portfólios na CML dominam qualquer portfólio abaixo dela
+
+É por isso que o Sharpe é o indicador de performance número 1.
+
+## Indicadores de Performance
+
+| Indicador | Fórmula | O que mede |
+|-----------|---------|------------|
+| **Sharpe** | $(R_p - R_f) / \sigma_p$ | Retorno/risco total |
+| **Sortino** | $(R_p - R_f) / \sigma_{\text{down}}$ | Retorno/risco negativo |
+| **Max Drawdown** | Maior queda do pico | Pior cenário |
+
+## Próximos Passos
+
+1. **Lab 4**: construir fronteira eficiente em Python
+2. **Competição de Portfólios**: monte sua carteira!
+3. **Aula 7**: tópicos avançados (VAR, cointegração, pair trading)

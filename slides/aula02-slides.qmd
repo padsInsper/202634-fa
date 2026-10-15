@@ -1,0 +1,133 @@
+---
+title: "ARIMA e SARIMA"
+subtitle: "Financial Analytics: PADS Insper 2026.2"
+author: "Programa Avançado de Data Science e Decisão"
+format:
+  revealjs:
+    theme: [default, ../assets/insper-theme.scss]
+    logo: ../assets/img/logo-insper-branco.png
+    footer: "Financial Analytics: Aula 2"
+    slide-number: true
+    transition: fade
+    width: 1280
+    height: 720
+    highlight-style: monokai
+    code-fold: true
+    smaller: true
+    scrollable: true
+---
+
+## Relembrando: AR e MA
+
+:::: {.columns}
+::: {.column width="50%"}
+### AR(p) — Autoregressivo
+
+$$y_t = c + \phi_1 y_{t-1} + \cdots + \phi_p y_{t-p} + \varepsilon_t$$
+
+"O presente depende do **passado da série**"
+:::
+::: {.column width="50%"}
+### MA(q) — Média Móvel
+
+$$y_t = c + \varepsilon_t + \theta_1 \varepsilon_{t-1} + \cdots + \theta_q \varepsilon_{t-q}$$
+
+"O presente depende dos **choques passados**"
+:::
+::::
+
+## ARIMA(p, d, q)
+
+Combina **AR**, **diferenciação** e **MA**:
+
+$$\underbrace{\phi(B)}_{\text{AR}} \underbrace{(1-B)^d}_{\text{I}} y_t = c + \underbrace{\theta(B)}_{\text{MA}} \varepsilon_t$$
+
+| Parâmetro | Controla |
+|-----------|----------|
+| $p$ | Ordem autoregressiva (quantos lags de $y$) |
+| $d$ | Diferenciações (0, 1 ou 2) |
+| $q$ | Ordem de média móvel (quantos lags de $\varepsilon$) |
+
+## Polinômios e Raízes
+
+Operador de defasagem: $L Y_t = Y_{t-1}$.
+
+$$\Phi(L) = 1 - \phi_1 L - \cdots - \phi_p L^p$$
+
+**Estacionariedade do AR($p$)**: todas as raízes de $\Phi(z) = 0$ com $|z| > 1$ (fora do círculo unitário).
+
+- AR(1): $|\phi_1| < 1$
+- Raiz em $z = 1$ $\Rightarrow$ **raiz unitária** $\Rightarrow$ não-estacionário
+- Teste ADF = teste de hipótese sobre raiz em $z=1$
+
+## SARIMA: Adicionando Sazonalidade
+
+$$\text{SARIMA}(p,d,q)(P,D,Q)_m$$
+
+Exemplo: $\text{SARIMA}(1,1,1)(0,1,1)_{12}$ para dados mensais
+
+- $(p,d,q)$: componente **não-sazonal**
+- $(P,D,Q)_m$: componente **sazonal** (período $m$)
+
+## Procedimento Box-Jenkins
+
+```{mermaid}
+flowchart TD
+    A[1. Identificação] --> B[2. Estimação]
+    B --> C[3. Diagnóstico]
+    C -->|Inadequado| A
+    C -->|Adequado| D[4. Previsão]
+```
+
+1. **Identificação**: ACF/PACF → ordens tentativas
+2. **Estimação**: máxima verossimilhança
+3. **Diagnóstico**: resíduos são ruído branco?
+4. **Previsão**: se diagnóstico OK
+
+## Critérios de Informação
+
+Para escolher entre modelos candidatos:
+
+$$\text{AIC} = -2\ln(\hat{L}) + 2k$$
+$$\text{BIC} = -2\ln(\hat{L}) + k\ln(n)$$
+
+| Critério | Penalização | Tendência |
+|----------|------------|-----------|
+| **AIC** | Leve | Seleciona modelos maiores |
+| **BIC** | Forte | Seleciona modelos mais simples |
+| **AICc** | Corrigido para $n$ pequeno | **Recomendado na prática** |
+
+::: {.callout-tip}
+Menor é melhor. Na dúvida, use **AICc**.
+:::
+
+## Diagnóstico Residual
+
+Os resíduos devem ser **ruído branco**:
+
+1. **Média zero** → verificar visualmente
+2. **Variância constante** → verificar visualmente
+3. **Sem autocorrelação** → ACF + Teste de Ljung-Box
+4. **Normalidade** → QQ-plot (desejável, não obrigatório)
+
+### Teste de Ljung-Box
+
+$$Q = n(n+2) \sum_{k=1}^{h} \frac{\hat{\rho}_k^2}{n-k}$$
+
+- $H_0$: resíduos são ruído branco
+- $p > 0.05$ → modelo adequado
+
+## Auto ARIMA vs. Manual
+
+| Abordagem | Vantagem | Desvantagem |
+|-----------|----------|-------------|
+| **Manual** | Controle total, entendimento profundo | Lento, requer experiência |
+| **Auto** | Rápido, sistemático | Pode ignorar contexto |
+
+**Recomendação**: use auto como **ponto de partida**, depois refine manualmente se necessário.
+
+## Próximos Passos
+
+1. **Aula 3**: métricas de erro e validação cruzada temporal
+2. **Lab 2**: pipeline completo em Python (statsforecast)
+3. **Entrega Intermediária**: seu modelo ARIMA em dados reais

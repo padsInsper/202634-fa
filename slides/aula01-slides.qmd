@@ -1,0 +1,140 @@
+---
+title: "Fundamentos de Séries Temporais"
+subtitle: "Financial Analytics: PADS Insper 2026.2"
+author: "Programa Avançado de Data Science e Decisão"
+format:
+  revealjs:
+    theme: [default, ../assets/insper-theme.scss]
+    logo: ../assets/img/logo-insper-branco.png
+    footer: "Financial Analytics: Aula 1"
+    slide-number: true
+    transition: fade
+    width: 1280
+    height: 720
+    highlight-style: monokai
+    code-fold: true
+    smaller: true
+    scrollable: true
+---
+
+## O que é uma Série Temporal?
+
+Uma **sequência de observações ordenadas no tempo**:
+
+$$\{y_t\}_{t=1}^{T} = y_1, y_2, \ldots, y_T$$
+
+Exemplos do dia a dia corporativo:
+
+- Receita mensal da empresa
+- Preço diário de ações
+- IPCA mensal
+- Tráfego semanal no e-commerce
+
+## Componentes de uma Série
+
+| Componente | Símbolo | Descrição |
+|------------|---------|-----------|
+| **Tendência** | $T_t$ | Movimento de longo prazo |
+| **Sazonalidade** | $S_t$ | Padrão que se repete em período fixo |
+| **Ciclo** | $C_t$ | Flutuações sem período fixo |
+| **Resíduo** | $R_t$ | O que sobra (ruído) |
+
+$$y_t = T_t + S_t + C_t + R_t \quad \text{(modelo aditivo)}$$
+
+## Decomposição STL
+
+:::: {.columns}
+::: {.column width="50%"}
+**STL** = Seasonal and Trend decomposition using Loess
+
+- Sazonalidade pode variar
+- Robusto a outliers
+- Mais flexível que decomposição clássica
+:::
+::: {.column width="50%"}
+```{mermaid}
+flowchart TD
+    A[Série Original] --> B[Tendência]
+    A --> C[Sazonalidade]
+    A --> D[Resíduo]
+    B --> E[Análise]
+    C --> E
+    D --> E
+```
+:::
+::::
+
+## Autocorrelação (ACF)
+
+Mede a correlação entre $y_t$ e $y_{t-k}$:
+
+$$\rho_k = \frac{\text{Cov}(y_t, y_{t-k})}{\text{Var}(y_t)}$$
+
+**Padrões típicos:**
+
+| Processo | ACF | PACF |
+|----------|-----|------|
+| AR(p) | Decai exponencialmente | Corta no lag $p$ |
+| MA(q) | Corta no lag $q$ | Decai exponencialmente |
+| ARMA(p,q) | Decai | Decai |
+| Random Walk | Decai muito lentamente | Corta no lag 1 |
+
+## Estacionariedade
+
+::: {.callout-important}
+A maioria dos modelos de séries temporais **exige** estacionariedade!
+:::
+
+Uma série é **estacionária** se suas propriedades estatísticas não mudam ao longo do tempo:
+
+1. $E[y_t] = \mu$ (média constante)
+2. $\text{Var}(y_t) = \sigma^2$ (variância constante)
+3. $\text{Cov}(y_t, y_{t-k})$ depende só de $k$
+
+## Raiz Unitária
+
+Considere o AR(1): $y_t = \phi y_{t-1} + \varepsilon_t$
+
+| Valor de $\phi$ | Comportamento |
+|-----------------|---------------|
+| $|\phi| < 1$ | **Estacionário** — reverte à média |
+| $\phi = 1$ | **Random Walk** — raiz unitária |
+| $|\phi| > 1$ | **Explosivo** — diverge |
+
+O random walk é o caso limite: cada choque tem efeito **permanente**.
+
+## Testes de Estacionariedade
+
+| Teste | $H_0$ | $H_1$ | Rejeitar = |
+|-------|--------|--------|------------|
+| **ADF** | Raiz unitária | Estacionária | Bom! |
+| **KPSS** | Estacionária | Raiz unitária | Ruim! |
+
+**Interpretação conjunta:**
+
+| ADF rejeita? | KPSS rejeita? | Conclusão |
+|:---:|:---:|:---|
+| Sim | Não | **Estacionária** |
+| Não | Sim | **Não-estacionária** → diferenciar |
+| Não | Não | Inconclusivo |
+
+## Diferenciação
+
+Se a série tem raiz unitária, **diferencie**:
+
+$$\Delta y_t = y_t - y_{t-1}$$
+
+- 1ª diferença remove tendência linear
+- Diferença sazonal ($y_t - y_{t-m}$) remove sazonalidade
+- Quase nunca precisamos de $d > 2$
+
+## Próximos Passos
+
+1. **Lab 1**: explorar séries reais em Python (IPCA, vendas)
+2. **Aula 2**: modelos ARIMA para previsão
+3. **Entrega Intermediária**: análise completa de série temporal
+
+::: {.callout-tip}
+## Leitura
+[FPP3, Capítulos 2–4](https://otexts.com/fpp3/)
+:::

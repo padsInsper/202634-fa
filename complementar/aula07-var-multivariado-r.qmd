@@ -1,0 +1,108 @@
+---
+title: "VAR Multivariado em R (pacote MTS)"
+subtitle: "Seleção de ordem, estimação e previsão com Vector Autoregression"
+author: "Material original: Profa. Paloma Vaissman Uribe"
+date: last-modified
+format:
+  html:
+    code-fold: show
+execute:
+  eval: true
+  freeze: auto
+---
+
+::: {.callout-note}
+Complementa a **Aula 7 — Tópicos Avançados** (modelos VAR, cointegração, pair trading).
+Usa dados internos ao pacote `MTS` para ilustrar o fluxo de seleção de ordem, estimação
+e previsão de um VAR.
+:::
+
+## Objetivo
+
+Ajustar um modelo **Vector Autoregression** a um painel macroeconômico (PIB trimestral
+de três países) e produzir previsões multivariadas 8 passos à frente.
+
+## Dependências
+
+```r
+install.packages(c("MTS", "dplyr", "ggplot2"))
+```
+
+## 1. Dados: log do PIB real
+
+O dataset `qgdp` do pacote `MTS` contém PIB real trimestral para várias economias.
+Trabalhamos em **log-diferenças** para garantir estacionariedade — condição
+necessária para aplicar um VAR clássico.
+
+```r
+library(MTS)
+library(dplyr)
+library(ggplot2)
+
+data("mts-examples", package = "MTS")
+
+# Log do PIB para 3 países (colunas 3 a 5)
+gdp <- log(qgdp[, 3:5])
+
+# Primeira diferença -> retornos logarítmicos trimestrais
+zt <- diffM(gdp)
+```
+
+## 2. Escolha da ordem do VAR
+
+A função `VARorder` calcula AIC, BIC e Hannan-Quinn para ordens de 0 a um máximo
+padrão. Como de praxe, BIC tende a escolher modelos mais parcimoniosos que AIC;
+o HQ fica em um meio-termo assintoticamente.
+
+```r
+order <- VARorder(zt)
+
+par(mfrow = c(1, 1))
+plot(
+  order$aic,
+  xlab = "Order", ylab = "Value",
+  type = "b", pch = 16, ylim = c(-32, -29)
+)
+lines(order$bic, pch = 16, col = 2, type = "b")
+lines(order$hq,  pch = 16, col = 4, type = "b")
+legend(
+  "topright",
+  legend = c("AIC", "BIC", "HQ"),
+  col    = c(1, 2, 4),
+  lty = 1, pch = 16
+)
+```
+
+## 3. Estimação do VAR(2)
+
+Com base nos critérios de informação, escolhemos um VAR(2).
+
+```r
+m1 <- VAR(zt, p = 2)
+```
+
+## 4. Previsão 8 passos à frente
+
+```r
+forec <- VARpred(m1, 8)
+```
+
+O objeto `forec` traz previsões pontuais, desvios-padrão e intervalos de confiança
+para cada uma das 3 séries, 8 trimestres à frente.
+
+## Próximos passos sugeridos
+
+- **Funções de Resposta ao Impulso (IRF)**: `MTSplot(m1$residuals)` e `VARirf` para
+  investigar como choques em uma variável se propagam nas demais.
+- **Causalidade de Granger**: `GrangerTest()` para verificar precedência temporal
+  entre as séries.
+- **Cointegração**: se as séries em nível (não diferenciadas) forem $I(1)$, o passo
+  natural é testar cointegração via Johansen (`ca.jo` no pacote `urca`) e, havendo
+  relações de longo prazo, ajustar um **Vector Error Correction Model (VECM)**.
+
+::: {.callout-tip}
+## Equivalente em Python
+O notebook [*Tópicos VAR, Cointegração e Pair Trading*](aula07-var-cointegracao-pairtrading.ipynb)
+cobre os mesmos conceitos usando `statsmodels.tsa.vector_ar` e
+`statsmodels.tsa.stattools.coint`.
+:::

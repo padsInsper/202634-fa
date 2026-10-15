@@ -1,0 +1,375 @@
+---
+title: "Aula 4: Previsão e Validação"
+subtitle: "Como avaliar modelos e evitar armadilhas"
+format:
+  html:
+    code-fold: true
+---
+
+::: {.objetivos}
+#### Objetivos de Aprendizagem
+
+- **Calcular** métricas de erro de previsão (RMSE, MAE, MAPE, MASE)
+- **Implementar** validação cruzada temporal corretamente
+- **Comparar** modelos usando métricas apropriadas
+- **Avaliar** cenários de falha e quebra estrutural
+:::
+
+## Por que Avaliar Previsões?
+
+Um modelo pode ter resíduos "bonitos" no período de **treino** e ser péssimo no **teste**. Isso acontece porque o modelo pode ter **memorizado** padrões do passado (overfitting) em vez de capturar a estrutura genuína da série. Métricas de erro calculadas em dados **fora da amostra** (out-of-sample) são a única forma confiável de medir capacidade preditiva.
+
+::: {.callout-tip}
+## Princípio Fundamental
+A qualidade de um modelo de previsão é medida pela sua performance em **dados que ele nunca viu**, não pela qualidade do ajuste nos dados de treino.
+:::
+
+## Métricas de Erro de Previsão
+
+Suponha que temos $h$ previsões $\hat{y}_{T+1}, \hat{y}_{T+2}, \ldots, \hat{y}_{T+h}$ e os valores realizados correspondentes $y_{T+1}, \ldots, y_{T+h}$. O **erro de previsão** é $e_{T+i} = y_{T+i} - \hat{y}_{T+i}$.
+
+::: {.formula-highlight}
+[MAE — Mean Absolute Error]{.formula-label}
+$$\text{MAE} = \frac{1}{h} \sum_{i=1}^{h} |e_{T+i}|$$
+:::
+
+::: {.formula-highlight}
+[RMSE — Root Mean Squared Error]{.formula-label}
+$$\text{RMSE} = \sqrt{\frac{1}{h} \sum_{i=1}^{h} e_{T+i}^2}$$
+:::
+
+::: {.formula-highlight}
+[MAPE — Mean Absolute Percentage Error]{.formula-label}
+$$\text{MAPE} = \frac{100}{h} \sum_{i=1}^{h} \left|\frac{e_{T+i}}{y_{T+i}}\right|$$
+:::
+
+::: {.formula-highlight}
+[MASE — Mean Absolute Scaled Error]{.formula-label}
+$$\text{MASE} = \frac{\text{MAE}}{\frac{1}{T-1}\sum_{t=2}^{T}|y_t - y_{t-1}|}$$
+:::
+
+### Quando usar cada métrica?
+
+| Métrica | Escala | Ponto forte | Cuidado |
+|---------|--------|-------------|---------|
+| **MAE** | Mesma da série | Interpretação direta, robusta a outliers | Não penaliza erros grandes |
+| **RMSE** | Mesma da série | Penaliza erros grandes (importante em risco!) | Sensível a outliers |
+| **MAPE** | Percentual | Fácil de comunicar ("erro de 5%") | **Explode** quando $y_t \approx 0$ |
+| **MASE** | Adimensional | Comparável entre séries diferentes | Requer definição do benchmark naïve |
+
+### Conectando métricas a decisões de negócio
+
+A escolha da métrica não é técnica — é uma **decisão de negócio** que reflete o custo dos erros:
+
+::: {.caso-negocio}
+#### Cenários corporativos e suas métricas
+
+| Cenário | Métrica recomendada | Por quê |
+|---------|-------------------|---------|
+| **Planejamento de estoque** (varejo) | MAE | Erros simétricos; cada unidade a mais ou a menos tem custo similar |
+| **Gestão de risco financeiro** | RMSE | Erros grandes (caudas) têm custo desproporcional — uma perda de 10x é muito pior que 10 perdas de 1x |
+| **Relatório para diretoria** | MAPE | Executivos entendem "erramos 5% na previsão de receita" |
+| **Comparação entre filiais** (escalas diferentes) | MASE | Filial A fatura R\$ 10M e filial B fatura R\$ 100M — o MASE permite comparar modelos sem viés de escala |
+| **Demanda de energia** (pode ser zero à noite) | MAE ou RMSE | MAPE é **inviável** quando demanda real pode ser zero (divisão por zero) |
+
+**Regra prática**: pergunte *"qual o custo de errar para cima vs. para baixo?"*. Se o custo é simétrico, use MAE. Se erros grandes são catastróficos, use RMSE. Se precisa comunicar a não-técnicos, use MAPE (com cuidado).
+:::
+
+::: {.callout-warning}
+## Cuidado com o MAPE
+O MAPE divide pelo valor observado. Se sua série tem valores próximos de zero (como retornos financeiros, que flutuam em torno de zero), o MAPE será **extremamente instável** ou infinito. Para séries financeiras, prefira **MAE**, **RMSE** ou **MASE**.
+:::
+
+### Simulador interativo: impacto de outliers nas métricas
+
+Veja como um único erro grande afeta cada métrica de forma diferente:
+
+```{ojs}
+//| echo: false
+
+viewof outlier_size = Inputs.range([0, 50], {
+  value: 5, step: 1, label: "Tamanho do outlier:"
+})
+
+viewof n_previsoes = Inputs.range([10, 100], {
+  value: 20, step: 5, label: "Número de previsões:"
+})
+```
+
+```{ojs}
+//| echo: false
+
+{
+  const n = n_previsoes;
+  const outlier = outlier_size;
+
+  // Gerar erros "normais" com um outlier
+  function seededRandom(seed) {
+    let s = seed;
+    return function() {
+      s = (s * 16807) % 2147483647;
+      return (s - 1) / 2147483646;
+    };
+  }
+  const rng = seededRandom(123);
+  function bm() {
+    const u1 = rng(), u2 = rng();
+    return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  }
+
+  let errors = [];
+  for (let i = 0; i < n; i++) {
+    errors.push(bm() * 2); // erros ~ N(0, 4)
+  }
+  // Inserir outlier na posição central
+  const outlierIdx = Math.floor(n / 2);
+  errors[outlierIdx] = outlier;
+
+  // Calcular métricas
+  const absErrors = errors.map(e => Math.abs(e));
+  const mae = absErrors.reduce((a, b) => a + b) / n;
+  const rmse = Math.sqrt(errors.map(e => e * e).reduce((a, b) => a + b) / n);
+
+  // Dados para o gráfico
+  const data = errors.map((e, i) => ({
+    i: i,
+    error: Math.abs(e),
+    isOutlier: i === outlierIdx ? "Outlier" : "Normal"
+  }));
+
+  const chart = Plot.plot({
+    width: 800, height: 250,
+    marks: [
+      Plot.barY(data, {x: "i", y: "error", fill: "isOutlier"}),
+      Plot.ruleY([mae], {stroke: "#E50505", strokeWidth: 2, strokeDasharray: "5,5"}),
+      Plot.ruleY([rmse], {stroke: "#3ACC9F", strokeWidth: 2, strokeDasharray: "5,5"}),
+      Plot.text([{x: n - 1, y: mae, text: `MAE = ${mae.toFixed(2)}`}],
+        {x: "x", y: "y", text: "text", fill: "#E50505", dy: -8, fontSize: 12, textAnchor: "end"}),
+      Plot.text([{x: n - 1, y: rmse, text: `RMSE = ${rmse.toFixed(2)}`}],
+        {x: "x", y: "y", text: "text", fill: "#2a8c6e", dy: -8, fontSize: 12, textAnchor: "end"})
+    ],
+    x: {label: "Previsão #"}, y: {label: "|Erro|"},
+    color: {domain: ["Normal", "Outlier"], range: ["#808080", "#E50505"]},
+    title: `Impacto do outlier: MAE = ${mae.toFixed(2)}, RMSE = ${rmse.toFixed(2)} (razão RMSE/MAE = ${(rmse/mae).toFixed(2)})`
+  });
+
+  return chart;
+}
+```
+
+::: {.callout-tip}
+## Experimente!
+- Com outlier = 0, RMSE e MAE são próximos (razão ≈ 1.1–1.3 para erros normais)
+- Aumente o outlier para 30 ou 50: o RMSE cresce **muito mais** que o MAE
+- Isso mostra que o RMSE é mais **sensível a erros extremos** — importante quando erros grandes têm consequências graves (ex: gestão de risco)
+:::
+
+## Validação Cruzada Temporal
+
+### Por que não podemos fazer k-fold convencional?
+
+Em séries temporais, **a ordem importa**. Se embaralharmos os dados como no k-fold tradicional, o modelo pode ser treinado com dados de 2024 e testado com dados de 2022 — ele estaria literalmente "vendo o futuro". Isso é chamado de **data leakage** e produz métricas otimistas que não se sustentam na prática.
+
+A solução é a **validação cruzada temporal** (time series cross-validation), onde o conjunto de treino **sempre precede** o conjunto de teste:
+
+### Expanding Window vs. Sliding Window
+
+```{ojs}
+//| echo: false
+
+viewof cv_method = Inputs.radio(["Expanding Window", "Sliding Window"], {
+  value: "Expanding Window", label: "Método:"
+})
+
+viewof n_splits_cv = Inputs.range([3, 8], {
+  value: 5, step: 1, label: "Número de splits:"
+})
+
+viewof cv_horizon = Inputs.range([5, 20], {
+  value: 10, step: 1, label: "Horizonte de previsão (h):"
+})
+```
+
+```{ojs}
+//| echo: false
+
+{
+  const T = 100;
+  const nSplits = n_splits_cv;
+  const testSize = cv_horizon;
+  const minTrain = 30;
+  const method = cv_method;
+
+  let data = [];
+  for (let s = 0; s < nSplits; s++) {
+    const trainEnd = minTrain + s * testSize;
+    let trainStart;
+    if (method === "Expanding Window") {
+      trainStart = 0;
+    } else {
+      trainStart = Math.max(0, trainEnd - minTrain);
+    }
+    const testEnd = trainEnd + testSize;
+
+    for (let t = 0; t < T && t < testEnd + 5; t++) {
+      let tipo;
+      if (t >= trainStart && t < trainEnd) tipo = "Treino";
+      else if (t >= trainEnd && t < testEnd) tipo = "Teste";
+      else tipo = "Não usado";
+      data.push({split: `Split ${s + 1}`, t: t, tipo: tipo});
+    }
+  }
+
+  return Plot.plot({
+    width: 800, height: 40 + nSplits * 35,
+    marks: [
+      Plot.cell(data.filter(d => d.tipo !== "Não usado"), {
+        x: "t", y: "split", fill: "tipo"
+      })
+    ],
+    x: {label: "Tempo (t)"},
+    y: {label: null, domain: Array.from({length: nSplits}, (_, i) => `Split ${i + 1}`)},
+    color: {domain: ["Treino", "Teste"], range: ["#3ACC9F", "#E50505"]},
+    title: `${method}: ${nSplits} splits, horizonte h = ${testSize}`
+  });
+}
+```
+
+| Método | Treino | Vantagem | Desvantagem |
+|--------|--------|----------|-------------|
+| **Expanding** | Cresce a cada split | Usa todos os dados disponíveis | Pesos iguais para dados antigos e recentes |
+| **Sliding** | Janela fixa que desliza | Mais adaptado a mudanças recentes | Descarta dados antigos que podem ser úteis |
+
+::: {.callout-tip}
+## Quando usar cada método?
+- **Expanding**: quando o processo gerador é relativamente estável ao longo do tempo (ex: séries macroeconômicas)
+- **Sliding**: quando há suspeita de **quebra estrutural** ou mudança de regime (ex: séries financeiras pós-COVID)
+:::
+
+## Previsão com Intervalos de Confiança
+
+Uma boa previsão não é apenas um número — é uma **distribuição**. O intervalo de confiança quantifica a **incerteza** da previsão.
+
+::: {.formula-highlight}
+[Intervalo de previsão (caso gaussiano)]{.formula-label}
+$$\hat{y}_{T+h} \pm z_{\alpha/2} \cdot \hat{\sigma}_h$$
+:::
+
+onde $\hat{\sigma}_h$ é o erro padrão da previsão $h$ passos à frente. Note que:
+
+- O intervalo **se abre** conforme $h$ cresce (previsões mais distantes são mais incertas)
+- Para modelos ARIMA, $\hat{\sigma}_h$ pode ser calculado analiticamente
+- Para modelos mais complexos, usamos **bootstrap** ou **simulação**
+
+## Prophet: Uma Abordagem Diferente
+
+### O que é o Prophet?
+
+Desenvolvido pelo Meta (Facebook) em 2017, o Prophet é um modelo **aditivo** que decompõe a série em componentes interpretáveis. Não é baseado em ARIMA — é uma abordagem de **engenharia pragmática** que funciona bem para séries com:
+
+- Sazonalidade múltipla (diária + semanal + anual)
+- Feriados e eventos especiais
+- Tendência com possíveis pontos de mudança (changepoints)
+
+::: {.formula-highlight}
+[Modelo Prophet]{.formula-label}
+$$y(t) = g(t) + s(t) + h(t) + \varepsilon_t$$
+:::
+
+| Componente | Descrição | Como é modelado |
+|------------|-----------|-----------------|
+| $g(t)$ | Tendência | Linear ou logística com changepoints |
+| $s(t)$ | Sazonalidade | Séries de Fourier |
+| $h(t)$ | Feriados/eventos | Indicadores binários com janela |
+| $\varepsilon_t$ | Erro | Distribuição normal |
+
+### Changepoints: detectando mudanças de tendência
+
+Uma das features mais poderosas do Prophet é a detecção automática de **changepoints** — momentos em que a tendência muda de direção ou velocidade. Isso é especialmente útil para séries que passaram por eventos disruptivos (COVID, crises, lançamento de produtos).
+
+### ARIMA vs. Prophet: Quando usar cada um?
+
+| Critério | ARIMA | Prophet |
+|----------|-------|---------|
+| **Fundamentação** | Teoria estatística sólida (Box-Jenkins) | Engenharia pragmática (decomposição) |
+| **Sazonalidade múltipla** | Difícil (SARIMA cobre apenas uma) | Nativo (diária + semanal + anual) |
+| **Feriados** | Não nativo (requer dummies manuais) | Nativo (calendário configurável) |
+| **Interpretabilidade** | Parâmetros $\phi$, $\theta$, $d$ | Componentes visuais intuitivos |
+| **Amostras pequenas** | Melhor (menos parâmetros) | Pior (precisa de mais dados) |
+| **Automatização** | `auto_arima` / `AutoARIMA` | Poucos hiperparâmetros |
+| **Séries financeiras** | Preferível (fundamentação teórica) | Menos adequado (sem volatilidade condicional) |
+
+::: {.callout-important}
+## Prophet não é bala de prata
+O Prophet foi desenhado para **previsão de métricas de negócio** (vendas, tráfego web, demanda) com forte sazonalidade e feriados. Para **séries financeiras**, modelos ARIMA + GARCH geralmente são mais adequados, pois capturam a dinâmica de volatilidade que o Prophet ignora.
+:::
+
+## Quebra Estrutural: Quando o Mundo Muda
+
+Uma **quebra estrutural** ocorre quando o processo gerador dos dados muda fundamentalmente. Exemplos:
+
+- Pandemia COVID-19 (março 2020)
+- Mudança de política monetária
+- Fusão/aquisição de empresas
+- Mudança regulatória
+
+Quando há quebra estrutural, modelos treinados no período "antigo" podem ser **inúteis** para o período "novo". Estratégias:
+
+1. **Usar apenas dados pós-quebra** (se houver observações suficientes)
+2. **Incluir variáveis dummy** para o período de transição
+3. **Modelos com changepoints** (Prophet faz isso nativamente)
+4. **Monitorar performance continuamente** e retreinar quando necessário
+
+::: {.caso-negocio}
+#### Caso: Previsão de Receita Trimestral
+
+Uma empresa de varejo precisa prever receita para os próximos 4 trimestres para planejamento orçamentário. A série tem:
+
+- Tendência de crescimento
+- Sazonalidade forte (Natal, Dia das Mães)
+- Efeito COVID em 2020 (queda brusca seguida de recuperação)
+
+**Qual modelo você usaria?** Discuta com seu grupo considerando:
+
+1. O efeito COVID é uma **quebra estrutural** — deve-se incluir ou excluir esse período?
+2. A sazonalidade é forte e previsível — isso favorece Prophet ou ARIMA?
+3. Qual o custo de uma previsão muito otimista vs. muito pessimista para o planejamento?
+:::
+
+## Quizzes: Teste seu Entendimento
+
+::: {.callout-caution collapse="true"}
+## Questão 1: Um colega treinou um ARIMA usando dados de 2015–2023 e testou com dados de 2020–2021. O que está errado?
+
+Há **sobreposição** entre treino e teste: os dados de 2020–2021 estão **dentro** do período de treino (2015–2023). O modelo foi avaliado com dados que ele já "viu", o que é data leakage. A métrica de teste será otimista e não refletirá a capacidade preditiva real. O correto seria treinar até 2019 e testar em 2020–2021, ou usar validação cruzada temporal com splits que respeitem a ordem cronológica.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 2: Você tem MAPE de 5% no modelo A e 7% no modelo B, mas o MAE do modelo B é menor. Como isso é possível?
+
+O MAPE divide cada erro pelo valor observado: $|e_t / y_t|$. Se o modelo A erra pouco em valores **grandes** mas erra em valores **pequenos** (próximos de zero), esses erros "pequenos em absoluto" geram MAPE alto. Já o MAE olha apenas $|e_t|$. Exemplo: modelo B erra R\$ 10 quando $y = 200$ (MAPE = 5%) e R\$ 5 quando $y = 50$ (MAPE = 10%). O MAE de B é menor (R\$ 7.5), mas o MAPE é inflado pela observação de valor pequeno. **Conclusão**: nunca confie em uma única métrica — analise MAE, RMSE e MAPE conjuntamente.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 3: Seu modelo ARIMA tem RMSE de 2.3 no treino e 8.7 no teste. O que provavelmente aconteceu?
+
+**Overfitting**: o modelo se ajustou demais aos dados de treino, capturando **ruído** em vez de **sinal**. Possíveis causas: (a) ordens $p$ e $q$ muito altas; (b) amostra de treino muito pequena; (c) quebra estrutural entre treino e teste. **Ações**: (1) use critérios de informação (AICc, BIC) para selecionar ordens mais parcimoniosas; (2) verifique se há mudança de regime no período de teste; (3) use validação cruzada temporal em vez de um único split treino/teste.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 4: Uma série de vendas tem sazonalidade semanal E mensal. Qual modelo lida melhor com isso: SARIMA ou Prophet?
+
+**Prophet**. O SARIMA padrão captura apenas **uma** sazonalidade (o parâmetro $m$). Para ter sazonalidade semanal ($m=7$) e mensal ($m \approx 30$), seria necessário um modelo SARIMA com dupla sazonalidade, que é computacionalmente custoso e instável. O Prophet modela sazonalidade usando **séries de Fourier**, permitindo múltiplos períodos sazonais simultaneamente de forma natural. Alternativa: usar `statsforecast` com modelos que suportam múltiplas sazonalidades (ex: MSTL + ARIMA).
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 5: O MASE do seu modelo é 1.2. Isso é bom ou ruim?
+
+MASE > 1 significa que seu modelo é **pior** que o naïve de referência (random walk: $\hat{y}_{t+1} = y_t$). Isso é preocupante — sugere que o modelo está adicionando complexidade sem melhorar a previsão. Possíveis causas: overfitting, especificação errada, ou a série é genuinamente difícil de prever além do naïve. MASE < 1 indica que o modelo supera o naïve; MASE = 0.5 significa que o erro é metade do naïve.
+:::
+
+## Para Saber Mais
+
+- Hyndman, R.J. & Athanasopoulos, G. (2021). *Forecasting: Principles and Practice*, 3rd ed. [Cap. 5: The Forecaster's Toolbox](https://otexts.com/fpp3/toolbox.html)
+- Taylor, S.J. & Letham, B. (2018). *Forecasting at Scale*. The American Statistician.
+- Tashman, L.J. (2000). *Out-of-Sample Tests of Forecasting Accuracy: An Analysis and Review*. International Journal of Forecasting.

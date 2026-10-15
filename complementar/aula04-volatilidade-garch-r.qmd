@@ -1,0 +1,336 @@
+---
+title: "GARCH e Volatilidade Estocástica em R"
+subtitle: "Pipeline completo de modelagem de volatilidade univariada"
+author: "Material original: Profa. Paloma Vaissman Uribe"
+date: last-modified
+format:
+  html:
+    code-fold: show
+execute:
+  eval: true
+  freeze: auto
+---
+
+::: {.callout-note}
+Este material complementa a **Aula 4 — Volatilidade e GARCH** com a implementação de referência da Profa. Paloma em R.
+O CI do site instala R e os pacotes necessários; localmente, basta ter R (≥ 4.2) e rodar `quarto render`.
+:::
+
+## Objetivo
+
+Replicar o fluxo de trabalho completo de modelagem de volatilidade de um ativo brasileiro
+(PETR4) partindo da coleta dos dados até a comparação entre três famílias de modelos:
+ARCH, GARCH (com erros Normais e $t$-Student) e Volatilidade Estocástica AR(1).
+
+## Dependências
+
+```r
+# Instalação (rodar uma única vez)
+install.packages(c(
+  "yfR", "ggplot2", "gridExtra", "dplyr",
+  "xts", "lubridate", "FinTS", "fGarch",
+  "rugarch", "stochvol"
+))
+```
+
+## 1. Coleta dos dados com `yfR`
+
+Usamos o pacote `yfR` (substituto moderno do `quantmod::getSymbols`) para baixar preços
+ajustados de PETR4, VALE3 e do índice Ibovespa. O parâmetro `type_return = "log"` já
+calcula os log-retornos na grade diária.
+
+```r
+library(yfR)
+
+data <- yf_get(
+  c('PETR4.SA', 'VALE3.SA', '^BVSP'),
+  first_date = '2007-01-01',
+  last_date = Sys.Date(),
+  bench_ticker = "^BVSP",
+  type_return = "log",
+  freq_data = "daily",
+  do_complete_data = TRUE
+)
+
+head(data)
+```
+
+## 2. Visualização dos preços e retornos
+
+A separação do índice em um painel próprio evita o problema de escala (pontos Ibovespa
+vs. reais da ação). Observe visualmente os *clusters* de volatilidade — o fato estilizado
+central que motiva os modelos ARCH/GARCH.
+
+```r
+library(ggplot2)
+library(gridExtra)
+library(dplyr)
+
+data <- data %>% dplyr::filter(volume != 0)
+sub  <- data %>% subset(ticker != '^BVSP')
+ibov <- data %>% subset(ticker == '^BVSP')
+
+p1 <- ggplot(sub, aes(x = ref_date, y = price_close, group = ticker)) +
+  geom_line(aes(color = ticker)) +
+  geom_point(aes(color = ticker)) +
+  theme(legend.position = "top") +
+  xlab('Data') + ylab('Reais')
+
+p2 <- ggplot(ibov, aes(x = ref_date, y = price_close)) +
+  geom_line() +
+  geom_point() +
+  xlab('Data') + ylab('Pontos - IBOVESPA')
+
+grid.arrange(p1, p2, nrow = 2)
+```
+
+```r
+# Log-retornos
+p <- ggplot(data, aes(x = ref_date, y = ret_closing_prices, group = ticker)) +
+  geom_line(aes(color = ticker)) +
+  geom_point(aes(color = ticker))
+p
+```
+
+## 3. Evidência visual de heterocedasticidade condicional
+
+Os retornos ao quadrado são o estimador não-paramétrico clássico da variância instantânea.
+Se eles apresentarem autocorrelação, temos evidência de efeitos ARCH.
+
+```r
+library(xts)
+library(lubridate)
+
+selection <- data %>%
+  dplyr::select(ref_date, ticker, ret_closing_prices) %>%
+  mutate(ret2 = ret_closing_prices ^ 2)
+
+ggplot(selection, aes(x = ref_date, y = ret2, group = ticker)) +
+  geom_line(aes(color = ticker)) +
+  geom_point(aes(color = ticker)) +
+  theme(legend.position = "top") +
+  xlab('Data') + ylab('Retornos ao quadrado')
+```
+
+```r
+# Foco em PETR4 usando série xts
+petro <- data %>%
+  subset(ticker == 'PETR4.SA') %>%
+  select(ref_date, ret_closing_prices)
+
+ret  <- xts(petro[, -1], order.by = ymd(petro$ref_date))[-1, ]
+ret2 <- ret ^ 2
+plot(ret2)
+```
+
+## 4. ACF dos retornos vs. retornos ao quadrado
+
+Retornos têm ACF próxima de zero, mas retornos ao quadrado mostram dependência persistente.
+Esse contraste é a assinatura empírica dos efeitos ARCH.
+
+```r
+par(mfrow = c(1, 2))
+acf(ret,  60, na.action = na.pass)
+acf(ret2, 60, na.action = na.pass)
+```
+
+## 5. Diagnóstico de normalidade
+
+```r
+par(mfrow = c(1, 2))
+h <- hist(ret, breaks = 20, col = "red", xlab = "", main = "Histogram")
+xfit <- seq(min(ret), max(ret), length = 40)
+yfit <- dnorm(xfit, mean = mean(ret), sd = sd(ret))
+yfit <- yfit * diff(h$mids[1:2]) * length(ret)
+lines(xfit, yfit, col = "blue", lwd = 2)
+
+qqnorm(ret, pch = 1, frame = FALSE)
+qqline(ret, col = "steelblue", lwd = 2)
+```
+
+```r
+# Teste formal de normalidade
+shapiro.test(as.vector(ret))
+```
+
+Como é típico em séries financeiras, a hipótese de normalidade é rejeitada — caudas
+pesadas e excesso de curtose pedem uma distribuição $t$ de Student nos modelos GARCH.
+
+## 6. Testes formais de efeitos ARCH
+
+Dois testes complementares:
+
+1. **Ljung-Box sobre os retornos ao quadrado** — rejeição indica autocorrelação na variância.
+2. **Teste LM de Engle (ArchTest)** — teste específico para presença de heterocedasticidade condicional.
+
+```r
+Box.test(ret2, type = "Ljung-Box")
+```
+
+```r
+library(FinTS)
+ArchTest(ret)
+```
+
+## 7. Modelo ARCH(12)
+
+Começamos com o modelo original de Engle (1982). A ordem 12 capta a persistência
+estilizada de retornos diários ($\approx$ duas semanas de pregão).
+
+```r
+library(fGarch)
+
+# ARCH(12) com erros Normais
+fit.arch  <- garchFit(~garch(12, 0), data = ret, trace = FALSE)
+fit.arch
+
+# Diagnóstico dos resíduos padronizados
+resi <- residuals(fit.arch, standardize = TRUE)
+par(mfrow = c(1, 2))
+ts.plot(resi)
+acf(resi)
+
+# Ljung-Box nos resíduos e nos resíduos ao quadrado
+Box.test(resi,   lag = 12, type = "Ljung")
+Box.test(resi^2, lag = 12, type = "Ljung")
+```
+
+```r
+# ARCH(12) com erros t-Student
+fit.arch2 <- garchFit(~garch(12, 0), data = ret, trace = FALSE, cond.dist = "std")
+
+# Comparação via critérios de informação
+fit.arch@fit$ics
+fit.arch2@fit$ics
+```
+
+```r
+# Comparação gráfica das volatilidades estimadas
+par(mfrow = c(2, 1))
+plot(ret)
+sigma <- xts(
+  cbind(fit.arch@sigma.t, fit.arch2@sigma.t),
+  order.by = index(ret)
+)
+colnames(sigma) <- c('erros normais', 'erros t')
+plot(sigma, auto.legend = TRUE, legend.loc = "top", main = '')
+```
+
+## 8. Modelo GARCH(1,1)
+
+O modelo mais usado na prática. Os coeficientes $\alpha_1$ e $\beta_1$ controlam,
+respectivamente, a reação ao choque e a persistência da volatilidade.
+
+```r
+# GARCH(1,1) com erros Normais
+fit.garch <- garchFit(
+  ~garch(1, 1), data = ret,
+  trace = FALSE, include.mean = TRUE
+)
+fit.garch@fit$matcoef
+
+# GARCH(1,1) com erros t-Student
+fit.garch2 <- garchFit(
+  ~garch(1, 1), data = ret,
+  cond.dist = 'std',
+  trace = FALSE, include.mean = TRUE
+)
+fit.garch2@fit$matcoef
+
+# Critérios de informação
+fit.garch@fit$ics
+fit.garch2@fit$ics  # tipicamente melhor
+```
+
+```r
+par(mfrow = c(2, 1))
+plot(ret)
+sigma <- xts(
+  cbind(fit.garch@sigma.t, fit.garch2@sigma.t),
+  order.by = index(ret)
+)
+colnames(sigma) <- c('erros normais', 'erros t')
+plot(sigma, auto.legend = TRUE, legend.loc = "top", main = '')
+```
+
+## 9. Backtest com `rugarch`
+
+`ugarchroll` faz o re-ajuste do modelo em janela expansiva, simulando como o modelo
+teria performado em tempo real. É a ferramenta adequada para **validação temporal**
+de previsões de volatilidade.
+
+```r
+library(rugarch)
+
+spec <- ugarchspec(
+  mean.model      = list(armaOrder = c(0, 0)),
+  variance.model  = list(garchOrder = c(1, 1)),
+  distribution.model = "std"
+)
+
+garchroll <- ugarchroll(
+  spec, data = ret,
+  n.start = 1000,
+  refit.window = "expanding",
+  refit.every  = 100
+)
+
+preds <- as.data.frame(garchroll)
+
+# Erro de previsão da média
+e <- preds$Realized - preds$Mu
+
+# Erro de previsão da variância
+d <- e ^ 2 - preds$Sigma ^ 2
+
+# MSE da variância
+mean(d ^ 2)
+```
+
+## 10. Modelo de Volatilidade Estocástica (SV-AR(1))
+
+Enquanto o GARCH é determinístico (a variância é função do passado observado), o
+modelo SV trata a log-volatilidade como uma **variável latente** seguindo um AR(1).
+A estimação é Bayesiana via MCMC.
+
+```r
+library(stochvol)
+
+draws <- svsample(ret, draws = 30000)
+
+stdevs <- t(apply(
+  exp(draws$latent[[1]] / 2), 2,
+  quantile, c(0.025, 0.5, 0.975)
+))
+
+par(mfrow = c(2, 1))
+plot(ret, ylab = "retornos")
+ts.plot(stdevs, col = 1:3)
+```
+
+## 11. Comparativo final das três abordagens
+
+```r
+par(mfrow = c(1, 1))
+ts.plot(
+  fit.garch@sigma.t, col = 4,
+  ylab = 'volatilidade', xlab = ''
+)
+lines(fit.garch2@sigma.t, col = 2)
+lines(stdevs[, 2],        col = 3)
+legend(
+  "top",
+  col    = c(2, 4, 3),
+  lty    = 1,
+  legend = c('erros normais', 'erros t-Student', 'SV')
+)
+```
+
+## Discussão
+
+- O GARCH com erros $t$ **quase sempre** supera a versão Normal em séries de ações
+  brasileiras, justamente por acomodar as caudas pesadas.
+- O modelo SV tende a produzir trajetórias de volatilidade mais **suaves** que o GARCH,
+  porque integra sobre a incerteza do estado latente.
+- Para decisões de curto prazo (VaR de 1 dia), GARCH $t$ costuma bastar. Para horizontes
+  mais longos ou cenários de stress, comparar com SV adiciona robustez.

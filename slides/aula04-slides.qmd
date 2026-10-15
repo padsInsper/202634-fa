@@ -1,0 +1,106 @@
+---
+title: "Previsão e Validação"
+subtitle: "Financial Analytics: PADS Insper 2026.2"
+author: "Programa Avançado de Data Science e Decisão"
+format:
+  revealjs:
+    theme: [default, ../assets/insper-theme.scss]
+    logo: ../assets/img/logo-insper-branco.png
+    footer: "Financial Analytics: Aula 3"
+    slide-number: true
+    transition: fade
+    width: 1280
+    height: 720
+    highlight-style: monokai
+    code-fold: true
+    smaller: true
+    scrollable: true
+---
+
+## Princípio Fundamental
+
+::: {.callout-important}
+A qualidade de um modelo é medida pela sua performance em **dados que ele nunca viu**.
+:::
+
+- Performance no treino ≠ performance real
+- **Overfitting**: modelo memoriza ruído
+- Solução: avaliação **fora da amostra**
+
+## Métricas de Erro
+
+| Métrica | Fórmula | Quando usar |
+|---------|---------|-------------|
+| **MAE** | $\frac{1}{h}\sum\|e_i\|$ | Erro na escala da série |
+| **RMSE** | $\sqrt{\frac{1}{h}\sum e_i^2}$ | Penaliza erros grandes |
+| **MAPE** | $\frac{100}{h}\sum\left\|\frac{e_i}{y_i}\right\|$ | Erro percentual |
+| **MASE** | $\frac{\text{MAE}}{\text{MAE}_{\text{naïve}}}$ | Comparável entre séries |
+
+::: {.callout-warning}
+**MAPE explode** quando $y_t \approx 0$ (retornos financeiros!)
+:::
+
+## Validação Cruzada Temporal
+
+**K-fold tradicional**: embaralha dados → **data leakage**!
+
+**Validação temporal**: treino **sempre precede** teste.
+
+```{mermaid}
+flowchart LR
+    subgraph "Split 1"
+        T1["Treino"] --> V1["Teste"]
+    end
+    subgraph "Split 2"
+        T2["Treino ────────"] --> V2["Teste"]
+    end
+    subgraph "Split 3"
+        T3["Treino ──────────────"] --> V3["Teste"]
+    end
+```
+
+## Expanding vs. Sliding Window
+
+| Método | Treino | Quando usar |
+|--------|--------|-------------|
+| **Expanding** | Cresce a cada split | Processo estável |
+| **Sliding** | Janela fixa | Mudanças de regime |
+
+## Prophet
+
+Modelo aditivo do Meta (2017):
+
+$$y(t) = g(t) + s(t) + h(t) + \varepsilon_t$$
+
+| Componente | Descrição |
+|------------|-----------|
+| $g(t)$ | Tendência com changepoints |
+| $s(t)$ | Sazonalidade (Fourier) |
+| $h(t)$ | Feriados/eventos |
+
+**Bom para**: vendas, tráfego, métricas de negócio com sazonalidade múltipla.
+
+**Não ideal para**: séries financeiras (sem volatilidade condicional).
+
+## ARIMA vs. Prophet
+
+| Critério | ARIMA | Prophet |
+|----------|-------|---------|
+| Fundamentação | Teoria estatística | Engenharia pragmática |
+| Sazonalidade múltipla | Difícil | Nativo |
+| Feriados | Dummies manuais | Nativo |
+| Amostras pequenas | Melhor | Pior |
+| Séries financeiras | Preferível | Menos adequado |
+
+## Quebra Estrutural
+
+Quando o **processo gerador muda** (COVID, crise, regulação):
+
+- Modelos do "mundo antigo" podem ser inúteis
+- Estratégias: dados pós-quebra, dummies, changepoints, monitoramento
+
+## Próximos Passos
+
+- **Bridge para Finanças**: retornos, log-retornos, fatos estilizados
+- **Aula 4**: modelos de volatilidade (ARCH/GARCH)
+- **Entrega Intermediária**: análise completa de série temporal

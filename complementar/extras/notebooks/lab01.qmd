@@ -1,0 +1,796 @@
+---
+title: "Lab01"
+format:
+  html:
+    toc: true
+    code-fold: show
+    embed-resources: true
+engine: jupyter
+---
+
+Vamos agora brincar de séries temporais.
+
+Um problema que precisamos enfrentar com séries temporais é que como os dados têm uma ordem, precisamos de alguma forma ter essa ordem escrita na base.
+
+Além disso, a ordem é pelo tempo, que é algo que tras informação por si só. Por exemplo, se estamos com uma série temporal de vendas, é natural pensar que certas épocas do ano vendam mais que outras, e que isso se repita ano a ano.
+
+Por isso, uma base de dados de série temporal precisa saber lidar com essa natureza de dados.
+
+# Bases de dados
+
+Existem diversos pacotes utilizados para armazenar séries temporais no R. Veremos 3:
+
+-   `{base}`: dá para fazer muita coisa só com o base/stats, então você verá bastante código desse tipo por aí.
+
+-   `{xts}` / `{zoo}`: serve para organizar uma base de dados no formato de série temporal.
+
+-   `{tsibble}`: é a versão *tidy*, mais recente (2017).
+
+## Base R
+
+Historicamente, isso era feito pela função `ts()`, que funciona assim:
+
+```{r}
+set.seed(1)
+
+# simulaçao de dados com um arima
+dados <- data.frame(
+  mes = 1:48,
+  vendas = arima.sim(list(order = c(1,1,0), ar = 0.7), n = 48)[-1]
+)
+
+plot(dados)
+
+```
+
+
+```{r}
+dados_tsibble <- dados |>
+  tsibble::as_tsibble(index = mes)
+
+ggtime::gg_tsdisplay(dados_tsibble, y = vendas, plot_type = "partial")
+```
+
+
+```{r}
+# mesma base de dados, mas lendo do github
+dados <- readr::read_csv("https://github.com/padsInsper/202307-fa/raw/main/dados_lab01.csv")
+plot(dados)
+```
+
+```{r}
+dados_ts <- ts(dados)
+# agora o eixo x não é mais o mês!
+plot(dados_ts)
+```
+
+```{r}
+plot(dados_ts[,"vendas"])
+```
+
+Agora vamos definir uma periodicidade
+
+```{r}
+dados_ts <- ts(
+  dados,
+  start = c(2005, 6), # começa no mês 6
+  frequency = 12 # um ciclo a cada 12 observações (anual)
+)
+
+plot(dados_ts[,"vendas"])
+```
+
+Também funciona
+
+```{r}
+dados_ts <- ts(
+  dados,
+  start = c(2005, 6), # começa no mês 6
+  deltat = 1/12
+)
+
+plot(dados_ts[,"vendas"])
+```
+
+Versão ggplot, usando pacote forecast (veremos adiante)
+
+```{r}
+forecast::autoplot(dados_ts[,"vendas"]) +
+  ggplot2::theme_minimal()
+```
+
+## xts
+
+O `{xts}` é uma versão mais "parruda" do `ts()`, criado para resolver algumas dificuldades dos objetos. Ganhou muita popularidade nos entre 2000-2015 e é usado como base para uma série de modelos.
+
+Atualmente, o xts não é mais necessário para trabalhar com séries temporais. No entanto, é muito comum encontrá-lo em códigos de modelagem mais "roots", construídos por pessoas que aprenderam com base R.
+
+```{r}
+dados_xts <- xts::as.xts(dados_ts)
+plot(dados_xts[,"vendas"])
+
+forecast::autoplot(dados_xts[,"vendas"])
+```
+
+Obs: outro pacote que você encontrará por aí é o `{zoo}`, mas ele é tão esquisito que não vale a pena estudá-lo. Se você encontrar código que usa o zoo e precisar reproduzir, recomendo que estude as funções de forma individualizada. O `{xts}` é uma forma de melhorar o `{zoo}`.
+
+## tsibble
+
+As `tsibble`s ([tsibble.tidyverts.org](https://tsibble.tidyverts.org)) são a versão tidy das séries temporais, e também a versão séries temporais das amadas tibbles. Pegando o exemplo anterior, temos
+
+```{r, error=TRUE}
+tsibble::tsibble(
+  mes = dados$mes,
+  vendas = dados$vendas
+)
+```
+
+Isso significa precisamos passar um índice, obrigatoriamente. O `{xts}` faz isso modificando o objeto, enquanto que a `tsibble` faz isso com uma coluna
+
+```{r}
+dados_tsibble <- tsibble::tsibble(
+  mes = dados$mes,
+  vendas = dados$vendas,
+  index = mes
+)
+dados_tsibble
+```
+
+outra alternativa:
+
+```{r}
+dados_tsibble <- dados |>
+  tsibble::as_tsibble(index = mes)
+```
+
+Para dar a periodicidade, modificamos a coluna que indexa os dados, similar ao que faz o xts, mas de forma mais explícita:
+
+```{r}
+# tsibble::yearmonth(1) +4 + 12*35
+
+# tsibble::yearmonth(as.Date("2005-06-01"))
+
+dados_tsibble <- dados |>
+  dplyr::mutate(
+    mes = tsibble::yearmonth(mes),
+    # se o mes fosse uma data, isso seria mais facil
+    mes = mes + 12*35 + 4
+  ) |>
+  tsibble::as_tsibble(index = mes)
+
+dados_tsibble
+```
+
+```{r}
+# outra forma
+dados_tsibble <- dados |>
+  dplyr::mutate(
+    mes = as.Date("2005-05-01") + months(mes),
+    mes = tsibble::yearmonth(mes)
+  ) |>
+  tsibble::as_tsibble(index = mes)
+
+dados_tsibble
+```
+
+Finalmente, para plotar:
+
+```{r}
+feasts::autoplot(dados_tsibble, vendas)
+```
+
+# Estatísticas básicas
+
+## base R
+
+### decomposição
+
+```{r}
+dec_sum <- decompose(dados_ts[,"vendas"])
+dec_mult <- decompose(dados_ts[,"vendas"], "multiplicative")
+plot(dec_sum)
+plot(dec_mult)
+
+set.seed(7)
+dados_turnover <- tsibbledata::aus_retail |>
+  dplyr::filter(
+    `Series ID` %in% sample(`Series ID`, 2)
+  ) |>
+  dplyr::select(Month, Turnover)
+
+x <- ts(dados_turnover, start = c(1982, 4), frequency = 12)
+plot(decompose(x[,"Turnover"], "multiplicative"))
+plot(decompose(x[,"Turnover"]))
+```
+
+$$Y = T + S + e$$
+
+$$log(Y) = log(T) + log(S) + log(e)$$
+
+```{r}
+dados_exemplos <- data.frame(
+  mes = 1:48,
+  vendas = arima.sim(list(order = c(1,0,0), ar = c(0.8)), n = 48)
+)
+
+dados_ts_exemplos <- ts(dados_exemplos)
+acf(dados_ts_exemplos[,"vendas"])
+```
+
+```{r}
+pacf(dados_ts_exemplos[,"vendas"])
+```
+
+## forecast
+
+O pacote `{forecast}` é uma das ferramentas mais usadas no dia-a-dia de quem trabalha com séries temporais.
+
+Construído antes do tidymodels, trata-se de um pacote com diversos modelos para lidar com séries temporais, mas ainda fora do ambiente "tidy". O livro-base para uso do forecast é o FPP2 (https://otexts.com/fpp2/).
+
+Atualmente, temos o FPP3 com alternativas "tidy", mas isso não implica que o forecast cairá em desuso, pois ele é muito bom.
+
+Por enquanto veremos só a parte descritiva. No próximo lab, trabalharemos com modelagem.
+
+```{r}
+fit_ets <- forecast::ets(dados_ts[,"vendas"])
+forecast::autoplot(fit_ets)
+```
+
+```{r}
+forecast::ggseasonplot(dados_ts[,"vendas"]) +
+  ggplot2::scale_colour_brewer() +
+  ggplot2::theme_minimal()
+```
+
+```{r}
+forecast::ggseasonplot(dados_ts[,"vendas"], polar = TRUE)
+```
+
+Mais exemplos no FPP2.
+
+Autocorrelação
+
+```{r}
+library(forecast)
+forecast::ggAcf(dados_ts[,"vendas"])
+```
+
+```{r}
+forecast::ggPacf(dados_ts[,"vendas"])
+```
+
+## feasts
+
+O `feasts` é o pacote atual para análise descritiva de séries temporais. Ele é descrito no FPP3 (https://otexts.com/fpp3/) e está alinhado com os princípios tidy.
+
+
+```{r}
+dados_tsibble |>
+  fabletools::model(
+    feasts::classical_decomposition(vendas)
+  ) |>
+  fabletools::components() |>
+  autoplot()
+```
+
+
+```{r}
+dados_tsibble |>
+  model(
+    STL(vendas)
+  ) |>
+  components() |>
+  autoplot()
+```
+
+```{r}
+dados_tsibble |>
+  feasts::gg_season(y = vendas)
+```
+
+```{r}
+dados_tsibble |>
+  feasts::gg_season(y = vendas, polar = TRUE)
+```
+
+Mais exemplos no FPP3.
+
+```{r}
+dados_tsibble |>
+  feasts::ACF(vendas) |>
+  feasts::autoplot()
+```
+
+A PACF é calculada da seguinte forma: a correlação parcial entre $y_t$ e $y_{t-k}$ é a correlação entre $y_t$ e $y_{t-k}$, removendo o efeito de $y_{t-1}$, $y_{t-2}$, ..., $y_{t-k+1}$.
+
+```{r}
+dados_tsibble |>
+  feasts::PACF(vendas) |>
+  feasts::autoplot()
+```
+
+```{r}
+dados_tsibble |>
+  feasts::gg_lag(vendas, geom = "point")
+```
+
+Para pegar os componentes de forma tidy:
+
+```{r}
+dados_tsibble |>
+  fabletools::model(feasts::STL(vendas)) |>
+  fabletools::components() |>
+  feasts::autoplot()
+```
+
+## Python
+
+
+```{r}
+aus_production |>
+  autoplot(Bricks)
+```
+
+## Exercícios
+
+Link: <https://otexts.com/fpp3/graphics-exercises.html> Faça o exercício 8
+
+```{r}
+dados_tsibble |>
+  gg_tsdisplay(vendas)
+```
+
+```{r}
+dados_tsibble |>
+  gg_tsdisplay(vendas, plot_type = "partial")
+```
+
+```{r}
+dados_tsibble |>
+  mutate(vendas_dif = difference(vendas)) |>
+  gg_tsdisplay(vendas_dif, plot_type = "partial")
+```
+
+BINGO ARIMA
+
+
+# Forecasts simples
+
+## pacote forecast
+
+```{r}
+dados_ts_vendas <- dados_ts[,"vendas"]
+
+media <- forecast::meanf(dados_ts_vendas, 5)
+naive <- forecast::naive(dados_ts_vendas, 5)
+seasonal_naive <- forecast::snaive(dados_ts_vendas, 5)
+drift <- forecast::rwf(dados_ts_vendas, 5, drift = TRUE)
+```
+
+```{r}
+dados_ts_vendas |>
+  forecast::autoplot() +
+  forecast::autolayer(media, series = "Media", PI = FALSE) +
+  forecast::autolayer(naive, series = "Naive", PI = FALSE) +
+  forecast::autolayer(seasonal_naive, series = "SNaive", PI = FALSE) +
+  forecast::autolayer(drift, series = "Drift", PI = FALSE)
+```
+
+## pacote feasts
+
+Média móvel
+
+Modelos que vimos no forecast
+
+```{r}
+dados_para_modelo <- dados_tsibble |>
+  tsibble::filter_index("2005 jun" ~ "2008 dec")
+
+modelos <- dados_para_modelo |>
+  fabletools::model(
+    mean = fable::MEAN(vendas),
+    naive = fable::NAIVE(vendas),
+    snaive = fable::SNAIVE(vendas),
+    drift = fable::RW(vendas ~ drift())
+  ) |>
+  fabletools::forecast(h = 10)
+
+modelos |>
+  feasts::autoplot(dados_para_modelo, level = NULL)
+```
+
+# Prophet
+
+## R
+
+Forecast
+
+```{r}
+
+library(prophet)
+
+da <- readr::read_csv("https://github.com/padsInsper/202307-fa/raw/main/serie_temporal.csv")
+
+# dados_prophet <- dados |>
+#   transmute(
+#     ds = as.Date("2005-05-01") + months(mes),
+#     y = vendas
+#   )
+
+m <- prophet(da)
+futuro <- make_future_dataframe(
+  m, periods = 12, freq = "month"
+)
+
+forecast <- predict(m, futuro)
+
+plot(m, forecast)
+
+```
+
+Componentes
+
+```{r}
+
+prophet_plot_components(m, forecast)
+
+```
+
+# ARIMA
+
+```{r}
+library(fpp3)
+
+link <- "https://www.tesourotransparente.gov.br/ckan/dataset/f85b6632-1c9c-4beb-9e60-72e91156c984/resource/f52c016b-1773-459b-a28f-6ddc4966a702/download/Transferencias---Dados-Consolidados.xlsx"
+
+
+g <- httr::GET(link, httr::write_disk(tmp <- fs::file_temp(ext = ".xlsx")))
+
+dados_raw <- tmp |>
+  readxl::read_excel(1, "C38:OE38", col_names = FALSE,
+                     .name_repair = "minimal") |>
+  janitor::clean_names() |>
+  tidyr::pivot_longer(dplyr::everything()) |>
+  dplyr::mutate(
+    date = seq(as.Date("1991-01-01"), as.Date("2023-09-01"), "1 month"),
+    value = value / 1e9
+  ) |>
+  dplyr::select(-name) |>
+  tidyr::fill(value) |>
+  dplyr::filter(lubridate::year(date) >= 1998)
+
+
+```
+
+# Entendimento da série
+
+1. Plote os gráficos da série e das ACF/PACF e discorra sobre o aspecto da série.
+Faça o teste de raíz unitária e explique as conclusões. Existe tendência
+estocástica?
+
+```{r}
+dados_raw |>
+  ggplot(aes(date, value)) +
+  geom_line()
+```
+
+```{r}
+dados_raw |>
+  ggplot(aes(date, log(value))) +
+  geom_line()
+```
+
+Parece que faz sentido deflacionar a base nesse caso.
+
+```{r}
+dados <- dados_raw |>
+  mutate(
+    value = deflateBR::deflate(
+      value, date, "09/2023", index = "ipca"
+    )
+  )
+```
+
+
+```{r}
+# série deflacionada
+dados |>
+  ggplot(aes(date, value)) +
+  geom_line()
+```
+
+```{r}
+tdata <- dados |>
+  mutate(date = yearmonth(date)) |>
+  as_tsibble(index = date)
+```
+
+```{r}
+tdata |>
+  gg_season(value)
+```
+
+```{r}
+tdata |>
+  gg_tsdisplay(value, plot_type = "partial")
+```
+
+```{r}
+tdata |>
+  mutate(value = difference(value, 12)) |>
+  gg_tsdisplay(value, plot_type = "partial")
+```
+
+## Teste de hipótese
+
+```{r}
+tdata |>
+  features(value, unitroot_nsdiffs)
+```
+
+
+```{r}
+tdata |>
+  mutate(value = difference(value, 12)) |>
+  features(value, unitroot_ndiffs)
+
+```
+
+## Decomposição
+
+2. Use um método de decomposição estudado e explique os componentes, tendo
+em vista o aspecto da série. Existe sazonalidade? Qual periodicidade?
+
+```{r}
+tdata |>
+  fabletools::model(
+    stl = feasts::STL(value)
+  ) |>
+  fabletools::components() |>
+  autoplot()
+```
+
+
+# Modelo SARIMA
+
+3. Identifique um modelo SARIMA apropriado. Justifique o modelo escolhido
+através de critérios de informação e/ou usando a etapa de identificação da
+abordagem Box-Jenkins. Nesta etapa é possível utilizar um método automático
+de seleção das ordens do modelo.
+
+```{r}
+# knitr::include_graphics("https://otexts.com/fpp3/figs/arimaflowchart.png")
+par(mar = c(0,0,0,0))
+magick::image_read("https://otexts.com/fpp3/figs/arimaflowchart.png") |>
+  plot()
+```
+
+```{r}
+fit <- tdata |>
+  model(
+    arima_manual = ARIMA(value ~ 1 + pdq(1,0,1) + PDQ(2,1,1)),
+    stepwise = ARIMA(value),
+    search = ARIMA(value, stepwise = FALSE)
+  )
+
+fit |>
+  pivot_longer(
+    everything()
+  )
+```
+
+```{r}
+glance(fit)
+```
+
+## Diagnóstico
+
+4. Faça a verificação de diagnóstico residual de seu modelo ARIMA. Os resíduos
+são ruído branco?
+
+```{r}
+
+fit |>
+  select(stepwise) |>
+  gg_tsresiduals(lag = 36)
+
+```
+
+```{r}
+augment(fit) |>
+  filter(.model == "stepwise") |>
+  features(.innov, ljung_box, lag = 36, dof = 4)
+```
+
+## Previsão
+
+5. Use o modelo SARIMA de sua escolha para fazer previsões h (livre escolha) passos à frente.
+
+```{r}
+class(forecast(fit, h = 24))
+forecast(fit, h = 24) |>
+  filter(.model == "stepwise") |>
+  autoplot(tdata)
+```
+
+```{r}
+?fabletools:::autoplot.fbl_ts
+```
+
+# Exercício em sala
+
+Faça a análise da série que está nesse link: https://raw.githubusercontent.com/padsInsper/202234-fa/main/material/lab01/serie_temporal.csv
+
+```{r}
+dados  <- readr::read_csv("https://raw.githubusercontent.com/padsInsper/202234-fa/main/material/lab01/serie_temporal.csv")
+
+dados_tsibble <- dados |>
+  tsibble::as_tsibble(index = ds)
+```
+
+1.  plotar a série
+
+```{r}
+dados_tsibble |>
+  autoplot(y)
+```
+
+2.  plotar os gráficos sazonais
+
+```{r}
+dados_tsibble |>
+  gg_season(y)
+```
+
+3.  Decomposição tradicional (base R) e STL
+
+```{r}
+dados_ts <- ts(dados$y, start = c(2000), freq = 365)
+decompose(dados_ts) |>
+  plot()
+```
+
+```{r}
+dados_tsibble |>
+  model(
+    stl = STL(y)
+  ) |>
+  components() |>
+  autoplot()
+```
+
+4.  ACF e PACF
+
+```{r}
+dados_tsibble |>
+  gg_tsdisplay(y, plot_type = "partial")
+```
+
+```{r}
+dados_tsibble |>
+  fabletools::features(
+    y,
+    list(
+      feasts::unitroot_kpss,
+      feasts::unitroot_ndiffs
+    )
+  )
+```
+
+```{r}
+dados_tsibble |>
+  mutate(y_dif = difference(y)) |>
+  gg_tsdisplay(y_dif, plot_type = "partial")
+```
+
+```{r}
+dados_tsibble |>
+  mutate(y_dif = difference(y)) |>
+  fabletools::features(
+    y_dif,
+    list(
+      feasts::unitroot_kpss,
+      feasts::unitroot_ndiffs
+    )
+  )
+```
+
+```{r}
+
+
+fit <- dados_tsibble |>
+  fabletools::model(
+    # arima_manual = fable::ARIMA(vendas ~ 1 + pdq(2,0,2) + PDQ(0,0,0)),
+    stepwise = fable::ARIMA(),
+    search = fable::ARIMA(stepwise = FALSE)
+  )
+
+fit
+
+```
+
+
+5.  Gráficos com as diferenças
+6.  Previsão usando naive, drift, snaive etc
+
+```{r}
+dados_tsibble |>
+  fabletools::model(
+    mean = fable::MEAN(y),
+    naive = fable::NAIVE(y),
+    snaive = fable::SNAIVE(y),
+    drift = fable::RW(y ~ drift())
+  ) |>
+  fabletools::forecast(h = 2000) |>
+  feasts::autoplot(dados_tsibble, level = NULL)
+```
+
+7.  Previsão usando o prophet, testando diferentes parâmetros
+
+
+```{r}
+
+m <- prophet(dados)
+futuro <- make_future_dataframe(
+  m, periods = 200
+)
+
+forecast <- predict(m, futuro)
+
+plot(m, forecast)
+```
+
+## Exercícios do livro
+
+**Ler**: https://otexts.com/fpp3/accuracy.html
+
+**Link**: https://otexts.com/fpp3/toolbox-exercises.html
+
+Faça os exercícios 2, 6
+
+
+## Python
+
+
+
+```{python}
+import pandas as pd
+from datetime import timedelta
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# para gráficos acf e pacf
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+import statsmodels.api as sm
+from statsmodels.tsa.stattools import adfuller, kpss
+from utilsforecast.plotting import plot_series
+
+# para gerar dados arima
+import numpy as np
+from statsmodels.tsa.arima_process import ArmaProcess
+```
+
+```{python}
+fig, ax = plt.subplots()
+plot_acf(r.dados['vendas'], lags=20)
+
+```
+```{python}
+fig, ax = plt.subplots()
+plot_pacf(r.dados['vendas'], lags=20)
+```
+
+```{python}
+fig, ax = plt.subplots(3,1)
+sns.lineplot(data=r.dados, x='mes', y='vendas', ax=ax[0])
+plot_acf(r.dados['vendas'], lags=20, zero=False, ax=ax[1])
+plot_pacf(r.dados['vendas'], lags=20, zero=False, ax=ax[2])
+```
+
+```{python}
+kpss(r.dados['vendas'])
+```
+
+```{python}
+adfuller(r.dados['vendas'])
+```

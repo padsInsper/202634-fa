@@ -1,0 +1,669 @@
+---
+title: "Aula 7: CAPM e Otimização de Portfólios"
+subtitle: "Do risco individual à gestão de carteira"
+format:
+  html:
+    code-fold: true
+---
+
+::: {.objetivos}
+#### Objetivos de Aprendizagem
+
+- **Explicar** o modelo CAPM e interpretar alpha e beta
+- **Construir** a fronteira eficiente de Markowitz
+- **Otimizar** portfólios com restrições práticas
+- **Avaliar** performance de carteiras contra benchmarks
+:::
+
+## CAPM: Capital Asset Pricing Model
+
+### A pergunta central
+
+Quanto de retorno **esperado** um ativo deve oferecer dado o seu **nível de risco**? O CAPM, desenvolvido por Sharpe (1964) e Lintner (1965), responde com uma das equações mais importantes de finanças:
+
+::: {.formula-highlight}
+[CAPM — Sharpe (1964), Lintner (1965)]{.formula-label}
+$$E[R_i] = R_f + \beta_i \cdot (E[R_m] - R_f)$$
+:::
+
+| Parâmetro | Significado | Exemplo no Brasil |
+|-----------|-------------|-------------------|
+| $R_f$ | Taxa livre de risco | CDI, Selic |
+| $\beta_i$ | Sensibilidade do ativo ao mercado | Estimado por regressão |
+| $E[R_m] - R_f$ | Prêmio de risco do mercado | ~5–8% a.a. historicamente |
+
+### Intuição do Beta
+
+O $\beta$ mede a **exposição ao risco sistemático** (risco de mercado). É estimado pela regressão:
+
+$$R_i - R_f = \alpha_i + \beta_i (R_m - R_f) + \varepsilon_i$$
+
+::: {.formula-highlight}
+[Beta como medida de sensibilidade]{.formula-label}
+$$\beta_i = \frac{\text{Cov}(R_i, R_m)}{\text{Var}(R_m)}$$
+:::
+
+### Simulador interativo: Security Market Line (SML)
+
+A SML mostra a relação esperada entre beta e retorno segundo o CAPM:
+
+```{ojs}
+//| echo: false
+
+viewof sml_rf = Inputs.range([0, 10], {
+  value: 4, step: 0.5, label: "Taxa livre de risco Rf (% a.a.):"
+})
+
+viewof sml_premium = Inputs.range([2, 12], {
+  value: 6, step: 0.5, label: "Prêmio de risco E[Rm]-Rf (% a.a.):"
+})
+```
+
+```{ojs}
+//| echo: false
+
+{
+  const rf = sml_rf;
+  const premium = sml_premium;
+  const rm = rf + premium;
+
+  // Gerar pontos da SML
+  const smlData = [];
+  for (let b = -0.2; b <= 2.2; b += 0.01) {
+    smlData.push({beta: b, retorno: rf + b * premium, tipo: "SML"});
+  }
+
+  // Ativos exemplo
+  const ativos = [
+    {nome: "CDI", beta: 0, retorno: rf, cor: "Sobre a SML"},
+    {nome: "Ibovespa", beta: 1.0, retorno: rm, cor: "Sobre a SML"},
+    {nome: "PETR4", beta: 1.3, retorno: rf + 1.3 * premium + 2, cor: "Acima (α > 0)"},
+    {nome: "VALE3", beta: 1.1, retorno: rf + 1.1 * premium - 1.5, cor: "Abaixo (α < 0)"},
+    {nome: "ITUB4", beta: 0.8, retorno: rf + 0.8 * premium + 0.5, cor: "Acima (α > 0)"},
+    {nome: "Utilidades", beta: 0.5, retorno: rf + 0.5 * premium, cor: "Sobre a SML"},
+    {nome: "Tech Growth", beta: 1.8, retorno: rf + 1.8 * premium - 2, cor: "Abaixo (α < 0)"},
+  ];
+
+  return Plot.plot({
+    width: 800, height: 400,
+    marks: [
+      Plot.line(smlData, {x: "beta", y: "retorno", stroke: "#E50505", strokeWidth: 2}),
+      Plot.dot(ativos, {
+        x: "beta", y: "retorno", fill: "cor", r: 6,
+        stroke: "#3F3F3F", strokeWidth: 1
+      }),
+      Plot.text(ativos, {
+        x: "beta", y: "retorno", text: "nome",
+        dy: -12, fontSize: 11, fontWeight: "bold"
+      }),
+      Plot.ruleY([rf], {stroke: "#808080", strokeDasharray: "4,4", strokeWidth: 1}),
+      Plot.text([{x: 0.05, y: rf - 0.5, text: `Rf = ${rf}%`}],
+        {x: "x", y: "y", text: "text", fill: "#808080", fontSize: 10}),
+    ],
+    x: {label: "Beta (β)", domain: [-0.2, 2.2]},
+    y: {label: "Retorno esperado (% a.a.)"},
+    color: {
+      domain: ["Sobre a SML", "Acima (α > 0)", "Abaixo (α < 0)"],
+      range: ["#808080", "#3ACC9F", "#E50505"]
+    },
+    title: `Security Market Line: Rf = ${rf}%, E[Rm] = ${rm}%`
+  });
+}
+```
+
+::: {.callout-tip}
+## Como ler o gráfico
+- **Sobre a SML**: o ativo oferece exatamente o retorno previsto pelo CAPM ($\alpha = 0$)
+- **Acima da SML** (verde): o ativo **supera** o previsto ($\alpha > 0$) — "gera valor"
+- **Abaixo da SML** (vermelho): o ativo fica **aquém** do previsto ($\alpha < 0$) — "destrói valor"
+:::
+
+### Interpretação do Beta
+
+| Beta | Significado | Exemplo |
+|------|-------------|---------|
+| $\beta = 0$ | Sem risco de mercado | CDI, renda fixa pós |
+| $\beta = 1$ | Move igual ao mercado | ETF de Ibovespa (BOVA11) |
+| $\beta > 1$ | Mais volátil que o mercado | Ações de tecnologia, small caps |
+| $0 < \beta < 1$ | Menos volátil que o mercado | Utilidades públicas, elétricas |
+| $\beta < 0$ | Move contrário ao mercado | Ouro (em alguns períodos) |
+
+### Alpha de Jensen
+
+::: {.formula-highlight}
+[Alpha de Jensen]{.formula-label}
+$$\alpha_i = R_i - [R_f + \beta_i (R_m - R_f)]$$
+:::
+
+O alpha mede o **retorno em excesso** após ajustar pelo risco de mercado:
+
+- $\alpha > 0$: o gestor/ativo **superou** o que o CAPM previa — gerou valor
+- $\alpha = 0$: retorno consistente com o risco assumido
+- $\alpha < 0$: retorno inferior ao esperado — o gestor **não compensou** o risco
+
+### Risco Sistemático vs. Risco Idiossincrático
+
+O risco total de um ativo pode ser decomposto em duas parcelas:
+
+::: {.formula-highlight}
+[Decomposição do risco]{.formula-label}
+$$\underbrace{\sigma_i^2}_{\text{Risco total}} = \underbrace{\beta_i^2 \sigma_m^2}_{\text{Risco sistemático}} + \underbrace{\sigma^2(\varepsilon_i)}_{\text{Risco idiossincrático}}$$
+:::
+
+| Tipo | Fonte | Diversificável? | Remunerado pelo mercado? |
+|------|-------|----------------|--------------------------|
+| **Sistemático** | Economia, juros, inflação, geopolítica | Não | Sim (via $\beta$) |
+| **Idiossincrático** | Específico da empresa (gestão, produto, processo) | Sim | Não |
+
+A implicação prática é poderosa: como o risco idiossincrático pode ser eliminado com diversificação, o mercado **não remunera** quem o carrega. Apenas o risco sistemático ($\beta$) é precificado. Um portfólio com 20–30 ações já elimina a maior parte do risco idiossincrático.
+
+### Beta de um portfólio
+
+Uma propriedade fundamental do $\beta$ é ser **linear nos pesos**. Para um portfólio com $n$ ativos e pesos $w_1, \ldots, w_n$:
+
+::: {.formula-highlight}
+[Beta de portfólio]{.formula-label}
+$$\beta_p = \sum_{i=1}^{n} w_i \, \beta_i$$
+:::
+
+A demonstração é imediata a partir da definição $\beta_i = \text{Cov}(R_i, R_m) / \text{Var}(R_m)$ e da linearidade da covariância. Isso tem **três implicações práticas** importantes:
+
+1. **Hedge de portfólio**: para neutralizar o risco de mercado de uma carteira com $\beta_p = 0{,}8$ usando um índice futuro com $\beta = 1$, basta vender a descoberto uma posição de tamanho $0{,}8 \times W$.
+2. **Alocação tática**: ajustar o $\beta$ do portfólio (por ex., de 0,9 para 1,1) é uma forma direta de aumentar/reduzir exposição ao mercado.
+3. **Atribuição de performance**: o $\beta$ agregado revela quanto do retorno vem de exposição ao mercado vs. seleção de ativos.
+
+::: {.callout-important}
+## Limitações do CAPM
+O CAPM assume: (1) investidores são racionais e avessos a risco, (2) mercados são eficientes, (3) existe um ativo livre de risco, (4) investidores podem emprestar/tomar emprestado à taxa $R_f$. Na prática, essas hipóteses são **aproximações**. Modelos multifatoriais estendem o CAPM para capturar anomalias que ele não explica.
+:::
+
+### Além do CAPM: Modelos Multifatoriais
+
+O CAPM usa apenas **um fator** (o mercado) para explicar retornos. Na prática, outros fatores também importam:
+
+::: {.formula-highlight}
+[Fama-French 3 Fatores (1993)]{.formula-label}
+$$E[R_i] - R_f = \beta_i^{MKT}(R_m - R_f) + \beta_i^{SMB} \cdot SMB + \beta_i^{HML} \cdot HML$$
+:::
+
+| Fator | Significado | Prêmio histórico |
+|-------|-------------|-------------------|
+| **MKT** (Mercado) | Retorno do mercado menos $R_f$ | ~5–8% a.a. |
+| **SMB** (Small Minus Big) | Retorno de small caps menos large caps | ~2–3% a.a. |
+| **HML** (High Minus Low) | Retorno de ações "value" menos "growth" | ~3–5% a.a. |
+
+O modelo de **Carhart (1997)** adiciona um quarto fator: **momentum** (WML: Winners Minus Losers) — ações que subiram nos últimos 12 meses tendem a continuar subindo no curto prazo.
+
+Modelos mais recentes, como o **Fama-French 5 Fatores (2015)**, adicionam **lucratividade** (RMW: Robust Minus Weak) e **investimento** (CMA: Conservative Minus Aggressive).
+
+### Aplicações Corporativas do CAPM
+
+O CAPM não é apenas teoria acadêmica — ele é usado diariamente em **decisões corporativas reais**:
+
+::: {.caso-negocio}
+#### 1. Custo de Capital Próprio ($K_e$)
+
+A aplicação mais importante do CAPM no mundo corporativo é estimar o **custo de capital próprio** ($K_e$), componente essencial do **WACC** (Weighted Average Cost of Capital):
+
+$$K_e = R_f + \beta \cdot (E[R_m] - R_f)$$
+
+O WACC é usado para:
+
+- **Valuation por DCF**: descontar fluxos de caixa futuros a valor presente
+- **Decisão de investimento**: projetos com TIR > WACC criam valor; projetos com TIR < WACC destroem
+- **M&A**: avaliar se o preço de aquisição faz sentido dado o risco do alvo
+
+**Exemplo**: uma empresa de utilidades com $\beta = 0.6$ e $R_f = 10\%$ (Selic), prêmio de mercado de 6%:
+
+$$K_e = 10\% + 0.6 \times 6\% = 13.6\%$$
+
+Já uma startup de tecnologia com $\beta = 1.8$:
+
+$$K_e = 10\% + 1.8 \times 6\% = 20.8\%$$
+
+A diferença no custo de capital reflete diretamente o **risco percebido** pelo mercado.
+:::
+
+::: {.caso-negocio}
+#### 2. Avaliação de Performance de Fundos
+
+Gestores de fundos são avaliados pelo **alpha de Jensen**: retorno ajustado ao risco. Um fundo que entregou 18% quando o CAPM previa 15% (dado seu $\beta$) tem $\alpha = +3\%$ — evidência de habilidade do gestor (ou sorte).
+
+**Na prática**:
+
+- Fundos de pensão usam alpha e Sharpe para **selecionar gestores**
+- Family offices usam para decidir entre **gestão ativa** (pagar taxas maiores por alpha positivo) vs. **gestão passiva** (ETFs com taxa baixa)
+- Reguladores (CVM) monitoram se fundos estão assumindo risco **compatível com o mandato**
+:::
+
+::: {.caso-negocio}
+#### 3. Gestão de Risco Corporativo
+
+Empresas com operações internacionais usam $\beta$ para entender sua **exposição ao risco de mercado** e tomar decisões de **hedge**:
+
+- Tesouraria da Petrobras: $\beta$ em relação ao petróleo determina quanto de hedge cambial/commodity é necessário
+- Bancos: $\beta$ de cada linha de negócio ajuda a **alocar capital regulatório** (Basileia)
+- Seguradoras: usam CAPM para precificar o **prêmio de risco** em produtos de investimento
+:::
+
+## Fronteira Eficiente de Markowitz
+
+### A ideia genial
+
+Harry Markowitz (Nobel 1990) mostrou que **o risco de um portfólio não é a média dos riscos individuais** — a diversificação reduz o risco total. Dada uma coleção de ativos, existe um **conjunto ótimo de carteiras** que oferece o máximo retorno para cada nível de risco.
+
+```{mermaid}
+flowchart TD
+    A["Retornos Históricos<br/>dos N ativos"] --> B["Vetor de Retornos<br/>Esperados μ"]
+    A --> C["Matriz de<br/>Covariância Σ"]
+    B --> D["Otimização<br/>Quadrática"]
+    C --> D
+    D --> E["Fronteira<br/>Eficiente"]
+    E --> F["Portfólio<br/>Ótimo"]
+
+    style A fill:#E50505,color:#fff
+    style D fill:#FFCC00,color:#000
+    style F fill:#3ACC9F,color:#fff
+```
+
+### Formulação Matemática
+
+::: {.formula-highlight}
+[Problema de Markowitz]{.formula-label}
+$$\min_{\mathbf{w}} \quad \mathbf{w}^T \boldsymbol{\Sigma} \mathbf{w}$$
+$$\text{sujeito a} \quad \mathbf{w}^T \boldsymbol{\mu} = \mu_{\text{alvo}}, \quad \mathbf{w}^T \mathbf{1} = 1$$
+:::
+
+onde $\mathbf{w}$ são os pesos dos ativos, $\boldsymbol{\Sigma}$ é a matriz de covariância e $\boldsymbol{\mu}$ os retornos esperados.
+
+Variando $\mu_{\text{alvo}}$, obtemos a **fronteira eficiente** — a curva de portfólios ótimos no espaço risco × retorno.
+
+### Simulador interativo: Fronteira Eficiente com 3 Ativos
+
+Ajuste as correlações entre ativos e veja como a fronteira muda:
+
+```{ojs}
+//| echo: false
+
+viewof corr_12 = Inputs.range([-0.8, 0.8], {
+  value: 0.3, step: 0.1, label: "ρ(Ativo 1, Ativo 2):"
+})
+
+viewof corr_13 = Inputs.range([-0.8, 0.8], {
+  value: 0.1, step: 0.1, label: "ρ(Ativo 1, Ativo 3):"
+})
+
+viewof corr_23 = Inputs.range([-0.8, 0.8], {
+  value: -0.2, step: 0.1, label: "ρ(Ativo 2, Ativo 3):"
+})
+
+viewof ef_rf = Inputs.range([0, 10], {
+  value: 4, step: 0.5, label: "Taxa livre de risco Rf (%):"
+})
+
+viewof ef_w1 = Inputs.range([0, 100], {
+  value: 40, step: 5, label: "Peso Ativo 1 (%):"
+})
+
+viewof ef_w2 = Inputs.range([0, 100], {
+  value: 30, step: 5, label: "Peso Ativo 2 (%):"
+})
+
+viewof ef_w3 = Inputs.range([0, 100], {
+  value: 30, step: 5, label: "Peso Ativo 3 (%):"
+})
+```
+
+```{ojs}
+//| echo: false
+
+{
+  const mu = [0.12, 0.08, 0.15]; // retornos esperados
+  const sig = [0.20, 0.12, 0.25]; // desvio padrão
+  const rho12 = corr_12, rho13 = corr_13, rho23 = corr_23;
+  const rf = ef_rf;
+
+  // Normalizar pesos para somar 100%
+  const rawSum = ef_w1 + ef_w2 + ef_w3;
+  const userW = rawSum > 0
+    ? [ef_w1 / rawSum, ef_w2 / rawSum, ef_w3 / rawSum]
+    : [1/3, 1/3, 1/3];
+
+  function seededRandom(seed) {
+    let s = seed;
+    return function() {
+      s = (s * 16807) % 2147483647;
+      return (s - 1) / 2147483646;
+    };
+  }
+  const rng = seededRandom(99);
+
+  let portfolios = [];
+  let frontierPoints = [];
+
+  // Covariância
+  const cov = [
+    [sig[0]**2, rho12*sig[0]*sig[1], rho13*sig[0]*sig[2]],
+    [rho12*sig[0]*sig[1], sig[1]**2, rho23*sig[1]*sig[2]],
+    [rho13*sig[0]*sig[2], rho23*sig[1]*sig[2], sig[2]**2]
+  ];
+
+  function portfolioStats(w) {
+    const ret = w[0]*mu[0] + w[1]*mu[1] + w[2]*mu[2];
+    let variance = 0;
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        variance += w[i] * w[j] * cov[i][j];
+      }
+    }
+    return {ret: ret * 100, risk: Math.sqrt(Math.max(variance, 1e-10)) * 100};
+  }
+
+  // Gerar portfólios aleatórios (longo-only)
+  for (let i = 0; i < 3000; i++) {
+    const r1 = rng(), r2 = rng(), r3 = rng();
+    const total = r1 + r2 + r3;
+    const w = [r1/total, r2/total, r3/total];
+    const stats = portfolioStats(w);
+    portfolios.push({risk: stats.risk, retorno: stats.ret});
+  }
+
+  // Encontrar fronteira eficiente + melhor Sharpe por grid fino
+  const retMin = Math.min(...portfolios.map(p => p.retorno));
+  const retMax = Math.max(...portfolios.map(p => p.retorno));
+  let bestSharpe = -Infinity;
+  let bestSharpePoint = null;
+  let bestSharpeW = null;
+
+  for (let targetRet = retMin; targetRet <= retMax; targetRet += 0.1) {
+    let bestRisk = Infinity;
+    let bestPoint = null;
+    for (let w0 = 0; w0 <= 1; w0 += 0.01) {
+      for (let w1 = 0; w1 <= 1 - w0; w1 += 0.01) {
+        const w2 = 1 - w0 - w1;
+        const stats = portfolioStats([w0, w1, w2]);
+        if (Math.abs(stats.ret - targetRet) < 0.15 && stats.risk < bestRisk) {
+          bestRisk = stats.risk;
+          bestPoint = {risk: stats.risk, retorno: stats.ret};
+        }
+        const sharpe = (stats.ret - rf) / stats.risk;
+        if (sharpe > bestSharpe && stats.ret > rf) {
+          bestSharpe = sharpe;
+          bestSharpePoint = {risk: stats.risk, retorno: stats.ret};
+          bestSharpeW = [w0, w1, w2];
+        }
+      }
+    }
+    if (bestPoint) frontierPoints.push(bestPoint);
+  }
+
+  // Portfólio de mínima variância global
+  let minVarPort = frontierPoints.reduce((a, b) => a.risk < b.risk ? a : b, frontierPoints[0]);
+
+  // Capital Market Line (tangent from Rf through best Sharpe) — clipped to chart range
+  let cmlData = [];
+  if (bestSharpePoint) {
+    const slope = (bestSharpePoint.retorno - rf) / bestSharpePoint.risk;
+    const riskMin = Math.max(0, minVarPort.risk - 3);
+    for (let r = riskMin; r <= 30; r += 0.3) {
+      cmlData.push({risk: r, retorno: rf + slope * r});
+    }
+  }
+
+  // Portfólio customizado do usuário
+  const userStats = portfolioStats(userW);
+
+  // Ativos individuais
+  const ativosInd = [
+    {risk: sig[0]*100, retorno: mu[0]*100, nome: "Ativo 1 (μ=12%, σ=20%)"},
+    {risk: sig[1]*100, retorno: mu[1]*100, nome: "Ativo 2 (μ=8%, σ=12%)"},
+    {risk: sig[2]*100, retorno: mu[2]*100, nome: "Ativo 3 (μ=15%, σ=25%)"},
+  ];
+
+  const userSharpe = ((userStats.ret - rf) / userStats.risk).toFixed(2);
+  const maxSharpeVal = bestSharpePoint ? bestSharpe.toFixed(2) : "—";
+
+  // Dynamic x-axis: zoom around the parabola
+  const allRisks = portfolios.map(p => p.risk);
+  const xLo = Math.max(0, Math.min(...allRisks) - 2);
+  const xHi = Math.max(...allRisks) + 2;
+
+  return Plot.plot({
+    width: 800, height: 480,
+    marks: [
+      // Cloud of random portfolios
+      Plot.dot(portfolios, {x: "risk", y: "retorno", fill: "#DCDCDC", fillOpacity: 0.25, r: 1.5}),
+      // Capital Market Line
+      Plot.line(cmlData, {x: "risk", y: "retorno", stroke: "#808080", strokeWidth: 1.5, strokeDasharray: "8,4"}),
+      // Efficient frontier
+      Plot.dot(frontierPoints, {x: "risk", y: "retorno", fill: "#E50505", r: 2.5}),
+      // Individual assets
+      Plot.dot(ativosInd, {x: "risk", y: "retorno", fill: "#3ACC9F", r: 7, stroke: "#000", strokeWidth: 1}),
+      Plot.text(ativosInd, {x: "risk", y: "retorno", text: "nome", dy: -14, fontSize: 10, fontWeight: "bold"}),
+      // Min variance
+      Plot.dot([minVarPort], {x: "risk", y: "retorno", fill: "#FFCC00", r: 8, stroke: "#000", strokeWidth: 2}),
+      Plot.text([{...minVarPort, text: "Mín. Variância"}],
+        {x: "risk", y: "retorno", text: "text", dy: 15, fontSize: 10, fontWeight: "bold", fill: "#b8860b"}),
+      // Best Sharpe
+      ...(bestSharpePoint ? [
+        Plot.dot([bestSharpePoint], {x: "risk", y: "retorno", symbol: "diamond", fill: "#7B2FBE", r: 9, stroke: "#000", strokeWidth: 2}),
+        Plot.text([{...bestSharpePoint, text: `Max Sharpe (${maxSharpeVal})`}],
+          {x: "risk", y: "retorno", text: "text", dy: -14, fontSize: 10, fontWeight: "bold", fill: "#7B2FBE"})
+      ] : []),
+      // User portfolio
+      Plot.dot([{risk: userStats.risk, retorno: userStats.ret}],
+        {x: "risk", y: "retorno", fill: "#FF6B00", r: 9, stroke: "#000", strokeWidth: 2}),
+      Plot.text([{risk: userStats.risk, retorno: userStats.ret,
+        text: `Seu portfólio (${(userW[0]*100).toFixed(0)}/${(userW[1]*100).toFixed(0)}/${(userW[2]*100).toFixed(0)}) Sharpe=${userSharpe}`}],
+        {x: "risk", y: "retorno", text: "text", dy: -14, fontSize: 10, fontWeight: "bold", fill: "#FF6B00"}),
+    ],
+    x: {label: "Risco: Desvio Padrão (%)", domain: [xLo, xHi]},
+    y: {label: "Retorno Esperado (% a.a.)"},
+    title: `Fronteira Eficiente: ρ₁₂=${rho12.toFixed(1)}, ρ₁₃=${rho13.toFixed(1)}, ρ₂₃=${rho23.toFixed(1)}`,
+    subtitle: `Pesos normalizados: ${(userW[0]*100).toFixed(0)}% / ${(userW[1]*100).toFixed(0)}% / ${(userW[2]*100).toFixed(0)}% | CML a partir de Rf = ${rf}%`
+  });
+}
+```
+
+::: {.callout-tip}
+## Experimente!
+- **Correlações altas** (0.7, 0.8): a fronteira fica "estreita" — pouco benefício de diversificação
+- **Correlações baixas ou negativas** (-0.5, -0.8): a fronteira se curva para a esquerda — **grande benefício de diversificação**
+- O **ponto roxo** (Max Sharpe) é o portfólio com melhor retorno por unidade de risco — a reta tracejada que parte de Rf e passa por ele é a **Capital Market Line (CML)**
+- Ajuste os **pesos** dos 3 ativos para posicionar **seu portfólio** (laranja) no gráfico — tente colocá-lo sobre a fronteira eficiente!
+- Note como o portfólio de mínima variância (amarelo) sempre fica à **esquerda** dos ativos individuais
+:::
+
+### O Papel da Diversificação
+
+A fórmula do risco de um portfólio com 2 ativos revela a mágica da diversificação:
+
+::: {.formula-highlight}
+[Risco de um portfólio com 2 ativos]{.formula-label}
+$$\sigma_p^2 = w_1^2 \sigma_1^2 + w_2^2 \sigma_2^2 + 2 w_1 w_2 \rho_{12} \sigma_1 \sigma_2$$
+:::
+
+O terceiro termo é a chave: se $\rho_{12} < 1$ (e especialmente se $\rho_{12} < 0$), o risco do portfólio é **menor** que a média ponderada dos riscos individuais. Quanto menor a correlação, maior o benefício.
+
+| Correlação $\rho_{12}$ | Efeito no risco do portfólio |
+|------------------------|------------------------------|
+| $+1.0$ | Nenhuma diversificação — risco é a média ponderada |
+| $+0.5$ | Diversificação moderada |
+| $0.0$ | Diversificação significativa |
+| $-0.5$ | Diversificação forte |
+| $-1.0$ | Diversificação perfeita — risco pode chegar a zero |
+
+Na prática, correlações entre ações de um mesmo mercado tipicamente variam entre 0.3 e 0.7. Diversificação **entre classes de ativos** (ações + renda fixa + commodities + internacional) oferece correlações menores e benefícios maiores.
+
+### Capital Market Line (CML)
+
+Quando incluímos o ativo livre de risco ($R_f$), o investidor pode combinar o **portfólio tangente** (Max Sharpe) com empréstimo ou investimento em $R_f$. A reta que liga $R_f$ ao portfólio tangente é a **Capital Market Line**:
+
+::: {.formula-highlight}
+[Capital Market Line]{.formula-label}
+$$E[R_p] = R_f + \frac{E[R_T] - R_f}{\sigma_T} \cdot \sigma_p$$
+:::
+
+onde $T$ é o portfólio tangente (Max Sharpe). Qualquer ponto na CML é uma combinação do ativo livre de risco com o portfólio tangente — e **domina** todos os portfólios da fronteira eficiente (exceto o próprio tangente).
+
+### Restrições Práticas
+
+Na vida real, a otimização pura de Markowitz frequentemente produz portfólios **extremos** (ex: 90% em um único ativo). Para evitar isso, adicionamos restrições:
+
+| Restrição | Motivação | Exemplo |
+|-----------|-----------|---------|
+| $w_i \geq 0$ | Sem vendas a descoberto | Fundos de pensão brasileiros |
+| $w_i \leq w_{\max}$ | Diversificação mínima | Máximo 10–30% por ativo |
+| $\sum_{i \in \text{setor}} w_i \leq 0.4$ | Limite por setor | Regulação CVM/SUSEP |
+| Custos de transação | Realismo no rebalanceamento | Corretagem + spread + impostos |
+| Turnover $\leq T_{\max}$ | Limitar giro da carteira | Fundos com restrição fiscal |
+
+::: {.callout-warning}
+## O Problema da Estimação (Error Maximization)
+A fronteira eficiente é tão boa quanto as **estimativas** de $\boldsymbol{\mu}$ e $\boldsymbol{\Sigma}$. Na prática, estimar retornos esperados é muito mais difícil que estimar covariâncias. Pequenos erros em $\boldsymbol{\mu}$ podem gerar portfólios completamente diferentes — o otimizador explora os erros de estimação, concentrando nos ativos cujo retorno foi **superestimado**.
+:::
+
+### Abordagens Robustas para a Prática
+
+| Abordagem | Ideia | Quando usar |
+|-----------|-------|-------------|
+| **Mínima Variância** | Ignora $\mu$, usa apenas $\Sigma$ | Quando não confia nas estimativas de retorno |
+| **Black-Litterman** | Combina equilíbrio de mercado com views do gestor | Quando o gestor tem convicções sobre certos ativos |
+| **Shrinkage** (Ledoit-Wolf) | "Encolhe" a covariância amostral em direção a uma estrutura mais estável | Quando $N$ (ativos) é grande relativo a $T$ (observações) |
+| **Risk Parity** | Equaliza a contribuição de risco de cada ativo | Quando quer diversificação de risco, não de capital |
+| **Resampled Frontier** | Simula múltiplas fronteiras e tira a média | Quando quer estabilidade nas alocações |
+
+::: {.caso-negocio}
+#### Caso: Como Fundos de Pensão Usam Markowitz
+
+Fundos de pensão brasileiros (como Previ, Petros, Funcef) gerem centenas de bilhões em ativos e usam variantes de Markowitz diariamente:
+
+1. **Estudo de ALM** (Asset-Liability Management): a fronteira eficiente é construída considerando não apenas retorno/risco dos ativos, mas também o **passivo atuarial** (obrigações futuras com aposentados). O portfólio ótimo minimiza o risco de não conseguir pagar os benefícios.
+
+2. **Rebalanceamento trimestral**: a cada trimestre, o comitê de investimentos revisa as estimativas de $\mu$ e $\Sigma$ e reotimiza, respeitando limites regulatórios (Resolução CMN 4.994).
+
+3. **Stress testing**: além da fronteira "normal", simulam cenários extremos (2008, COVID) para verificar se o portfólio sobrevive a crises. O VaR e o ES (aula anterior) são métricas centrais nessa análise.
+:::
+
+## Indicadores de Performance
+
+| Indicador | Fórmula | Interpretação |
+|-----------|---------|---------------|
+| **Sharpe** | $\frac{R_p - R_f}{\sigma_p}$ | Retorno por unidade de risco total |
+| **Sortino** | $\frac{R_p - R_f}{\sigma_{\text{down}}}$ | Sharpe usando apenas downside risk |
+| **Treynor** | $\frac{R_p - R_f}{\beta_p}$ | Retorno por unidade de risco sistemático |
+| **Information Ratio** | $\frac{R_p - R_b}{\sigma(R_p - R_b)}$ | Excesso de retorno por tracking error |
+| **Max Drawdown** | $\max_t \frac{P_{\max} - P_t}{P_{\max}}$ | Maior queda acumulada do pico |
+
+### Sharpe como inclinação da Linha do Mercado de Capitais (CML)
+
+A SML (Security Market Line) liga $\beta$ a retorno esperado para **ativos individuais**. A **CML** (Capital Market Line) faz o mesmo para **portfólios eficientes** compostos pelo ativo livre de risco e pelo portfólio de mercado:
+
+::: {.formula-highlight}
+[Capital Market Line]{.formula-label}
+$$E[R_p] = R_f + \underbrace{\frac{E[R_m] - R_f}{\sigma_m}}_{\text{Sharpe do mercado}} \cdot \sigma_p$$
+:::
+
+A inclinação da CML é **exatamente** o Sharpe ratio do portfólio de mercado. Isso dá ao Sharpe uma interpretação geométrica forte:
+
+- O Sharpe de qualquer portfólio é a **inclinação da reta** que liga $R_f$ a esse portfólio no plano $(\sigma, E[R])$
+- O **portfólio tangente** à fronteira eficiente a partir de $R_f$ é o que **maximiza** o Sharpe ratio — é ele que define a CML
+- Todos os portfólios sobre a CML dominam qualquer portfólio abaixo dela, ou seja, oferecem mais retorno para o mesmo risco
+
+Essa é a razão profunda pela qual o Sharpe é o indicador de performance mais usado: ele identifica a reta mais inclinada no plano risco-retorno, e qualquer combinação linear entre $R_f$ e o portfólio tangente é eficiente.
+
+### Sharpe vs. Sortino
+
+O Sharpe penaliza **toda** volatilidade igualmente — tanto ganhos extremos quanto perdas extremas. O Sortino penaliza apenas a volatilidade **negativa** (downside), o que é mais intuitivo: investidores não se importam com "surpresas positivas".
+
+Na prática, a escolha da métrica depende do contexto:
+
+| Situação | Métrica preferida | Por quê |
+|----------|-------------------|---------|
+| Comparar fundos multimercado | **Sharpe** | Padrão da indústria, facilita comparação |
+| Avaliar proteção de capital | **Sortino** | Foco no downside, relevante para perfis conservadores |
+| Gestor que assume risco direcional | **Treynor** | Separa risco de mercado ($\beta$) da habilidade |
+| Tracking de benchmark | **Information Ratio** | Mede consistência do excesso de retorno |
+| Apresentar para cliente leigo | **Max Drawdown** | "Quanto perderia no pior momento" — mais intuitivo |
+
+::: {.caso-negocio}
+#### Caso: Alocação para Pessoa Física
+
+Um cliente private do Itaú tem R\$ 5 milhões e perfil moderado. Você precisa montar uma carteira com:
+
+- Pelo menos 30% em renda fixa
+- No máximo 10% em um único ativo
+- Sharpe ratio > 0.5
+
+**Discussão com o grupo:**
+
+1. Quais classes de ativos você consideraria? (Renda fixa, ações, fundos imobiliários, ouro, internacional)
+2. Como você estimaria os retornos esperados e a matriz de covariância?
+3. Como apresentaria a fronteira eficiente para um cliente que não é analista quant?
+4. Qual a frequência ideal de rebalanceamento?
+:::
+
+### Workflow Completo: Da Teoria à Carteira Real
+
+Na prática corporativa, a construção de portfólios segue um pipeline estruturado:
+
+```{mermaid}
+flowchart TD
+    A["1. Definir Universo<br/>de Ativos"] --> B["2. Estimar μ e Σ"]
+    B --> C["3. Definir Restrições<br/>(regulatórias + cliente)"]
+    C --> D["4. Otimizar<br/>(Markowitz + robustez)"]
+    D --> E["5. Backtesting<br/>e Stress Test"]
+    E --> F["6. Implementar<br/>e Monitorar"]
+    F -->|"Rebalanceamento<br/>periódico"| B
+
+    style A fill:#E50505,color:#fff
+    style D fill:#FFCC00,color:#000
+    style F fill:#3ACC9F,color:#fff
+```
+
+| Etapa | Ferramenta/Modelo | Cuidado principal |
+|-------|-------------------|-------------------|
+| Estimar $\mu$ | Média histórica, CAPM, Black-Litterman | Retornos passados ≠ retornos futuros |
+| Estimar $\Sigma$ | Covariância amostral, shrinkage, DCC-GARCH | $N > T$ gera matriz singular |
+| Otimizar | QP solver, `scipy.optimize`, `cvxpy` | Error maximization se não usar robustez |
+| Backtest | Rolling window, walk-forward | Cuidado com look-ahead bias |
+| Monitorar | Sharpe, drawdown, tracking error | Rebalancear demais gera custos |
+
+## Quizzes: Teste seu Entendimento
+
+::: {.callout-caution collapse="true"}
+## Questão 1: PETR4 tem $\beta = 1.3$. Se o Ibovespa subir 10%, quanto você espera que PETR4 suba (pelo CAPM)?
+
+Pelo CAPM, o **excesso de retorno** de PETR4 é $\beta$ vezes o excesso de retorno do mercado. Se $R_f = 4\%$ e o Ibovespa sobe 10%: excesso do mercado = $10\% - 4\% = 6\%$. Excesso esperado de PETR4 = $1.3 \times 6\% = 7.8\%$. Retorno total esperado = $4\% + 7.8\% = 11.8\%$. **Atenção**: na prática, o $\beta$ é estimado com erro e não é constante ao longo do tempo.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 2: Um fundo tem alpha de Jensen positivo. O que isso significa?
+
+O fundo entregou **retorno acima** do que o CAPM previa para o nível de risco ($\beta$) assumido. Se o CAPM previa 12% e o fundo entregou 14%, o alpha é +2%. Isso pode indicar: (a) habilidade genuína do gestor em selecionar ativos, (b) exposição a fatores de risco não capturados pelo CAPM (tamanho, valor, momentum), ou (c) simplesmente sorte (alpha pode não ser estatisticamente significativo). Para distinguir, analise o **p-valor** do alpha e o **período** da análise.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 3: A fronteira eficiente é uma curva. Um portfólio abaixo dela é ineficiente. O que isso significa na prática?
+
+Significa que **existe outro portfólio com o mesmo risco mas retorno maior** (ou mesmo retorno mas risco menor). O investidor está "deixando dinheiro na mesa" — poderia melhorar seu retorno sem assumir mais risco, simplesmente rebalanceando os pesos. Na prática, portfólios ineficientes surgem por: (1) restrições regulatórias, (2) custos de transação, (3) alocação por "intuição" em vez de otimização, (4) home bias (concentração em ativos domésticos).
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 4: Você otimizou um portfólio e ele colocou 90% em um único ativo. O que provavelmente aconteceu? Como resolver?
+
+O otimizador de Markowitz é **extremamente sensível** às estimativas de retorno esperado ($\boldsymbol{\mu}$). Pequenas diferenças nos retornos estimados levam a concentrações extremas. Isso é chamado de "**error maximization**" — o otimizador concentra nos ativos cujo retorno foi **superestimado por erro amostral**. Soluções: (1) impor **restrições de peso máximo** (ex: $w_i \leq 20\%$); (2) usar **shrinkage** nos retornos esperados (ex: Black-Litterman); (3) usar **portfólio de mínima variância** (ignora $\mu$, usa apenas $\Sigma$); (4) **equal risk contribution** (risk parity).
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 5: O Sharpe do seu portfólio é 0.8 e o do Ibovespa é 0.5. O que você conclui?
+
+Seu portfólio oferece **mais retorno por unidade de risco** que o Ibovespa. Para cada 1% de volatilidade, seu portfólio entrega 0.8% de excesso de retorno (acima do CDI), enquanto o Ibovespa entrega 0.5%. Porém, cuidado: (1) o Sharpe pode mudar drasticamente dependendo do **período** analisado; (2) se o portfólio tem **alavancagem** ou **derivativos**, a comparação não é direta; (3) o Sharpe assume distribuição normal dos retornos — para retornos assimétricos, o Sortino pode ser mais informativo.
+:::
+
+## Para Saber Mais
+
+- Bodie, Z., Kane, A., & Marcus, A.J. (2018). *Investments*. 11th ed. McGraw-Hill. Cap. 7–8.
+- Markowitz, H. (1952). *Portfolio Selection*. The Journal of Finance.
+- Black, F. & Litterman, R. (1992). *Global Portfolio Optimization*. Financial Analysts Journal.
+- Lopez de Prado, M. (2018). *Advances in Financial Machine Learning*. Cap. 16: Machine Learning Asset Allocation.

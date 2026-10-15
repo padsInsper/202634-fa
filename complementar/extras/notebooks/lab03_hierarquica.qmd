@@ -1,0 +1,369 @@
+---
+title: "Séries temporais hierárquicas"
+format: html
+---
+
+Séries temporais hierárquicas podem ser de três tipos:
+
+-   **Aninhada**: quando as séries são aninhadas, como por exemplo, a venda de um produto em diferentes regiões do país.
+-   **Cruzada**: quando as séries não são aninhadas, mas possuem uma relação entre si, como por exemplo, a venda de produtos de diferentes categorias.
+-   **Mista**: quando as séries são aninhadas e cruzadas, como por exemplo, a venda de produtos de diferentes categorias em diferentes regiões do país.
+
+Exemplo de série temporal aninhada:
+
+```{r}
+library(fpp3)
+library(patchwork)
+
+tourism <- tsibble::tourism |>
+  mutate(
+    State = recode(
+      State,
+      `New South Wales` = "NSW",
+      `Northern Territory` = "NT",
+      `Queensland` = "QLD",
+      `South Australia` = "SA",
+      `Tasmania` = "TAS",
+      `Victoria` = "VIC",
+      `Western Australia` = "WA"
+    )
+  )
+
+tourism_hts <- tourism |>
+  aggregate_key(State / Region, Trips = sum(Trips))
+
+view(tourism_hts)
+tail(tourism_hts)
+
+tourism_hts |>
+  filter(is_aggregated(Region)) |>
+  autoplot(Trips) +
+  labs(y = "Trips ('000)", title = "Australian tourism: national and states") +
+  facet_wrap(vars(State), scales = "free_y", ncol = 3) +
+  theme(legend.position = "none")
+
+## ----seasonStates, echo=FALSE, fig.cap="Seasonal plots for overnight trips for Queensland and the Northern Territory, and Victoria and Tasmania highlighting the contrast in seasonal patterns between northern and southern states in Australia.", fig.asp=0.5, fig.width=7, out.width="80%", message=FALSE, warning=FALSE----
+tourism_hts |>
+  filter(
+      #State %in% c("NT", "QLD", ...)
+    State == "NT" | State == "QLD" | State == "TAS" | State == "VIC",
+    is_aggregated(Region)
+  ) |>
+  select(-Region) |>
+  mutate(State = factor(State, levels = c("QLD", "VIC", "NT", "TAS"))) |>
+  gg_season(Trips) +
+  facet_wrap(vars(State), nrow = 2, scales = "free_y") +
+  labs(y = "Trips ('000)")
+
+## ----tourismRegions, echo=FALSE, fig.asp=0.6, fig.cap="Domestic overnight trips from 1998 Q1 to 2017 Q4 for some selected regions.", fig.width=9, message=FALSE, warning=FALSE----
+tourism_hts |>
+  filter(vctrs::vec_in(
+    Region,
+    c(
+      "North Coast NSW",
+      "Snowy Mountains",
+      "Hunter",
+      "New England North West",
+      "Alice Springs",
+      "Darwin",
+      "Kakadu Arnhem",
+      "MacDonnell",
+      "Brisbane",
+      "Gold Coast",
+      "Northern Outback",
+      "Sunshine Coast",
+      "Tropical North Queensland",
+      "Adelaide Hills",
+      "Murraylands",
+      "Yorke Peninsula",
+      "Kangaroo Island",
+      "Ballarat",
+      "Great Ocean Road",
+      "High Country",
+      "Goulburn",
+      "Australia's Coral Coast",
+      "Australia's Golden Outback",
+      "Australia's North West",
+      "Australia's North West"
+    )
+  )) |>
+  autoplot() +
+  facet_wrap(State ~ ., scales = "free_y", ncol = 3) +
+  labs(
+    y = "Trips ('000)",
+    title = "Australian tourism: by regions nested within states"
+  ) +
+  theme(legend.position = "none")
+
+```
+
+Exemplo de série temporal cruzada:
+
+```{r}
+## ----prisongts, fig.width=9, fig.asp = .7, echo=FALSE, fig.cap="Total Australian quarterly adult prison population, disaggregated by state, by legal status, and by gender.", warning=FALSE, message=FALSE, fig.pos="b", fig.env="figure*"----
+prison <- readr::read_csv(
+  "https://OTexts.com/fpp3/extrafiles/prison_population.csv"
+) |>
+  mutate(Quarter = yearquarter(Date)) |>
+  select(-Date) |>
+  as_tsibble(key = c(Gender, Legal, State, Indigenous), index = Quarter) |>
+  relocate(Quarter)
+
+prison_gts <- prison |>
+  aggregate_key(Gender * Legal * State, Count = sum(Count) / 1e3)
+
+p1 <- prison_gts |>
+  filter(
+    is_aggregated(Gender),
+    is_aggregated(Legal),
+    is_aggregated(State)
+  ) |>
+  autoplot(Count) +
+  labs(y = "Number of prisoners ('000)", title = "Prison population: Total")
+
+p2 <- prison_gts |>
+  filter(
+    (!is_aggregated(Gender)) +
+      (!is_aggregated(Legal)) +
+      (!is_aggregated(State)) ==
+      1
+  ) |>
+  mutate(
+    disaggregator = case_when(
+      !is_aggregated(Gender) ~ "Gender",
+      !is_aggregated(Legal) ~ "Legal",
+      !is_aggregated(State) ~ "State"
+    ),
+    value = case_when(
+      !is_aggregated(Gender) ~ as.character(Gender),
+      !is_aggregated(Legal) ~ as.character(Legal),
+      !is_aggregated(State) ~ as.character(State)
+    ),
+    series = paste(disaggregator, value, sep = "/")
+  ) |>
+  ggplot(aes(x = Quarter, y = Count, colour = series)) +
+  geom_line() +
+  labs(y = "Number of prisoners ('000)") +
+  facet_wrap(vars(disaggregator), scales = "free_y")
+
+p1 / p2
+```
+
+Exemplo de série temporal mista:
+
+```{r}
+## ----mixed, echo=TRUE-------------------------------------------------------------------------------------
+tourism_full <- tourism |>
+  aggregate_key((State / Region) * Purpose, Trips = sum(Trips))
+
+## ----mixed-purpose, fig.width=10, fig.asp = 0.6, echo=FALSE, fig.cap="Australian domestic overnight trips from 1998 Q1 to 2017 Q4 disaggregated by purpose of travel.", message=FALSE, warning=FALSE, dependson="mixed",fig.env="figure*"----
+tourism_full |>
+  filter(
+    is_aggregated(State),
+    is_aggregated(Region),
+    !is_aggregated(Purpose)
+  ) |>
+  ggplot(aes(
+    x = Quarter,
+    y = Trips,
+    group = as.character(Purpose),
+    colour = as.character(Purpose)
+  )) +
+  stat_summary(fun = sum, geom = "line") +
+  facet_wrap(~ as.character(Purpose), scales = "free_y", nrow = 2) +
+  labs(title = "Australian tourism: by purpose of travel", y = "Trips ('000)") +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  guides(colour = guide_legend("Purpose"))
+
+## ----mixed-state-purpose, fig.width=10, fig.asp = 0.6, echo=FALSE, fig.cap="Australian domestic overnight trips over the period 1998 Q1 to 2017 Q4 disaggregated by purpose of travel and by state.", message=FALSE, warning=FALSE, dependson="mixed",fig.env="figure*"----
+tourism_full |>
+  filter(
+    !is_aggregated(State),
+    is_aggregated(Region),
+    !is_aggregated(Purpose)
+  ) |>
+  ggplot(aes(
+    x = Quarter,
+    y = Trips,
+    group = as.character(Purpose),
+    colour = as.character(Purpose)
+  )) +
+  stat_summary(fun = sum, geom = "line") +
+  facet_wrap(~ as.character(State), scales = "free_y", nrow = 2) +
+  labs(
+    title = "Australian tourism: by purpose of travel and state",
+    y = "Trips ('000)"
+  ) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  guides(colour = guide_legend("Purpose"))
+
+
+```
+
+## Método Bottom-Up (BU)
+
+O método Bottom-Up (BU) consiste em prever as séries temporais de menor nível e depois agregá-las para obter as previsões das séries de maior nível. Esse método é útil quando as séries temporais de menor nível são mais fáceis de prever do que as séries de maior nível. Por exemplo, as séries temporais de menor nível podem ser mais estáveis e menos voláteis do que as séries de maior nível. Nesse caso, o método BU pode produzir previsões mais precisas do que o método Top-Down (TD).
+
+```{r}
+## ----tourism_states, message=FALSE------------------------------------------------------------------------
+tourism_states <- tourism |>
+  aggregate_key(State, Trips = sum(Trips))
+
+
+## ----bu_by_hand, message=FALSE----------------------------------------------------------------------------
+fcasts_state <- tourism_states |>
+  filter(!is_aggregated(State)) |>
+  model(ets = ETS(Trips)) |>
+  forecast()
+
+# Sum bottom-level forecasts to get top-level forecasts
+fcasts_national <- fcasts_state |>
+  summarise(value = sum(Trips), .mean = mean(value))
+
+```
+
+Usando a função `reconcile()`:
+
+```{r}
+tourism_states |>
+  model(ets = ETS(Trips)) |>
+  reconcile(bu = bottom_up(ets)) |>
+  forecast() |>
+  print(n = 30)
+
+```
+
+Meta-código para o método Bottom-Up:
+
+``` r
+data |>
+  aggregate_key() |>
+  model() |>
+  reconcile() |>
+  forecast()
+```
+
+## Método Top-Down (TD)
+
+O método Top-Down (TD) consiste em prever as séries temporais de maior nível e depois desagregá-las para obter as previsões das séries de menor nível. Esse método é útil quando as séries temporais de maior nível são mais fáceis de prever do que as séries de menor nível. Por exemplo, as séries temporais de maior nível podem ser mais estáveis e menos voláteis do que as séries de menor nível. Nesse caso, o método TD pode produzir previsões mais precisas do que o método Bottom-Up (BU).
+
+Existem várias técnicas top-down, incluindo:
+
+-   **Proporção média**: a proporção é calculada fazendo-se a razão entre a série de menor nível e a série de maior nível, e depois tomando-se a média. No R, isso é implementado usando `method = "average_proportions"` da função `top_down()`.
+
+-   **Proporção da média**: a proporção é calculada fazendo-se a razão entre a média das séries de menor nível e a média das séries de maior nível. No R, isso é implementado usando `method = "proportion_averages"` da função `top_down()`.
+
+Existe uma terceira técnica que consiste em calcular as proporções a partir dos forecasts. No R, isso é implementado usando `method = "forecast_proportions"` da função `top_down()`. Essa técnica pode produzir previsões mais precisas do que as duas primeiras técnicas, mas é mais difícil de implementar.
+
+Finalmente, existem técnicas que combinam BU e TD. Por exemplo, podemos usar o método BU para prever as séries temporais de menor nível e depois usar o método TD para prever as séries temporais de maior nível. No R, isso é implementado usando a função `middle_out()`
+
+## Minimum Trace (MinT)
+
+O método Minimum Trace (MinT) consiste em minimizar a variância total das previsões dentro do grupo de previsões coerentes. O método MinT é implementado no R usando a função `min_trace()`, com diversas variações ("wsl_struct", "mint_cov", "nk",mint_shri "ols").
+
+Do livro do Hyndman:
+
+> In summary, unlike any other existing approach, the optimal reconciliation forecasts are generated using all the information available within a hierarchical or a grouped structure. This is important, as particular aggregation levels or groupings may reveal features of the data that are of interest to the user and are important to be modelled. These features may be completely hidden or not easily identifiable at other levels.
+
+> For example, consider the Australian tourism data introduced in Section 11.1, where the hierarchical structure followed the geographic division of a country into states and regions. Some areas will be largely summer destinations, while others may be winter destinations. We saw in Figure 11.4 the contrasting seasonal patterns between the northern and the southern states. These differences will be smoothed at the country level due to aggregation.
+
+```{r}
+tourism_full <- tourism |>
+  aggregate_key((State / Region) * Purpose, Trips = sum(Trips))
+
+fit <- tourism_full |>
+  filter(year(Quarter) <= 2015) |>
+  model(base = ETS(Trips)) |>
+  reconcile(
+    bu = bottom_up(base),
+    ols = min_trace(base, method = "ols"),
+    mint = min_trace(base, method = "mint_shrink"),
+  )
+
+fc <- fit |>
+  forecast(h = "2 years")
+
+fc |>
+  filter(is_aggregated(Region), is_aggregated(Purpose)) |>
+  autoplot(
+    tourism_full |> filter(year(Quarter) >= 2011),
+    level = NULL
+  ) +
+  labs(y = "Trips ('000)") +
+  facet_wrap(vars(State), scales = "free_y")
+
+fc |>
+  filter(is_aggregated(State), !is_aggregated(Purpose)) |>
+  autoplot(
+    tourism_full |> filter(year(Quarter) >= 2011),
+    level = NULL
+  ) +
+  labs(y = "Trips ('000)") +
+  facet_wrap(vars(Purpose), scales = "free_y")
+```
+
+Tabela comparativa do ChatGPT:
+
+| **Método MINT** | **Matriz de covariância dos erros assumida ((W_h))** | **Descrição intuitiva** | **Vantagens** | **Limitações** | **Situação ideal de uso** |
+|------------|------------|------------|------------|------------|------------|
+| **MINT-OLS** | (W_h = k_h I) (matriz identidade escalada) | Assume que todos os erros têm a mesma variância e são independentes | Simples, rápido, coerente | Ignora diferenças de variância e correlações entre séries | Quando não há estimativas confiáveis das variâncias dos erros |
+| **MINT-WLS** | (W_h = k_h , \text{diag}(\hat{W}\_1)) (matriz diagonal com variâncias individuais) | Pondera cada série de acordo com a variância dos erros de previsão | Leva em conta que algumas séries são mais incertas que outras | Ainda ignora correlações entre séries | Quando se conhece ou pode estimar bem as variâncias individuais |
+| **MINT-SHRINK** | (W_h = k_h , \hat{W}\_{shrink}) (matriz de covariância ajustada com shrinkage) | Usa uma estimativa “encolhida” da covariância completa, equilibrando variância e estabilidade | Compromisso entre precisão e robustez; reduz sobreajuste | Requer mais cálculo e escolha de parâmetro de shrinkage | Quando há número moderado de séries e amostra limitada |
+| **MINT-FULL (ou MINT-SAMPLE)** | (W_h = k_h , \hat{W}\_h) (covariância completa estimada dos erros) | Utiliza toda a estrutura de covariância entre séries | Teoricamente ótimo; minimiza o erro total reconciliado | Pode ser instável se a amostra for pequena ou séries muito correlacionadas | Quando há muitas observações e estimativas estáveis da covariância |
+
+```{r}
+# erro no nivel mais agregado
+fc |>
+  filter(is_aggregated(State), is_aggregated(Purpose)) |>
+  accuracy(
+    data = tourism_full,
+    measures = list(rmse = RMSE, mase = MASE)
+  )
+```
+
+```{r}
+# filtro para um nivel intermediario
+tab <- fc |>
+  filter(is_aggregated(Region)) |>
+  accuracy(
+    data = tourism_full,
+    measures = list(rmse = RMSE)
+  ) |>
+  tidyr::pivot_wider(names_from = .model, values_from = c(rmse)) |>
+  dplyr::mutate(
+    min = pmin(base, bu, mint, ols)
+  )
+
+col_def <- reactable::colDef(
+  format = reactable::colFormat(digits = 1),
+  cell = function(value, index, column_name) {
+    if (value == tab$min[index]) {
+      shiny::tags$strong(round(value, 2))
+    } else {
+      round(value, 2)
+    }
+  },
+  html = TRUE
+)
+tab |>
+  dplyr::mutate(
+    State = as.character(State),
+    Purpose = as.character(Purpose),
+    Region = as.character(Region)
+  ) |>
+  reactable::reactable(
+    columns = list(
+      base = col_def,
+      bu = col_def,
+      mint = col_def,
+      ols = col_def,
+      .type = reactable::colDef(show = FALSE),
+      min = reactable::colDef(show = FALSE)
+    ),
+    bordered = TRUE,
+    highlight = TRUE,
+    striped = TRUE,
+    defaultPageSize = 100
+  )
+
+```

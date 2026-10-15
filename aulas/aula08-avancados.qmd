@@ -1,0 +1,394 @@
+---
+title: "Aula 8: Tópicos Avançados"
+subtitle: "VAR multivariado, cointegração e pair trading"
+format:
+  html:
+    code-fold: true
+---
+
+::: {.objetivos}
+#### Objetivos de Aprendizagem
+
+- **Reconhecer** quando usar modelos multivariados (VAR)
+- **Testar** cointegração entre pares de ativos
+- **Formular** estratégias de pair trading baseadas em evidência estatística
+- **Avaliar** as oportunidades e limitações de ML/IA em finanças
+:::
+
+## Modelos VAR: Vetorial Autoregressivo
+
+### Quando uma série não é suficiente
+
+Até agora, modelamos cada série isoladamente (univariado). Mas muitas vezes, **múltiplas séries se influenciam mutuamente**: a taxa de juros afeta o câmbio, que afeta a inflação, que afeta a taxa de juros. O modelo **VAR** (Vetor Autoregressivo) captura essas interdependências.
+
+::: {.formula-highlight}
+[VAR(1) com 2 variáveis]{.formula-label}
+$$\begin{pmatrix} y_{1,t} \\ y_{2,t} \end{pmatrix} = \begin{pmatrix} c_1 \\ c_2 \end{pmatrix} + \begin{pmatrix} \phi_{11} & \phi_{12} \\ \phi_{21} & \phi_{22} \end{pmatrix} \begin{pmatrix} y_{1,t-1} \\ y_{2,t-1} \end{pmatrix} + \begin{pmatrix} \varepsilon_{1,t} \\ \varepsilon_{2,t} \end{pmatrix}$$
+:::
+
+Note que cada variável depende não só do seu **próprio passado**, mas também do **passado das outras variáveis**. Os coeficientes $\phi_{12}$ e $\phi_{21}$ capturam essas interações cruzadas.
+
+### VAR(p) generalizado
+
+::: {.formula-highlight}
+[VAR(p) na forma matricial]{.formula-label}
+$$\mathbf{y}_t = \mathbf{c} + \boldsymbol{\Phi}_1 \mathbf{y}_{t-1} + \boldsymbol{\Phi}_2 \mathbf{y}_{t-2} + \cdots + \boldsymbol{\Phi}_p \mathbf{y}_{t-p} + \boldsymbol{\varepsilon}_t$$
+:::
+
+**Escolha da ordem $p$**: usa-se critérios de informação (AIC, BIC) aplicados ao sistema como um todo.
+
+### Forma reduzida vs. forma estrutural
+
+A equação acima é a **forma reduzida** do VAR: cada variável depende apenas do **passado** das variáveis. As relações **contemporâneas** entre as variáveis ficam escondidas dentro da matriz de covariância $\Sigma = \text{Cov}(\boldsymbol{\varepsilon}_t)$: se $\sigma_{12} \neq 0$, há correlação entre os choques de $y_1$ e $y_2$ **no mesmo instante**.
+
+Para separar essas relações contemporâneas usamos a **decomposição de Cholesky** de $\Sigma$:
+
+::: {.formula-highlight}
+[Decomposição de Cholesky]{.formula-label}
+$$\Sigma = L G L^\top$$
+:::
+
+onde $L$ é **triangular inferior** com 1's na diagonal e $G$ é diagonal. Pré-multiplicando o VAR por $L^{-1}$ obtemos a **forma estrutural**:
+
+$$L^{-1} \mathbf{y}_t = L^{-1} \mathbf{c} + L^{-1} \boldsymbol{\Phi}_1 \mathbf{y}_{t-1} + \cdots + \mathbf{b}_t$$
+
+onde $\mathbf{b}_t = L^{-1} \boldsymbol{\varepsilon}_t$ tem covariância **diagonal**. Agora o sistema expõe relações contemporâneas: a segunda equação, por exemplo, passa a conter $y_{1,t}$ (e não apenas $y_{1,t-1}$).
+
+::: {.callout-note}
+## Por que isso importa?
+A **ordem** das variáveis no vetor $\mathbf{y}_t$ importa na Cholesky: a primeira variável afeta todas as demais contemporaneamente, mas não é afetada por elas. Essa escolha embute uma **hipótese causal** — na prática, ordena-se das variáveis "mais exógenas" (ex.: taxa de juros) para as "mais endógenas" (ex.: inflação). A Cholesky é a base da interpretação estrutural das IRFs.
+:::
+
+### Regressão espúria: o perigo das séries I(1)
+
+Quando duas séries são **I(1)** (integradas de ordem 1) e **não-cointegradas**, rodar uma regressão linear entre elas produz, tipicamente, $R^2$ alto, $t$-estatísticas enormes e resíduos fortemente autocorrelacionados — tudo parece ótimo, mas **a relação é espúria**. Esse é o problema clássico de Granger e Newbold (1974): com duas caminhadas aleatórias independentes, a regressão "encontra" relacionamentos inexistentes.
+
+Tyler Vigen mantém um catálogo divertido dessas correlações espúrias em [tylervigen.com/spurious-correlations](https://www.tylervigen.com/spurious-correlations): número de filmes de Nicolas Cage × afogamentos em piscinas, consumo per capita de queijo × mortes por enrosco em lençóis. Todas têm $r > 0{,}9$ — e nenhuma faz sentido.
+
+A regra operacional é simples: **antes de rodar uma regressão entre séries de preços**, teste raiz unitária (ADF) em ambas. Se forem I(1), use **primeiras diferenças** (retornos) ou teste **cointegração**.
+
+### Causalidade de Granger
+
+::: {.formula-highlight}
+[$X$ Granger-causa $Y$ se...]{.formula-label}
+$$\text{O passado de } X \text{ ajuda a prever } Y \text{ além do passado de } Y \text{ sozinho}$$
+:::
+
+Operacionalmente: estima-se um VAR com e sem os lags de $X$ na equação de $Y$. Se incluir $X$ melhora significativamente a previsão (teste F), dizemos que $X$ "Granger-causa" $Y$.
+
+::: {.callout-warning}
+## Causalidade de Granger $\neq$ Causalidade Real
+É um teste de **precedência temporal e poder preditivo**, não de causa-efeito. O preço do sorvete pode "Granger-causar" afogamentos, mas ambos são causados pelo calor (variável omitida). O nome "causalidade" é infeliz — seria mais preciso chamar de "precedência preditiva".
+:::
+
+### Funções de Resposta ao Impulso (IRF)
+
+Uma das ferramentas mais úteis do VAR: simulam o efeito de um **choque** em uma variável sobre todas as outras ao longo do tempo.
+
+Exemplo: *"Se a Selic subir inesperadamente 1%, qual o efeito no câmbio e na inflação nos próximos 12 meses?"*
+
+## Cointegração
+
+### A diferença entre correlação e cointegração
+
+Dois conceitos são frequentemente confundidos mas são **fundamentalmente diferentes**:
+
+| Conceito | O que mede | Propriedade |
+|----------|-----------|-------------|
+| **Correlação** | Co-movimento no curto prazo | Pode ser espúria entre séries I(1) |
+| **Cointegração** | Relação de equilíbrio de longo prazo | Implica reversão à média do spread |
+
+::: {.conceito-card}
+#### O que é cointegração?
+Duas séries não-estacionárias $y_t$ e $x_t$ são **cointegradas** se existe uma combinação linear delas que é estacionária. Elas podem divergir no curto prazo, mas tendem a **voltar a uma relação de equilíbrio** no longo prazo.
+:::
+
+::: {.formula-highlight}
+[Cointegração — definição]{.formula-label}
+$$y_t \sim I(1), \quad x_t \sim I(1), \quad \text{mas} \quad y_t - \beta x_t \sim I(0)$$
+:::
+
+### Simulador interativo: Cointegração vs. Correlação
+
+```{ojs}
+//| echo: false
+
+viewof coint_beta = Inputs.range([0.5, 2.0], {
+  value: 1.0, step: 0.1, label: "β (relação de equilíbrio):"
+})
+
+viewof coint_speed = Inputs.range([0.01, 0.30], {
+  value: 0.10, step: 0.01, label: "Velocidade de reversão:"
+})
+
+viewof coint_noise = Inputs.range([0.5, 3.0], {
+  value: 1.0, step: 0.1, label: "Ruído (inovações):"
+})
+```
+
+```{ojs}
+//| echo: false
+
+{
+  const n = 300;
+  const beta = coint_beta;
+  const alpha = coint_speed; // velocidade de reversão (parâmetro ECM)
+  const noiseScale = coint_noise;
+
+  function seededRandom(seed) {
+    let s = seed;
+    return function() {
+      s = (s * 16807) % 2147483647;
+      return (s - 1) / 2147483646;
+    };
+  }
+  const rng = seededRandom(77);
+  function bm() {
+    const u1 = rng(), u2 = rng();
+    return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  }
+
+  // Simular séries cointegradas via ECM
+  let x = [50], y = [50 * beta];
+  for (let t = 1; t < n; t++) {
+    const ex = bm() * noiseScale;
+    const ey = bm() * noiseScale;
+    const error = y[t-1] - beta * x[t-1]; // desvio do equilíbrio
+    const newX = x[t-1] + ex;
+    const newY = y[t-1] - alpha * error + ey; // corrige em direção ao equilíbrio
+    x.push(newX);
+    y.push(newY);
+  }
+
+  // Calcular spread
+  const spread = y.map((v, i) => v - beta * x[i]);
+
+  // Dados para gráficos
+  const dataX = x.map((v, i) => ({t: i, value: v, serie: "X"}));
+  const dataY = y.map((v, i) => ({t: i, value: v, serie: "Y"}));
+  const dataSpread = spread.map((v, i) => ({t: i, value: v}));
+
+  const seriesPlot = Plot.plot({
+    width: 800, height: 220,
+    marks: [
+      Plot.lineY(dataX, {x: "t", y: "value", stroke: "#E50505", strokeWidth: 1.5}),
+      Plot.lineY(dataY, {x: "t", y: "value", stroke: "#3ACC9F", strokeWidth: 1.5}),
+    ],
+    x: {label: null}, y: {label: "Preço"},
+    title: `Séries cointegradas: X (vermelho) e Y (verde), β = ${beta.toFixed(1)}`,
+    color: {legend: true}
+  });
+
+  // Média e bandas do spread
+  const spreadMean = spread.reduce((a,b) => a+b) / spread.length;
+  const spreadStd = Math.sqrt(spread.map(s => (s - spreadMean)**2).reduce((a,b) => a+b) / spread.length);
+
+  const spreadPlot = Plot.plot({
+    width: 800, height: 200,
+    marks: [
+      Plot.ruleY([spreadMean], {stroke: "#808080", strokeDasharray: "4,4"}),
+      Plot.ruleY([spreadMean + 2*spreadStd], {stroke: "#E50505", strokeDasharray: "4,4", strokeWidth: 0.8}),
+      Plot.ruleY([spreadMean - 2*spreadStd], {stroke: "#E50505", strokeDasharray: "4,4", strokeWidth: 0.8}),
+      Plot.lineY(dataSpread, {x: "t", y: "value", stroke: "#5B5B5B", strokeWidth: 1}),
+      Plot.text([{x: n-5, y: spreadMean + 2*spreadStd + 0.3, text: "+2σ"}],
+        {x:"x", y:"y", text:"text", fill:"#E50505", fontSize:10, textAnchor:"end"}),
+      Plot.text([{x: n-5, y: spreadMean - 2*spreadStd - 0.3, text: "-2σ"}],
+        {x:"x", y:"y", text:"text", fill:"#E50505", fontSize:10, textAnchor:"end"}),
+    ],
+    x: {label: "Tempo"}, y: {label: "Spread (Y - βX)"},
+    subtitle: `Spread é estacionário: reverte à média (vel. = ${alpha.toFixed(2)})`
+  });
+
+  const div = document.createElement("div");
+  div.appendChild(seriesPlot);
+  div.appendChild(spreadPlot);
+  return div;
+}
+```
+
+::: {.callout-tip}
+## Experimente!
+- **Velocidade de reversão alta** (0.20–0.30): o spread volta rapidamente ao equilíbrio — bom para pair trading
+- **Velocidade de reversão baixa** (0.01–0.05): o spread demora a reverter — sinal de cointegração fraca, mais arriscado para trading
+- **Ruído alto**: mais variação no spread, bandas mais largas, mas a estrutura de reversão à média permanece
+:::
+
+### Testes de Cointegração
+
+#### Teste de Engle-Granger (2 variáveis)
+
+1. Estime a regressão: $y_t = \alpha + \beta x_t + e_t$
+2. Teste se os resíduos $\hat{e}_t$ são estacionários (teste ADF)
+3. Se rejeitarmos a raiz unitária nos resíduos → as séries são **cointegradas**
+
+::: {.callout-warning}
+## Atenção
+O teste ADF nos resíduos usa **valores críticos especiais** (tabelas de Engle-Granger), não os valores críticos padrão do ADF. Isso porque $\hat{e}_t$ é estimado, não observado.
+:::
+
+#### Teste de Johansen (múltiplas variáveis)
+
+Mais robusto que Engle-Granger quando há **mais de 2 variáveis**. Testa o **rank de cointegração** — quantas relações de equilíbrio independentes existem entre $N$ variáveis. Se o rank é $r$, existem $r$ vetores de cointegração e $N - r$ tendências estocásticas comuns.
+
+### Modelo de Correção de Erros (VECM)
+
+Quando duas (ou mais) séries são cointegradas, o modelo "correto" **não é** um VAR nas diferenças nem nos níveis: é um **VECM** (Vector Error Correction Model), que combina as duas coisas. Para o caso bivariado:
+
+::: {.formula-highlight}
+[VECM para $P_{1t}, P_{2t}$ cointegrados]{.formula-label}
+$$\Delta P_{1,t} = \alpha_1 \underbrace{(P_{1,t-1} - \beta P_{2,t-1})}_{\text{termo de correção de erro}} + a_{11} \Delta P_{1,t-1} + a_{12} \Delta P_{2,t-1} + \varepsilon_{1,t}$$
+$$\Delta P_{2,t} = \alpha_2 (P_{1,t-1} - \beta P_{2,t-1}) + a_{21} \Delta P_{1,t-1} + a_{22} \Delta P_{2,t-1} + \varepsilon_{2,t}$$
+:::
+
+Em forma matricial, escrevendo $\Delta \mathbf{P}_t = (\Delta P_{1,t}, \Delta P_{2,t})^\top$, $\boldsymbol\alpha = (\alpha_1, \alpha_2)^\top$, $\boldsymbol\beta = (1, -\beta)^\top$:
+
+$$\Delta \mathbf{P}_t = \boldsymbol\alpha\, \boldsymbol\beta^\top \mathbf{P}_{t-1} + A\, \Delta \mathbf{P}_{t-1} + \boldsymbol{\varepsilon}_t$$
+
+- $\boldsymbol\beta$ é o **vetor de cointegração** — define a relação de equilíbrio de longo prazo
+- $\boldsymbol\alpha$ é o **vetor de velocidades de ajustamento** — com que rapidez cada série volta ao equilíbrio quando há desvio
+- $A$ contém a dinâmica de curto prazo nas diferenças
+
+::: {.conceito-card}
+#### Intuição do termo de correção
+Quando $P_{1,t-1} - \beta P_{2,t-1} > 0$ (o preço 1 está "acima" do equilíbrio), $\alpha_1 < 0$ faz $P_1$ cair no período seguinte — puxando o spread de volta ao equilíbrio. É literalmente um **termo de restauração** como o de uma mola.
+:::
+
+## Pair Trading
+
+### A estratégia
+
+Pair trading explora a **reversão à média do spread** entre dois ativos cointegrados:
+
+```{mermaid}
+flowchart LR
+    A["1. Seleção de Pares<br/>(teste de cointegração)"] --> B["2. Calcular Spread<br/>(Y - βX)"]
+    B --> C["3. Calcular Z-score<br/>(normalizar spread)"]
+    C --> D["4. Sinais de Trading<br/>(entrar quando |z| > 2)"]
+    D --> E["5. Fechar Posição<br/>(quando z ≈ 0)"]
+
+    style A fill:#E50505,color:#fff
+    style C fill:#FFCC00,color:#000
+    style E fill:#3ACC9F,color:#fff
+```
+
+### Engle-Granger em dois passos e o vetor de pesos do spread
+
+A estratégia formal de pair trading usa a receita de **Engle-Granger em dois passos**:
+
+1. Rodar a regressão $Y_t = \mu + \theta X_t + z_t$ por OLS, obtendo $\hat\theta$
+2. Testar se $\hat z_t$ é estacionário (ADF). Se sim, $Y$ e $X$ são cointegrados com vetor $\boldsymbol\beta = (1, -\hat\theta)^\top$
+
+O **vetor de pesos** da posição sintética é exatamente esse vetor de cointegração:
+
+::: {.formula-highlight}
+[Pesos do spread]{.formula-label}
+$$\mathbf{w} = \begin{pmatrix} 1 \\ -\hat\theta \end{pmatrix} \quad \Longrightarrow \quad s_t = \mathbf{w}^\top \begin{pmatrix} Y_t \\ X_t \end{pmatrix} = Y_t - \hat\theta X_t$$
+:::
+
+Operacionalmente: para cada **1 unidade long em $Y$**, tome uma posição **short de $\hat\theta$ unidades em $X$**. Esse é o tamanho correto do hedge — qualquer desvio dele deixa exposição residual ao risco de nível.
+
+::: {.callout-warning}
+## $\hat\theta$ não é simétrico
+Se você trocar os papéis de $Y$ e $X$ na regressão, o novo coeficiente **não será** $1/\hat\theta$. Isso quebra a intuição estatística mas é uma consequência do OLS minimizar erro vertical. Alternativas: regressão TLS (Total Least Squares) ou estimação conjunta via Johansen, que trata as variáveis simetricamente.
+:::
+
+### Regras de Trading
+
+::: {.formula-highlight}
+[Z-score do spread]{.formula-label}
+$$z_t = \frac{s_t - \bar{s}}{\sigma_s}$$
+:::
+
+| Sinal | Z-score | Ação |
+|-------|---------|------|
+| **Entrada long spread** | $z_t < -2$ | Comprar Y, vender X (spread está "barato") |
+| **Entrada short spread** | $z_t > +2$ | Vender Y, comprar X (spread está "caro") |
+| **Saída** | $|z_t| < 0.5$ | Fechar ambas as posições (spread voltou ao normal) |
+| **Stop loss** | $|z_t| > 3.5$ | Fechar posições (possível quebra da relação) |
+
+### Riscos do Pair Trading
+
+1. **Quebra da cointegração**: a relação de equilíbrio pode **mudar** (fusão, regulação, mudança estrutural)
+2. **Velocidade de reversão**: se o spread demora muito para reverter, o custo de carregamento pode superar o lucro
+3. **Risco de execução**: diferenças de liquidez entre os dois ativos
+4. **Risco de modelo**: a cointegração é estimada in-sample e pode não persistir out-of-sample
+
+::: {.caso-negocio}
+#### Caso: Pair Trading no Mercado Brasileiro
+
+ITUB4 e BBDC4 são dois grandes bancos brasileiros. Historicamente, seus preços se movem juntos. Quando um fica "caro" relativo ao outro, existe oportunidade:
+
+1. **Long** no ativo relativamente barato (compra)
+2. **Short** no ativo relativamente caro (venda)
+3. Esperar a **reversão à média** do spread
+4. Fechar ambas as posições quando o spread normalizar
+
+**Discussão:**
+
+- Como determinar o $\beta$ (hedge ratio)?
+- Qual período de estimação usar?
+- Com que frequência recalibrar o modelo?
+- Qual o custo de manter posições short no Brasil?
+:::
+
+## IA e Machine Learning em Finanças
+
+### O panorama atual
+
+| Abordagem | Uso em Finanças | Cuidados |
+|-----------|-----------------|----------|
+| **LLMs** (GPT, Claude) | Análise de notícias, sentimento, sumarização | Não são modelos preditivos de preços |
+| **Random Forest / XGBoost** | Features para previsão, seleção de fatores | Overfitting com dados financeiros (baixo sinal/ruído) |
+| **Redes Neurais (LSTM)** | Séries temporais complexas, alta frequência | Precisa de muitos dados, caixa-preta |
+| **Reinforcement Learning** | Trading automatizado, execução ótima | Instável, difícil de validar, risco de overfitting |
+
+### Por que ML não é bala de prata em finanças?
+
+1. **Baixa razão sinal/ruído**: retornos financeiros são dominados por ruído — diferente de imagens ou texto, onde o sinal é forte
+2. **Não-estacionariedade**: os padrões mudam ao longo do tempo — um modelo treinado em 2020 pode ser inútil em 2025
+3. **Competição**: muitos participantes sofisticados exploram as mesmas oportunidades, eliminando padrões previsíveis rapidamente
+4. **Overfitting**: com milhares de features possíveis, é fácil encontrar padrões espúrios que não se sustentam fora da amostra
+
+::: {.callout-important}
+## A IA Não Substitui a Estatística
+Os fatos estilizados (caudas pesadas, clusters de volatilidade, efeito alavancagem) existem independentemente do modelo. Entender **por que** um fenômeno acontece é mais importante do que ter um modelo que preveja com 0.1% a mais de acurácia. O GARCH com 3 parâmetros frequentemente supera redes neurais com milhares de parâmetros para previsão de volatilidade.
+:::
+
+## Quizzes: Teste seu Entendimento
+
+::: {.callout-caution collapse="true"}
+## Questão 1: Você tem séries de preço de PETR4 e preço do petróleo. Ambas são I(1). O que você testaria antes de fazer um VAR?
+
+Antes de estimar um VAR, teste se as séries são **cointegradas** (teste de Engle-Granger ou Johansen). Se forem cointegradas, o modelo correto é um **VECM** (Vector Error Correction Model), não um VAR em níveis. O VECM inclui um termo de **correção de erro** que captura a relação de equilíbrio de longo prazo. Se não forem cointegradas, pode-se usar um VAR nas **primeiras diferenças** ($\Delta y_t$). Usar VAR em níveis com séries I(1) não-cointegradas gera regressões espúrias.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 2: Duas ações são altamente correlacionadas ($\rho = 0.95$). Elas são necessariamente cointegradas?
+
+**Não!** Correlação e cointegração são conceitos **distintos**. Duas séries I(1) podem ser altamente correlacionadas simplesmente porque ambas têm tendência crescente (correlação espúria). Exemplo: o preço das ações da Apple e o PIB dos EUA podem ter $\rho = 0.95$ sem qualquer relação de equilíbrio. Para cointegração, precisamos que a **combinação linear** $y_t - \beta x_t$ seja estacionária (reverta à média). É possível ter: (a) alta correlação sem cointegração, (b) cointegração com correlação moderada.
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 3: O z-score do spread entre dois ativos é +2.5. O que isso sugere em termos de pair trading?
+
+O spread está **2.5 desvios padrão acima** da média histórica, indicando que o ativo Y está relativamente **caro** em relação ao ativo X (ou X está relativamente barato). Se a cointegração é válida, esperamos que o spread **reverta à média**. A ação seria: **vender Y** e **comprar X** (short spread), esperando lucrar quando o z-score retornar para próximo de zero. Porém, antes de agir, verifique: (a) a cointegração ainda é válida? (b) há algum evento fundamental que explique a divergência? (c) o z-score nunca esteve tão alto antes (possível quebra estrutural)?
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 4: Um colega treinou um LSTM que previu retornos com 90% de acurácia no backtest. Você confia?
+
+**Não.** 90% de acurácia em previsão de retornos financeiros é um sinal quase certo de **overfitting** ou **data leakage**. Motivos para desconfiar: (1) retornos financeiros têm baixíssima razão sinal/ruído — até os melhores modelos do mundo raramente superam 55% de acurácia direcional de forma consistente; (2) LSTMs com muitos parâmetros memorizam padrões do treino; (3) possível leakage: dados futuros vazaram para o treino, features calculadas com dados de todo o período, etc. Pergunte: (a) como foi o split treino/teste? (b) quantos modelos/hiperparâmetros foram testados? (c) o modelo funciona em um período **completamente** fora da amostra?
+:::
+
+::: {.callout-caution collapse="true"}
+## Questão 5: Qual a diferença entre Funções de Resposta ao Impulso (IRF) e Causalidade de Granger?
+
+A **Causalidade de Granger** testa se o passado de $X$ ajuda a prever $Y$ — é um teste de **existência** de relação preditiva (sim/não). A **IRF** mostra a **dinâmica** dessa relação: como um choque de 1 desvio padrão em $X$ se propaga para $Y$ (e vice-versa) ao longo do tempo, incluindo magnitude e duração. A IRF é mais informativa: além de dizer "sim, há relação", mostra "o choque de $X$ em $Y$ atinge o pico após 3 períodos e se dissipa após 12". Ambas são ferramentas do framework VAR.
+:::
+
+## Para Saber Mais
+
+- Hamilton, J.D. (1994). *Time Series Analysis*. Cap. 11 e 19.
+- Lütkepohl, H. (2005). *New Introduction to Multiple Time Series Analysis*. Springer.
+- Vidyamurthy, G. (2004). *Pairs Trading: Quantitative Methods and Analysis*. Wiley.
+- Gatev, E., Goetzmann, W., & Rouwenhorst, K. (2006). *Pairs Trading: Performance of a Relative-Value Arbitrage Rule*. Review of Financial Studies.

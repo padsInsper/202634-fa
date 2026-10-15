@@ -1,0 +1,7 @@
+execute:
+  eval: false
+  freeze: true
+format:
+  html:
+    code-fold: show
+    code-tools: true
