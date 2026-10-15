@@ -45,8 +45,20 @@ jobs:
             any::ggplot2
             any::gridExtra
             any::dplyr
+            any::tidyr
+            any::purrr
+            any::tibble
+            any::forcats
+            any::scales
+            any::broom
+            any::lubridate
+            any::patchwork
+            any::timetk
+            any::xts
+            any::fpp3
             any::fGarch
             any::rugarch
+            any::FinTS
             any::stochvol
             any::MTS
 
