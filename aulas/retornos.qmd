@@ -192,6 +192,47 @@ Mas, e aqui está o ponto central para a próxima aula, **ausência de autocorre
 A EMH proíbe prever a **direção** do próximo retorno, mas **não proíbe** prever sua **magnitude**. Os retornos são quase não-correlacionados (compatível com mercado eficiente), mas os retornos ao quadrado têm ACF forte e persistente. Podemos prever a incerteza de amanhã, mesmo sem saber o sinal. Essa é a brecha que os modelos GARCH exploram: eles não quebram a EMH, eles operam exatamente no espaço que a EMH deixa livre.
 :::
 
+## De onde vêm os dados?
+
+Nesta aula usamos o `yfinance`: gratuito e prático, mas sem garantia de qualidade (o Yahoo pode mudar ou bloquear a API a qualquer momento, e ajustes por proventos de ativos brasileiros às vezes têm falhas). Em uma empresa, a análise costuma partir de uma base profissional, como Bloomberg, Refinitiv/LSEG, Economatica ou **S&P Capital IQ Pro**.
+
+O Insper licencia o **S&P Capital IQ Pro** pela Biblioteca Telles. Segundo a [página da Biblioteca](https://www.insper.edu.br/pt/campus/biblioteca-telles/recursos-de-busca/capitaliq), a plataforma reúne "dados de mais de 109 mil empresas de capital aberto, 60 milhões de empresas privadas, transações de mercado, dados macroeconômicos, ESG, crédito e mercado de capitais", e o acesso é feito via OpenAthens, no DataLab da Biblioteca ou remotamente, mediante solicitação a biblioteca@insper.edu.br.
+
+O que ela agrega em relação ao `yfinance`, para os temas da Parte 2:
+
+| Necessidade | `yfinance` | S&P Capital IQ Pro |
+|---|---|---|
+| Preços e retornos diários | Sim (preço ajustado do Yahoo) | Sim, incluindo dados de dividendos |
+| Fundamentos (receita, dívida, margens) | Parcial, poucos anos | Demonstrações padronizadas entre países, em base anual, trimestral e LTM |
+| Contexto para o *storytelling* | Não | Notícias, transcrições de *conference calls*, ratings de crédito, relatórios setoriais |
+| Encontrar ativos com um perfil | Não | *Screening* (ex.: empresas da B3 de um setor, por valor de mercado e alavancagem) |
+
+::: {.callout-tip}
+## Exemplo: do Capital IQ Pro para o notebook
+
+Um fluxo típico para quem quer usar a base no próprio projeto:
+
+1. **Screening** na plataforma web: por exemplo, empresas listadas na B3 do setor elétrico, com valor de mercado acima de R\$ 5 bilhões. O resultado é uma lista de empresas com identificadores e métricas, exportável para Excel.
+2. **Plug-in do Excel** (Windows): fórmulas `=CIQ(identificador, código_do_campo, ...)` trazem campos para células. A sintaxe documentada por bibliotecas universitárias é, por exemplo, `=CIQ("GV_001690", "IQ_COMPANY_NAME")`; o *Formula Builder* do plug-in mostra o código exato de cada campo (preço de fechamento, valor de mercado, beta etc.), e os tickers da B3 seguem o padrão bolsa:código.
+3. **Leitura no Python**: a planilha exportada vira um `DataFrame` e segue o mesmo pipeline desta aula.
+
+```python
+import numpy as np
+import pandas as pd
+
+# Planilha exportada do Capital IQ Pro: uma coluna de datas e uma coluna de
+# preço de fechamento ajustado por ativo (os nomes dependem da exportação)
+precos = (pd.read_excel("capiq_precos.xlsx", parse_dates=["Data"])
+            .set_index("Data")
+            .sort_index())
+
+retornos = np.log(precos).diff().dropna()      # log-retornos, como acima
+retornos.std() * np.sqrt(252)                  # volatilidade anualizada por ativo
+```
+
+Vale a regra de sempre: **documente a fonte e a data de extração**, e confira algumas datas contra uma segunda fonte (o próprio `yfinance` serve) antes de modelar.
+:::
+
 ## O que vem a seguir
 
 ```{mermaid}
@@ -250,4 +291,5 @@ FIIs distribuem rendimentos mensalmente, e o preço cai na data *ex*. Usando o f
 - Cont, R. (2001). *Empirical properties of asset returns: stylized facts and statistical issues*. Quantitative Finance, 1(2), 223-236.
 - Tsay, R.S. (2010). *Analysis of Financial Time Series*, Cap. 1. Wiley.
 - Morettin, P.A. (2017). *Econometria Financeira*, Cap. 1-2. Blucher.
+- S&P Global Market Intelligence. *S&P Capital IQ Pro*. Acesso pela [Biblioteca Telles do Insper](https://www.insper.edu.br/pt/campus/biblioteca-telles/recursos-de-busca/capitaliq).
 - Fama, E. (1970). *Efficient Capital Markets: A Review of Theory and Empirical Work*. Journal of Finance, 25(2).

@@ -100,6 +100,19 @@ Mais importante do que gerar resultados é **entender o método**, desenvolver *
 
 Dúvidas sobre o conteúdo podem ser abertas como [issue no repositório](https://github.com/padsInsper/202634-fa/issues) ou levadas aos labs.
 
+## Fontes de dados
+
+| Fonte | O que oferece | Acesso |
+|---|---|---|
+| **Banco Central (SGS)** via `python-bcb` | Séries macroeconômicas (IPCA, Selic, IBC-Br) | Gratuito, sem cadastro |
+| **Yahoo Finance** via `yfinance` | Preços diários (ajustados) de ações, FIIs, ETFs e índices | Gratuito, sem garantia de qualidade ou disponibilidade |
+| **S&P Capital IQ Pro** | Plataforma profissional da S&P Global: demonstrações financeiras padronizadas, preços e mercado de capitais, estimativas, ratings de crédito, transcrições de *conference calls*, ESG, dados macro e *screening*; dados de mais de 109 mil empresas abertas e 60 milhões de fechadas | Licenciado pelo Insper (Biblioteca Telles), via OpenAthens no DataLab ou remotamente |
+
+::: {.callout-note}
+## S&P Capital IQ Pro no Insper
+É a mesma base usada por bancos, gestoras e consultorias. Para pedir acesso, envie à Biblioteca (biblioteca@insper.edu.br ou WhatsApp 11 97464-1087) seu nome completo, login e o período de uso. Detalhes na [página da Biblioteca Telles](https://www.insper.edu.br/pt/campus/biblioteca-telles/recursos-de-busca/capitaliq). O acesso não se estende a alumni. Um exemplo de uso está na aula [Ponte para Finanças](aulas/retornos.qmd#de-onde-vêm-os-dados).
+:::
+
 ## Ferramentas sugeridas
 
 | Biblioteca | Uso |
