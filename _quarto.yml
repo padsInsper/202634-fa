@@ -82,6 +82,10 @@ website:
           - text: "Visão geral e mapeamento"
             href: complementar/index.qmd
           - text: "---"
+          - text: "Aulas 1 e 2: notebook da Paloma"
+            href: complementar/aula01-fundamentos-sarima-notebook.ipynb
+          - text: "Aulas 3 e 4: notebook da Paloma"
+            href: complementar/aula02-arima-prophet-notebook.ipynb
           - text: "Fundamentos (notebook)"
             href: complementar/fundamentos-notebook.ipynb
           - text: "ARIMA, SARIMA e Prophet (notebook)"

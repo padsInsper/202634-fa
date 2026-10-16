@@ -25,6 +25,8 @@
   quem: "Paloma e Julio"
   descricao: "Abertura do curso e motivação de negócios. Componentes de uma série (tendência, sazonalidade, ciclo, ruído), decomposição aditiva e multiplicativa, clássica e STL. MSTL no IBC-Br."
   materiais:
+    - texto: "Notebook da Paloma"
+      href: complementar/aula01-fundamentos-sarima-notebook.ipynb
     - texto: "Fundamentos (bloco 1)"
       href: aulas/fundamentos.qmd
     - texto: "Notebook da aula"
@@ -44,6 +46,8 @@
   quem: "Paloma e Julio"
   descricao: "ACF e PACF: intuição, leitura e o mapa de identificação. Estacionariedade, raiz unitária, tendência determinística vs. estocástica, testes ADF e KPSS, diferenciação. Dinâmica <i>Mistério do PIB do 4º trimestre</i>."
   materiais:
+    - texto: "Notebook da Paloma"
+      href: complementar/aula01-fundamentos-sarima-notebook.ipynb
     - texto: "Fundamentos (bloco 2)"
       href: aulas/fundamentos.qmd#autocorrelação-acf
     - texto: "Dinâmica: sazonalidade do PIB"
@@ -63,6 +67,8 @@
   quem: "Paloma e Julio"
   descricao: "Processos AR(p) e MA(q) com simuladores, leitura de ACF/PACF, ARMA, o \"I\" de ARIMA (diferenciação), polinômios de defasagem e condição de estacionariedade."
   materiais:
+    - texto: "Notebook da Paloma"
+      href: complementar/aula02-arima-prophet-notebook.ipynb
     - texto: "Modelos ARIMA (bloco 1)"
       href: aulas/arima.qmd
   slides:
@@ -80,6 +86,8 @@
   quem: "Paloma e Julio"
   descricao: "Identificação, estimação e diagnóstico. Critérios de informação (AICc, BIC), Ljung-Box, <code>AutoARIMA</code> aplicado à Selic mensal, ARIMAX. Saída: um pipeline ARIMA rodando."
   materiais:
+    - texto: "Notebook da Paloma"
+      href: complementar/aula02-arima-prophet-notebook.ipynb
     - texto: "Modelos ARIMA (bloco 2)"
       href: aulas/arima.qmd#procedimento-box-jenkins
     - texto: "Notebook ARIMA e Prophet"
