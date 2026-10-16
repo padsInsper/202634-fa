@@ -5,6 +5,7 @@ project:
     - "dinamicas/recap-aulas-01-02.html"
     - "slides/*.pdf"
     - "slides/*.pptx"
+    - "slides/*.html"
     - "slides/**/*.pdf"
 
 # EDICAO: ao criar uma nova turma, atualize site-url, repo-url, o link do GitHub

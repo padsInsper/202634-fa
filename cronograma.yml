@@ -29,7 +29,9 @@
       href: aulas/fundamentos.qmd
     - texto: "Notebook da aula"
       href: complementar/index.qmd
-  slides: []
+  slides:
+    - texto: "Slides da aula"
+      href: slides/aula01-fundamentos.html
 
 - data: "2026-10-16"
   inicio: "20:00"
@@ -46,7 +48,9 @@
       href: aulas/fundamentos.qmd#autocorrelação-acf
     - texto: "Dinâmica: sazonalidade do PIB"
       href: complementar/dinamica-sazonalidade-pib.ipynb
-  slides: []
+  slides:
+    - texto: "Slides da aula"
+      href: slides/aula01-fundamentos.html
 
 - data: "2026-10-17"
   inicio: "08:00"
@@ -61,7 +65,9 @@
   materiais:
     - texto: "Modelos ARIMA (bloco 1)"
       href: aulas/arima.qmd
-  slides: []
+  slides:
+    - texto: "Slides da aula"
+      href: slides/aula02-arima-prophet.html
 
 - data: "2026-10-17"
   inicio: "10:00"
@@ -78,7 +84,9 @@
       href: aulas/arima.qmd#procedimento-box-jenkins
     - texto: "Notebook ARIMA e Prophet"
       href: complementar/index.qmd
-  slides: []
+  slides:
+    - texto: "Slides da aula"
+      href: slides/aula02-arima-prophet.html
 
 - data: "2026-10-21"
   inicio: "19:00"
