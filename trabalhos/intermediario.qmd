@@ -1,7 +1,16 @@
 ---
 title: "Trabalho Intermediário"
 subtitle: "Previsão para uma empresa que passou por uma aquisição"
+code-tools: false
 ---
+
+::: {.callout-note}
+## Enunciado em revisão
+O enunciado deste trabalho está sendo ajustado e será publicado aqui em breve.
+:::
+
+<!-- OCULTO: para publicar o enunciado, remova esta abertura e o fechamento :::::: no fim do arquivo -->
+:::::: {.content-hidden}
 
 ## Contexto
 
@@ -187,3 +196,4 @@ individuais. **Todos os alunos recebem a mesma pontuação**:
 | Abaixo da mediana mas melhor que `SeasonalNaive` | 0,2 |
 | Pior que `SeasonalNaive` | 0,0 |
 
+::::::

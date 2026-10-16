@@ -1,7 +1,16 @@
 ---
 title: "Trabalho Final"
 subtitle: "Análise e Otimização de Portfólio"
+code-tools: false
 ---
+
+::: {.callout-note}
+## Enunciado em revisão
+O enunciado deste trabalho está sendo ajustado e será publicado aqui em breve.
+:::
+
+<!-- OCULTO: para publicar o enunciado, remova esta abertura e o fechamento :::::: no fim do arquivo -->
+:::::: {.content-hidden}
 
 ## Objetivo
 
@@ -53,3 +62,5 @@ Na sessão de apresentações (**{{< var final.apresentacao >}}**), cada grupo a
 - Seleção correta dos modelos;
 - Códigos;
 - Conclusões desenvolvidas.
+
+::::::
