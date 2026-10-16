@@ -110,6 +110,12 @@ website:
             href: complementar/var-cointegracao-pairtrading.ipynb
           - text: "VAR multivariado em R (MTS)"
             href: complementar/var-multivariado-r.qmd
+      - text: "Slides"
+        menu:
+          - text: "Aulas 1 e 2: Fundamentos e decomposição"
+            href: slides/aula01-fundamentos.html
+          - text: "Aulas 3 e 4: Previsão com ARIMA e Prophet"
+            href: slides/aula02-arima-prophet.html
     right:
       - icon: github
         href: "https://github.com/padsInsper/202634-fa"
