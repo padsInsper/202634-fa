@@ -8,6 +8,10 @@ project:
     - "slides/*.html"
     - "jogos/*.js"
     - "jogos/*.css"
+    - "complementar/*.ipynb"
+    - "complementar/extras/notebooks/*.ipynb"
+    - "complementar/extras/scripts/*"
+    - "complementar/extras/data/*.csv"
     - "slides/**/*.pdf"
 
 # EDICAO: ao criar uma nova turma, atualize site-url, repo-url, o link do GitHub
