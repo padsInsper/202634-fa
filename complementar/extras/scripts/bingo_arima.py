@@ -1,4 +1,4 @@
-# BINGO ARIMA — versão Python (statsforecast)
+# BINGO ARIMA: versão Python (statsforecast)
 #
 # Objetivo: descobrir a ordem (p, d, q) do ARIMA por análise descritiva,
 # antes de revelar o gabarito.

@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Recap Aulas 1 e 2 — Séries Temporais (FA · PADS Insper)</title>
+<title>Recap Aulas 1 e 2: Séries Temporais (FA · PADS Insper)</title>
 
 <!-- KaTeX para matemática -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
 
-<!-- Tipografia da marca Insper: Inter (texto) — GT Ultra Fine carregada via @font-face local -->
+<!-- Tipografia da marca Insper: Inter (texto): GT Ultra Fine carregada via @font-face local -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
@@ -20,7 +20,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
 
 <style>
-  /* Tipografia oficial Insper — GT Ultra Fine Bold (display) */
+  /* Tipografia oficial Insper: GT Ultra Fine Bold (display) */
   @font-face {
     font-family: "GT Ultra Fine";
     src: url("../manual_marca/GTUltraFine-Bold.f6fa8a8b.woff") format("woff"),
@@ -42,7 +42,7 @@
     --fg: #ffffff;
     --muted: #a3a3a3;
 
-    /* Acentos funcionais (UX do quiz) — tons sóbrios alinhados ao manual */
+    /* Acentos funcionais (UX do quiz): tons sóbrios alinhados ao manual */
     --accent: var(--insper);            /* destaque primário = vermelho Insper */
     --accent-2: #1aa66a;                /* verde funcional p/ "correto" */
     --warn: #d97706;                    /* âmbar p/ atenção */
@@ -474,7 +474,7 @@
 
 <script>
 /* =============================================================================
- * Recap Aulas 01 e 02 — quiz com votação real via Firebase
+ * Recap Aulas 01 e 02: quiz com votação real via Firebase
  *
  * COMO ATIVAR VOTAÇÃO REAL DOS ALUNOS:
  * 1. Acesse https://console.firebase.google.com → Add project (qualquer nome)
@@ -645,7 +645,7 @@ function plotACF(canvas, coeffs, opts = {}) {
 // ============================================================================
 const Q = [];
 
-// LEVEL 1 — aquecimento -------------------------------------------------------
+// LEVEL 1: aquecimento -------------------------------------------------------
 Q.push({
   id: "q1", level: 1, kind: "Verdadeiro / Falso",
   title: "Em séries temporais, embaralhar a ordem das observações <em>não</em> altera o significado dos dados.",
@@ -657,14 +657,14 @@ Q.push({
   id: "q2", level: 1, kind: "Verdadeiro / Falso",
   title: "Ruído branco (white noise) é um processo <em>estacionário</em>.",
   type: "tf", correct: 0,
-  explain: "<b>Verdadeiro.</b> White noise tem $E[\\varepsilon_t]=0$, $\\mathrm{Var}(\\varepsilon_t)=\\sigma^2$ constante e $\\mathrm{Cov}(\\varepsilon_t,\\varepsilon_{t-k})=0$ — atende à estacionariedade fraca."
+  explain: "<b>Verdadeiro.</b> White noise tem $E[\\varepsilon_t]=0$, $\\mathrm{Var}(\\varepsilon_t)=\\sigma^2$ constante e $\\mathrm{Cov}(\\varepsilon_t,\\varepsilon_{t-k})=0$: atende à estacionariedade fraca."
 });
 
 Q.push({
   id: "q3", level: 1, kind: "Verdadeiro / Falso",
   title: "Um random walk $Y_t = Y_{t-1} + \\varepsilon_t$ <em>também</em> é estacionário.",
   type: "tf", correct: 1,
-  explain: "<b>Falso.</b> $\\mathrm{Var}(Y_t)=t\\,\\sigma^2$ — a variância cresce linearmente com $t$. Por isso precisamos diferenciar antes de modelar."
+  explain: "<b>Falso.</b> $\\mathrm{Var}(Y_t)=t\\,\\sigma^2$: a variância cresce linearmente com $t$. Por isso precisamos diferenciar antes de modelar."
 });
 
 Q.push({
@@ -676,7 +676,7 @@ Q.push({
   explain: "<b>Polaridade</b> não faz parte da decomposição clássica. Os componentes são tendência, sazonalidade (período fixo), ciclo (período variável) e ruído/resíduo."
 });
 
-// LEVEL 2 — intuição ---------------------------------------------------------
+// LEVEL 2: intuição ---------------------------------------------------------
 Q.push({
   id: "q5", level: 2, kind: "Identifique a série",
   title: "Qual destes gráficos é um <em>random walk</em>?",
@@ -691,13 +691,13 @@ Q.push({
   title: "Você observa esta série mensal. Qual decomposição você aplica e por quê?",
   type: "mc", visual: "multiplicativeSeries",
   options: [
-    "Aditiva — $Y_t = T_t + S_t + R_t$, porque a sazonalidade tem amplitude constante ao longo do tempo",
-    "Multiplicativa — $Y_t = T_t \\cdot S_t \\cdot R_t$, porque a amplitude sazonal cresce proporcionalmente ao nível",
-    "Aditiva — sempre é a primeira escolha por simplicidade",
-    "Multiplicativa — porque a série tem tendência crescente"
+    "Aditiva: $Y_t = T_t + S_t + R_t$, porque a sazonalidade tem amplitude constante ao longo do tempo",
+    "Multiplicativa: $Y_t = T_t \\cdot S_t \\cdot R_t$, porque a amplitude sazonal cresce proporcionalmente ao nível",
+    "Aditiva: sempre é a primeira escolha por simplicidade",
+    "Multiplicativa: porque a série tem tendência crescente"
   ],
   correct: 1,
-  explain: "<b>Multiplicativa.</b> A pista é a <i>amplitude sazonal crescendo com o nível</i> — picos cada vez maiores e vales mais profundos em valores absolutos. Aplicando $\\log$, a série voltaria a ter sazonalidade de amplitude constante (forma aditiva no log). A opção (3) usa uma falsa regra de simplicidade. A (4) confunde efeito (tendência crescente) com causa (amplitude proporcional ao nível): uma série pode ter tendência crescente e sazonalidade aditiva ao mesmo tempo."
+  explain: "<b>Multiplicativa.</b> A pista é a <i>amplitude sazonal crescendo com o nível</i>: picos cada vez maiores e vales mais profundos em valores absolutos. Aplicando $\\log$, a série voltaria a ter sazonalidade de amplitude constante (forma aditiva no log). A opção (3) usa uma falsa regra de simplicidade. A (4) confunde efeito (tendência crescente) com causa (amplitude proporcional ao nível): uma série pode ter tendência crescente e sazonalidade aditiva ao mesmo tempo."
 });
 
 Q.push({
@@ -720,7 +720,7 @@ Q.push({
     "Grau de sazonalidade (período)"
   ],
   correct: 1,
-  explain: "<b>$d$ = ordem de integração</b> — quantas vezes diferenciamos a série até remover tendência estocástica. $\\mathrm{ARIMA}(p,d,q)$ = $\\mathrm{ARMA}(p,q)$ aplicado a $\\Delta^d Y_t$."
+  explain: "<b>$d$ = ordem de integração</b>: quantas vezes diferenciamos a série até remover tendência estocástica. $\\mathrm{ARIMA}(p,d,q)$ = $\\mathrm{ARMA}(p,q)$ aplicado a $\\Delta^d Y_t$."
 });
 
 Q.push({
@@ -732,7 +732,7 @@ Q.push({
   explain: "<b>Box-Jenkins</b>: identificação (ACF/PACF) → estimação → diagnóstico (resíduos) → previsão. Box-Cox é transformação; Durbin-Watson é teste; Holt-Winters é suavização."
 });
 
-// LEVEL 3 — pós-graduação ----------------------------------------------------
+// LEVEL 3: pós-graduação ----------------------------------------------------
 Q.push({
   id: "q9", level: 3, kind: "Múltipla escolha · estatística",
   title: "No teste ADF (Dickey-Fuller aumentado), qual é a <em>hipótese nula</em>?",
@@ -753,17 +753,17 @@ Q.push({
   type: "mc",
   options: ["$\\phi > 0$", "$\\phi = 1$", "$|\\phi| < 1$", "$\\phi < 0$"],
   correct: 2,
-  explain: "<b>$|\\phi|<1$.</b> A raiz do polinômio característico $1-\\phi z=0$ é $z=1/\\phi$ — precisa estar fora do círculo unitário, $|1/\\phi|>1 \\iff |\\phi|<1$. Se $\\phi=1$ é random walk."
+  explain: "<b>$|\\phi|<1$.</b> A raiz do polinômio característico $1-\\phi z=0$ é $z=1/\\phi$, precisa estar fora do círculo unitário, $|1/\\phi|>1 \\iff |\\phi|<1$. Se $\\phi=1$ é random walk."
 });
 
 Q.push({
   id: "q11", level: 3, kind: "Múltipla escolha · conceitual",
-  title: "Tendência <em>determinística</em> vs. <em>estocástica</em> — qual afirmação é correta?",
+  title: "Tendência <em>determinística</em> vs. <em>estocástica</em>: qual afirmação é correta?",
   type: "mc",
   options: [
     "Determinística: remover por diferenciação; estocástica: por regressão em $t$",
     "Determinística: remover por regressão em $t$; estocástica: por diferenciação",
-    "São equivalentes — qualquer método remove ambas",
+    "São equivalentes: qualquer método remove ambas",
     "Apenas a estocástica afeta a previsão"
   ],
   correct: 1,
@@ -777,14 +777,14 @@ Q.push({
   options: [
     "AIC penaliza complexidade mais que BIC",
     "BIC penaliza complexidade mais que AIC (cresce com $\\log n$)",
-    "Ambos penalizam igualmente — só mudam a constante",
+    "Ambos penalizam igualmente: só mudam a constante",
     "BIC ignora a verossimilhança"
   ],
   correct: 1,
-  explain: "<b>$\\mathrm{AIC}=-2\\ell+2k$</b>; <b>$\\mathrm{BIC}=-2\\ell+k\\log n$</b>. Para $n\\geq 8$, $\\log n>2$, então BIC penaliza mais — tende a modelos parcimoniosos. AIC tende a sobrefitar; BIC a subfitar."
+  explain: "<b>$\\mathrm{AIC}=-2\\ell+2k$</b>; <b>$\\mathrm{BIC}=-2\\ell+k\\log n$</b>. Para $n\\geq 8$, $\\log n>2$, então BIC penaliza mais: tende a modelos parcimoniosos. AIC tende a sobrefitar; BIC a subfitar."
 });
 
-// LEVEL 4 — hardcore ---------------------------------------------------------
+// LEVEL 4: hardcore ---------------------------------------------------------
 Q.push({
   id: "q13", level: 4, kind: "Pegadinha · economista atento",
   title: "No teste <em>KPSS</em>, qual é a hipótese nula?",
@@ -796,7 +796,7 @@ Q.push({
     "A série tem sazonalidade"
   ],
   correct: 1,
-  explain: "<b>$H_0$ do KPSS: estacionariedade</b> — exatamente o oposto do ADF. Por isso usamos os dois em conjunto: ADF rejeita E KPSS não rejeita ⇒ evidência forte de estacionariedade. Ambos rejeitam ⇒ inconclusivo."
+  explain: "<b>$H_0$ do KPSS: estacionariedade</b>: exatamente o oposto do ADF. Por isso usamos os dois em conjunto: ADF rejeita E KPSS não rejeita ⇒ evidência forte de estacionariedade. Ambos rejeitam ⇒ inconclusivo."
 });
 
 Q.push({
@@ -818,13 +818,13 @@ Q.push({
   title: "Considere o $\\mathrm{AR}(2)$:&nbsp;&nbsp; $Y_t = Y_{t-1} - \\tfrac{1}{2}\\,Y_{t-2} + \\varepsilon_t$.&nbsp;&nbsp; O processo é estacionário?",
   type: "mc",
   options: [
-    "Não — $\\phi_1 = 1$ implica raiz unitária; a série é não-estacionária como um random walk",
-    "Sim — as raízes do polinômio característico são $z = 1 \\pm i$, com $|z|=\\sqrt{2}>1$ (fora do círculo unitário)",
-    "Não — falha na condição $|\\phi_1| + |\\phi_2| < 1$, pois $1 + 0{,}5 = 1{,}5 > 1$",
-    "Sim — discriminante negativo garante raízes complexas, logo o sistema é estável"
+    "Não: $\\phi_1 = 1$ implica raiz unitária; a série é não-estacionária como um random walk",
+    "Sim: as raízes do polinômio característico são $z = 1 \\pm i$, com $|z|=\\sqrt{2}>1$ (fora do círculo unitário)",
+    "Não: falha na condição $|\\phi_1| + |\\phi_2| < 1$, pois $1 + 0{,}5 = 1{,}5 > 1$",
+    "Sim: discriminante negativo garante raízes complexas, logo o sistema é estável"
   ],
   correct: 1,
-  explain: "<b>É estacionário.</b> O polinômio característico é $\\Phi(z) = 1 - z + \\tfrac{1}{2}z^2 = 0$, ou equivalentemente $z^2 - 2z + 2 = 0$. Pela fórmula quadrática: $z = \\dfrac{2 \\pm \\sqrt{4-8}}{2} = \\dfrac{2 \\pm 2i}{2} = 1 \\pm i$. Raízes <i>complexas conjugadas</i>, módulo $|z| = \\sqrt{1^2+1^2} = \\sqrt{2}\\approx 1{,}41 > 1$ — fora do círculo unitário, então estacionário (com oscilações pseudo-cíclicas amortecidas, típicas de raízes complexas). <br/>A (1) ignora o efeito de $\\phi_2$ — em AR(2) $\\phi_1$ sozinho não determina nada. A (3) confunde uma condição <i>suficiente</i> ($|\\phi_1|+|\\phi_2|<1$) com uma <i>necessária</i>: quando ela falha, o processo ainda pode ser estacionário; é preciso checar as raízes. A (4) confunde discriminante (raízes reais vs. complexas) com módulo (dentro vs. fora do círculo)."
+  explain: "<b>É estacionário.</b> O polinômio característico é $\\Phi(z) = 1 - z + \\tfrac{1}{2}z^2 = 0$, ou equivalentemente $z^2 - 2z + 2 = 0$. Pela fórmula quadrática: $z = \\dfrac{2 \\pm \\sqrt{4-8}}{2} = \\dfrac{2 \\pm 2i}{2} = 1 \\pm i$. Raízes <i>complexas conjugadas</i>, módulo $|z| = \\sqrt{1^2+1^2} = \\sqrt{2}\\approx 1{,}41 > 1$, fora do círculo unitário, então estacionário (com oscilações pseudo-cíclicas amortecidas, típicas de raízes complexas). <br/>A (1) ignora o efeito de $\\phi_2$: em AR(2) $\\phi_1$ sozinho não determina nada. A (3) confunde uma condição <i>suficiente</i> ($|\\phi_1|+|\\phi_2|<1$) com uma <i>necessária</i>: quando ela falha, o processo ainda pode ser estacionário; é preciso checar as raízes. A (4) confunde discriminante (raízes reais vs. complexas) com módulo (dentro vs. fora do círculo)."
 });
 
 Q.push({
@@ -832,13 +832,13 @@ Q.push({
   title: "Você ajustou 4 modelos $\\mathrm{ARIMA}$ à mesma série (todos com $d=1$, mesma amostra). AICs abaixo. Qual modelo escolher?",
   type: "mc", visual: "aicTable1",
   options: [
-    "$\\mathrm{ARIMA}(2,1,2)$ — mais flexível, capta dinâmicas mais ricas",
-    "$\\mathrm{ARIMA}(1,1,1)$ — menor AIC entre os candidatos",
-    "$\\mathrm{ARIMA}(0,1,1)$ — preferir o mais parcimonioso por princípio",
-    "Empate técnico — qualquer um serve"
+    "$\\mathrm{ARIMA}(2,1,2)$: mais flexível, capta dinâmicas mais ricas",
+    "$\\mathrm{ARIMA}(1,1,1)$: menor AIC entre os candidatos",
+    "$\\mathrm{ARIMA}(0,1,1)$: preferir o mais parcimonioso por princípio",
+    "Empate técnico: qualquer um serve"
   ],
   correct: 1,
-  explain: "<b>$\\mathrm{ARIMA}(1,1,1)$.</b> Com $d$ fixo (mesma variável dependente, mesma amostra), AIC <i>é</i> diretamente comparável: escolha o menor. Aqui $\\Delta\\mathrm{AIC}>2$ versus os demais — diferença substantiva (regra de Burnham-Anderson). Parcimônia já está embutida na penalidade $2k$ do AIC."
+  explain: "<b>$\\mathrm{ARIMA}(1,1,1)$.</b> Com $d$ fixo (mesma variável dependente, mesma amostra), AIC <i>é</i> diretamente comparável: escolha o menor. Aqui $\\Delta\\mathrm{AIC}>2$ versus os demais: diferença substantiva (regra de Burnham-Anderson). Parcimônia já está embutida na penalidade $2k$ do AIC."
 });
 
 Q.push({
@@ -846,13 +846,13 @@ Q.push({
   title: "Você compara $\\mathrm{ARIMA}(1,0,1)$ (sem diferenciar) com $\\mathrm{ARIMA}(1,1,1)$ (com $d=1$) na mesma série, e o segundo dá AIC <em>muito</em> menor. Você conclui que…",
   type: "mc", visual: "aicTable2",
   options: [
-    "$\\mathrm{ARIMA}(1,1,1)$ é claramente superior — pode escolher direto",
+    "$\\mathrm{ARIMA}(1,1,1)$ é claramente superior: pode escolher direto",
     "AIC entre modelos com $d$ diferentes <em>não</em> é comparável; defina $d$ por testes (ADF/KPSS) primeiro, depois compare $(p,q)$ com $d$ fixo",
     "Tira a média ponderada dos dois AICs",
-    "BIC resolveria — ele é imune a esse problema"
+    "BIC resolveria: ele é imune a esse problema"
   ],
   correct: 1,
-  explain: "<b>Pegadinha clássica.</b> $\\mathrm{ARIMA}(p,0,q)$ modela $Y_t$; $\\mathrm{ARIMA}(p,1,q)$ modela $\\Delta Y_t$ — variáveis dependentes <i>diferentes</i> e amostras de tamanhos diferentes ($n$ vs $n-d$). A log-verossimilhança é calculada sobre escalas distintas. Comparar AIC entre eles é como comparar AIC de modelos em $Y$ vs $\\log Y$: numericamente possível, semanticamente sem sentido. <b>BIC sofre do mesmo problema</b> (mesma log-verossimilhança). Procedimento correto: ADF/KPSS para fixar $d$ → comparar $(p,q)$ via AIC/BIC."
+  explain: "<b>Pegadinha clássica.</b> $\\mathrm{ARIMA}(p,0,q)$ modela $Y_t$; $\\mathrm{ARIMA}(p,1,q)$ modela $\\Delta Y_t$: variáveis dependentes <i>diferentes</i> e amostras de tamanhos diferentes ($n$ vs $n-d$). A log-verossimilhança é calculada sobre escalas distintas. Comparar AIC entre eles é como comparar AIC de modelos em $Y$ vs $\\log Y$: numericamente possível, semanticamente sem sentido. <b>BIC sofre do mesmo problema</b> (mesma log-verossimilhança). Procedimento correto: ADF/KPSS para fixar $d$ → comparar $(p,q)$ via AIC/BIC."
 });
 
 
@@ -880,7 +880,7 @@ function initVoter() {
   const root = document.getElementById("root");
   root.innerHTML = `
     <div class="voter-shell">
-      <div class="header">FA · PADS Insper · Recap aulas 1–2</div>
+      <div class="header">FA · PADS Insper · Recap aulas 1-2</div>
       <div id="vbody"></div>
       <div class="footer-tag">Sessão: ${SESSION_ID}</div>
     </div>
@@ -891,7 +891,7 @@ function initVoter() {
     vbody.innerHTML = `
       <div class="qcard">
         <h2>Votação online indisponível</h2>
-        <p class="subtle">A página de votação remota requer configuração do Firebase pelo professor. Enquanto isso, vote pelo chat da aula — A, B, C ou D.</p>
+        <p class="subtle">A página de votação remota requer configuração do Firebase pelo professor. Enquanto isso, vote pelo chat da aula: A, B, C ou D.</p>
       </div>`;
     return;
   }
@@ -995,7 +995,7 @@ function initProjection() {
         </div>
         <div class="progress-wrap"><div class="progress-bar" id="progress"></div></div>
         <div class="vote-status" id="voteStatus"><span class="dot"></span><span id="voteStatusLabel">${useFirebase ? "Votação online" : "Modo manual"}</span></div>
-        <div class="counter" id="counter">— / —</div>
+        <div class="counter" id="counter">- / -</div>
       </div>
       <div id="content"></div>
       <div class="bottom">
@@ -1096,7 +1096,7 @@ function initProjection() {
   function clearVotes() {
     if (state.index < 0 || state.index >= Q.length) return;
     if (sessionRef) {
-      // As rules permitem write apenas por $voterId — não dá pra remover o
+      // As rules permitem write apenas por $voterId: não dá pra remover o
       // subtree "votes" inteiro de uma vez. Então listamos os voterIds e
       // setamos cada um como null (delete granular).
       const votesRef = sessionRef.child(`q${state.index}/votes`);
@@ -1198,7 +1198,7 @@ function initProjection() {
       sessionRef.child(`q${state.index}/locked`).set(false);
       attachFirebaseForQuestion(state.index);
     } else {
-      // modo manual — zera votos
+      // modo manual: zera votos
       state.votes = new Array(labels.length).fill(0);
       state.voterCount = 0;
     }
@@ -1229,7 +1229,7 @@ function initProjection() {
           multiplicativeSeasonalSeries(192, 12, 41), { color: "#cfd8ee" });
       });
     } else if (kind === "acfPacfAR2") {
-      host.innerHTML = `<h4>ACF e PACF — n = 200</h4>
+      host.innerHTML = `<h4>ACF e PACF: n = 200</h4>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;height:100%;">
           <div style="position:relative;display:grid;grid-template-rows:auto 1fr">
             <div style="font-size:12px;color:var(--muted);text-align:center;letter-spacing:0.1em;text-transform:uppercase;padding:4px">ACF</div>
@@ -1252,7 +1252,7 @@ function initProjection() {
         plotACF(document.getElementById("pacfC"), pacf.slice(1), { n: 200, color: "#1aa66a" });
       });
     } else if (kind === "aicTable1") {
-      host.innerHTML = `<h4>Saída do auto.arima — mesma série, $d=1$ fixo</h4>
+      host.innerHTML = `<h4>Saída do auto.arima: mesma série, $d=1$ fixo</h4>
         <div class="aic-table-wrap">
           <table class="aic-table">
             <thead><tr><th>Modelo</th><th>AIC</th></tr></thead>
@@ -1267,7 +1267,7 @@ function initProjection() {
         </div>`;
       requestAnimationFrame(() => typeset(host));
     } else if (kind === "aicTable2") {
-      host.innerHTML = `<h4>Comparação cruzada — atenção ao $d$</h4>
+      host.innerHTML = `<h4>Comparação cruzada: atenção ao $d$</h4>
         <div class="aic-table-wrap">
           <table class="aic-table">
             <thead><tr><th>Modelo</th><th>$d$</th><th>AIC</th></tr></thead>
@@ -1302,7 +1302,7 @@ function initProjection() {
   }
 
   function renderCover() {
-    counter.textContent = `— / ${Q.length}`;
+    counter.textContent = `- / ${Q.length}`;
     progress.style.width = "0%";
     const wrap = document.createElement("div");
     wrap.className = "cover fade-enter";

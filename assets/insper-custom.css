@@ -1,5 +1,5 @@
 /* ============================================================
-   Insper Financial Analytics — Custom Styles
+   Insper Financial Analytics: Custom Styles
    ============================================================ */
 
 /* Hero section for landing page */
@@ -374,7 +374,7 @@
   margin-bottom: 0;
 }
 
-/* Quiz colapsável — estilo pergunta/resposta */
+/* Quiz colapsável: estilo pergunta/resposta */
 .callout-caution.callout[data-collapse="true"] {
   border-left-color: #FFCC00 !important;
   background: #fffdf5;
