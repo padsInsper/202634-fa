@@ -1,0 +1,31 @@
+---
+title: "Guess the ARIMA"
+subtitle: "Jogo: identifique as ordens de um ARIMA ou SARIMA a partir da série, das ACF/PACF e dos testes de raiz unitária"
+page-layout: full
+toc: false
+code-tools: false
+---
+
+::: {.column-screen-inset}
+
+```{=html}
+<link rel="stylesheet" href="guess-arima.css">
+<div id="ga-root" aria-live="polite"></div>
+<script src="guess-arima-core.js"></script>
+<script src="guess-arima.js"></script>
+```
+
+:::
+
+::: {.callout-note appearance="minimal" collapse="true"}
+## Como as séries são geradas
+
+Cada rodada sorteia um modelo e simula a série no próprio navegador (300 observações de aquecimento são descartadas).
+
+- **Fácil:** ARIMA(p,d,q) com $n = 220$.
+- **Difícil:** SARIMA(p,d,q)(P,D,Q)$_{12}$ multiplicativo com $n = 300$.
+- Coeficientes AR e MA sorteados em faixas com efeito visível (por exemplo, $|\phi_1| \in [0{,}5;\ 0{,}85]$ no AR(1)), sempre estacionários e invertíveis, evitando quase cancelamento entre as partes AR e MA.
+- Convenção de sinais do statsmodels: $(1-\phi_1 B - \dots)(1-\Phi_1 B^{12})\,\Delta^d \Delta_{12}^D y_t = (1+\theta_1 B + \dots)(1+\Theta_1 B^{12})\,\varepsilon_t$.
+- ADF e KPSS reproduzem `statsmodels.tsa.stattools.adfuller(x, regression='c', autolag='AIC')` e `kpss(x, regression='c', nlags='auto')`, com os mesmos p-valores e valores críticos.
+- A PACF usa Yule-Walker (Durbin-Levinson), como `pacf(x, method='ywm')`. A faixa das ACF/PACF é $\pm 1{,}96/\sqrt{n}$.
+:::

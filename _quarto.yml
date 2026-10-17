@@ -6,6 +6,8 @@ project:
     - "slides/*.pdf"
     - "slides/*.pptx"
     - "slides/*.html"
+    - "jogos/*.js"
+    - "jogos/*.css"
     - "slides/**/*.pdf"
 
 # EDICAO: ao criar uma nova turma, atualize site-url, repo-url, o link do GitHub
@@ -46,6 +48,8 @@ website:
             href: aulas/fechamento-parte1.qmd
           - text: "Lab 2: ML para Séries Temporais"
             href: labs/lab02-pipeline.qmd
+          - text: "Jogo: Guess the ARIMA"
+            href: jogos/guess-the-arima.qmd
           - text: "---"
           - text: "Trabalho Intermediário"
             href: trabalhos/intermediario.qmd
