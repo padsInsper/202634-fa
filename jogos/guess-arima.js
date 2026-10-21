@@ -1,9 +1,21 @@
-/* Guess the ARIMA: interface do jogo (depende de guess-arima-core.js). */
+/* Guess the ARIMA: interface do jogo (depende de guess-arima-core.js).
+   Partidas com número fixo de rodadas; o resultado de cada partida é gravado no
+   Firebase Realtime Database e alimenta o ranking da turma. */
 (function () {
   "use strict";
   const G = window.GACore;
   const root = document.getElementById("ga-root");
   if (!root || !G) return;
+
+  // ---------------------------------------------------------------- configuração
+  const qs = new URLSearchParams(location.search);
+  const CFG = {
+    rtdb: "https://jtrecenti-default-rtdb.firebaseio.com",
+    no: "fa_2026_34_guess_arima",
+    // ?semregistro=1 joga sem gravar (para testar sem poluir o ranking)
+    registrar: qs.get("semregistro") !== "1",
+    opcoesRodadas: [5, 10, 15, 20],
+  };
 
   // ---------------------------------------------------------------- utilidades
   const $ = (sel, el) => (el || root).querySelector(sel);
@@ -13,6 +25,7 @@
       if (k === "class") el.className = v;
       else if (k === "html") el.innerHTML = v;
       else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+      else if (k === "value") el.value = v;
       else if (v !== false && v != null) el.setAttribute(k, v === true ? "" : v);
     }
     for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid.nodeType ? kid : document.createTextNode(kid));
@@ -26,66 +39,36 @@
     try { return crypto.getRandomValues(new Uint32Array(1))[0]; } catch (e) { return Math.floor(Math.random() * 2 ** 32); }
   };
   const fmt = (v, k) => (v < 0 ? "−" : "") + Math.abs(v).toFixed(k == null ? 4 : k);
+  const signed = (v) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v);
   const sub = { 1: "₁", 2: "₂" };
+  const cleanName = (s) => String(s || "").replace(/\s+/g, " ").trim().slice(0, 40);
+  const nameKey = (s) => cleanName(s).toLocaleLowerCase("pt-BR").normalize("NFD").replace(/[̀-ͯ]/g, "");
+  const SESSAO = (crypto.randomUUID && crypto.randomUUID()) || "s-" + Date.now() + "-" + newSeed();
 
-  // ---------------------------------------------------------------- som (WebAudio)
+  // ---------------------------------------------------------------- som (discreto, desligado por padrão)
   const Sound = {
     ctx: null,
-    on: store.get("sound", true),
-    ensure() {
-      if (!this.on) return null;
+    on: store.get("sound2", false),
+    tone(freq, dur, at) {
+      if (!this.on) return;
       try {
         if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
         if (this.ctx.state === "suspended") this.ctx.resume();
-      } catch (e) { return null; }
-      return this.ctx;
-    },
-    tone(freq, dur, opt) {
-      const ctx = this.ensure();
-      if (!ctx) return;
-      const o = Object.assign({ type: "square", vol: 0.08, at: 0, to: null }, opt || {});
-      const t0 = ctx.currentTime + o.at;
+      } catch (e) { return; }
+      const ctx = this.ctx, t0 = ctx.currentTime + (at || 0);
       const osc = ctx.createOscillator(), g = ctx.createGain();
-      osc.type = o.type;
+      osc.type = "sine";
       osc.frequency.setValueAtTime(freq, t0);
-      if (o.to) osc.frequency.exponentialRampToValueAtTime(o.to, t0 + dur);
       g.gain.setValueAtTime(0.0001, t0);
-      g.gain.exponentialRampToValueAtTime(o.vol, t0 + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.05, t0 + 0.01);
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
       osc.connect(g).connect(ctx.destination);
       osc.start(t0);
       osc.stop(t0 + dur + 0.02);
     },
-    noise(dur, opt) {
-      const ctx = this.ensure();
-      if (!ctx) return;
-      const o = Object.assign({ vol: 0.06, at: 0, f0: 400, f1: 3000 }, opt || {});
-      const t0 = ctx.currentTime + o.at;
-      const buf = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * dur), ctx.sampleRate);
-      const data = buf.getChannelData(0);
-      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-      const src = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
-      src.buffer = buf;
-      f.type = "bandpass";
-      f.Q.value = 1.2;
-      f.frequency.setValueAtTime(o.f0, t0);
-      f.frequency.exponentialRampToValueAtTime(o.f1, t0 + dur);
-      g.gain.setValueAtTime(o.vol, t0);
-      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-      src.connect(f).connect(g).connect(ctx.destination);
-      src.start(t0);
-    },
-    click() { this.tone(880, 0.05, { vol: 0.04 }); },
-    select() { this.tone(660, 0.06, { type: "triangle", vol: 0.07, to: 990 }); },
-    hit(i) { this.tone([784, 880, 988, 1047, 1175, 1319][i % 6], 0.12, { type: "triangle", vol: 0.09, at: i * 0.11 }); },
-    miss(i) { this.tone(196, 0.16, { type: "sawtooth", vol: 0.05, at: i * 0.11, to: 140 }); },
-    neutral(i) { this.tone(440, 0.08, { type: "sine", vol: 0.05, at: i * 0.11 }); },
-    perfect(at) { [523, 659, 784, 1047, 1319].forEach((f, i) => this.tone(f, 0.16, { type: "square", vol: 0.06, at: at + i * 0.08 })); },
-    lifeLost(at) { this.tone(130, 0.35, { type: "sawtooth", vol: 0.09, at, to: 55 }); this.noise(0.25, { at, f0: 900, f1: 120, vol: 0.05 }); },
-    lifeUp(at) { [988, 1319, 1976].forEach((f, i) => this.tone(f, 0.1, { type: "triangle", vol: 0.07, at: at + i * 0.07 })); },
-    whoosh() { this.noise(0.35, { f0: 300, f1: 4000, vol: 0.07 }); },
-    start() { [392, 523, 659, 784].forEach((f, i) => this.tone(f, 0.12, { type: "square", vol: 0.05, at: i * 0.07 })); },
-    gameOver(at) { [523, 466, 415, 349, 262].forEach((f, i) => this.tone(f, 0.28, { type: "square", vol: 0.06, at: at + i * 0.2 })); },
+    good() { this.tone(880, 0.12); this.tone(1175, 0.14, 0.09); },
+    bad() { this.tone(220, 0.2); },
+    neutral() { this.tone(523, 0.1); },
   };
 
   // ---------------------------------------------------------------- gráficos (SVG)
@@ -161,26 +144,17 @@
     const kCrit = Object.entries(k.critical).map(([q, v]) => `${q}: ${v.toFixed(3)}`).join("  ");
     const pnote = k.pnote === "menor" ? "  (p real é menor que o exibido)" : k.pnote === "maior" ? "  (p real é maior que o exibido)" : "";
     const adfTxt =
-      `adfuller(x, regression='c', autolag='AIC')
-` +
-      `  estatística   ${fmt(a.adf)}
-` +
-      `  p-valor        ${a.pvalue.toFixed(4)}
-` +
-      `  lags usados    ${a.usedlag}
-` +
-      `  nobs           ${a.nobs}
-` +
+      `adfuller(x, regression='c', autolag='AIC')\n` +
+      `  estatística   ${fmt(a.adf)}\n` +
+      `  p-valor        ${a.pvalue.toFixed(4)}\n` +
+      `  lags usados    ${a.usedlag}\n` +
+      `  nobs           ${a.nobs}\n` +
       `  críticos       ${adfCrit}`;
     const kTxt =
-      `kpss(x, regression='c', nlags='auto')
-` +
-      `  estatística    ${k.kpss.toFixed(4)}
-` +
-      `  p-valor        ${k.pvalue.toFixed(4)}${pnote}
-` +
-      `  lags           ${k.lags}
-` +
+      `kpss(x, regression='c', nlags='auto')\n` +
+      `  estatística    ${k.kpss.toFixed(4)}\n` +
+      `  p-valor        ${k.pvalue.toFixed(4)}${pnote}\n` +
+      `  lags           ${k.lags}\n` +
       `  críticos       ${kCrit}`;
     return h("div", { class: "ga-tests-row" },
       h("figure", { class: "ga-fig ga-fig-tests" }, h("figcaption", {}, "teste ADF"), h("pre", { class: "ga-tests" }, adfTxt)),
@@ -189,12 +163,12 @@
   }
 
   // ---------------------------------------------------------------- estado
-  const MAX_LIVES = 3;
   const S = {
     phase: "menu",
+    name: store.get("name", ""),
     mode: store.get("mode", "easy"),
-    resample: false,
-    lives: MAX_LIVES,
+    resample: store.get("resample", true),
+    rounds: store.get("rounds", 10),
     score: 0,
     round: 0,
     spec: null,
@@ -202,11 +176,13 @@
     resamples: 0,
     ans: {},
     history: [],
+    saved: null,
   };
+  if (!CFG.opcoesRodadas.includes(S.rounds)) S.rounds = 10;
   const hard = () => S.mode === "hard";
   const params = () => (hard() ? ["p", "d", "q", "P", "D", "Q"] : ["p", "d", "q"]);
   const choices = { p: [0, 1, 2], q: [0, 1, 2], d: [0, 1], P: [0, 1], D: [0, 1], Q: [0, 1] };
-  const bestKey = () => "best-" + S.mode;
+  const modeLabel = (m) => (m === "hard" ? "Difícil (SARIMA)" : "Fácil (ARIMA)");
 
   function modelName(o, withS) {
     const base = `(${o.p},${o.d},${o.q})`;
@@ -221,25 +197,70 @@
     return parts.length ? parts.join("   ") : "ruído branco nos componentes ARMA";
   }
 
+  // ---------------------------------------------------------------- Firebase (REST)
+  async function saveGame() {
+    if (!CFG.registrar) return { ok: true, off: true };
+    const ks = params();
+    const acertos = {};
+    ks.forEach((k) => { acertos[k] = S.history.filter((r) => r.ans[k] === r.spec[k]).length; });
+    const body = {
+      nome: S.name,
+      nome_chave: nameKey(S.name),
+      modo: S.mode,
+      rodadas: S.rounds,
+      nova_amostra: S.resample,
+      pontos: S.score,
+      maximo: S.rounds * ks.length,
+      perfeitas: S.history.filter((r) => ks.every((k) => r.ans[k] === r.spec[k])).length,
+      acertos,
+      historico: S.history.map((r) => ({
+        verdadeiro: Object.fromEntries(ks.map((k) => [k, r.spec[k]])),
+        palpite: Object.fromEntries(ks.map((k) => [k, r.ans[k]])),
+        pontos: r.pts,
+        novas_amostras: r.resamples,
+        segundos: r.secs,
+      })),
+      sessao: SESSAO,
+      quando: { ".sv": "timestamp" },
+    };
+    try {
+      const r = await fetch(`${CFG.rtdb}/${CFG.no}.json`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const j = await r.json().catch(() => ({}));
+      return { ok: r.ok, id: j && j.name };
+    } catch (e) {
+      return { ok: false };
+    }
+  }
+  async function loadGames() {
+    const url = `${CFG.rtdb}/${CFG.no}.json?orderBy=${encodeURIComponent('"quando"')}&limitToLast=2000`;
+    const r = await fetch(url);
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const data = (await r.json()) || {};
+    return Object.entries(data).map(([id, v]) => Object.assign({ id }, v));
+  }
+
   // ---------------------------------------------------------------- HUD
   function hud() {
-    const hearts = [];
-    for (let i = 0; i < MAX_LIVES; i++) hearts.push(h("span", { class: "ga-heart" + (i < S.lives ? "" : " off") }, "♥"));
     return h("div", { class: "ga-hud" },
-      h("div", { class: "ga-brand" }, h("span", { class: "ga-logo" }, "Guess the ", h("em", {}, hard() ? "SARIMA" : "ARIMA"))),
+      h("div", { class: "ga-brand" },
+        h("span", { class: "ga-logo" }, "Guess the ", hard() ? "SARIMA" : "ARIMA"),
+        h("span", { class: "ga-player" }, S.name)),
       h("div", { class: "ga-stats" },
-        h("div", { class: "ga-stat" }, h("small", {}, "vidas"), h("div", { class: "ga-hearts", id: "ga-hearts" }, hearts)),
-        h("div", { class: "ga-stat" }, h("small", {}, "rodada"), h("b", { id: "ga-round" }, String(S.round))),
+        h("div", { class: "ga-stat" }, h("small", {}, "rodada"), h("b", { id: "ga-round" }, `${S.round} / ${S.rounds}`)),
         h("div", { class: "ga-stat" }, h("small", {}, "pontos"), h("b", { id: "ga-score" }, String(S.score))),
-        h("div", { class: "ga-stat" }, h("small", {}, "recorde"), h("b", {}, String(store.get(bestKey(), 0)))),
-        h("button", { class: "ga-icon", title: "Som", "aria-label": "Ligar ou desligar som", onclick: toggleSound }, Sound.on ? "🔊" : "🔇"),
+        h("button", { class: "ga-icon", title: "Som", "aria-pressed": Sound.on ? "true" : "false", onclick: toggleSound }, Sound.on ? "som ligado" : "som desligado"),
       ));
   }
   function toggleSound(ev) {
     Sound.on = !Sound.on;
-    store.set("sound", Sound.on);
-    ev.currentTarget.textContent = Sound.on ? "🔊" : "🔇";
-    if (Sound.on) Sound.select();
+    store.set("sound2", Sound.on);
+    ev.currentTarget.textContent = Sound.on ? "som ligado" : "som desligado";
+    ev.currentTarget.setAttribute("aria-pressed", Sound.on ? "true" : "false");
+    if (Sound.on) Sound.neutral();
   }
 
   // ---------------------------------------------------------------- telas
@@ -249,48 +270,73 @@
     if (top < 0) root.scrollIntoView({ behavior: "smooth", block: "start" });
     if (S.phase === "menu") return renderMenu();
     if (S.phase === "over") return renderOver();
+    if (S.phase === "board") return renderBoardPage();
     renderRound();
   }
 
   function renderMenu() {
     const card = (mode, title, model, desc) =>
       h("button", {
+        type: "button",
         class: "ga-mode" + (S.mode === mode ? " on" : ""),
-        onclick: () => { S.mode = mode; store.set("mode", mode); Sound.select(); render(); },
+        "aria-pressed": S.mode === mode ? "true" : "false",
+        onclick: () => { S.mode = mode; store.set("mode", mode); render(); },
       }, h("span", { class: "ga-mode-t" }, title), h("span", { class: "ga-mode-m" }, model), h("span", { class: "ga-mode-d" }, desc));
+    const nameInput = h("input", {
+      id: "ga-name", type: "text", maxlength: "40", autocomplete: "name", placeholder: "Nome e sobrenome", value: S.name,
+      oninput: (e) => { S.name = e.target.value; $("#ga-name-err").hidden = true; },
+    });
     root.append(
       h("div", { class: "ga-stage ga-menu" },
-        h("div", { class: "ga-title" }, h("span", {}, "Guess the"), h("strong", {}, "ARIMA")),
-        h("p", { class: "ga-lead" }, "Cada rodada traz uma série simulada. Olhe a série, as ACF/PACF das versões diferenciadas e as saídas brutas do ADF e do KPSS, e descubra as ordens do modelo."),
-        h("div", { class: "ga-modes" },
-          card("easy", "Fácil", "ARIMA(p,d,q)", "Sem sazonalidade. Painéis: série original e 1ª diferença."),
-          card("hard", "Difícil", "SARIMA(p,d,q)(P,D,Q)₁₂", "Sazonal mensal. Painéis: original, Δ₁₂, Δ e ΔΔ₁₂."),
-        ),
-        h("label", { class: "ga-toggle" },
-          h("input", { type: "checkbox", id: "ga-resample", checked: S.resample, onchange: (e) => { S.resample = e.target.checked; Sound.click(); } }),
-          h("span", { class: "ga-switch" }),
-          h("span", {}, "Permitir gerar uma nova série com os mesmos parâmetros durante a rodada")),
-        h("div", { class: "ga-rules" },
-          h("h4", {}, "Pontuação"),
-          h("ul", {},
-            h("li", {}, h("b", {}, "d"), " e ", h("b", {}, "D"), ": acertou ", h("span", { class: "pos" }, "+1"), ", errou ", h("span", { class: "neg" }, "−1"), " e perde uma vida."),
-            h("li", {}, h("b", {}, "p, q, P, Q"), ": acertou ", h("span", { class: "pos" }, "+1"), ", errou 0."),
-            h("li", {}, "Rodada perfeita (tudo certo) recupera uma vida. Sem vidas, fim de jogo."),
-            h("li", {}, "Ordens possíveis: p, q ∈ {0, 1, 2}; d, P, D, Q ∈ {0, 1}; período sazonal s = 12."),
-          ),
-        ),
-        h("button", { class: "ga-cta", onclick: startGame }, "Jogar"),
+        h("header", { class: "ga-menu-h" },
+          h("p", { class: "ga-lead" }, "Cada rodada traz uma série simulada. Olhe a série, as ACF/PACF das versões diferenciadas e as saídas do ADF e do KPSS, e identifique as ordens do modelo.")),
+        h("form", { class: "ga-setup", onsubmit: (e) => { e.preventDefault(); startGame(); } },
+          h("div", { class: "ga-field" },
+            h("label", { for: "ga-name" }, "Seu nome"),
+            nameInput,
+            h("span", { class: "ga-err", id: "ga-name-err", hidden: true }, "Informe seu nome (pelo menos 2 letras) para entrar no ranking.")),
+          h("div", { class: "ga-field" },
+            h("span", { class: "ga-label" }, "Modo"),
+            h("div", { class: "ga-modes" },
+              card("easy", "Fácil", "ARIMA(p,d,q)", "Sem sazonalidade. Painéis: série original e 1ª diferença."),
+              card("hard", "Difícil", "SARIMA(p,d,q)(P,D,Q)₁₂", "Sazonal mensal. Painéis: original, Δ₁₂, Δ e ΔΔ₁₂."))),
+          h("div", { class: "ga-field ga-field-row" },
+            h("label", { for: "ga-rounds" }, "Rodadas"),
+            h("select", { id: "ga-rounds", onchange: (e) => { S.rounds = +e.target.value; store.set("rounds", S.rounds); } },
+              CFG.opcoesRodadas.map((n) => h("option", { value: String(n), selected: n === S.rounds }, String(n))))),
+          h("label", { class: "ga-check" },
+            h("input", { type: "checkbox", checked: S.resample, onchange: (e) => { S.resample = e.target.checked; store.set("resample", S.resample); } }),
+            h("span", {}, "Permitir gerar uma nova série com os mesmos parâmetros durante a rodada")),
+          h("details", { class: "ga-rules" },
+            h("summary", {}, "Pontuação"),
+            h("ul", {},
+              h("li", {}, h("b", {}, "d"), " e ", h("b", {}, "D"), ": acerto vale +1, erro vale −1."),
+              h("li", {}, h("b", {}, "p, q, P, Q"), ": acerto vale +1, erro vale 0."),
+              h("li", {}, "Ordens possíveis: p, q ∈ {0, 1, 2}; d, P, D, Q ∈ {0, 1}; período sazonal s = 12."),
+              h("li", {}, "O ranking compara partidas com o mesmo modo e o mesmo número de rodadas."))),
+          h("div", { class: "ga-row-btns" },
+            h("button", { type: "submit", class: "ga-btn" }, "Começar"),
+            h("button", { type: "button", class: "ga-btn ghost", onclick: () => { S.phase = "board"; render(); } }, "Ver ranking"))),
+        CFG.registrar ? null : h("p", { class: "ga-foot" }, "Modo de teste: as partidas não são gravadas."),
         h("p", { class: "ga-foot" }, "Atalhos: teclas 0, 1, 2 escolhem o valor do parâmetro em foco; Tab muda de parâmetro; Enter confirma e avança."),
       ),
     );
   }
 
   function startGame() {
-    S.lives = MAX_LIVES;
+    S.name = cleanName(S.name);
+    if (S.name.length < 2) {
+      const err = $("#ga-name-err");
+      if (err) err.hidden = false;
+      const inp = $("#ga-name");
+      if (inp) inp.focus();
+      return;
+    }
+    store.set("name", S.name);
     S.score = 0;
     S.round = 0;
     S.history = [];
-    Sound.start();
+    S.saved = null;
     nextRound();
   }
 
@@ -300,6 +346,7 @@
     S.seed = newSeed();
     S.resamples = 0;
     S.ans = {};
+    S.t0 = Date.now();
     S.phase = "play";
     render();
     const first = $(".ga-seg button");
@@ -309,11 +356,10 @@
   function resample() {
     S.seed = newSeed();
     S.resamples += 1;
-    Sound.whoosh();
     const panels = $("#ga-panels");
     panels.replaceWith(buildPanels());
     const rb = $("#ga-resample-btn");
-    if (rb) rb.querySelector("small").textContent = `${S.resamples}×`;
+    if (rb) rb.querySelector("small").textContent = `(${S.resamples})`;
   }
 
   function buildPanels() {
@@ -332,10 +378,10 @@
           ["Δ yₜ = (1 − B) yₜ", "1ª diferença", G.diff(y, 1)],
         ];
     return h("div", { id: "ga-panels", class: "ga-panels" },
-      rows.map(([lab, desc, x], i) =>
-        h("section", { class: "ga-row", style: `--i:${i}` },
+      rows.map(([lab, desc, x]) =>
+        h("section", { class: "ga-row" },
           h("header", { class: "ga-row-h" }, h("b", {}, lab), h("span", {}, desc), h("span", { class: "ga-n" }, `n = ${x.length}`)),
-          h("div", { class: "ga-row-g" + (seasonal ? "" : " easy") },
+          h("div", { class: "ga-row-g" },
             h("figure", { class: "ga-fig ga-fig-series" }, h("figcaption", {}, "série"), lineChart(x, { seasonal, label: "Série " + desc })),
             h("figure", { class: "ga-fig" }, h("figcaption", {}, "ACF"), barChart(G.acf(x, L), x.length, { seasonal, label: "ACF " + desc })),
             h("figure", { class: "ga-fig" }, h("figcaption", {}, "PACF"), barChart(G.pacf(x, L), x.length, { seasonal, label: "PACF " + desc })),
@@ -354,13 +400,14 @@
         h("div", { class: "ga-seg", role: "radiogroup", "aria-label": "Valor de " + k },
           choices[k].map((v) =>
             h("button", {
+              type: "button",
               role: "radio",
               "aria-checked": S.ans[k] === v ? "true" : "false",
               class: S.ans[k] === v ? "on" : "",
               disabled: reveal,
-              onclick: () => { S.ans[k] = v; Sound.select(); refreshBar(); },
+              onclick: () => { S.ans[k] = v; refreshBar(); focusParam(k); },
               onkeydown: (e) => {
-                if (/^[0-2]$/.test(e.key) && choices[k].includes(+e.key)) { e.preventDefault(); S.ans[k] = +e.key; Sound.select(); refreshBar(); focusParam(k); }
+                if (/^[0-2]$/.test(e.key) && choices[k].includes(+e.key)) { e.preventDefault(); S.ans[k] = +e.key; refreshBar(); focusParam(k); }
               },
             }, String(v)),
           ),
@@ -370,15 +417,16 @@
     );
     const done = params().every((k) => S.ans[k] !== undefined);
     const guess = Object.assign({ p: "p", d: "d", q: "q", P: "P", D: "D", Q: "Q" }, S.ans);
+    const last = S.round >= S.rounds;
     return h("div", { class: "ga-bar-wrap" },
       h("div", { class: "ga-answer", id: "ga-answer" },
         h("div", { class: "ga-params" }, segs),
         h("div", { class: "ga-actions" },
           h("div", { class: "ga-guess" }, h("small", {}, "seu palpite"), h("b", {}, modelName(guess, hard()))),
-          S.resample && !reveal ? h("button", { class: "ga-btn ghost", id: "ga-resample-btn", onclick: resample, title: "Nova série com os mesmos parâmetros" }, "↻ nova amostra ", h("small", {}, `${S.resamples}×`)) : null,
+          S.resample && !reveal ? h("button", { type: "button", class: "ga-btn ghost", id: "ga-resample-btn", onclick: resample, title: "Nova série com os mesmos parâmetros" }, "Nova amostra ", h("small", {}, `(${S.resamples})`)) : null,
           reveal
-            ? h("button", { class: "ga-btn", id: "ga-next", onclick: () => { Sound.click(); S.lives > 0 ? nextRound() : endGame(); } }, S.lives > 0 ? "Próxima rodada →" : "Ver resultado →")
-            : h("button", { class: "ga-btn", id: "ga-confirm", disabled: !done, onclick: confirm }, "Confirmar"),
+            ? h("button", { type: "button", class: "ga-btn", id: "ga-next", onclick: () => (last ? endGame() : nextRound()) }, last ? "Ver resultado" : "Próxima rodada")
+            : h("button", { type: "button", class: "ga-btn", id: "ga-confirm", disabled: !done, onclick: confirm }, "Confirmar"),
         ),
       ),
       h("div", { id: "ga-reveal" }),
@@ -390,18 +438,20 @@
   }
   function refreshBar() {
     const old = $(".ga-bar-wrap");
-    const nb = answerBar();
-    old.replaceWith(nb);
+    old.replaceWith(answerBar());
   }
 
   function renderRound() {
+    const pct = ((S.round - 1) / S.rounds) * 100;
     root.append(
       h("div", { class: "ga-stage" },
         hud(),
+        h("div", { class: "ga-progress", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": String(S.rounds), "aria-valuenow": String(S.round - 1) },
+          h("span", { style: `width:${pct}%` })),
         h("div", { class: "ga-roundline" },
-          h("span", {}, `Rodada ${S.round}`),
+          h("span", {}, `Rodada ${S.round} de ${S.rounds}`),
           h("span", { class: "ga-hint" }, hard()
-            ? "Linhas tracejadas amarelas nas ACF/PACF marcam as defasagens sazonais 12, 24, 36 e 48. Faixa cinza: ±1,96/√n."
+            ? "Linhas tracejadas nas ACF/PACF marcam as defasagens sazonais 12, 24, 36 e 48. Faixa cinza: ±1,96/√n."
             : "Faixa cinza nas ACF/PACF: ±1,96/√n."),
         ),
         buildPanels(),
@@ -417,113 +467,164 @@
     const items = params().map((k) => {
       const ok = S.ans[k] === spec[k];
       const strict = k === "d" || k === "D";
-      return { k, ok, pts: ok ? 1 : strict ? -1 : 0, strict };
+      return { k, ok, pts: ok ? 1 : strict ? -1 : 0 };
     });
     const pts = items.reduce((s, it) => s + it.pts, 0);
-    const lost = items.filter((it) => it.strict && !it.ok).length;
     const perfect = items.every((it) => it.ok);
     S.score += pts;
-    const livesBefore = S.lives;
-    S.lives = Math.max(0, S.lives - lost);
-    const gained = perfect && S.lives < MAX_LIVES;
-    if (gained) S.lives += 1;
-    S.history.push({ spec, ans: Object.assign({}, S.ans), pts });
+    S.history.push({ spec, ans: Object.assign({}, S.ans), pts, resamples: S.resamples, secs: Math.round((Date.now() - S.t0) / 1000) });
     S.phase = "reveal";
     refreshBar();
 
-    // efeitos por parâmetro
-    items.forEach((it, i) => {
-      setTimeout(() => {
-        const el = $("#ga-res-" + it.k);
-        const par = root.querySelector(`.ga-param[data-k="${it.k}"]`);
-        par.classList.add(it.ok ? "ok" : it.pts < 0 ? "bad" : "meh");
-        el.textContent = (it.pts > 0 ? "+" : it.pts < 0 ? "−" : "") + Math.abs(it.pts);
-        el.className = "ga-res show " + (it.pts > 0 ? "pos" : it.pts < 0 ? "neg" : "zero");
-        if (!it.ok) {
-          const right = par.querySelector(`.ga-seg button:nth-child(${choices[it.k].indexOf(spec[it.k]) + 1})`);
-          if (right) right.classList.add("truth");
-        }
-      }, i * 110);
-      if (it.ok) Sound.hit(i);
-      else if (it.pts < 0) Sound.miss(i);
-      else Sound.neutral(i);
+    items.forEach((it) => {
+      const el = $("#ga-res-" + it.k);
+      const par = root.querySelector(`.ga-param[data-k="${it.k}"]`);
+      par.classList.add(it.ok ? "ok" : it.pts < 0 ? "bad" : "meh");
+      el.textContent = signed(it.pts);
+      el.className = "ga-res show " + (it.pts > 0 ? "pos" : it.pts < 0 ? "neg" : "zero");
+      if (!it.ok) {
+        const right = par.querySelector(`.ga-seg button:nth-child(${choices[it.k].indexOf(spec[it.k]) + 1})`);
+        if (right) right.classList.add("truth");
+      }
     });
-    const tEnd = items.length * 0.11 + 0.05;
-    if (lost) Sound.lifeLost(tEnd);
-    if (perfect) Sound.perfect(tEnd);
-    if (gained) Sound.lifeUp(tEnd + 0.45);
+    if (perfect) Sound.good(); else if (items.some((it) => it.pts < 0)) Sound.bad(); else Sound.neutral();
+    $("#ga-score").textContent = String(S.score);
 
-    setTimeout(() => {
-      const sc = $("#ga-score");
-      sc.textContent = String(S.score);
-      sc.classList.remove("pop");
-      void sc.offsetWidth;
-      sc.classList.add("pop");
-      const hearts = $("#ga-hearts");
-      hearts.innerHTML = "";
-      for (let i = 0; i < MAX_LIVES; i++) hearts.append(h("span", { class: "ga-heart" + (i < S.lives ? "" : " off") + (lost && i >= S.lives && i < livesBefore ? " lost" : "") + (gained && i === S.lives - 1 ? " gain" : "") }, "♥"));
-      if (lost) { const st = $(".ga-stage"); st.classList.remove("shake"); void st.offsetWidth; st.classList.add("shake"); }
-    }, items.length * 110);
-
-    const rv = $("#ga-reveal");
-    rv.append(
+    const missedInt = items.filter((it) => it.pts < 0).map((it) => it.k);
+    $("#ga-reveal").append(
       h("div", { class: "ga-reveal" + (perfect ? " perfect" : "") },
         h("div", { class: "ga-rv-main" },
-          h("small", {}, perfect ? "rodada perfeita!" : "modelo verdadeiro"),
+          h("small", {}, perfect ? "rodada perfeita" : "modelo verdadeiro"),
           h("b", {}, modelName(spec, hard())),
           h("span", { class: "ga-coef" }, coefText(spec)),
         ),
-        h("div", { class: "ga-rv-pts " + (pts > 0 ? "pos" : pts < 0 ? "neg" : "zero") }, (pts > 0 ? "+" : pts < 0 ? "−" : "") + Math.abs(pts), h("small", {}, "pts")),
-        lost ? h("div", { class: "ga-rv-note neg" }, lost > 1 ? "Errou d e D: −2 vidas" : "Errou a ordem de integração: −1 vida") : null,
-        gained ? h("div", { class: "ga-rv-note pos" }, "Rodada perfeita: +1 vida") : null,
+        missedInt.length ? h("div", { class: "ga-rv-note neg" }, `Errou a ordem de integração (${missedInt.join(" e ")}).`) : null,
+        h("div", { class: "ga-rv-pts " + (pts > 0 ? "pos" : pts < 0 ? "neg" : "zero") }, signed(pts), h("small", {}, "pts")),
       ),
     );
     const nx = $("#ga-next");
     if (nx) nx.focus({ preventScroll: true });
   }
 
-  function endGame() {
-    const best = store.get(bestKey(), 0);
-    S.newBest = S.score > best;
-    if (S.newBest) store.set(bestKey(), S.score);
+  async function endGame() {
     S.phase = "over";
-    Sound.gameOver(0);
+    S.saved = "salvando";
     render();
+    const r = await saveGame();
+    S.saved = r.off ? "off" : r.ok ? "ok" : "erro";
+    S.savedId = r.id || null;
+    if (S.phase === "over") render();
   }
 
   function renderOver() {
-    const max = S.history.length * (hard() ? 6 : 3);
-    const counts = { d: 0, p: 0, q: 0, P: 0, D: 0, Q: 0 };
-    S.history.forEach((r) => params().forEach((k) => { if (r.ans[k] === r.spec[k]) counts[k] += 1; }));
+    const ks = params();
+    const max = S.history.length * ks.length;
+    const counts = {};
+    ks.forEach((k) => { counts[k] = S.history.filter((r) => r.ans[k] === r.spec[k]).length; });
+    const status = {
+      salvando: h("p", { class: "ga-save" }, "Gravando o resultado no ranking…"),
+      ok: h("p", { class: "ga-save ok" }, "Resultado gravado no ranking."),
+      off: h("p", { class: "ga-save" }, "Modo de teste: resultado não gravado."),
+      erro: h("p", { class: "ga-save neg" }, "Não foi possível gravar o resultado (sem conexão?). ",
+        h("button", { type: "button", class: "ga-link", onclick: endGame }, "Tentar de novo")),
+    }[S.saved];
+    const board = h("div", { class: "ga-board-slot" });
     root.append(
-      h("div", { class: "ga-stage ga-menu ga-over" },
-        h("div", { class: "ga-title" }, h("span", {}, "fim de"), h("strong", {}, "jogo")),
-        h("div", { class: "ga-final" }, h("b", {}, String(S.score)), h("small", {}, `pontos em ${S.history.length} rodadas (máximo possível ${max})`)),
-        S.newBest ? h("div", { class: "ga-newbest" }, "★ novo recorde neste navegador ★") : h("div", { class: "ga-foot" }, `Recorde (${hard() ? "difícil" : "fácil"}): ${store.get(bestKey(), 0)}`),
-        h("div", { class: "ga-acc" },
-          params().map((k) => h("div", {}, h("b", {}, k), h("span", {}, `${counts[k]}/${S.history.length}`))),
-        ),
-        h("div", { class: "ga-hist" },
-          S.history.map((r, i) =>
-            h("div", { class: "ga-hist-r" },
-              h("span", {}, `#${i + 1}`),
-              h("span", {}, modelName(r.spec, hard())),
-              h("span", { class: "ga-dim" }, "palpite " + modelName(r.ans, hard())),
-              h("b", { class: r.pts > 0 ? "pos" : r.pts < 0 ? "neg" : "zero" }, (r.pts > 0 ? "+" : r.pts < 0 ? "−" : "") + Math.abs(r.pts)),
-            ),
-          ),
-        ),
+      h("div", { class: "ga-stage ga-over" },
+        h("header", { class: "ga-over-h" },
+          h("div", {},
+            h("small", { class: "ga-kicker" }, `${S.name} · ${modeLabel(S.mode)} · ${S.rounds} rodadas`),
+            h("div", { class: "ga-final" }, h("b", {}, String(S.score)), h("span", {}, `de ${max} pontos possíveis`))),
+          h("div", { class: "ga-acc" },
+            ks.map((k) => h("div", {}, h("b", {}, k), h("span", {}, `${counts[k]}/${S.history.length}`))))),
+        status,
+        h("table", { class: "ga-table ga-hist" },
+          h("thead", {}, h("tr", {}, h("th", {}, "#"), h("th", {}, "Modelo verdadeiro"), h("th", {}, "Seu palpite"), h("th", { class: "num" }, "Pontos"))),
+          h("tbody", {}, S.history.map((r, i) =>
+            h("tr", {},
+              h("td", {}, String(i + 1)),
+              h("td", {}, modelName(r.spec, hard())),
+              h("td", { class: "ga-dim" }, modelName(r.ans, hard())),
+              h("td", { class: "num " + (r.pts > 0 ? "pos" : r.pts < 0 ? "neg" : "zero") }, signed(r.pts)))))),
         h("div", { class: "ga-row-btns" },
-          h("button", { class: "ga-cta", onclick: startGame }, "Jogar de novo"),
-          h("button", { class: "ga-btn ghost", onclick: () => { Sound.click(); S.phase = "menu"; render(); } }, "Trocar modo"),
-        ),
+          h("button", { type: "button", class: "ga-btn", onclick: startGame }, "Jogar de novo"),
+          h("button", { type: "button", class: "ga-btn ghost", onclick: () => { S.phase = "menu"; render(); } }, "Mudar configuração")),
+        h("h3", { class: "ga-sec" }, "Ranking"),
+        board,
       ),
     );
+    if (S.saved !== "salvando") mountBoard(board, { mode: S.mode, rounds: S.rounds });
+  }
+
+  // ---------------------------------------------------------------- ranking
+  function renderBoardPage() {
+    const board = h("div", { class: "ga-board-slot" });
+    root.append(
+      h("div", { class: "ga-stage" },
+        h("div", { class: "ga-board-top" },
+          h("div", { class: "ga-title sm" }, "Ranking"),
+          h("button", { type: "button", class: "ga-btn ghost", onclick: () => { S.phase = "menu"; render(); } }, "Voltar")),
+        board));
+    mountBoard(board, { mode: S.mode, rounds: S.rounds });
+  }
+
+  function mountBoard(slot, init) {
+    const F = { mode: init.mode, rounds: init.rounds, period: store.get("board-period", "hoje"), best: true };
+    let games = null, error = null;
+    const sel = (id, value, opts, onchange) =>
+      h("select", { id, onchange }, opts.map(([v, t]) => h("option", { value: String(v), selected: String(v) === String(value) }, t)));
+    function draw() {
+      slot.innerHTML = "";
+      const controls = h("div", { class: "ga-filters" },
+        h("label", {}, "Modo ", sel("ga-f-mode", F.mode, [["easy", "Fácil"], ["hard", "Difícil"]], (e) => { F.mode = e.target.value; draw(); })),
+        h("label", {}, "Rodadas ", sel("ga-f-rounds", F.rounds, CFG.opcoesRodadas.map((n) => [n, String(n)]), (e) => { F.rounds = +e.target.value; draw(); })),
+        h("label", {}, "Período ", sel("ga-f-period", F.period, [["hoje", "Hoje"], ["7d", "Últimos 7 dias"], ["todos", "Todos"]], (e) => { F.period = e.target.value; store.set("board-period", F.period); draw(); })),
+        h("label", { class: "ga-check sm" }, h("input", { type: "checkbox", checked: F.best, onchange: (e) => { F.best = e.target.checked; draw(); } }), h("span", {}, "Só a melhor partida de cada pessoa")),
+        h("button", { type: "button", class: "ga-btn ghost sm", onclick: load }, "Atualizar"));
+      slot.append(controls);
+      if (error) { slot.append(h("p", { class: "ga-save neg" }, "Não foi possível carregar o ranking.")); return; }
+      if (!games) { slot.append(h("p", { class: "ga-save" }, "Carregando…")); return; }
+      const now = Date.now();
+      const start = F.period === "hoje" ? new Date().setHours(0, 0, 0, 0) : F.period === "7d" ? now - 7 * 864e5 : 0;
+      let rows = games.filter((g) => g.modo === F.mode && g.rodadas === F.rounds && (g.quando || 0) >= start);
+      rows.sort((a, b) => b.pontos - a.pontos || (a.quando || 0) - (b.quando || 0));
+      if (F.best) {
+        const seen = new Set();
+        rows = rows.filter((g) => { const k = g.nome_chave || nameKey(g.nome); if (seen.has(k)) return false; seen.add(k); return true; });
+      }
+      if (!rows.length) { slot.append(h("p", { class: "ga-save" }, "Nenhuma partida com esses filtros ainda.")); return; }
+      const me = nameKey(S.name);
+      let pos = 0, prev = null;
+      slot.append(
+        h("table", { class: "ga-table ga-board" },
+          h("thead", {}, h("tr", {},
+            h("th", { class: "num" }, "#"), h("th", {}, "Nome"), h("th", { class: "num" }, "Pontos"), h("th", { class: "num" }, "Aproveitamento"),
+            h("th", { class: "num hide-sm" }, "Rodadas perfeitas"), h("th", { class: "hide-sm" }, "Nova amostra"), h("th", { class: "hide-sm" }, "Quando"))),
+          h("tbody", {}, rows.slice(0, 100).map((g, i) => {
+            if (g.pontos !== prev) { pos = i + 1; prev = g.pontos; }
+            const mine = (S.savedId && g.id === S.savedId) || (!F.best ? false : (g.nome_chave || nameKey(g.nome)) === me);
+            const dt = g.quando ? new Date(g.quando) : null;
+            return h("tr", { class: mine ? "me" : "" },
+              h("td", { class: "num" }, String(pos)),
+              h("td", {}, g.nome),
+              h("td", { class: "num" }, String(g.pontos)),
+              h("td", { class: "num" }, g.maximo ? Math.round((100 * g.pontos) / g.maximo) + "%" : ""),
+              h("td", { class: "num hide-sm" }, g.perfeitas != null ? String(g.perfeitas) : ""),
+              h("td", { class: "hide-sm" }, g.nova_amostra ? "permitida" : "não"),
+              h("td", { class: "hide-sm ga-dim" }, dt ? dt.toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : ""));
+          }))));
+    }
+    async function load() {
+      games = null; error = null; draw();
+      try { games = await loadGames(); } catch (e) { error = e; }
+      draw();
+    }
+    load();
   }
 
   // ---------------------------------------------------------------- teclado
   root.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter" || e.target.tagName === "INPUT") return;
+    if (e.key !== "Enter" || e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
     if (S.phase === "play") {
       const b = $("#ga-confirm");
       if (b && !b.disabled) { e.preventDefault(); confirm(); }

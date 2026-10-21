@@ -1,6 +1,6 @@
 ---
 title: "Guess the ARIMA"
-subtitle: "Jogo: identifique as ordens de um ARIMA ou SARIMA a partir da série, das ACF/PACF e dos testes de raiz unitária"
+subtitle: "Identifique as ordens de um ARIMA ou SARIMA a partir da série, das ACF/PACF e dos testes de raiz unitária. Partidas com ranking da turma."
 page-layout: full
 toc: false
 code-tools: false
@@ -15,6 +15,12 @@ code-tools: false
 <script src="guess-arima.js"></script>
 ```
 
+:::
+
+::: {.callout-note appearance="minimal" collapse="true"}
+## Ranking e registro das partidas
+
+Cada partida tem um número fixo de rodadas (padrão: 10). Ao final, o resultado é gravado com o nome informado: pontos, acertos por parâmetro e, para cada rodada, o modelo verdadeiro, o palpite e quantas novas amostras foram pedidas. O ranking compara apenas partidas com o mesmo modo e o mesmo número de rodadas. Para testar sem gravar, abra a página com `?semregistro=1` no endereço.
 :::
 
 ::: {.callout-note appearance="minimal" collapse="true"}
