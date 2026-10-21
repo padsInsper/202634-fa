@@ -15,6 +15,9 @@
     // ?semregistro=1 joga sem gravar (para testar sem poluir o ranking)
     registrar: qs.get("semregistro") !== "1",
     opcoesRodadas: [5, 10, 15, 20],
+    // Semente da sequência de séries: todos jogam as mesmas rodadas, na mesma ordem.
+    // ?semente=xyz troca a sequência (por exemplo, uma por aula); o ranking separa por semente.
+    semente: (qs.get("semente") || "fa-2026-34").trim().slice(0, 40),
   };
 
   // ---------------------------------------------------------------- utilidades
@@ -37,6 +40,13 @@
   };
   const newSeed = () => {
     try { return crypto.getRandomValues(new Uint32Array(1))[0]; } catch (e) { return Math.floor(Math.random() * 2 ** 32); }
+  };
+  // semente determinística (FNV-1a 32 bits) a partir da semente da turma e da posição no jogo
+  const seedFor = (...parts) => {
+    const s = [CFG.semente, ...parts].join("|");
+    let x = 0x811c9dc5;
+    for (let i = 0; i < s.length; i++) { x ^= s.charCodeAt(i); x = Math.imul(x, 0x01000193); }
+    return x >>> 0;
   };
   const fmt = (v, k) => (v < 0 ? "−" : "") + Math.abs(v).toFixed(k == null ? 4 : k);
   const signed = (v) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v);
@@ -209,6 +219,7 @@
       modo: S.mode,
       rodadas: S.rounds,
       nova_amostra: S.resample,
+      semente: CFG.semente,
       pontos: S.score,
       maximo: S.rounds * ks.length,
       perfeitas: S.history.filter((r) => ks.every((k) => r.ans[k] === r.spec[k])).length,
@@ -313,7 +324,8 @@
               h("li", {}, h("b", {}, "d"), " e ", h("b", {}, "D"), ": acerto vale +1, erro vale −1."),
               h("li", {}, h("b", {}, "p, q, P, Q"), ": acerto vale +1, erro vale 0."),
               h("li", {}, "Ordens possíveis: p, q ∈ {0, 1, 2}; d, P, D, Q ∈ {0, 1}; período sazonal s = 12."),
-              h("li", {}, "O ranking compara partidas com o mesmo modo e o mesmo número de rodadas."))),
+              h("li", {}, "Todos jogam as mesmas séries, na mesma ordem (inclusive as novas amostras). Jogar de novo repete as mesmas rodadas."),
+              h("li", {}, "O ranking compara partidas com o mesmo modo e o mesmo número de rodadas e, por padrão, conta só a primeira partida de cada pessoa."))),
           h("div", { class: "ga-row-btns" },
             h("button", { type: "submit", class: "ga-btn" }, "Começar"),
             h("button", { type: "button", class: "ga-btn ghost", onclick: () => { S.phase = "board"; render(); } }, "Ver ranking"))),
@@ -342,9 +354,9 @@
 
   function nextRound() {
     S.round += 1;
-    S.spec = G.sampleSpec(S.mode, newSeed());
-    S.seed = newSeed();
     S.resamples = 0;
+    S.spec = G.sampleSpec(S.mode, seedFor(S.mode, "modelo", S.round));
+    S.seed = seedFor(S.mode, "serie", S.round, S.resamples);
     S.ans = {};
     S.t0 = Date.now();
     S.phase = "play";
@@ -354,8 +366,8 @@
   }
 
   function resample() {
-    S.seed = newSeed();
     S.resamples += 1;
+    S.seed = seedFor(S.mode, "serie", S.round, S.resamples);
     const panels = $("#ga-panels");
     panels.replaceWith(buildPanels());
     const rb = $("#ga-resample-btn");
@@ -569,7 +581,7 @@
   }
 
   function mountBoard(slot, init) {
-    const F = { mode: init.mode, rounds: init.rounds, period: store.get("board-period", "hoje"), best: true };
+    const F = { mode: init.mode, rounds: init.rounds, period: store.get("board-period", "hoje"), which: "primeira" };
     let games = null, error = null;
     const sel = (id, value, opts, onchange) =>
       h("select", { id, onchange }, opts.map(([v, t]) => h("option", { value: String(v), selected: String(v) === String(value) }, t)));
@@ -579,19 +591,18 @@
         h("label", {}, "Modo ", sel("ga-f-mode", F.mode, [["easy", "Fácil"], ["hard", "Difícil"]], (e) => { F.mode = e.target.value; draw(); })),
         h("label", {}, "Rodadas ", sel("ga-f-rounds", F.rounds, CFG.opcoesRodadas.map((n) => [n, String(n)]), (e) => { F.rounds = +e.target.value; draw(); })),
         h("label", {}, "Período ", sel("ga-f-period", F.period, [["hoje", "Hoje"], ["7d", "Últimos 7 dias"], ["todos", "Todos"]], (e) => { F.period = e.target.value; store.set("board-period", F.period); draw(); })),
-        h("label", { class: "ga-check sm" }, h("input", { type: "checkbox", checked: F.best, onchange: (e) => { F.best = e.target.checked; draw(); } }), h("span", {}, "Só a melhor partida de cada pessoa")),
+        h("label", {}, "Partidas ", sel("ga-f-which", F.which, [["primeira", "Primeira de cada pessoa"], ["melhor", "Melhor de cada pessoa"], ["todas", "Todas"]], (e) => { F.which = e.target.value; draw(); })),
         h("button", { type: "button", class: "ga-btn ghost sm", onclick: load }, "Atualizar"));
       slot.append(controls);
       if (error) { slot.append(h("p", { class: "ga-save neg" }, "Não foi possível carregar o ranking.")); return; }
       if (!games) { slot.append(h("p", { class: "ga-save" }, "Carregando…")); return; }
       const now = Date.now();
       const start = F.period === "hoje" ? new Date().setHours(0, 0, 0, 0) : F.period === "7d" ? now - 7 * 864e5 : 0;
-      let rows = games.filter((g) => g.modo === F.mode && g.rodadas === F.rounds && (g.quando || 0) >= start);
+      let rows = games.filter((g) => g.modo === F.mode && g.rodadas === F.rounds && g.semente === CFG.semente && (g.quando || 0) >= start);
+      const keep = (list) => { const seen = new Set(); return list.filter((g) => { const k = g.nome_chave || nameKey(g.nome); if (seen.has(k)) return false; seen.add(k); return true; }); };
+      if (F.which === "primeira") rows = keep(rows.sort((a, b) => (a.quando || 0) - (b.quando || 0)));
       rows.sort((a, b) => b.pontos - a.pontos || (a.quando || 0) - (b.quando || 0));
-      if (F.best) {
-        const seen = new Set();
-        rows = rows.filter((g) => { const k = g.nome_chave || nameKey(g.nome); if (seen.has(k)) return false; seen.add(k); return true; });
-      }
+      if (F.which === "melhor") rows = keep(rows);
       if (!rows.length) { slot.append(h("p", { class: "ga-save" }, "Nenhuma partida com esses filtros ainda.")); return; }
       const me = nameKey(S.name);
       let pos = 0, prev = null;
@@ -602,7 +613,7 @@
             h("th", { class: "num hide-sm" }, "Rodadas perfeitas"), h("th", { class: "hide-sm" }, "Nova amostra"), h("th", { class: "hide-sm" }, "Quando"))),
           h("tbody", {}, rows.slice(0, 100).map((g, i) => {
             if (g.pontos !== prev) { pos = i + 1; prev = g.pontos; }
-            const mine = (S.savedId && g.id === S.savedId) || (!F.best ? false : (g.nome_chave || nameKey(g.nome)) === me);
+            const mine = (S.savedId && g.id === S.savedId) || (F.which !== "todas" && (g.nome_chave || nameKey(g.nome)) === me);
             const dt = g.quando ? new Date(g.quando) : null;
             return h("tr", { class: mine ? "me" : "" },
               h("td", { class: "num" }, String(pos)),

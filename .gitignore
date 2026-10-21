@@ -28,7 +28,12 @@ dados/preparar_vibra.py
 dados/preparar_stellantis.py
 dados/stellantis_*.csv
 dados/README_distribr.md
-trabalhos/intermediario_solucao.qmd
+# intermediário Viação BR (Azul + TRIP disfarçado): só local até a liberação
+dados/README_viacaobr.md
+dados/viacaobr_*
+trabalhos/intermediario_viacaobr*
+_freeze/trabalhos/intermediario_viacaobr/
+trabalhos/intermediario_solucao*
 _freeze/trabalhos/intermediario_solucao/
 
 materiais_paloma/

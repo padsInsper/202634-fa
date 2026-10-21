@@ -20,7 +20,7 @@ code-tools: false
 ::: {.callout-note appearance="minimal" collapse="true"}
 ## Ranking e registro das partidas
 
-Cada partida tem um número fixo de rodadas (padrão: 10). Ao final, o resultado é gravado com o nome informado: pontos, acertos por parâmetro e, para cada rodada, o modelo verdadeiro, o palpite e quantas novas amostras foram pedidas. O ranking compara apenas partidas com o mesmo modo e o mesmo número de rodadas. Para testar sem gravar, abra a página com `?semregistro=1` no endereço.
+Cada partida tem um número fixo de rodadas (padrão: 10). Ao final, o resultado é gravado com o nome informado: pontos, acertos por parâmetro e, para cada rodada, o modelo verdadeiro, o palpite e quantas novas amostras foram pedidas. Todos jogam as mesmas séries, na mesma ordem: a sequência vem de uma semente fixa da turma. O ranking compara apenas partidas com o mesmo modo e o mesmo número de rodadas e, por padrão, conta só a primeira partida de cada pessoa (repetir a partida repete as séries). Para uma sequência nova, por exemplo uma por aula, use `?semente=aula5` no endereço; o ranking fica separado por semente. Para testar sem gravar, use `?semregistro=1`.
 :::
 
 ::: {.callout-note appearance="minimal" collapse="true"}
