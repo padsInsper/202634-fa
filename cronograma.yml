@@ -139,9 +139,13 @@
   quem: "Paloma"
   descricao: "Métricas (MAE, RMSE, MAPE, MASE) e quando usar cada uma. Validação cruzada temporal (<i>expanding</i> vs. <i>sliding</i>), intervalos de previsão, quebras estruturais. Panorama de ferramentas (DARTS, foundation models)."
   materiais:
+    - texto: "Notebook da Paloma"
+      href: complementar/aula03-previsao-validacao-notebook.ipynb
     - texto: "Previsão e Validação"
       href: aulas/previsao.qmd
-  slides: []
+  slides:
+    - texto: "Slides da aula"
+      href: slides/aula03-previsao-validacao.html
 
 - data: "2026-11-07"
   inicio: "13:00"
@@ -156,7 +160,13 @@
   materiais:
     - texto: "Fechamento da Parte 1"
       href: aulas/fechamento-parte1.qmd
-  slides: []
+    - texto: "Notebook da Paloma (previsão e validação)"
+      href: complementar/aula03-previsao-validacao-notebook.ipynb
+    - texto: "Trabalho intermediário"
+      href: trabalhos/intermediario.qmd
+  slides:
+    - texto: "Slides de previsão e validação"
+      href: slides/aula03-previsao-validacao.html
 
 - data: "2026-11-07"
   inicio: "15:00"

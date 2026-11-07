@@ -94,6 +94,8 @@ website:
             href: complementar/aula01-fundamentos-sarima-notebook.ipynb
           - text: "Aulas 3 e 4: notebook da Paloma"
             href: complementar/aula02-arima-prophet-notebook.ipynb
+          - text: "Aula 6: notebook da Paloma"
+            href: complementar/aula03-previsao-validacao-notebook.ipynb
           - text: "Fundamentos (notebook)"
             href: complementar/fundamentos-notebook.ipynb
           - text: "ARIMA, SARIMA e Prophet (notebook)"
@@ -124,6 +126,8 @@ website:
             href: slides/aula01-fundamentos.html
           - text: "Aulas 3 e 4: Previsão com ARIMA e Prophet"
             href: slides/aula02-arima-prophet.html
+          - text: "Aula 6: Previsão e validação"
+            href: slides/aula03-previsao-validacao.html
     right:
       - icon: github
         href: "https://github.com/padsInsper/202634-fa"

@@ -28,9 +28,8 @@ dados/preparar_vibra.py
 dados/preparar_stellantis.py
 dados/stellantis_*.csv
 dados/README_distribr.md
-# intermediário Viação BR (Azul + TRIP disfarçado): só local até a liberação
+# intermediário Viação BR (Azul + TRIP disfarçado): chave do disfarce e gabarito ficam só locais
 dados/README_viacaobr.md
-dados/viacaobr_*
 trabalhos/intermediario_viacaobr*
 _freeze/trabalhos/intermediario_viacaobr/
 trabalhos/intermediario_solucao*
