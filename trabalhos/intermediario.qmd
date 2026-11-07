@@ -4,53 +4,46 @@ subtitle: "Previsão para uma empresa que passou por uma aquisição"
 code-tools: false
 ---
 
-::: {.callout-note}
-## Enunciado em revisão
-O enunciado deste trabalho está sendo ajustado e será publicado aqui em breve.
-:::
-
-<!-- OCULTO: para publicar o enunciado, remova esta abertura e o fechamento :::::: no fim do arquivo -->
-:::::: {.content-hidden}
-
 ## Contexto
 
-Vocês formam uma assessoria econômica chamada **PADS Forecasting**.
-Foram contratados pela **Distribuidora BR S.A.**, uma empresa do setor de
-**distribuição de combustíveis no Brasil** que, há alguns anos, **adquiriu
+Estamos em **dezembro de 2013**. Vocês formam uma assessoria econômica chamada **PADS Forecasting**.
+Foram contratados pela **Viação BR S.A.**, uma empresa de **transporte
+interestadual de passageiros no Brasil** que, há alguns anos, **adquiriu
 uma empresa concorrente** do mesmo setor.
 
-A diretoria está montando o orçamento do próximo ano e precisa da previsão
-dos próximos **12 meses** da operação para apoiar o planejamento de compras
-e estoque. Vocês têm a série mensal completa desde 2014, incluindo o
-"antes" e o "depois" da aquisição.
+A diretoria está montando o orçamento de 2014 e precisa da previsão
+dos próximos **12 meses** de passageiros transportados para apoiar o
+planejamento de frota e de pessoal. Vocês têm a série mensal completa desde
+2006, incluindo o "antes" e o "depois" da aquisição.
 
 ```{python}
 #| label: fig-contexto
-#| fig-cap: "Série mensal da Distribuidora BR (azul) e da empresa adquirida no período em que operou separadamente (laranja). A linha vermelha marca o mês da aquisição."
+#| fig-cap: "Passageiros transportados por mês (milhares): Viação BR (azul) e empresa adquirida no período em que foi reportada separadamente (laranja). A linha vermelha marca a conclusão da aquisição."
 #| echo: false
 #| out-width: 100%
 
 import pandas as pd
 import matplotlib.pyplot as plt
 
-serie = pd.read_csv("../dados/distribr_serie.csv", parse_dates=["data"])
-adquirida = pd.read_csv("../dados/distribr_adquirida.csv", parse_dates=["data"])
+serie = pd.read_csv("../dados/viacaobr_serie.csv", parse_dates=["data"])
+adquirida = pd.read_csv("../dados/viacaobr_adquirida.csv", parse_dates=["data"])
 
 fig, ax = plt.subplots(figsize=(10, 4))
-ax.plot(serie["data"], serie["valor"], color="C0", label="Distribuidora BR (série principal)")
-ax.plot(adquirida["data"], adquirida["valor"], color="C1", label="Empresa adquirida (período solo)")
-ax.axvline(pd.Timestamp("2019-07-01"), color="red", linestyle="--", linewidth=1, label="Aquisição (jul/2019)")
+ax.plot(serie["data"], serie["valor"], color="C0", label="Viação BR (série principal)")
+ax.plot(adquirida["data"], adquirida["valor"], color="C1", label="Empresa adquirida (reportada separadamente)")
+ax.axvline(pd.Timestamp("2009-03-01"), color="red", linestyle="--", linewidth=1, label="Conclusão da aquisição (mar/2009)")
 ax.set_xlabel("Data")
-ax.set_ylabel("Valor mensal")
-ax.legend(loc="lower right", fontsize=9)
+ax.set_ylabel("Passageiros (milhares)")
+ax.legend(loc="upper left", fontsize=9)
 ax.grid(alpha=0.3)
 plt.tight_layout()
 plt.show()
 ```
 
-Note como a série principal fica após jul/2019: a partir
-desse mês, o volume da adquirida passa a entrar no consolidado. É essa
-mudança que vocês vão ter que tratar na modelagem.
+A aquisição foi concluída em mar/2009, mas a operação da adquirida
+continuou sendo reportada separadamente por alguns meses. Identificar
+quando a mudança aparece de fato na série principal, e como tratá-la na
+modelagem, faz parte do trabalho.
 
 ## O que vocês entregam, e quando
 
@@ -79,15 +72,16 @@ entrega final ({{< var intermediario.prazo-curto >}}).
 Os dois arquivos abaixo estão no repositório do curso, na pasta `dados/`.
 Os links de download direto:
 
-- [📥 `distribr_serie.csv`](https://raw.githubusercontent.com/padsInsper/202634-fa/main/dados/distribr_serie.csv):
-  série mensal principal da Distribuidora BR, jan/2014 a dez/2023
-  (120 meses). Os 12 meses de 2024 foram **ocultados** e serão usados
+- [📥 `viacaobr_serie.csv`](https://raw.githubusercontent.com/padsInsper/202634-fa/main/dados/viacaobr_serie.csv):
+  série mensal principal da Viação BR, jan/2006 a dez/2013
+  (96 meses). Os 12 meses de 2014 foram **ocultados** e serão usados
   para avaliar a precisão das previsões.
-- [📥 `distribr_adquirida.csv`](https://raw.githubusercontent.com/padsInsper/202634-fa/main/dados/distribr_adquirida.csv):
+- [📥 `viacaobr_adquirida.csv`](https://raw.githubusercontent.com/padsInsper/202634-fa/main/dados/viacaobr_adquirida.csv):
   série mensal da empresa **adquirida**, cobrindo só o período em que
-  ela operou separadamente (antes da aquisição). Uso opcional.
+  ela foi reportada separadamente (até nov/2009). Uso opcional.
 
-Cada CSV tem duas colunas: `data` (primeiro dia de cada mês) e `valor`.
+Cada CSV tem duas colunas: `data` (primeiro dia de cada mês) e `valor`
+(passageiros transportados no mês, em milhares).
 
 ## O que entregar no notebook (6 pontos)
 
@@ -96,18 +90,24 @@ Cada CSV tem duas colunas: `data` (primeiro dia de cada mês) e `valor`.
    ADF e KPSS com conclusão escrita, identificação de sazonalidade e
    outliers visíveis.
 
-2. **Como vocês trataram a aquisição**. Descrevam a abordagem
-   escolhida e a justificativa. Por exemplo, se decidiram descartar o
-   histórico pré-aquisição, expliquem por que os dados antigos não são
-   relevantes para prever o futuro. Outras abordagens são possíveis:
-   discutam, decidam e defendam usando evidências dos dados.
+2. **Como vocês trataram a aquisição**. Primeiro, identifiquem quando a
+   aquisição aparece de fato na série. Depois, descrevam a abordagem
+   escolhida e a justificativa. Alguns caminhos possíveis: usar só o período
+   posterior à aquisição, modelar a mudança com variáveis de intervenção, ou
+   reconstruir o histórico consolidado com a série da adquirida. Outras
+   abordagens também valem: discutam, decidam e defendam usando evidências
+   dos dados.
 
 3. **Comparação de modelos**, com justificativa (SARIMA,
    ETS, Prophet, machine learning, etc.). Diagnóstico residual (ACF dos
    resíduos, teste de Ljung-Box) do modelo escolhido.
 
 4. **Validação cruzada temporal** com MAE, RMSE e MASE. Sugerimos comparar
-   contra um baseline ingênuo (`SeasonalNaive`).
+   contra um baseline ingênuo (`SeasonalNaive`). Para o MASE, usem sempre
+   a escala definida na seção [Previsão do grupo](#previsão-do-grupo-3-pontos),
+   calculada na série principal, mesmo quando o modelo for ajustado em
+   outra versão da série. Assim o MASE de estratégias diferentes fica
+   comparável.
 
 5. **Previsão final** dos próximos 12 meses com intervalos de 80% e 95%,
    gráfico, e o arquivo `previsao.csv` (colunas: `data`, `previsao`).
@@ -153,15 +153,26 @@ Mesmo sendo prévia, vale a pena já tentar responder:
 
 ## Previsão do grupo (3 pontos)
 
-A previsão de cada grupo é avaliada contra os 12 meses ocultados de 2024,
-usando a métrica **MASE**. Pontos por **ranking entre os grupos** serão
-computados de acordo com o MASE, proporcional à distância para o `SeasonalNaive`.
+A previsão de cada grupo é avaliada contra os 12 meses ocultados de 2014,
+usando a métrica **MASE**:
 
-O `SeasonalNaive` é o baseline. Ele será o marcador de 1,5 pontos: 
-se a previsão de um grupo tiver MASE igual, ganha 1,5 pontos. 
-Se for melhor, ganha mais; se for pior, ganha menos. Vamos ajustar
-a pontuação de forma que o primeiro lugar receba 3 pontos. O último
-lugar pode ficar com um pouco mais de 0, mas não pode ficar negativo.
+$$
+\text{MASE} = \frac{\frac{1}{12}\sum_{t=1}^{12} |y_t - \hat{y}_t|}{\frac{1}{n-12}\sum_{t=13}^{n} |y_t - y_{t-12}|},
+$$
+
+em que o numerador usa os 12 meses de 2014 e o denominador é o erro médio do
+`SeasonalNaive` dentro da amostra, calculado na série principal completa
+fornecida (`viacaobr_serie.csv`, $n = 96$).
+
+O `SeasonalNaive` (que repete os valores de 2013) é o marcador de 1,5 ponto, e o
+primeiro lugar recebe 3 pontos. Entre eles, a pontuação é linear no MASE:
+
+$$
+\text{pontos} = \max\left(0{,}2;\ \min\left(3;\ 1{,}5 + 1{,}5 \times \frac{\text{MASE}_{\text{SN}} - \text{MASE}_{\text{grupo}}}{\text{MASE}_{\text{SN}} - \text{MASE}_{1^\circ}}\right)\right).
+$$
+
+Ou seja: quem empata com o `SeasonalNaive` fica com 1,5, quem é melhor ganha
+mais, quem é pior ganha menos, e ninguém fica abaixo de 0,2.
 
 ## Predição agregada da turma (1 ponto)
 
@@ -195,5 +206,3 @@ individuais. **Todos os alunos recebem a mesma pontuação**:
 | Acima da mediana | 0,5 |
 | Abaixo da mediana mas melhor que `SeasonalNaive` | 0,2 |
 | Pior que `SeasonalNaive` | 0,0 |
-
-::::::
