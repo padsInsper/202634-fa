@@ -137,7 +137,10 @@
 /* caixas em colunas: o tema usa a fonte cheia, que estoura nos slides densos */
 .reveal .colunas .caixa { font-size: .74em; }
 .reveal .colunas .caixa .caixa { font-size: 1em; }
-#ft-texto, #hz-texto, #tr-texto { min-height: 7.5em; }
+#ft-texto, #hz-texto { min-height: 7.5em; }
+#mt-ctrl .botoes-modo { margin-top: .6em; }
+#leg-mint, #leg-arvore { min-height: 5.8em; }
+.reveal .colunas .caixa pre { font-size: .8em; margin: .3em 0; }
 #rc-texto .caixa { font-size: .74em; margin-bottom: .5em; }
 
 /* ---- quizzes -------------------------------------------------------------- */

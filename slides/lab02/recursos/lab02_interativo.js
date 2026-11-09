@@ -360,6 +360,126 @@
   }
 
   /* ====================================================================== */
+  /* 3b. Variáveis exógenas: o que se sabe depois da origem da previsão     */
+  /* ====================================================================== */
+
+  function montarExog() {
+    const caixa = $("#g-exog");
+    if (!caixa) return;
+    const np = 24, nf = 12, n = np + nf;
+    const W = 760, H = 330, x0 = 190, x1 = W - 10, cw = (x1 - x0) / n;
+    const svg = novoSvg(caixa, W, H);
+    const xc = (i) => x0 + i * cw;
+    const LIN = [
+      ["y: vendas", 40, "y"], ["datas especiais", 100, "cal"], ["preço, promoção", 160, "dec"],
+      ["temperatura, renda", 220, "ext"], ["temperatura (lag 12)", 280, "lag"],
+    ];
+    const g = gerador(5);
+    const temp = Array.from({ length: n }, (_, i) => 0.55 + 0.35 * Math.cos((2 * Math.PI * i) / 12) + 0.08 * g.normal());
+    const linhas = {};
+    // origem da previsão
+    const xo = xc(np);
+    el("rect", { x: xo, y: 14, width: x1 - xo, height: H - 22, class: "faixa-teste" }, svg);
+    texto(svg, xo - 6, 12, "passado", { class: "rotulo-eixo", "text-anchor": "end" });
+    texto(svg, xo + 6, 12, "futuro: o que queremos prever", { class: "rotulo-eixo" });
+    for (const [rot, y, id] of LIN) {
+      const gl = el("g", {}, svg);
+      texto(gl, x0 - 12, y + 20, rot, { class: "anot pequena", "text-anchor": "end" });
+      for (let i = 0; i < n; i++) {
+        const fut = i >= np, x = xc(i) + 1.5, w = cw - 3;
+        let cls = "cel-fora", alt = 26, op = 1, txt = null;
+        if (id === "y") { cls = fut ? "cel-teste" : "cel-treino"; op = fut ? 0.35 : 1; txt = fut ? "?" : null; }
+        if (id === "cal") { const ev = [1, 13, 25, 10, 22, 34].includes(i); cls = ev ? "cel-treino" : "cel-fora"; }
+        if (id === "dec") { cls = "cel-treino"; op = fut ? 0.6 : 1; alt = 10 + 16 * (0.5 + 0.5 * Math.sin(i * 1.7)); }
+        if (id === "ext") { cls = fut ? "cel-fora" : "cel-treino"; alt = fut ? 26 : 26 * temp[i]; txt = fut ? "?" : null; }
+        if (id === "lag") { cls = "cel-treino"; alt = i >= 12 ? 26 * temp[i - 12] : 0; op = fut ? 0.75 : 1; }
+        if (alt > 0) el("rect", { x, y: y + 26 - alt, width: w, height: alt, rx: 2, class: cls, style: `opacity:${op}` }, gl);
+        if (txt) texto(gl, x + w / 2, y + 20, txt, { class: "anot pequena", "text-anchor": "middle" });
+      }
+      const sinal = { cal: ["✓ conhecida", "c-turquesa"], dec: ["✓ planejada", "c-turquesa"],
+                      ext: ["✗ não existe", "c-marca"], lag: ["✓ já observada", "c-turquesa"] }[id];
+      if (sinal) texto(gl, x1 - 4, y - 6, sinal[0], { class: `anot pequena ${sinal[1]}`, "text-anchor": "end" });
+      linhas[id] = gl;
+    }
+    el("line", { x1: xo, x2: xo, y1: 14, y2: H - 8, style: "stroke:var(--marca);stroke-width:3" }, svg);
+    texto(svg, xo, H + 8, "origem da previsão", { class: "anot c-marca pequena", "text-anchor": "middle" });
+    // a seta do lag: o valor de 12 meses antes vai para o futuro
+    const gSeta = el("g", {}, svg);
+    const cab = ponta(svg, "pt-exog", "seta-cabeca-azul");
+    el("path", { d: `M${xc(np - 9) + cw / 2},${246} C${xc(np - 9) + cw / 2},${264} ${xc(np + 3) + cw / 2},${258} ${xc(np + 3) + cw / 2},${276}`,
+                 class: "arco", "marker-end": cab }, gSeta);
+    cena(caixa, (k, anim) => {
+      vis(linhas.cal, k >= 1, anim);
+      vis(linhas.dec, k >= 2, anim);
+      vis(linhas.ext, k >= 3, anim);
+      vis([linhas.lag, gSeta], k >= 4, anim);
+    });
+  }
+
+  /* ====================================================================== */
+  /* 3c. Features automáticas: uma série vira centenas de colunas           */
+  /* ====================================================================== */
+
+  function montarAutoFeat() {
+    const caixa = $("#g-autofeat");
+    if (!caixa) return;
+    const i1 = D.datas.indexOf("2024-12");
+    const ys = D.brasil.slice(0, i1 + 1).map((v) => v / 1000), n = ys.length;
+    const W = 720, H = 405;
+    const svg = novoSvg(caixa, W, H);
+    // a série, pequena, à esquerda
+    const sx = escala(0, n - 1, 10, 230), mn = Math.min(...ys), mx = Math.max(...ys);
+    const sy = escala(mn, mx, 250, 130);
+    const serie = el("path", { d: caminho(ys.map((_, i) => sx(i)), ys.map(sy)), class: "linha-serie" }, svg);
+    texto(svg, 120, 110, "vendas no Brasil, 2018 a 2024", { class: "anot pequena", "text-anchor": "middle" });
+    const cab = ponta(svg, "pt-auto", "seta-cabeca");
+    el("path", { d: "M245,190 L300,190", class: "seta", "marker-end": cab }, svg);
+    // features calculadas de verdade sobre a série
+    const media = ys.reduce((a, v) => a + v, 0) / n;
+    const dp = Math.sqrt(ys.reduce((a, v) => a + (v - media) ** 2, 0) / (n - 1));
+    const acf = (l) => {
+      let a = 0, b = 0;
+      for (let i = 0; i < n; i++) { b += (ys[i] - media) ** 2; if (i >= l) a += (ys[i] - media) * (ys[i - l] - media); }
+      return a / b;
+    };
+    const xm = (n - 1) / 2;
+    const incl = ys.reduce((a, v, i) => a + (i - xm) * (v - media), 0) / ys.reduce((a, _, i) => a + (i - xm) ** 2, 0);
+    const assim = ys.reduce((a, v) => a + ((v - media) / dp) ** 3, 0) / n;
+    let picos = 0;
+    for (let i = 1; i < n - 1; i++) if (ys[i] > ys[i - 1] && ys[i] > ys[i + 1]) picos++;
+    const FEAT = [
+      ["média", num(media, 1)], ["desvio padrão", num(dp, 1)], ["autocorrelação, lag 1", num(acf(1), 2)],
+      ["autocorrelação, lag 12", num(acf(12), 2)], ["inclinação por ano", num(incl * 12, 2)],
+      ["assimetria", num(assim, 2)], ["número de picos", String(picos)], ["máximo", num(mx, 1)],
+      ["mínimo", num(mn, 1)], ["força da sazonalidade", "…"], ["entropia espectral", "…"],
+    ];
+    const x0 = 320, lw = 300, rh = 28, y0 = 20;
+    el("rect", { x: x0, y: y0, width: lw + 90, height: rh, class: "tab-cab" }, svg);
+    texto(svg, x0 + 10, y0 + 22, "feature", { class: "tab-txt cab" });
+    texto(svg, x0 + lw + 80, y0 + 22, "valor", { class: "tab-txt cab", "text-anchor": "end" });
+    const linhas = FEAT.map(([f, v], i) => {
+      const gl = el("g", {}, svg), y = y0 + rh * (i + 1);
+      el("rect", { x: x0, y, width: lw + 90, height: rh, class: "tab-cel" }, gl);
+      texto(gl, x0 + 10, y + 20, f, { class: "tab-txt" });
+      texto(gl, x0 + lw + 80, y + 20, v, { class: "tab-txt feat", "text-anchor": "end" });
+      return gl;
+    });
+    const yC = y0 + rh * (FEAT.length + 1) + 34;
+    const cont = texto(svg, x0 + (lw + 90) / 2, yC, "", { class: "anot forte c-azul", "text-anchor": "middle", style: "font-size:24px" });
+    const contar = { v: 0 };
+    const escrever = () => { cont.textContent = `+ ${Math.round(contar.v)} features no tsfresh`; };
+    function animar() {
+      gsap.killTweensOf([linhas, contar]);
+      tracar(serie, 1);
+      gsap.fromTo(linhas, { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.3, stagger: 0.12, delay: 0.6 });
+      contar.v = 0; escrever();
+      gsap.to(contar, { v: 780, duration: 1.6, delay: 0.6 + 0.12 * FEAT.length, ease: "power2.out", onUpdate: escrever });
+    }
+    contar.v = 780; escrever();
+    entrar(caixa, animar);
+  }
+
+  /* ====================================================================== */
   /* 4. O vazamento: a janela que inclui o próprio mês                      */
   /* ====================================================================== */
 
@@ -562,12 +682,12 @@
   function montarArvore() {
     const caixa = $("#g-arvore");
     if (!caixa) return;
-    const g = gerador(11), n = 60, nt = 44;
+    const g = gerador(11), n = 60, nt = 44, F = 4;
     const saz = (t) => 7 * Math.sin((2 * Math.PI * t) / 12);
     const ys = Array.from({ length: n }, (_, t) => 40 + 1.1 * t + saz(t) + 2.2 * g.normal());
     const topo = Math.max(...ys.slice(0, nt));
-    // ilustração: no nível, a árvore devolve médias de valores vistos no treino
-    // (bate no teto); na diferença, prevê y_t − y_{t−12} e soma de volta
+    // ilustração: com t como feature, folhas de F meses com a média do treino;
+    // com lags, a previsão bate no teto; na diferença, prevê y_t − y_{t−12} e soma de volta
     const difMedia = ys.slice(12, nt).reduce((a, y, i) => a + (y - ys[i]), 0) / (nt - 12);
     const prevNivel = [], prevDif = [];
     for (let t = nt; t < n; t++) {
@@ -582,28 +702,36 @@
     el("rect", { x: sx(nt) - 5, y: yTop - 10, width: x1 - sx(nt) + 5, height: yBase - yTop + 10, class: "faixa-teste" }, svg);
     texto(svg, sx(nt) + 8, yBase - 8, "teste", { class: "rotulo-eixo" });
     texto(svg, x0 + 4, yBase - 8, "treino", { class: "rotulo-eixo" });
-    el("line", { x1: x0, x2: x1, y1: sy(topo), y2: sy(topo), class: "linha-ref" }, svg);
-    texto(svg, x0 + 6, sy(topo) - 8, "maior valor visto no treino", { class: "anot fraco pequena" });
-    el("path", { d: caminho(ys.slice(0, nt).map((_, i) => sx(i)), ys.slice(0, nt).map(sy)), class: "linha-serie" }, svg);
+    const gTeto = el("g", {}, svg);
+    el("line", { x1: x0, x2: x1, y1: sy(topo), y2: sy(topo), class: "linha-ref" }, gTeto);
+    texto(gTeto, x0 + 6, sy(topo) - 8, "maior valor visto no treino", { class: "anot fraco pequena" });
+    el("path", { d: caminho(ys.slice(0, nt).map((_, i) => sx(i)), ys.slice(0, nt).map(sy)), class: "linha-serie fina" }, svg);
     el("path", { d: caminho(ys.slice(nt - 1).map((_, i) => sx(nt - 1 + i)), ys.slice(nt - 1).map(sy)), class: "linha-verdade" }, svg);
-    const xsP = prevNivel.map((_, i) => sx(nt + i));
-    const linhaP = el("path", { class: "linha-prev" }, svg);
-    texto(svg, x1 - 4, yTop + 4, "ilustração", { class: "anot fraco pequena", "text-anchor": "end" });
-    const TXT = {
-      nivel: `<span class="rotulo">Árvore no nível</span><p>Uma árvore só devolve <b>médias de valores que viu no treino</b>. Se a série sobe, a previsão bate no teto e fica ali.</p>`,
-      diferenca: `<span class="rotulo">Árvore na diferença</span><p>O modelo prevê <b>y<sub>t</sub> − y<sub>t−12</sub></b>, que fica numa faixa estável. Somando de volta ao ano anterior, a tendência continua.</p>`,
-    };
-    let modo;
-    function desenhar(anim) {
-      const v = modo.v === "nivel" ? prevNivel : prevDif;
-      gsap.to(linhaP, { attr: { d: caminho(xsP, v.map(sy)) }, duration: anim ? 0.7 : 0, ease: "power2.inOut" });
-      const c = $("#tr-texto");
-      c.className = `caixa ${modo.v === "nivel" ? "atencao" : "ideia"}`;
-      c.innerHTML = TXT[modo.v];
+    // folhas: degraus de F meses no treino
+    const gFolhas = el("g", {}, svg), folhas = [];
+    for (let a = 0; a < nt; a += F) {
+      const b = Math.min(a + F, nt), m = ys.slice(a, b).reduce((u, v) => u + v, 0) / (b - a);
+      folhas.push(el("line", { x1: sx(a), x2: sx(b - 1) + (sx(1) - sx(0)), y1: sy(m), y2: sy(m),
+                               style: "stroke:var(--laranja);stroke-width:4;stroke-linecap:round" }, gFolhas));
     }
-    modo = modos("tr-modos", desenhar);
-    linhaP.setAttribute("d", caminho(xsP, prevNivel.map(sy)));
-    desenhar(false);
+    const ultima = ys.slice(nt - F, nt).reduce((u, v) => u + v, 0) / F;
+    const gReta = el("g", {}, svg);
+    el("line", { x1: sx(nt), x2: x1, y1: sy(ultima), y2: sy(ultima),
+                 style: "stroke:var(--laranja);stroke-width:4;stroke-dasharray:10 6" }, gReta);
+    texto(gReta, x1 - 4, sy(ultima) + 24, "última folha", { class: "anot c-laranja pequena", "text-anchor": "end" });
+    const xsP = prevNivel.map((_, i) => sx(nt + i));
+    const linhaP = el("path", { d: caminho(xsP, prevNivel.map(sy)), class: "linha-prev" }, svg);
+    texto(svg, x1 - 4, yTop + 4, "ilustração", { class: "anot fraco pequena", "text-anchor": "end" });
+    cena(caixa, (k, anim) => {
+      vis(gFolhas, k === 1 || k === 2, anim);
+      if (k === 1 && anim) gsap.fromTo(folhas, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25, stagger: 0.07 });
+      else gsap.set(folhas, { autoAlpha: 1 });
+      vis(gReta, k === 2, anim);
+      vis(gTeto, k >= 2, anim);
+      vis(linhaP, k >= 3, anim);
+      const v = k >= 4 ? prevDif : prevNivel;
+      gsap.to(linhaP, { attr: { d: caminho(xsP, v.map(sy)) }, duration: anim ? 0.7 : 0, ease: "power2.inOut" });
+    });
   }
 
   /* ====================================================================== */
@@ -946,10 +1074,11 @@
       arestas.forEach(({ f, p, a, b }) => {
         const nf = nivel[f], np = nivel[p];
         let de, ate, cls;
-        if (np >= u) { de = b; ate = a; cls = "particula"; }      // o filho está abaixo do nível usado: soma para cima
-        else if (nf <= u) { de = a; ate = b; cls = "particula desce"; } // o pai está acima do usado: proporção para baixo
+        if (nf <= u) { de = b; ate = a; cls = "particula"; }            // acima do nível usado: soma para cima
+        else if (np >= u) { de = a; ate = b; cls = "particula desce"; } // abaixo do nível usado: proporção para baixo
         else return;
-        const atraso = modo.v === "mo" ? 0 : (cls === "particula" ? (2 - nf) * 0.9 : np * 0.9);
+        // em ondas: a soma começa no nível usado e sobe; a proporção começa nele e desce
+        const atraso = cls === "particula" ? (u - nf) * 0.9 : (np - u) * 0.9;
         for (let q = 0; q < 3; q++) {
           const c = el("circle", { r: 6, class: cls, cx: de[0], cy: de[1] }, gPart);
           tl.fromTo(c, { attr: { cx: de[0], cy: de[1] }, autoAlpha: 0 },
@@ -996,6 +1125,13 @@
     const tS = texto(svg, X.S + bw / 2, 0, "", { class: "anot c-roxo", "text-anchor": "middle" });
     const igual = el("line", { x1: X.T, x2: X.NS + bw, class: "linha-ref" }, svg);
     texto(svg, 60, 24, "tracejado: previsão de base   ·   roxo: reconciliada", { class: "anot fraco pequena" });
+    // o buraco de 7 entre o Brasil e a soma das regiões
+    const gFalta = el("g", {}, svg);
+    el("line", { x1: X.T, x2: X.NS + bw + 8, y1: sy(B.T), y2: sy(B.T), class: "linha-ref" }, gFalta);
+    el("line", { x1: X.NS + bw + 8, x2: X.NS + bw + 8, y1: sy(B.T), y2: sy(B.N + B.S),
+                 style: "stroke:var(--marca);stroke-width:4" }, gFalta);
+    texto(gFalta, X.NS + bw + 16, (sy(B.T) + sy(B.N + B.S)) / 2 + 6, "faltam 7", { class: "anot c-marca" });
+    const recs = [rT, rNS_N, rNS_S, rN, rS, tT, tN, tS, igual];
     const contas = $("#mt-contas");
     let modo, ctl;
     function resolver(r) {
@@ -1035,6 +1171,12 @@
       modo.escolher(m);
     });
     ctl.at(false);
+    cena(caixa, (k, anim) => {
+      vis(gFalta, k === 0, anim);
+      vis(recs, k >= 1, anim);
+      vis($("#mt-ctrl"), k >= 2, anim);
+      if (k < 2) { modo.escolher("ols"); ctl.v = 1; ctl.at(anim); }
+    });
   }
 
   /* ====================================================================== */
@@ -1075,7 +1217,14 @@
     });
     entrar(caixa, () => {
       const k = [...secao(caixa).querySelectorAll(".fragment.passo")].filter((f) => f.classList.contains("visible")).length;
-      if (k === 0) linhas.forEach((l, q) => gsap.delayedCall(q * 0.25, () => tracar(l.p, 1.4)));
+      if (k !== 0) return;
+      // esconde todas antes, para nenhuma aparecer inteira e sumir em seguida
+      linhas.forEach((l) => {
+        const L = l.p.getTotalLength();
+        gsap.killTweensOf(l.p);
+        gsap.set(l.p, { strokeDasharray: L, strokeDashoffset: L });
+      });
+      linhas.forEach((l, q) => gsap.delayedCall(q * 0.25, () => tracar(l.p, 1.4)));
     });
   }
 
@@ -1160,7 +1309,7 @@
   }
 
   function iniciar() {
-    for (const f of [montarSerie, montarTabela, montarFeatures, montarVazamento, montarCV, montarHorizonte,
+    for (const f of [montarSerie, montarTabela, montarFeatures, montarExog, montarAutoFeat, montarVazamento, montarCV, montarHorizonte,
                      montarArvore, montarGlobal, montarEscada, montarCoerencia, montarArvHier, montarArvGrupo,
                      montarS, montarFluxo, montarMinT, montarRegioes, montarFluxoFinal, montarCronometros]) {
       try { f(); } catch (e) { console.error("[lab02]", f.name, e); }
