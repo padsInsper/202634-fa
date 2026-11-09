@@ -20,9 +20,12 @@ format:
 
 | Tempo | Atividade |
 |---|---|
-| 0h00-1h00 | **ML para séries temporais**: o que muda em relação ao ML tabular, *leakage*, features, modelos e comparação (este material) |
-| 1h00-2h00 | **Predição agregada**: a turma discute e decide como combinar as previsões dos grupos ([regras no enunciado](../trabalhos/intermediario.qmd#predição-agregada-da-turma-1-ponto)) |
-| 2h00-3h30 | **Office hours** do trabalho intermediário, com o monitor |
+| 0h00-1h30 | **Dinâmica de consenso**: dois entrevistadores e dois especialistas coletam as informações dos grupos e propõem à turma a **predição agregada** ([regras no enunciado](../trabalhos/intermediario.qmd#predição-agregada-da-turma-1-ponto)) |
+| intervalo | |
+| cerca de 40 min | **ML para séries temporais e séries hierárquicas**: [slides interativos](../slides/lab02/lab02-ml-hierarquicas.html) |
+| cerca de 45 min | **Exercício em grupo**: Cervejaria Ipê, [notebook no Colab](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/lab02-hierarquicas-exercicio.ipynb) |
+
+Este material (abaixo) aprofunda a parte de machine learning e fica para estudo.
 
 A revisão da Parte 1 logo abaixo é para estudo por conta própria (ela foi feita em sala no [Fechamento da Parte 1](../aulas/fechamento-parte1.qmd)).
 :::

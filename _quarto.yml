@@ -104,6 +104,8 @@ website:
             href: complementar/previsao-darts-notebook.ipynb
           - text: "Lab 2: ML para séries (notebook)"
             href: complementar/lab02-ml-series-notebook.ipynb
+          - text: "Lab 2: exercício de séries hierárquicas"
+            href: complementar/lab02-hierarquicas-exercicio.ipynb
           - text: "---"
           - text: "Volatilidade com arch (Python)"
             href: complementar/volatilidade-arch-python.ipynb
@@ -128,6 +130,8 @@ website:
             href: slides/aula02-arima-prophet.html
           - text: "Aula 6: Previsão e validação"
             href: slides/aula03-previsao-validacao.html
+          - text: "Lab 2: ML e séries hierárquicas"
+            href: slides/lab02/lab02-ml-hierarquicas.html
     right:
       - icon: github
         href: "https://github.com/padsInsper/202634-fa"

@@ -1,0 +1,4301 @@
+data,regiao,categoria,sku,vendas
+2018-01-01,Sudeste,Pilsen,PIL-LT350,9544.4
+2018-02-01,Sudeste,Pilsen,PIL-LT350,9354.9
+2018-03-01,Sudeste,Pilsen,PIL-LT350,9633.4
+2018-04-01,Sudeste,Pilsen,PIL-LT350,8579.2
+2018-05-01,Sudeste,Pilsen,PIL-LT350,7416.8
+2018-06-01,Sudeste,Pilsen,PIL-LT350,6712.6
+2018-07-01,Sudeste,Pilsen,PIL-LT350,6490.6
+2018-08-01,Sudeste,Pilsen,PIL-LT350,6326.5
+2018-09-01,Sudeste,Pilsen,PIL-LT350,6748.3
+2018-10-01,Sudeste,Pilsen,PIL-LT350,7785.3
+2018-11-01,Sudeste,Pilsen,PIL-LT350,8558.7
+2018-12-01,Sudeste,Pilsen,PIL-LT350,11156.5
+2019-01-01,Sudeste,Pilsen,PIL-LT350,9455.9
+2019-02-01,Sudeste,Pilsen,PIL-LT350,9567.2
+2019-03-01,Sudeste,Pilsen,PIL-LT350,9545.3
+2019-04-01,Sudeste,Pilsen,PIL-LT350,8226.2
+2019-05-01,Sudeste,Pilsen,PIL-LT350,7749.2
+2019-06-01,Sudeste,Pilsen,PIL-LT350,6805.6
+2019-07-01,Sudeste,Pilsen,PIL-LT350,6045.2
+2019-08-01,Sudeste,Pilsen,PIL-LT350,6300.6
+2019-09-01,Sudeste,Pilsen,PIL-LT350,7063.9
+2019-10-01,Sudeste,Pilsen,PIL-LT350,7494.9
+2019-11-01,Sudeste,Pilsen,PIL-LT350,8348.6
+2019-12-01,Sudeste,Pilsen,PIL-LT350,9397.2
+2020-01-01,Sudeste,Pilsen,PIL-LT350,10372.5
+2020-02-01,Sudeste,Pilsen,PIL-LT350,9982.1
+2020-03-01,Sudeste,Pilsen,PIL-LT350,9717.7
+2020-04-01,Sudeste,Pilsen,PIL-LT350,8490.0
+2020-05-01,Sudeste,Pilsen,PIL-LT350,8118.5
+2020-06-01,Sudeste,Pilsen,PIL-LT350,6799.2
+2020-07-01,Sudeste,Pilsen,PIL-LT350,7047.2
+2020-08-01,Sudeste,Pilsen,PIL-LT350,6821.2
+2020-09-01,Sudeste,Pilsen,PIL-LT350,7319.7
+2020-10-01,Sudeste,Pilsen,PIL-LT350,7313.1
+2020-11-01,Sudeste,Pilsen,PIL-LT350,8717.6
+2020-12-01,Sudeste,Pilsen,PIL-LT350,8959.1
+2021-01-01,Sudeste,Pilsen,PIL-LT350,9395.8
+2021-02-01,Sudeste,Pilsen,PIL-LT350,9822.3
+2021-03-01,Sudeste,Pilsen,PIL-LT350,9732.4
+2021-04-01,Sudeste,Pilsen,PIL-LT350,8670.0
+2021-05-01,Sudeste,Pilsen,PIL-LT350,7421.6
+2021-06-01,Sudeste,Pilsen,PIL-LT350,6662.3
+2021-07-01,Sudeste,Pilsen,PIL-LT350,6946.7
+2021-08-01,Sudeste,Pilsen,PIL-LT350,6685.1
+2021-09-01,Sudeste,Pilsen,PIL-LT350,7158.0
+2021-10-01,Sudeste,Pilsen,PIL-LT350,8454.9
+2021-11-01,Sudeste,Pilsen,PIL-LT350,8182.1
+2021-12-01,Sudeste,Pilsen,PIL-LT350,10362.0
+2022-01-01,Sudeste,Pilsen,PIL-LT350,11132.8
+2022-02-01,Sudeste,Pilsen,PIL-LT350,10385.3
+2022-03-01,Sudeste,Pilsen,PIL-LT350,9586.5
+2022-04-01,Sudeste,Pilsen,PIL-LT350,8256.0
+2022-05-01,Sudeste,Pilsen,PIL-LT350,8031.6
+2022-06-01,Sudeste,Pilsen,PIL-LT350,6813.4
+2022-07-01,Sudeste,Pilsen,PIL-LT350,6529.5
+2022-08-01,Sudeste,Pilsen,PIL-LT350,6452.5
+2022-09-01,Sudeste,Pilsen,PIL-LT350,7051.6
+2022-10-01,Sudeste,Pilsen,PIL-LT350,8156.3
+2022-11-01,Sudeste,Pilsen,PIL-LT350,8819.6
+2022-12-01,Sudeste,Pilsen,PIL-LT350,9389.3
+2023-01-01,Sudeste,Pilsen,PIL-LT350,9255.8
+2023-02-01,Sudeste,Pilsen,PIL-LT350,10016.1
+2023-03-01,Sudeste,Pilsen,PIL-LT350,8689.9
+2023-04-01,Sudeste,Pilsen,PIL-LT350,10398.7
+2023-05-01,Sudeste,Pilsen,PIL-LT350,8180.9
+2023-06-01,Sudeste,Pilsen,PIL-LT350,6799.2
+2023-07-01,Sudeste,Pilsen,PIL-LT350,6644.6
+2023-08-01,Sudeste,Pilsen,PIL-LT350,6215.0
+2023-09-01,Sudeste,Pilsen,PIL-LT350,7048.3
+2023-10-01,Sudeste,Pilsen,PIL-LT350,7137.4
+2023-11-01,Sudeste,Pilsen,PIL-LT350,8305.2
+2023-12-01,Sudeste,Pilsen,PIL-LT350,10317.1
+2024-01-01,Sudeste,Pilsen,PIL-LT350,9479.2
+2024-02-01,Sudeste,Pilsen,PIL-LT350,11068.7
+2024-03-01,Sudeste,Pilsen,PIL-LT350,9514.9
+2024-04-01,Sudeste,Pilsen,PIL-LT350,8530.9
+2024-05-01,Sudeste,Pilsen,PIL-LT350,7520.9
+2024-06-01,Sudeste,Pilsen,PIL-LT350,7442.4
+2024-07-01,Sudeste,Pilsen,PIL-LT350,6544.3
+2024-08-01,Sudeste,Pilsen,PIL-LT350,7076.2
+2024-09-01,Sudeste,Pilsen,PIL-LT350,6799.2
+2024-10-01,Sudeste,Pilsen,PIL-LT350,7782.9
+2024-11-01,Sudeste,Pilsen,PIL-LT350,8798.1
+2024-12-01,Sudeste,Pilsen,PIL-LT350,9511.5
+2025-01-01,Sudeste,Pilsen,PIL-LT350,9243.5
+2025-02-01,Sudeste,Pilsen,PIL-LT350,9490.4
+2025-03-01,Sudeste,Pilsen,PIL-LT350,10020.3
+2025-04-01,Sudeste,Pilsen,PIL-LT350,8299.6
+2025-05-01,Sudeste,Pilsen,PIL-LT350,8026.8
+2025-06-01,Sudeste,Pilsen,PIL-LT350,7241.0
+2025-07-01,Sudeste,Pilsen,PIL-LT350,6060.7
+2025-08-01,Sudeste,Pilsen,PIL-LT350,6105.1
+2025-09-01,Sudeste,Pilsen,PIL-LT350,6656.2
+2025-10-01,Sudeste,Pilsen,PIL-LT350,7838.5
+2025-11-01,Sudeste,Pilsen,PIL-LT350,9491.8
+2025-12-01,Sudeste,Pilsen,PIL-LT350,9229.5
+2018-01-01,Sudeste,Pilsen,PIL-GF600,7415.4
+2018-02-01,Sudeste,Pilsen,PIL-GF600,7476.5
+2018-03-01,Sudeste,Pilsen,PIL-GF600,6679.3
+2018-04-01,Sudeste,Pilsen,PIL-GF600,5685.8
+2018-05-01,Sudeste,Pilsen,PIL-GF600,6100.3
+2018-06-01,Sudeste,Pilsen,PIL-GF600,5170.9
+2018-07-01,Sudeste,Pilsen,PIL-GF600,4672.3
+2018-08-01,Sudeste,Pilsen,PIL-GF600,4639.8
+2018-09-01,Sudeste,Pilsen,PIL-GF600,5020.5
+2018-10-01,Sudeste,Pilsen,PIL-GF600,6176.7
+2018-11-01,Sudeste,Pilsen,PIL-GF600,6082.2
+2018-12-01,Sudeste,Pilsen,PIL-GF600,6229.7
+2019-01-01,Sudeste,Pilsen,PIL-GF600,6946.1
+2019-02-01,Sudeste,Pilsen,PIL-GF600,6565.3
+2019-03-01,Sudeste,Pilsen,PIL-GF600,7286.5
+2019-04-01,Sudeste,Pilsen,PIL-GF600,5919.8
+2019-05-01,Sudeste,Pilsen,PIL-GF600,5425.6
+2019-06-01,Sudeste,Pilsen,PIL-GF600,5559.4
+2019-07-01,Sudeste,Pilsen,PIL-GF600,4717.3
+2019-08-01,Sudeste,Pilsen,PIL-GF600,4593.3
+2019-09-01,Sudeste,Pilsen,PIL-GF600,4829.4
+2019-10-01,Sudeste,Pilsen,PIL-GF600,6197.2
+2019-11-01,Sudeste,Pilsen,PIL-GF600,6188.8
+2019-12-01,Sudeste,Pilsen,PIL-GF600,6868.9
+2020-01-01,Sudeste,Pilsen,PIL-GF600,6673.1
+2020-02-01,Sudeste,Pilsen,PIL-GF600,7755.9
+2020-03-01,Sudeste,Pilsen,PIL-GF600,7726.0
+2020-04-01,Sudeste,Pilsen,PIL-GF600,2417.8
+2020-05-01,Sudeste,Pilsen,PIL-GF600,2547.4
+2020-06-01,Sudeste,Pilsen,PIL-GF600,2937.7
+2020-07-01,Sudeste,Pilsen,PIL-GF600,3517.8
+2020-08-01,Sudeste,Pilsen,PIL-GF600,4028.7
+2020-09-01,Sudeste,Pilsen,PIL-GF600,4207.1
+2020-10-01,Sudeste,Pilsen,PIL-GF600,5188.8
+2020-11-01,Sudeste,Pilsen,PIL-GF600,5820.9
+2020-12-01,Sudeste,Pilsen,PIL-GF600,6038.6
+2021-01-01,Sudeste,Pilsen,PIL-GF600,6250.3
+2021-02-01,Sudeste,Pilsen,PIL-GF600,6536.2
+2021-03-01,Sudeste,Pilsen,PIL-GF600,5503.3
+2021-04-01,Sudeste,Pilsen,PIL-GF600,4893.2
+2021-05-01,Sudeste,Pilsen,PIL-GF600,4970.2
+2021-06-01,Sudeste,Pilsen,PIL-GF600,4622.2
+2021-07-01,Sudeste,Pilsen,PIL-GF600,4424.1
+2021-08-01,Sudeste,Pilsen,PIL-GF600,4248.6
+2021-09-01,Sudeste,Pilsen,PIL-GF600,4557.6
+2021-10-01,Sudeste,Pilsen,PIL-GF600,5049.2
+2021-11-01,Sudeste,Pilsen,PIL-GF600,5372.9
+2021-12-01,Sudeste,Pilsen,PIL-GF600,6072.5
+2022-01-01,Sudeste,Pilsen,PIL-GF600,6225.2
+2022-02-01,Sudeste,Pilsen,PIL-GF600,6866.9
+2022-03-01,Sudeste,Pilsen,PIL-GF600,5946.8
+2022-04-01,Sudeste,Pilsen,PIL-GF600,5724.2
+2022-05-01,Sudeste,Pilsen,PIL-GF600,5133.4
+2022-06-01,Sudeste,Pilsen,PIL-GF600,4327.6
+2022-07-01,Sudeste,Pilsen,PIL-GF600,4035.1
+2022-08-01,Sudeste,Pilsen,PIL-GF600,4181.8
+2022-09-01,Sudeste,Pilsen,PIL-GF600,4677.7
+2022-10-01,Sudeste,Pilsen,PIL-GF600,4869.0
+2022-11-01,Sudeste,Pilsen,PIL-GF600,5692.8
+2022-12-01,Sudeste,Pilsen,PIL-GF600,5555.6
+2023-01-01,Sudeste,Pilsen,PIL-GF600,6145.6
+2023-02-01,Sudeste,Pilsen,PIL-GF600,6848.4
+2023-03-01,Sudeste,Pilsen,PIL-GF600,6093.0
+2023-04-01,Sudeste,Pilsen,PIL-GF600,5600.8
+2023-05-01,Sudeste,Pilsen,PIL-GF600,4866.2
+2023-06-01,Sudeste,Pilsen,PIL-GF600,4419.2
+2023-07-01,Sudeste,Pilsen,PIL-GF600,4355.3
+2023-08-01,Sudeste,Pilsen,PIL-GF600,4156.2
+2023-09-01,Sudeste,Pilsen,PIL-GF600,3991.4
+2023-10-01,Sudeste,Pilsen,PIL-GF600,5137.0
+2023-11-01,Sudeste,Pilsen,PIL-GF600,5158.8
+2023-12-01,Sudeste,Pilsen,PIL-GF600,6265.1
+2024-01-01,Sudeste,Pilsen,PIL-GF600,6635.7
+2024-02-01,Sudeste,Pilsen,PIL-GF600,6850.5
+2024-03-01,Sudeste,Pilsen,PIL-GF600,7395.8
+2024-04-01,Sudeste,Pilsen,PIL-GF600,5863.5
+2024-05-01,Sudeste,Pilsen,PIL-GF600,4597.8
+2024-06-01,Sudeste,Pilsen,PIL-GF600,4426.7
+2024-07-01,Sudeste,Pilsen,PIL-GF600,4149.7
+2024-08-01,Sudeste,Pilsen,PIL-GF600,3916.3
+2024-09-01,Sudeste,Pilsen,PIL-GF600,4779.3
+2024-10-01,Sudeste,Pilsen,PIL-GF600,4670.1
+2024-11-01,Sudeste,Pilsen,PIL-GF600,5134.9
+2024-12-01,Sudeste,Pilsen,PIL-GF600,5827.8
+2025-01-01,Sudeste,Pilsen,PIL-GF600,6301.5
+2025-02-01,Sudeste,Pilsen,PIL-GF600,5830.2
+2025-03-01,Sudeste,Pilsen,PIL-GF600,6013.4
+2025-04-01,Sudeste,Pilsen,PIL-GF600,5391.7
+2025-05-01,Sudeste,Pilsen,PIL-GF600,4435.6
+2025-06-01,Sudeste,Pilsen,PIL-GF600,4132.9
+2025-07-01,Sudeste,Pilsen,PIL-GF600,3865.1
+2025-08-01,Sudeste,Pilsen,PIL-GF600,3931.6
+2025-09-01,Sudeste,Pilsen,PIL-GF600,4972.4
+2025-10-01,Sudeste,Pilsen,PIL-GF600,5120.0
+2025-11-01,Sudeste,Pilsen,PIL-GF600,5427.1
+2025-12-01,Sudeste,Pilsen,PIL-GF600,5642.1
+2018-01-01,Sudeste,Pilsen,PIL-LT473,3792.4
+2018-02-01,Sudeste,Pilsen,PIL-LT473,4633.4
+2018-03-01,Sudeste,Pilsen,PIL-LT473,3657.2
+2018-04-01,Sudeste,Pilsen,PIL-LT473,3565.6
+2018-05-01,Sudeste,Pilsen,PIL-LT473,3194.7
+2018-06-01,Sudeste,Pilsen,PIL-LT473,2909.9
+2018-07-01,Sudeste,Pilsen,PIL-LT473,2721.9
+2018-08-01,Sudeste,Pilsen,PIL-LT473,2627.1
+2018-09-01,Sudeste,Pilsen,PIL-LT473,2738.3
+2018-10-01,Sudeste,Pilsen,PIL-LT473,3016.7
+2018-11-01,Sudeste,Pilsen,PIL-LT473,3419.2
+2018-12-01,Sudeste,Pilsen,PIL-LT473,3774.7
+2019-01-01,Sudeste,Pilsen,PIL-LT473,4617.9
+2019-02-01,Sudeste,Pilsen,PIL-LT473,3827.8
+2019-03-01,Sudeste,Pilsen,PIL-LT473,4009.8
+2019-04-01,Sudeste,Pilsen,PIL-LT473,3453.3
+2019-05-01,Sudeste,Pilsen,PIL-LT473,3056.9
+2019-06-01,Sudeste,Pilsen,PIL-LT473,2929.2
+2019-07-01,Sudeste,Pilsen,PIL-LT473,2638.3
+2019-08-01,Sudeste,Pilsen,PIL-LT473,2609.0
+2019-09-01,Sudeste,Pilsen,PIL-LT473,2667.5
+2019-10-01,Sudeste,Pilsen,PIL-LT473,3019.3
+2019-11-01,Sudeste,Pilsen,PIL-LT473,3525.3
+2019-12-01,Sudeste,Pilsen,PIL-LT473,4901.2
+2020-01-01,Sudeste,Pilsen,PIL-LT473,3594.6
+2020-02-01,Sudeste,Pilsen,PIL-LT473,5382.3
+2020-03-01,Sudeste,Pilsen,PIL-LT473,3686.1
+2020-04-01,Sudeste,Pilsen,PIL-LT473,3593.1
+2020-05-01,Sudeste,Pilsen,PIL-LT473,3562.3
+2020-06-01,Sudeste,Pilsen,PIL-LT473,3184.9
+2020-07-01,Sudeste,Pilsen,PIL-LT473,2689.2
+2020-08-01,Sudeste,Pilsen,PIL-LT473,2716.4
+2020-09-01,Sudeste,Pilsen,PIL-LT473,2759.9
+2020-10-01,Sudeste,Pilsen,PIL-LT473,3346.4
+2020-11-01,Sudeste,Pilsen,PIL-LT473,3735.9
+2020-12-01,Sudeste,Pilsen,PIL-LT473,3804.6
+2021-01-01,Sudeste,Pilsen,PIL-LT473,4358.5
+2021-02-01,Sudeste,Pilsen,PIL-LT473,4267.7
+2021-03-01,Sudeste,Pilsen,PIL-LT473,3957.8
+2021-04-01,Sudeste,Pilsen,PIL-LT473,3795.2
+2021-05-01,Sudeste,Pilsen,PIL-LT473,3009.3
+2021-06-01,Sudeste,Pilsen,PIL-LT473,2922.7
+2021-07-01,Sudeste,Pilsen,PIL-LT473,2822.3
+2021-08-01,Sudeste,Pilsen,PIL-LT473,2792.1
+2021-09-01,Sudeste,Pilsen,PIL-LT473,3945.9
+2021-10-01,Sudeste,Pilsen,PIL-LT473,3347.2
+2021-11-01,Sudeste,Pilsen,PIL-LT473,3730.5
+2021-12-01,Sudeste,Pilsen,PIL-LT473,3734.4
+2022-01-01,Sudeste,Pilsen,PIL-LT473,4136.1
+2022-02-01,Sudeste,Pilsen,PIL-LT473,4025.6
+2022-03-01,Sudeste,Pilsen,PIL-LT473,4497.4
+2022-04-01,Sudeste,Pilsen,PIL-LT473,3627.8
+2022-05-01,Sudeste,Pilsen,PIL-LT473,3364.2
+2022-06-01,Sudeste,Pilsen,PIL-LT473,3220.5
+2022-07-01,Sudeste,Pilsen,PIL-LT473,2950.8
+2022-08-01,Sudeste,Pilsen,PIL-LT473,2672.6
+2022-09-01,Sudeste,Pilsen,PIL-LT473,3150.3
+2022-10-01,Sudeste,Pilsen,PIL-LT473,3498.6
+2022-11-01,Sudeste,Pilsen,PIL-LT473,3946.0
+2022-12-01,Sudeste,Pilsen,PIL-LT473,4428.9
+2023-01-01,Sudeste,Pilsen,PIL-LT473,4300.3
+2023-02-01,Sudeste,Pilsen,PIL-LT473,4326.9
+2023-03-01,Sudeste,Pilsen,PIL-LT473,3997.9
+2023-04-01,Sudeste,Pilsen,PIL-LT473,3798.4
+2023-05-01,Sudeste,Pilsen,PIL-LT473,3331.1
+2023-06-01,Sudeste,Pilsen,PIL-LT473,3193.3
+2023-07-01,Sudeste,Pilsen,PIL-LT473,3075.7
+2023-08-01,Sudeste,Pilsen,PIL-LT473,2974.1
+2023-09-01,Sudeste,Pilsen,PIL-LT473,3072.8
+2023-10-01,Sudeste,Pilsen,PIL-LT473,3701.7
+2023-11-01,Sudeste,Pilsen,PIL-LT473,3875.0
+2023-12-01,Sudeste,Pilsen,PIL-LT473,4258.7
+2024-01-01,Sudeste,Pilsen,PIL-LT473,4223.8
+2024-02-01,Sudeste,Pilsen,PIL-LT473,4694.6
+2024-03-01,Sudeste,Pilsen,PIL-LT473,4421.9
+2024-04-01,Sudeste,Pilsen,PIL-LT473,4032.4
+2024-05-01,Sudeste,Pilsen,PIL-LT473,3480.8
+2024-06-01,Sudeste,Pilsen,PIL-LT473,3188.4
+2024-07-01,Sudeste,Pilsen,PIL-LT473,3030.4
+2024-08-01,Sudeste,Pilsen,PIL-LT473,2871.9
+2024-09-01,Sudeste,Pilsen,PIL-LT473,3177.6
+2024-10-01,Sudeste,Pilsen,PIL-LT473,3460.9
+2024-11-01,Sudeste,Pilsen,PIL-LT473,3685.6
+2024-12-01,Sudeste,Pilsen,PIL-LT473,4320.8
+2025-01-01,Sudeste,Pilsen,PIL-LT473,4460.9
+2025-02-01,Sudeste,Pilsen,PIL-LT473,4190.6
+2025-03-01,Sudeste,Pilsen,PIL-LT473,4482.4
+2025-04-01,Sudeste,Pilsen,PIL-LT473,3967.0
+2025-05-01,Sudeste,Pilsen,PIL-LT473,3124.7
+2025-06-01,Sudeste,Pilsen,PIL-LT473,3294.8
+2025-07-01,Sudeste,Pilsen,PIL-LT473,3115.0
+2025-08-01,Sudeste,Pilsen,PIL-LT473,3180.1
+2025-09-01,Sudeste,Pilsen,PIL-LT473,3190.9
+2025-10-01,Sudeste,Pilsen,PIL-LT473,3391.2
+2025-11-01,Sudeste,Pilsen,PIL-LT473,4166.5
+2025-12-01,Sudeste,Pilsen,PIL-LT473,4108.1
+2018-01-01,Sudeste,Puro malte,PM-LT350,3347.7
+2018-02-01,Sudeste,Puro malte,PM-LT350,3725.7
+2018-03-01,Sudeste,Puro malte,PM-LT350,3103.3
+2018-04-01,Sudeste,Puro malte,PM-LT350,2634.8
+2018-05-01,Sudeste,Puro malte,PM-LT350,2693.4
+2018-06-01,Sudeste,Puro malte,PM-LT350,2221.4
+2018-07-01,Sudeste,Puro malte,PM-LT350,2420.8
+2018-08-01,Sudeste,Puro malte,PM-LT350,2419.1
+2018-09-01,Sudeste,Puro malte,PM-LT350,2316.7
+2018-10-01,Sudeste,Puro malte,PM-LT350,2500.9
+2018-11-01,Sudeste,Puro malte,PM-LT350,2848.5
+2018-12-01,Sudeste,Puro malte,PM-LT350,3208.2
+2019-01-01,Sudeste,Puro malte,PM-LT350,3607.8
+2019-02-01,Sudeste,Puro malte,PM-LT350,3202.9
+2019-03-01,Sudeste,Puro malte,PM-LT350,3698.9
+2019-04-01,Sudeste,Puro malte,PM-LT350,2741.7
+2019-05-01,Sudeste,Puro malte,PM-LT350,2928.1
+2019-06-01,Sudeste,Puro malte,PM-LT350,2503.4
+2019-07-01,Sudeste,Puro malte,PM-LT350,2397.9
+2019-08-01,Sudeste,Puro malte,PM-LT350,2376.1
+2019-09-01,Sudeste,Puro malte,PM-LT350,2679.2
+2019-10-01,Sudeste,Puro malte,PM-LT350,2894.7
+2019-11-01,Sudeste,Puro malte,PM-LT350,3448.9
+2019-12-01,Sudeste,Puro malte,PM-LT350,3169.8
+2020-01-01,Sudeste,Puro malte,PM-LT350,3481.4
+2020-02-01,Sudeste,Puro malte,PM-LT350,3700.7
+2020-03-01,Sudeste,Puro malte,PM-LT350,3654.4
+2020-04-01,Sudeste,Puro malte,PM-LT350,3204.3
+2020-05-01,Sudeste,Puro malte,PM-LT350,3547.1
+2020-06-01,Sudeste,Puro malte,PM-LT350,2827.6
+2020-07-01,Sudeste,Puro malte,PM-LT350,2779.0
+2020-08-01,Sudeste,Puro malte,PM-LT350,2484.1
+2020-09-01,Sudeste,Puro malte,PM-LT350,3490.8
+2020-10-01,Sudeste,Puro malte,PM-LT350,3153.0
+2020-11-01,Sudeste,Puro malte,PM-LT350,3293.3
+2020-12-01,Sudeste,Puro malte,PM-LT350,3682.3
+2021-01-01,Sudeste,Puro malte,PM-LT350,4232.3
+2021-02-01,Sudeste,Puro malte,PM-LT350,4196.9
+2021-03-01,Sudeste,Puro malte,PM-LT350,3973.7
+2021-04-01,Sudeste,Puro malte,PM-LT350,3934.0
+2021-05-01,Sudeste,Puro malte,PM-LT350,3628.9
+2021-06-01,Sudeste,Puro malte,PM-LT350,2947.6
+2021-07-01,Sudeste,Puro malte,PM-LT350,2695.0
+2021-08-01,Sudeste,Puro malte,PM-LT350,2966.1
+2021-09-01,Sudeste,Puro malte,PM-LT350,3126.3
+2021-10-01,Sudeste,Puro malte,PM-LT350,3484.1
+2021-11-01,Sudeste,Puro malte,PM-LT350,3561.0
+2021-12-01,Sudeste,Puro malte,PM-LT350,4118.6
+2022-01-01,Sudeste,Puro malte,PM-LT350,4444.7
+2022-02-01,Sudeste,Puro malte,PM-LT350,4520.2
+2022-03-01,Sudeste,Puro malte,PM-LT350,4598.9
+2022-04-01,Sudeste,Puro malte,PM-LT350,3654.6
+2022-05-01,Sudeste,Puro malte,PM-LT350,3471.5
+2022-06-01,Sudeste,Puro malte,PM-LT350,3348.4
+2022-07-01,Sudeste,Puro malte,PM-LT350,3046.0
+2022-08-01,Sudeste,Puro malte,PM-LT350,3181.8
+2022-09-01,Sudeste,Puro malte,PM-LT350,2886.8
+2022-10-01,Sudeste,Puro malte,PM-LT350,3487.2
+2022-11-01,Sudeste,Puro malte,PM-LT350,4285.9
+2022-12-01,Sudeste,Puro malte,PM-LT350,4626.4
+2023-01-01,Sudeste,Puro malte,PM-LT350,4122.4
+2023-02-01,Sudeste,Puro malte,PM-LT350,5197.8
+2023-03-01,Sudeste,Puro malte,PM-LT350,4461.0
+2023-04-01,Sudeste,Puro malte,PM-LT350,3971.9
+2023-05-01,Sudeste,Puro malte,PM-LT350,3913.4
+2023-06-01,Sudeste,Puro malte,PM-LT350,3081.9
+2023-07-01,Sudeste,Puro malte,PM-LT350,3095.6
+2023-08-01,Sudeste,Puro malte,PM-LT350,3338.1
+2023-09-01,Sudeste,Puro malte,PM-LT350,3484.5
+2023-10-01,Sudeste,Puro malte,PM-LT350,3757.7
+2023-11-01,Sudeste,Puro malte,PM-LT350,4208.0
+2023-12-01,Sudeste,Puro malte,PM-LT350,4576.1
+2024-01-01,Sudeste,Puro malte,PM-LT350,5083.3
+2024-02-01,Sudeste,Puro malte,PM-LT350,5210.5
+2024-03-01,Sudeste,Puro malte,PM-LT350,4875.6
+2024-04-01,Sudeste,Puro malte,PM-LT350,3939.1
+2024-05-01,Sudeste,Puro malte,PM-LT350,4213.4
+2024-06-01,Sudeste,Puro malte,PM-LT350,4076.5
+2024-07-01,Sudeste,Puro malte,PM-LT350,3499.1
+2024-08-01,Sudeste,Puro malte,PM-LT350,3419.1
+2024-09-01,Sudeste,Puro malte,PM-LT350,3579.6
+2024-10-01,Sudeste,Puro malte,PM-LT350,4229.1
+2024-11-01,Sudeste,Puro malte,PM-LT350,4412.7
+2024-12-01,Sudeste,Puro malte,PM-LT350,4777.6
+2025-01-01,Sudeste,Puro malte,PM-LT350,4707.4
+2025-02-01,Sudeste,Puro malte,PM-LT350,5328.5
+2025-03-01,Sudeste,Puro malte,PM-LT350,5393.3
+2025-04-01,Sudeste,Puro malte,PM-LT350,4641.9
+2025-05-01,Sudeste,Puro malte,PM-LT350,4259.4
+2025-06-01,Sudeste,Puro malte,PM-LT350,3746.1
+2025-07-01,Sudeste,Puro malte,PM-LT350,3702.7
+2025-08-01,Sudeste,Puro malte,PM-LT350,3497.5
+2025-09-01,Sudeste,Puro malte,PM-LT350,3928.2
+2025-10-01,Sudeste,Puro malte,PM-LT350,5190.5
+2025-11-01,Sudeste,Puro malte,PM-LT350,4499.2
+2025-12-01,Sudeste,Puro malte,PM-LT350,5034.9
+2018-01-01,Sudeste,Puro malte,PM-LN355,1761.1
+2018-02-01,Sudeste,Puro malte,PM-LN355,1990.8
+2018-03-01,Sudeste,Puro malte,PM-LN355,1806.3
+2018-04-01,Sudeste,Puro malte,PM-LN355,1578.7
+2018-05-01,Sudeste,Puro malte,PM-LN355,1507.7
+2018-06-01,Sudeste,Puro malte,PM-LN355,1431.4
+2018-07-01,Sudeste,Puro malte,PM-LN355,1376.8
+2018-08-01,Sudeste,Puro malte,PM-LN355,1273.1
+2018-09-01,Sudeste,Puro malte,PM-LN355,1446.1
+2018-10-01,Sudeste,Puro malte,PM-LN355,1456.1
+2018-11-01,Sudeste,Puro malte,PM-LN355,1675.9
+2018-12-01,Sudeste,Puro malte,PM-LN355,1902.1
+2019-01-01,Sudeste,Puro malte,PM-LN355,1919.9
+2019-02-01,Sudeste,Puro malte,PM-LN355,1915.2
+2019-03-01,Sudeste,Puro malte,PM-LN355,2100.1
+2019-04-01,Sudeste,Puro malte,PM-LN355,1684.6
+2019-05-01,Sudeste,Puro malte,PM-LN355,1616.6
+2019-06-01,Sudeste,Puro malte,PM-LN355,1453.6
+2019-07-01,Sudeste,Puro malte,PM-LN355,1417.3
+2019-08-01,Sudeste,Puro malte,PM-LN355,1442.2
+2019-09-01,Sudeste,Puro malte,PM-LN355,1492.1
+2019-10-01,Sudeste,Puro malte,PM-LN355,1601.4
+2019-11-01,Sudeste,Puro malte,PM-LN355,1931.1
+2019-12-01,Sudeste,Puro malte,PM-LN355,2017.3
+2020-01-01,Sudeste,Puro malte,PM-LN355,2001.7
+2020-02-01,Sudeste,Puro malte,PM-LN355,2295.1
+2020-03-01,Sudeste,Puro malte,PM-LN355,1959.5
+2020-04-01,Sudeste,Puro malte,PM-LN355,738.1
+2020-05-01,Sudeste,Puro malte,PM-LN355,806.5
+2020-06-01,Sudeste,Puro malte,PM-LN355,983.1
+2020-07-01,Sudeste,Puro malte,PM-LN355,1137.4
+2020-08-01,Sudeste,Puro malte,PM-LN355,1187.4
+2020-09-01,Sudeste,Puro malte,PM-LN355,1427.9
+2020-10-01,Sudeste,Puro malte,PM-LN355,1774.2
+2020-11-01,Sudeste,Puro malte,PM-LN355,1820.6
+2020-12-01,Sudeste,Puro malte,PM-LN355,2135.8
+2021-01-01,Sudeste,Puro malte,PM-LN355,1989.1
+2021-02-01,Sudeste,Puro malte,PM-LN355,2282.4
+2021-03-01,Sudeste,Puro malte,PM-LN355,1762.1
+2021-04-01,Sudeste,Puro malte,PM-LN355,1621.3
+2021-05-01,Sudeste,Puro malte,PM-LN355,1897.6
+2021-06-01,Sudeste,Puro malte,PM-LN355,1668.5
+2021-07-01,Sudeste,Puro malte,PM-LN355,1615.5
+2021-08-01,Sudeste,Puro malte,PM-LN355,1569.1
+2021-09-01,Sudeste,Puro malte,PM-LN355,1680.5
+2021-10-01,Sudeste,Puro malte,PM-LN355,1794.1
+2021-11-01,Sudeste,Puro malte,PM-LN355,2085.3
+2021-12-01,Sudeste,Puro malte,PM-LN355,2213.6
+2022-01-01,Sudeste,Puro malte,PM-LN355,2257.6
+2022-02-01,Sudeste,Puro malte,PM-LN355,2321.9
+2022-03-01,Sudeste,Puro malte,PM-LN355,2107.5
+2022-04-01,Sudeste,Puro malte,PM-LN355,2082.8
+2022-05-01,Sudeste,Puro malte,PM-LN355,1932.8
+2022-06-01,Sudeste,Puro malte,PM-LN355,1729.0
+2022-07-01,Sudeste,Puro malte,PM-LN355,1670.4
+2022-08-01,Sudeste,Puro malte,PM-LN355,1602.4
+2022-09-01,Sudeste,Puro malte,PM-LN355,1743.9
+2022-10-01,Sudeste,Puro malte,PM-LN355,1934.2
+2022-11-01,Sudeste,Puro malte,PM-LN355,2523.3
+2022-12-01,Sudeste,Puro malte,PM-LN355,2322.7
+2023-01-01,Sudeste,Puro malte,PM-LN355,2737.4
+2023-02-01,Sudeste,Puro malte,PM-LN355,2572.1
+2023-03-01,Sudeste,Puro malte,PM-LN355,2336.0
+2023-04-01,Sudeste,Puro malte,PM-LN355,2232.6
+2023-05-01,Sudeste,Puro malte,PM-LN355,2054.0
+2023-06-01,Sudeste,Puro malte,PM-LN355,1809.8
+2023-07-01,Sudeste,Puro malte,PM-LN355,1730.7
+2023-08-01,Sudeste,Puro malte,PM-LN355,1848.0
+2023-09-01,Sudeste,Puro malte,PM-LN355,2103.9
+2023-10-01,Sudeste,Puro malte,PM-LN355,2082.0
+2023-11-01,Sudeste,Puro malte,PM-LN355,2354.6
+2023-12-01,Sudeste,Puro malte,PM-LN355,2862.6
+2024-01-01,Sudeste,Puro malte,PM-LN355,2833.9
+2024-02-01,Sudeste,Puro malte,PM-LN355,2802.9
+2024-03-01,Sudeste,Puro malte,PM-LN355,2576.0
+2024-04-01,Sudeste,Puro malte,PM-LN355,2198.8
+2024-05-01,Sudeste,Puro malte,PM-LN355,1830.6
+2024-06-01,Sudeste,Puro malte,PM-LN355,2152.4
+2024-07-01,Sudeste,Puro malte,PM-LN355,1908.3
+2024-08-01,Sudeste,Puro malte,PM-LN355,1901.9
+2024-09-01,Sudeste,Puro malte,PM-LN355,1846.4
+2024-10-01,Sudeste,Puro malte,PM-LN355,1975.3
+2024-11-01,Sudeste,Puro malte,PM-LN355,2366.1
+2024-12-01,Sudeste,Puro malte,PM-LN355,2627.4
+2025-01-01,Sudeste,Puro malte,PM-LN355,2846.8
+2025-02-01,Sudeste,Puro malte,PM-LN355,2755.8
+2025-03-01,Sudeste,Puro malte,PM-LN355,3055.0
+2025-04-01,Sudeste,Puro malte,PM-LN355,2494.0
+2025-05-01,Sudeste,Puro malte,PM-LN355,2254.1
+2025-06-01,Sudeste,Puro malte,PM-LN355,2143.1
+2025-07-01,Sudeste,Puro malte,PM-LN355,1839.1
+2025-08-01,Sudeste,Puro malte,PM-LN355,1951.3
+2025-09-01,Sudeste,Puro malte,PM-LN355,1986.2
+2025-10-01,Sudeste,Puro malte,PM-LN355,2189.6
+2025-11-01,Sudeste,Puro malte,PM-LN355,2733.4
+2025-12-01,Sudeste,Puro malte,PM-LN355,2915.3
+2018-01-01,Sudeste,Puro malte,PM-LT473,1522.8
+2018-02-01,Sudeste,Puro malte,PM-LT473,1670.5
+2018-03-01,Sudeste,Puro malte,PM-LT473,1610.9
+2018-04-01,Sudeste,Puro malte,PM-LT473,1510.6
+2018-05-01,Sudeste,Puro malte,PM-LT473,1305.6
+2018-06-01,Sudeste,Puro malte,PM-LT473,1219.6
+2018-07-01,Sudeste,Puro malte,PM-LT473,1241.4
+2018-08-01,Sudeste,Puro malte,PM-LT473,1114.3
+2018-09-01,Sudeste,Puro malte,PM-LT473,1132.7
+2018-10-01,Sudeste,Puro malte,PM-LT473,1369.0
+2018-11-01,Sudeste,Puro malte,PM-LT473,1545.0
+2018-12-01,Sudeste,Puro malte,PM-LT473,1613.2
+2019-01-01,Sudeste,Puro malte,PM-LT473,1696.3
+2019-02-01,Sudeste,Puro malte,PM-LT473,1938.0
+2019-03-01,Sudeste,Puro malte,PM-LT473,2207.3
+2019-04-01,Sudeste,Puro malte,PM-LT473,1473.6
+2019-05-01,Sudeste,Puro malte,PM-LT473,1216.0
+2019-06-01,Sudeste,Puro malte,PM-LT473,1339.1
+2019-07-01,Sudeste,Puro malte,PM-LT473,1299.4
+2019-08-01,Sudeste,Puro malte,PM-LT473,1148.5
+2019-09-01,Sudeste,Puro malte,PM-LT473,1353.1
+2019-10-01,Sudeste,Puro malte,PM-LT473,1433.3
+2019-11-01,Sudeste,Puro malte,PM-LT473,1923.9
+2019-12-01,Sudeste,Puro malte,PM-LT473,1728.8
+2020-01-01,Sudeste,Puro malte,PM-LT473,1878.5
+2020-02-01,Sudeste,Puro malte,PM-LT473,2143.0
+2020-03-01,Sudeste,Puro malte,PM-LT473,1776.7
+2020-04-01,Sudeste,Puro malte,PM-LT473,1742.8
+2020-05-01,Sudeste,Puro malte,PM-LT473,1546.8
+2020-06-01,Sudeste,Puro malte,PM-LT473,1555.7
+2020-07-01,Sudeste,Puro malte,PM-LT473,1303.2
+2020-08-01,Sudeste,Puro malte,PM-LT473,1406.6
+2020-09-01,Sudeste,Puro malte,PM-LT473,1356.4
+2020-10-01,Sudeste,Puro malte,PM-LT473,1427.4
+2020-11-01,Sudeste,Puro malte,PM-LT473,1735.6
+2020-12-01,Sudeste,Puro malte,PM-LT473,1980.8
+2021-01-01,Sudeste,Puro malte,PM-LT473,2183.7
+2021-02-01,Sudeste,Puro malte,PM-LT473,2166.7
+2021-03-01,Sudeste,Puro malte,PM-LT473,2072.7
+2021-04-01,Sudeste,Puro malte,PM-LT473,1649.0
+2021-05-01,Sudeste,Puro malte,PM-LT473,1732.2
+2021-06-01,Sudeste,Puro malte,PM-LT473,1422.7
+2021-07-01,Sudeste,Puro malte,PM-LT473,1404.8
+2021-08-01,Sudeste,Puro malte,PM-LT473,1617.3
+2021-09-01,Sudeste,Puro malte,PM-LT473,1662.8
+2021-10-01,Sudeste,Puro malte,PM-LT473,1655.1
+2021-11-01,Sudeste,Puro malte,PM-LT473,1924.1
+2021-12-01,Sudeste,Puro malte,PM-LT473,2236.0
+2022-01-01,Sudeste,Puro malte,PM-LT473,2240.3
+2022-02-01,Sudeste,Puro malte,PM-LT473,2249.1
+2022-03-01,Sudeste,Puro malte,PM-LT473,2065.2
+2022-04-01,Sudeste,Puro malte,PM-LT473,2096.0
+2022-05-01,Sudeste,Puro malte,PM-LT473,1917.7
+2022-06-01,Sudeste,Puro malte,PM-LT473,1617.3
+2022-07-01,Sudeste,Puro malte,PM-LT473,1433.7
+2022-08-01,Sudeste,Puro malte,PM-LT473,1774.5
+2022-09-01,Sudeste,Puro malte,PM-LT473,1663.3
+2022-10-01,Sudeste,Puro malte,PM-LT473,1965.5
+2022-11-01,Sudeste,Puro malte,PM-LT473,2175.1
+2022-12-01,Sudeste,Puro malte,PM-LT473,2392.6
+2023-01-01,Sudeste,Puro malte,PM-LT473,2604.8
+2023-02-01,Sudeste,Puro malte,PM-LT473,2647.5
+2023-03-01,Sudeste,Puro malte,PM-LT473,2505.0
+2023-04-01,Sudeste,Puro malte,PM-LT473,2328.8
+2023-05-01,Sudeste,Puro malte,PM-LT473,1972.3
+2023-06-01,Sudeste,Puro malte,PM-LT473,1879.1
+2023-07-01,Sudeste,Puro malte,PM-LT473,1825.7
+2023-08-01,Sudeste,Puro malte,PM-LT473,1886.4
+2023-09-01,Sudeste,Puro malte,PM-LT473,1865.5
+2023-10-01,Sudeste,Puro malte,PM-LT473,2107.2
+2023-11-01,Sudeste,Puro malte,PM-LT473,2238.3
+2023-12-01,Sudeste,Puro malte,PM-LT473,2684.2
+2024-01-01,Sudeste,Puro malte,PM-LT473,2726.1
+2024-02-01,Sudeste,Puro malte,PM-LT473,2747.2
+2024-03-01,Sudeste,Puro malte,PM-LT473,2584.6
+2024-04-01,Sudeste,Puro malte,PM-LT473,2430.2
+2024-05-01,Sudeste,Puro malte,PM-LT473,2152.3
+2024-06-01,Sudeste,Puro malte,PM-LT473,1950.0
+2024-07-01,Sudeste,Puro malte,PM-LT473,1758.1
+2024-08-01,Sudeste,Puro malte,PM-LT473,1943.8
+2024-09-01,Sudeste,Puro malte,PM-LT473,2026.8
+2024-10-01,Sudeste,Puro malte,PM-LT473,2423.5
+2024-11-01,Sudeste,Puro malte,PM-LT473,2564.5
+2024-12-01,Sudeste,Puro malte,PM-LT473,2949.4
+2025-01-01,Sudeste,Puro malte,PM-LT473,2786.3
+2025-02-01,Sudeste,Puro malte,PM-LT473,3054.0
+2025-03-01,Sudeste,Puro malte,PM-LT473,3239.3
+2025-04-01,Sudeste,Puro malte,PM-LT473,2787.2
+2025-05-01,Sudeste,Puro malte,PM-LT473,2397.6
+2025-06-01,Sudeste,Puro malte,PM-LT473,2751.8
+2025-07-01,Sudeste,Puro malte,PM-LT473,2298.7
+2025-08-01,Sudeste,Puro malte,PM-LT473,2096.4
+2025-09-01,Sudeste,Puro malte,PM-LT473,2130.9
+2025-10-01,Sudeste,Puro malte,PM-LT473,2499.5
+2025-11-01,Sudeste,Puro malte,PM-LT473,2875.6
+2025-12-01,Sudeste,Puro malte,PM-LT473,2974.1
+2018-01-01,Sudeste,Premium,PR-LN330,1944.8
+2018-02-01,Sudeste,Premium,PR-LN330,2483.6
+2018-03-01,Sudeste,Premium,PR-LN330,1721.2
+2018-04-01,Sudeste,Premium,PR-LN330,1659.7
+2018-05-01,Sudeste,Premium,PR-LN330,1487.1
+2018-06-01,Sudeste,Premium,PR-LN330,1370.9
+2018-07-01,Sudeste,Premium,PR-LN330,1243.4
+2018-08-01,Sudeste,Premium,PR-LN330,1401.9
+2018-09-01,Sudeste,Premium,PR-LN330,1396.8
+2018-10-01,Sudeste,Premium,PR-LN330,1609.9
+2018-11-01,Sudeste,Premium,PR-LN330,1610.4
+2018-12-01,Sudeste,Premium,PR-LN330,1855.6
+2019-01-01,Sudeste,Premium,PR-LN330,2187.0
+2019-02-01,Sudeste,Premium,PR-LN330,1930.8
+2019-03-01,Sudeste,Premium,PR-LN330,2131.6
+2019-04-01,Sudeste,Premium,PR-LN330,2010.3
+2019-05-01,Sudeste,Premium,PR-LN330,1632.4
+2019-06-01,Sudeste,Premium,PR-LN330,1608.3
+2019-07-01,Sudeste,Premium,PR-LN330,1339.3
+2019-08-01,Sudeste,Premium,PR-LN330,1376.3
+2019-09-01,Sudeste,Premium,PR-LN330,1505.1
+2019-10-01,Sudeste,Premium,PR-LN330,1629.4
+2019-11-01,Sudeste,Premium,PR-LN330,1903.2
+2019-12-01,Sudeste,Premium,PR-LN330,1857.6
+2020-01-01,Sudeste,Premium,PR-LN330,2026.9
+2020-02-01,Sudeste,Premium,PR-LN330,2492.5
+2020-03-01,Sudeste,Premium,PR-LN330,2085.0
+2020-04-01,Sudeste,Premium,PR-LN330,886.1
+2020-05-01,Sudeste,Premium,PR-LN330,950.1
+2020-06-01,Sudeste,Premium,PR-LN330,1158.7
+2020-07-01,Sudeste,Premium,PR-LN330,1022.9
+2020-08-01,Sudeste,Premium,PR-LN330,1452.3
+2020-09-01,Sudeste,Premium,PR-LN330,1392.0
+2020-10-01,Sudeste,Premium,PR-LN330,1793.3
+2020-11-01,Sudeste,Premium,PR-LN330,1827.9
+2020-12-01,Sudeste,Premium,PR-LN330,2432.6
+2021-01-01,Sudeste,Premium,PR-LN330,2273.1
+2021-02-01,Sudeste,Premium,PR-LN330,2351.1
+2021-03-01,Sudeste,Premium,PR-LN330,1795.7
+2021-04-01,Sudeste,Premium,PR-LN330,1573.6
+2021-05-01,Sudeste,Premium,PR-LN330,1882.1
+2021-06-01,Sudeste,Premium,PR-LN330,1862.6
+2021-07-01,Sudeste,Premium,PR-LN330,1454.0
+2021-08-01,Sudeste,Premium,PR-LN330,1666.3
+2021-09-01,Sudeste,Premium,PR-LN330,1737.5
+2021-10-01,Sudeste,Premium,PR-LN330,1725.0
+2021-11-01,Sudeste,Premium,PR-LN330,2235.5
+2021-12-01,Sudeste,Premium,PR-LN330,2335.3
+2022-01-01,Sudeste,Premium,PR-LN330,2412.5
+2022-02-01,Sudeste,Premium,PR-LN330,2613.0
+2022-03-01,Sudeste,Premium,PR-LN330,2353.8
+2022-04-01,Sudeste,Premium,PR-LN330,2328.1
+2022-05-01,Sudeste,Premium,PR-LN330,2264.1
+2022-06-01,Sudeste,Premium,PR-LN330,1816.4
+2022-07-01,Sudeste,Premium,PR-LN330,1736.5
+2022-08-01,Sudeste,Premium,PR-LN330,1655.5
+2022-09-01,Sudeste,Premium,PR-LN330,1978.6
+2022-10-01,Sudeste,Premium,PR-LN330,1900.0
+2022-11-01,Sudeste,Premium,PR-LN330,2332.2
+2022-12-01,Sudeste,Premium,PR-LN330,2606.3
+2023-01-01,Sudeste,Premium,PR-LN330,2567.6
+2023-02-01,Sudeste,Premium,PR-LN330,2710.9
+2023-03-01,Sudeste,Premium,PR-LN330,2624.3
+2023-04-01,Sudeste,Premium,PR-LN330,2283.8
+2023-05-01,Sudeste,Premium,PR-LN330,1878.9
+2023-06-01,Sudeste,Premium,PR-LN330,2580.1
+2023-07-01,Sudeste,Premium,PR-LN330,1981.3
+2023-08-01,Sudeste,Premium,PR-LN330,1765.9
+2023-09-01,Sudeste,Premium,PR-LN330,2089.3
+2023-10-01,Sudeste,Premium,PR-LN330,2100.1
+2023-11-01,Sudeste,Premium,PR-LN330,2285.6
+2023-12-01,Sudeste,Premium,PR-LN330,2988.4
+2024-01-01,Sudeste,Premium,PR-LN330,3008.9
+2024-02-01,Sudeste,Premium,PR-LN330,3220.7
+2024-03-01,Sudeste,Premium,PR-LN330,2768.2
+2024-04-01,Sudeste,Premium,PR-LN330,2344.1
+2024-05-01,Sudeste,Premium,PR-LN330,2336.7
+2024-06-01,Sudeste,Premium,PR-LN330,1926.1
+2024-07-01,Sudeste,Premium,PR-LN330,1990.8
+2024-08-01,Sudeste,Premium,PR-LN330,1881.8
+2024-09-01,Sudeste,Premium,PR-LN330,2010.4
+2024-10-01,Sudeste,Premium,PR-LN330,2237.5
+2024-11-01,Sudeste,Premium,PR-LN330,2299.6
+2024-12-01,Sudeste,Premium,PR-LN330,2550.9
+2025-01-01,Sudeste,Premium,PR-LN330,2916.6
+2025-02-01,Sudeste,Premium,PR-LN330,2792.8
+2025-03-01,Sudeste,Premium,PR-LN330,3204.6
+2025-04-01,Sudeste,Premium,PR-LN330,2799.8
+2025-05-01,Sudeste,Premium,PR-LN330,2197.7
+2025-06-01,Sudeste,Premium,PR-LN330,2005.9
+2025-07-01,Sudeste,Premium,PR-LN330,2032.8
+2025-08-01,Sudeste,Premium,PR-LN330,2283.6
+2025-09-01,Sudeste,Premium,PR-LN330,2115.8
+2025-10-01,Sudeste,Premium,PR-LN330,2513.0
+2025-11-01,Sudeste,Premium,PR-LN330,2502.2
+2025-12-01,Sudeste,Premium,PR-LN330,2838.1
+2018-01-01,Sudeste,Premium,PR-GF600,1174.6
+2018-02-01,Sudeste,Premium,PR-GF600,1227.1
+2018-03-01,Sudeste,Premium,PR-GF600,1207.2
+2018-04-01,Sudeste,Premium,PR-GF600,1144.6
+2018-05-01,Sudeste,Premium,PR-GF600,973.8
+2018-06-01,Sudeste,Premium,PR-GF600,944.2
+2018-07-01,Sudeste,Premium,PR-GF600,892.6
+2018-08-01,Sudeste,Premium,PR-GF600,872.1
+2018-09-01,Sudeste,Premium,PR-GF600,900.9
+2018-10-01,Sudeste,Premium,PR-GF600,1064.6
+2018-11-01,Sudeste,Premium,PR-GF600,1258.1
+2018-12-01,Sudeste,Premium,PR-GF600,1108.8
+2019-01-01,Sudeste,Premium,PR-GF600,1356.0
+2019-02-01,Sudeste,Premium,PR-GF600,1225.3
+2019-03-01,Sudeste,Premium,PR-GF600,1418.4
+2019-04-01,Sudeste,Premium,PR-GF600,1223.9
+2019-05-01,Sudeste,Premium,PR-GF600,1024.2
+2019-06-01,Sudeste,Premium,PR-GF600,928.7
+2019-07-01,Sudeste,Premium,PR-GF600,895.6
+2019-08-01,Sudeste,Premium,PR-GF600,905.2
+2019-09-01,Sudeste,Premium,PR-GF600,949.0
+2019-10-01,Sudeste,Premium,PR-GF600,1132.2
+2019-11-01,Sudeste,Premium,PR-GF600,1084.1
+2019-12-01,Sudeste,Premium,PR-GF600,1251.7
+2020-01-01,Sudeste,Premium,PR-GF600,1398.9
+2020-02-01,Sudeste,Premium,PR-GF600,1438.5
+2020-03-01,Sudeste,Premium,PR-GF600,1280.6
+2020-04-01,Sudeste,Premium,PR-GF600,531.0
+2020-05-01,Sudeste,Premium,PR-GF600,571.8
+2020-06-01,Sudeste,Premium,PR-GF600,665.5
+2020-07-01,Sudeste,Premium,PR-GF600,690.2
+2020-08-01,Sudeste,Premium,PR-GF600,769.3
+2020-09-01,Sudeste,Premium,PR-GF600,903.2
+2020-10-01,Sudeste,Premium,PR-GF600,1092.3
+2020-11-01,Sudeste,Premium,PR-GF600,1287.5
+2020-12-01,Sudeste,Premium,PR-GF600,1324.0
+2021-01-01,Sudeste,Premium,PR-GF600,1503.2
+2021-02-01,Sudeste,Premium,PR-GF600,1553.6
+2021-03-01,Sudeste,Premium,PR-GF600,1089.0
+2021-04-01,Sudeste,Premium,PR-GF600,1103.6
+2021-05-01,Sudeste,Premium,PR-GF600,1189.3
+2021-06-01,Sudeste,Premium,PR-GF600,1033.4
+2021-07-01,Sudeste,Premium,PR-GF600,979.9
+2021-08-01,Sudeste,Premium,PR-GF600,940.1
+2021-09-01,Sudeste,Premium,PR-GF600,998.1
+2021-10-01,Sudeste,Premium,PR-GF600,1152.9
+2021-11-01,Sudeste,Premium,PR-GF600,1339.9
+2021-12-01,Sudeste,Premium,PR-GF600,1302.1
+2022-01-01,Sudeste,Premium,PR-GF600,1435.6
+2022-02-01,Sudeste,Premium,PR-GF600,1603.4
+2022-03-01,Sudeste,Premium,PR-GF600,1377.3
+2022-04-01,Sudeste,Premium,PR-GF600,1298.6
+2022-05-01,Sudeste,Premium,PR-GF600,1216.1
+2022-06-01,Sudeste,Premium,PR-GF600,1090.5
+2022-07-01,Sudeste,Premium,PR-GF600,987.0
+2022-08-01,Sudeste,Premium,PR-GF600,986.5
+2022-09-01,Sudeste,Premium,PR-GF600,1159.5
+2022-10-01,Sudeste,Premium,PR-GF600,1396.0
+2022-11-01,Sudeste,Premium,PR-GF600,1291.1
+2022-12-01,Sudeste,Premium,PR-GF600,1611.0
+2023-01-01,Sudeste,Premium,PR-GF600,1606.6
+2023-02-01,Sudeste,Premium,PR-GF600,1962.4
+2023-03-01,Sudeste,Premium,PR-GF600,1513.7
+2023-04-01,Sudeste,Premium,PR-GF600,1359.6
+2023-05-01,Sudeste,Premium,PR-GF600,1197.5
+2023-06-01,Sudeste,Premium,PR-GF600,1101.0
+2023-07-01,Sudeste,Premium,PR-GF600,1142.7
+2023-08-01,Sudeste,Premium,PR-GF600,1078.2
+2023-09-01,Sudeste,Premium,PR-GF600,1141.0
+2023-10-01,Sudeste,Premium,PR-GF600,1259.2
+2023-11-01,Sudeste,Premium,PR-GF600,1316.7
+2023-12-01,Sudeste,Premium,PR-GF600,1455.4
+2024-01-01,Sudeste,Premium,PR-GF600,1540.4
+2024-02-01,Sudeste,Premium,PR-GF600,1601.9
+2024-03-01,Sudeste,Premium,PR-GF600,1538.4
+2024-04-01,Sudeste,Premium,PR-GF600,1471.4
+2024-05-01,Sudeste,Premium,PR-GF600,1241.7
+2024-06-01,Sudeste,Premium,PR-GF600,1083.2
+2024-07-01,Sudeste,Premium,PR-GF600,1022.4
+2024-08-01,Sudeste,Premium,PR-GF600,1170.2
+2024-09-01,Sudeste,Premium,PR-GF600,1106.6
+2024-10-01,Sudeste,Premium,PR-GF600,1449.7
+2024-11-01,Sudeste,Premium,PR-GF600,1296.9
+2024-12-01,Sudeste,Premium,PR-GF600,1493.1
+2025-01-01,Sudeste,Premium,PR-GF600,1718.6
+2025-02-01,Sudeste,Premium,PR-GF600,1726.9
+2025-03-01,Sudeste,Premium,PR-GF600,1725.1
+2025-04-01,Sudeste,Premium,PR-GF600,1371.1
+2025-05-01,Sudeste,Premium,PR-GF600,1352.0
+2025-06-01,Sudeste,Premium,PR-GF600,1160.3
+2025-07-01,Sudeste,Premium,PR-GF600,1143.3
+2025-08-01,Sudeste,Premium,PR-GF600,1250.7
+2025-09-01,Sudeste,Premium,PR-GF600,1168.4
+2025-10-01,Sudeste,Premium,PR-GF600,1215.2
+2025-11-01,Sudeste,Premium,PR-GF600,1620.4
+2025-12-01,Sudeste,Premium,PR-GF600,1572.8
+2022-03-01,Sudeste,Sem álcool,SA-LT350,23.4
+2022-04-01,Sudeste,Sem álcool,SA-LT350,61.3
+2022-05-01,Sudeste,Sem álcool,SA-LT350,113.8
+2022-06-01,Sudeste,Sem álcool,SA-LT350,149.8
+2022-07-01,Sudeste,Sem álcool,SA-LT350,193.2
+2022-08-01,Sudeste,Sem álcool,SA-LT350,255.2
+2022-09-01,Sudeste,Sem álcool,SA-LT350,402.9
+2022-10-01,Sudeste,Sem álcool,SA-LT350,485.7
+2022-11-01,Sudeste,Sem álcool,SA-LT350,712.8
+2022-12-01,Sudeste,Sem álcool,SA-LT350,1035.2
+2023-01-01,Sudeste,Sem álcool,SA-LT350,1051.0
+2023-02-01,Sudeste,Sem álcool,SA-LT350,1253.9
+2023-03-01,Sudeste,Sem álcool,SA-LT350,966.3
+2023-04-01,Sudeste,Sem álcool,SA-LT350,1000.4
+2023-05-01,Sudeste,Sem álcool,SA-LT350,881.3
+2023-06-01,Sudeste,Sem álcool,SA-LT350,783.9
+2023-07-01,Sudeste,Sem álcool,SA-LT350,779.6
+2023-08-01,Sudeste,Sem álcool,SA-LT350,811.5
+2023-09-01,Sudeste,Sem álcool,SA-LT350,806.8
+2023-10-01,Sudeste,Sem álcool,SA-LT350,915.7
+2023-11-01,Sudeste,Sem álcool,SA-LT350,1178.7
+2023-12-01,Sudeste,Sem álcool,SA-LT350,1358.8
+2024-01-01,Sudeste,Sem álcool,SA-LT350,1381.0
+2024-02-01,Sudeste,Sem álcool,SA-LT350,1429.0
+2024-03-01,Sudeste,Sem álcool,SA-LT350,1257.0
+2024-04-01,Sudeste,Sem álcool,SA-LT350,1237.5
+2024-05-01,Sudeste,Sem álcool,SA-LT350,1210.2
+2024-06-01,Sudeste,Sem álcool,SA-LT350,1134.4
+2024-07-01,Sudeste,Sem álcool,SA-LT350,1010.8
+2024-08-01,Sudeste,Sem álcool,SA-LT350,1059.1
+2024-09-01,Sudeste,Sem álcool,SA-LT350,1032.7
+2024-10-01,Sudeste,Sem álcool,SA-LT350,1260.5
+2024-11-01,Sudeste,Sem álcool,SA-LT350,1571.9
+2024-12-01,Sudeste,Sem álcool,SA-LT350,1585.9
+2025-01-01,Sudeste,Sem álcool,SA-LT350,1756.4
+2025-02-01,Sudeste,Sem álcool,SA-LT350,1843.5
+2025-03-01,Sudeste,Sem álcool,SA-LT350,1938.3
+2025-04-01,Sudeste,Sem álcool,SA-LT350,1620.0
+2025-05-01,Sudeste,Sem álcool,SA-LT350,1436.0
+2025-06-01,Sudeste,Sem álcool,SA-LT350,1208.7
+2025-07-01,Sudeste,Sem álcool,SA-LT350,1232.8
+2025-08-01,Sudeste,Sem álcool,SA-LT350,1325.8
+2025-09-01,Sudeste,Sem álcool,SA-LT350,1533.2
+2025-10-01,Sudeste,Sem álcool,SA-LT350,1679.5
+2025-11-01,Sudeste,Sem álcool,SA-LT350,2014.1
+2025-12-01,Sudeste,Sem álcool,SA-LT350,1942.2
+2022-03-01,Sudeste,Sem álcool,SA-LN355,18.5
+2022-04-01,Sudeste,Sem álcool,SA-LN355,39.3
+2022-05-01,Sudeste,Sem álcool,SA-LN355,64.8
+2022-06-01,Sudeste,Sem álcool,SA-LN355,93.5
+2022-07-01,Sudeste,Sem álcool,SA-LN355,114.1
+2022-08-01,Sudeste,Sem álcool,SA-LN355,177.9
+2022-09-01,Sudeste,Sem álcool,SA-LN355,232.1
+2022-10-01,Sudeste,Sem álcool,SA-LN355,323.2
+2022-11-01,Sudeste,Sem álcool,SA-LN355,424.9
+2022-12-01,Sudeste,Sem álcool,SA-LN355,524.5
+2023-01-01,Sudeste,Sem álcool,SA-LN355,629.4
+2023-02-01,Sudeste,Sem álcool,SA-LN355,580.8
+2023-03-01,Sudeste,Sem álcool,SA-LN355,681.7
+2023-04-01,Sudeste,Sem álcool,SA-LN355,538.1
+2023-05-01,Sudeste,Sem álcool,SA-LN355,506.2
+2023-06-01,Sudeste,Sem álcool,SA-LN355,469.5
+2023-07-01,Sudeste,Sem álcool,SA-LN355,439.6
+2023-08-01,Sudeste,Sem álcool,SA-LN355,408.6
+2023-09-01,Sudeste,Sem álcool,SA-LN355,477.8
+2023-10-01,Sudeste,Sem álcool,SA-LN355,544.4
+2023-11-01,Sudeste,Sem álcool,SA-LN355,641.1
+2023-12-01,Sudeste,Sem álcool,SA-LN355,695.4
+2024-01-01,Sudeste,Sem álcool,SA-LN355,785.4
+2024-02-01,Sudeste,Sem álcool,SA-LN355,848.1
+2024-03-01,Sudeste,Sem álcool,SA-LN355,667.0
+2024-04-01,Sudeste,Sem álcool,SA-LN355,683.7
+2024-05-01,Sudeste,Sem álcool,SA-LN355,643.7
+2024-06-01,Sudeste,Sem álcool,SA-LN355,558.4
+2024-07-01,Sudeste,Sem álcool,SA-LN355,609.9
+2024-08-01,Sudeste,Sem álcool,SA-LN355,543.5
+2024-09-01,Sudeste,Sem álcool,SA-LN355,561.7
+2024-10-01,Sudeste,Sem álcool,SA-LN355,612.6
+2024-11-01,Sudeste,Sem álcool,SA-LN355,754.1
+2024-12-01,Sudeste,Sem álcool,SA-LN355,834.4
+2025-01-01,Sudeste,Sem álcool,SA-LN355,894.0
+2025-02-01,Sudeste,Sem álcool,SA-LN355,808.5
+2025-03-01,Sudeste,Sem álcool,SA-LN355,984.2
+2025-04-01,Sudeste,Sem álcool,SA-LN355,1198.2
+2025-05-01,Sudeste,Sem álcool,SA-LN355,753.6
+2025-06-01,Sudeste,Sem álcool,SA-LN355,754.5
+2025-07-01,Sudeste,Sem álcool,SA-LN355,667.3
+2025-08-01,Sudeste,Sem álcool,SA-LN355,671.3
+2025-09-01,Sudeste,Sem álcool,SA-LN355,838.7
+2025-10-01,Sudeste,Sem álcool,SA-LN355,906.8
+2025-11-01,Sudeste,Sem álcool,SA-LN355,1036.1
+2025-12-01,Sudeste,Sem álcool,SA-LN355,1259.7
+2018-01-01,Nordeste,Pilsen,PIL-LT350,4918.9
+2018-02-01,Nordeste,Pilsen,PIL-LT350,4970.5
+2018-03-01,Nordeste,Pilsen,PIL-LT350,5889.1
+2018-04-01,Nordeste,Pilsen,PIL-LT350,4215.3
+2018-05-01,Nordeste,Pilsen,PIL-LT350,3983.7
+2018-06-01,Nordeste,Pilsen,PIL-LT350,3947.1
+2018-07-01,Nordeste,Pilsen,PIL-LT350,3676.8
+2018-08-01,Nordeste,Pilsen,PIL-LT350,3442.5
+2018-09-01,Nordeste,Pilsen,PIL-LT350,3622.8
+2018-10-01,Nordeste,Pilsen,PIL-LT350,4292.3
+2018-11-01,Nordeste,Pilsen,PIL-LT350,3988.5
+2018-12-01,Nordeste,Pilsen,PIL-LT350,4902.1
+2019-01-01,Nordeste,Pilsen,PIL-LT350,5147.4
+2019-02-01,Nordeste,Pilsen,PIL-LT350,4452.9
+2019-03-01,Nordeste,Pilsen,PIL-LT350,5163.3
+2019-04-01,Nordeste,Pilsen,PIL-LT350,4325.5
+2019-05-01,Nordeste,Pilsen,PIL-LT350,3840.6
+2019-06-01,Nordeste,Pilsen,PIL-LT350,4268.2
+2019-07-01,Nordeste,Pilsen,PIL-LT350,3666.5
+2019-08-01,Nordeste,Pilsen,PIL-LT350,3751.0
+2019-09-01,Nordeste,Pilsen,PIL-LT350,3541.0
+2019-10-01,Nordeste,Pilsen,PIL-LT350,3885.5
+2019-11-01,Nordeste,Pilsen,PIL-LT350,4626.5
+2019-12-01,Nordeste,Pilsen,PIL-LT350,5368.4
+2020-01-01,Nordeste,Pilsen,PIL-LT350,4612.8
+2020-02-01,Nordeste,Pilsen,PIL-LT350,5011.3
+2020-03-01,Nordeste,Pilsen,PIL-LT350,4551.1
+2020-04-01,Nordeste,Pilsen,PIL-LT350,5530.0
+2020-05-01,Nordeste,Pilsen,PIL-LT350,4603.0
+2020-06-01,Nordeste,Pilsen,PIL-LT350,4574.8
+2020-07-01,Nordeste,Pilsen,PIL-LT350,4107.6
+2020-08-01,Nordeste,Pilsen,PIL-LT350,3738.1
+2020-09-01,Nordeste,Pilsen,PIL-LT350,4024.8
+2020-10-01,Nordeste,Pilsen,PIL-LT350,4261.0
+2020-11-01,Nordeste,Pilsen,PIL-LT350,4296.1
+2020-12-01,Nordeste,Pilsen,PIL-LT350,4534.5
+2021-01-01,Nordeste,Pilsen,PIL-LT350,5291.4
+2021-02-01,Nordeste,Pilsen,PIL-LT350,6571.0
+2021-03-01,Nordeste,Pilsen,PIL-LT350,5068.5
+2021-04-01,Nordeste,Pilsen,PIL-LT350,4615.7
+2021-05-01,Nordeste,Pilsen,PIL-LT350,5096.2
+2021-06-01,Nordeste,Pilsen,PIL-LT350,4741.4
+2021-07-01,Nordeste,Pilsen,PIL-LT350,3422.0
+2021-08-01,Nordeste,Pilsen,PIL-LT350,3672.7
+2021-09-01,Nordeste,Pilsen,PIL-LT350,3859.9
+2021-10-01,Nordeste,Pilsen,PIL-LT350,3847.8
+2021-11-01,Nordeste,Pilsen,PIL-LT350,4021.7
+2021-12-01,Nordeste,Pilsen,PIL-LT350,4870.9
+2022-01-01,Nordeste,Pilsen,PIL-LT350,4641.9
+2022-02-01,Nordeste,Pilsen,PIL-LT350,4578.5
+2022-03-01,Nordeste,Pilsen,PIL-LT350,4546.9
+2022-04-01,Nordeste,Pilsen,PIL-LT350,4663.7
+2022-05-01,Nordeste,Pilsen,PIL-LT350,4226.4
+2022-06-01,Nordeste,Pilsen,PIL-LT350,4780.3
+2022-07-01,Nordeste,Pilsen,PIL-LT350,4036.5
+2022-08-01,Nordeste,Pilsen,PIL-LT350,3814.3
+2022-09-01,Nordeste,Pilsen,PIL-LT350,4228.1
+2022-10-01,Nordeste,Pilsen,PIL-LT350,4303.5
+2022-11-01,Nordeste,Pilsen,PIL-LT350,5208.8
+2022-12-01,Nordeste,Pilsen,PIL-LT350,5736.2
+2023-01-01,Nordeste,Pilsen,PIL-LT350,5748.8
+2023-02-01,Nordeste,Pilsen,PIL-LT350,5575.3
+2023-03-01,Nordeste,Pilsen,PIL-LT350,4737.5
+2023-04-01,Nordeste,Pilsen,PIL-LT350,5867.1
+2023-05-01,Nordeste,Pilsen,PIL-LT350,4599.4
+2023-06-01,Nordeste,Pilsen,PIL-LT350,5227.6
+2023-07-01,Nordeste,Pilsen,PIL-LT350,3794.0
+2023-08-01,Nordeste,Pilsen,PIL-LT350,4670.6
+2023-09-01,Nordeste,Pilsen,PIL-LT350,4304.5
+2023-10-01,Nordeste,Pilsen,PIL-LT350,4366.8
+2023-11-01,Nordeste,Pilsen,PIL-LT350,4894.0
+2023-12-01,Nordeste,Pilsen,PIL-LT350,5323.9
+2024-01-01,Nordeste,Pilsen,PIL-LT350,5234.0
+2024-02-01,Nordeste,Pilsen,PIL-LT350,5486.2
+2024-03-01,Nordeste,Pilsen,PIL-LT350,5768.1
+2024-04-01,Nordeste,Pilsen,PIL-LT350,4627.5
+2024-05-01,Nordeste,Pilsen,PIL-LT350,4143.2
+2024-06-01,Nordeste,Pilsen,PIL-LT350,4847.5
+2024-07-01,Nordeste,Pilsen,PIL-LT350,3858.0
+2024-08-01,Nordeste,Pilsen,PIL-LT350,3888.7
+2024-09-01,Nordeste,Pilsen,PIL-LT350,3975.0
+2024-10-01,Nordeste,Pilsen,PIL-LT350,4505.4
+2024-11-01,Nordeste,Pilsen,PIL-LT350,5231.9
+2024-12-01,Nordeste,Pilsen,PIL-LT350,5079.2
+2025-01-01,Nordeste,Pilsen,PIL-LT350,5384.0
+2025-02-01,Nordeste,Pilsen,PIL-LT350,5764.5
+2025-03-01,Nordeste,Pilsen,PIL-LT350,5325.0
+2025-04-01,Nordeste,Pilsen,PIL-LT350,4558.2
+2025-05-01,Nordeste,Pilsen,PIL-LT350,4283.8
+2025-06-01,Nordeste,Pilsen,PIL-LT350,4957.0
+2025-07-01,Nordeste,Pilsen,PIL-LT350,4063.1
+2025-08-01,Nordeste,Pilsen,PIL-LT350,3587.5
+2025-09-01,Nordeste,Pilsen,PIL-LT350,3966.4
+2025-10-01,Nordeste,Pilsen,PIL-LT350,4221.6
+2025-11-01,Nordeste,Pilsen,PIL-LT350,4508.5
+2025-12-01,Nordeste,Pilsen,PIL-LT350,4916.5
+2018-01-01,Nordeste,Pilsen,PIL-GF600,3731.9
+2018-02-01,Nordeste,Pilsen,PIL-GF600,4080.7
+2018-03-01,Nordeste,Pilsen,PIL-GF600,3678.2
+2018-04-01,Nordeste,Pilsen,PIL-GF600,3296.5
+2018-05-01,Nordeste,Pilsen,PIL-GF600,2793.4
+2018-06-01,Nordeste,Pilsen,PIL-GF600,3218.7
+2018-07-01,Nordeste,Pilsen,PIL-GF600,2471.8
+2018-08-01,Nordeste,Pilsen,PIL-GF600,2571.9
+2018-09-01,Nordeste,Pilsen,PIL-GF600,2829.4
+2018-10-01,Nordeste,Pilsen,PIL-GF600,2550.5
+2018-11-01,Nordeste,Pilsen,PIL-GF600,3201.7
+2018-12-01,Nordeste,Pilsen,PIL-GF600,3405.9
+2019-01-01,Nordeste,Pilsen,PIL-GF600,3542.2
+2019-02-01,Nordeste,Pilsen,PIL-GF600,3606.6
+2019-03-01,Nordeste,Pilsen,PIL-GF600,3474.0
+2019-04-01,Nordeste,Pilsen,PIL-GF600,3272.9
+2019-05-01,Nordeste,Pilsen,PIL-GF600,2905.4
+2019-06-01,Nordeste,Pilsen,PIL-GF600,3176.8
+2019-07-01,Nordeste,Pilsen,PIL-GF600,2499.1
+2019-08-01,Nordeste,Pilsen,PIL-GF600,2442.6
+2019-09-01,Nordeste,Pilsen,PIL-GF600,2635.5
+2019-10-01,Nordeste,Pilsen,PIL-GF600,2931.4
+2019-11-01,Nordeste,Pilsen,PIL-GF600,2920.1
+2019-12-01,Nordeste,Pilsen,PIL-GF600,3277.4
+2020-01-01,Nordeste,Pilsen,PIL-GF600,3383.2
+2020-02-01,Nordeste,Pilsen,PIL-GF600,3728.8
+2020-03-01,Nordeste,Pilsen,PIL-GF600,3279.5
+2020-04-01,Nordeste,Pilsen,PIL-GF600,1278.6
+2020-05-01,Nordeste,Pilsen,PIL-GF600,1449.1
+2020-06-01,Nordeste,Pilsen,PIL-GF600,2189.7
+2020-07-01,Nordeste,Pilsen,PIL-GF600,1912.1
+2020-08-01,Nordeste,Pilsen,PIL-GF600,2192.0
+2020-09-01,Nordeste,Pilsen,PIL-GF600,2337.1
+2020-10-01,Nordeste,Pilsen,PIL-GF600,2849.5
+2020-11-01,Nordeste,Pilsen,PIL-GF600,3047.5
+2020-12-01,Nordeste,Pilsen,PIL-GF600,3482.7
+2021-01-01,Nordeste,Pilsen,PIL-GF600,3336.7
+2021-02-01,Nordeste,Pilsen,PIL-GF600,3534.7
+2021-03-01,Nordeste,Pilsen,PIL-GF600,2703.2
+2021-04-01,Nordeste,Pilsen,PIL-GF600,2629.2
+2021-05-01,Nordeste,Pilsen,PIL-GF600,2821.4
+2021-06-01,Nordeste,Pilsen,PIL-GF600,2907.5
+2021-07-01,Nordeste,Pilsen,PIL-GF600,2346.1
+2021-08-01,Nordeste,Pilsen,PIL-GF600,2548.5
+2021-09-01,Nordeste,Pilsen,PIL-GF600,2489.7
+2021-10-01,Nordeste,Pilsen,PIL-GF600,2617.5
+2021-11-01,Nordeste,Pilsen,PIL-GF600,2843.6
+2021-12-01,Nordeste,Pilsen,PIL-GF600,3282.5
+2022-01-01,Nordeste,Pilsen,PIL-GF600,3303.8
+2022-02-01,Nordeste,Pilsen,PIL-GF600,3400.4
+2022-03-01,Nordeste,Pilsen,PIL-GF600,2845.0
+2022-04-01,Nordeste,Pilsen,PIL-GF600,2919.9
+2022-05-01,Nordeste,Pilsen,PIL-GF600,2673.9
+2022-06-01,Nordeste,Pilsen,PIL-GF600,3232.4
+2022-07-01,Nordeste,Pilsen,PIL-GF600,2530.3
+2022-08-01,Nordeste,Pilsen,PIL-GF600,2500.9
+2022-09-01,Nordeste,Pilsen,PIL-GF600,2309.1
+2022-10-01,Nordeste,Pilsen,PIL-GF600,2881.5
+2022-11-01,Nordeste,Pilsen,PIL-GF600,3390.9
+2022-12-01,Nordeste,Pilsen,PIL-GF600,3297.1
+2023-01-01,Nordeste,Pilsen,PIL-GF600,3404.0
+2023-02-01,Nordeste,Pilsen,PIL-GF600,3699.6
+2023-03-01,Nordeste,Pilsen,PIL-GF600,3161.0
+2023-04-01,Nordeste,Pilsen,PIL-GF600,3022.8
+2023-05-01,Nordeste,Pilsen,PIL-GF600,2642.0
+2023-06-01,Nordeste,Pilsen,PIL-GF600,3106.8
+2023-07-01,Nordeste,Pilsen,PIL-GF600,2383.6
+2023-08-01,Nordeste,Pilsen,PIL-GF600,2428.3
+2023-09-01,Nordeste,Pilsen,PIL-GF600,2765.7
+2023-10-01,Nordeste,Pilsen,PIL-GF600,2599.5
+2023-11-01,Nordeste,Pilsen,PIL-GF600,3165.4
+2023-12-01,Nordeste,Pilsen,PIL-GF600,3217.6
+2024-01-01,Nordeste,Pilsen,PIL-GF600,3328.4
+2024-02-01,Nordeste,Pilsen,PIL-GF600,3236.3
+2024-03-01,Nordeste,Pilsen,PIL-GF600,3351.3
+2024-04-01,Nordeste,Pilsen,PIL-GF600,2811.4
+2024-05-01,Nordeste,Pilsen,PIL-GF600,3043.3
+2024-06-01,Nordeste,Pilsen,PIL-GF600,3599.3
+2024-07-01,Nordeste,Pilsen,PIL-GF600,2338.7
+2024-08-01,Nordeste,Pilsen,PIL-GF600,2275.7
+2024-09-01,Nordeste,Pilsen,PIL-GF600,2681.6
+2024-10-01,Nordeste,Pilsen,PIL-GF600,2802.2
+2024-11-01,Nordeste,Pilsen,PIL-GF600,3330.3
+2024-12-01,Nordeste,Pilsen,PIL-GF600,3059.3
+2025-01-01,Nordeste,Pilsen,PIL-GF600,3170.1
+2025-02-01,Nordeste,Pilsen,PIL-GF600,3625.9
+2025-03-01,Nordeste,Pilsen,PIL-GF600,3213.2
+2025-04-01,Nordeste,Pilsen,PIL-GF600,2989.4
+2025-05-01,Nordeste,Pilsen,PIL-GF600,2658.4
+2025-06-01,Nordeste,Pilsen,PIL-GF600,2989.0
+2025-07-01,Nordeste,Pilsen,PIL-GF600,2197.6
+2025-08-01,Nordeste,Pilsen,PIL-GF600,2276.6
+2025-09-01,Nordeste,Pilsen,PIL-GF600,2725.5
+2025-10-01,Nordeste,Pilsen,PIL-GF600,2709.5
+2025-11-01,Nordeste,Pilsen,PIL-GF600,3159.3
+2025-12-01,Nordeste,Pilsen,PIL-GF600,3049.4
+2018-01-01,Nordeste,Pilsen,PIL-LT473,1889.0
+2018-02-01,Nordeste,Pilsen,PIL-LT473,2007.5
+2018-03-01,Nordeste,Pilsen,PIL-LT473,1919.8
+2018-04-01,Nordeste,Pilsen,PIL-LT473,1717.3
+2018-05-01,Nordeste,Pilsen,PIL-LT473,1559.9
+2018-06-01,Nordeste,Pilsen,PIL-LT473,1739.1
+2018-07-01,Nordeste,Pilsen,PIL-LT473,1385.5
+2018-08-01,Nordeste,Pilsen,PIL-LT473,1530.1
+2018-09-01,Nordeste,Pilsen,PIL-LT473,1472.3
+2018-10-01,Nordeste,Pilsen,PIL-LT473,1569.8
+2018-11-01,Nordeste,Pilsen,PIL-LT473,1789.5
+2018-12-01,Nordeste,Pilsen,PIL-LT473,1997.0
+2019-01-01,Nordeste,Pilsen,PIL-LT473,1997.5
+2019-02-01,Nordeste,Pilsen,PIL-LT473,2046.5
+2019-03-01,Nordeste,Pilsen,PIL-LT473,2157.5
+2019-04-01,Nordeste,Pilsen,PIL-LT473,1879.4
+2019-05-01,Nordeste,Pilsen,PIL-LT473,1679.0
+2019-06-01,Nordeste,Pilsen,PIL-LT473,1738.1
+2019-07-01,Nordeste,Pilsen,PIL-LT473,1450.4
+2019-08-01,Nordeste,Pilsen,PIL-LT473,1414.8
+2019-09-01,Nordeste,Pilsen,PIL-LT473,1605.3
+2019-10-01,Nordeste,Pilsen,PIL-LT473,1800.9
+2019-11-01,Nordeste,Pilsen,PIL-LT473,1808.9
+2019-12-01,Nordeste,Pilsen,PIL-LT473,2063.4
+2020-01-01,Nordeste,Pilsen,PIL-LT473,2558.6
+2020-02-01,Nordeste,Pilsen,PIL-LT473,2214.8
+2020-03-01,Nordeste,Pilsen,PIL-LT473,2154.4
+2020-04-01,Nordeste,Pilsen,PIL-LT473,1948.5
+2020-05-01,Nordeste,Pilsen,PIL-LT473,1758.7
+2020-06-01,Nordeste,Pilsen,PIL-LT473,1928.0
+2020-07-01,Nordeste,Pilsen,PIL-LT473,1635.9
+2020-08-01,Nordeste,Pilsen,PIL-LT473,1479.8
+2020-09-01,Nordeste,Pilsen,PIL-LT473,1552.1
+2020-10-01,Nordeste,Pilsen,PIL-LT473,1845.3
+2020-11-01,Nordeste,Pilsen,PIL-LT473,1946.5
+2020-12-01,Nordeste,Pilsen,PIL-LT473,2039.9
+2021-01-01,Nordeste,Pilsen,PIL-LT473,2050.5
+2021-02-01,Nordeste,Pilsen,PIL-LT473,2176.4
+2021-03-01,Nordeste,Pilsen,PIL-LT473,2539.3
+2021-04-01,Nordeste,Pilsen,PIL-LT473,1987.4
+2021-05-01,Nordeste,Pilsen,PIL-LT473,1794.7
+2021-06-01,Nordeste,Pilsen,PIL-LT473,1998.2
+2021-07-01,Nordeste,Pilsen,PIL-LT473,1581.9
+2021-08-01,Nordeste,Pilsen,PIL-LT473,1621.9
+2021-09-01,Nordeste,Pilsen,PIL-LT473,1509.9
+2021-10-01,Nordeste,Pilsen,PIL-LT473,1711.7
+2021-11-01,Nordeste,Pilsen,PIL-LT473,2055.9
+2021-12-01,Nordeste,Pilsen,PIL-LT473,2690.7
+2022-01-01,Nordeste,Pilsen,PIL-LT473,2321.2
+2022-02-01,Nordeste,Pilsen,PIL-LT473,2433.2
+2022-03-01,Nordeste,Pilsen,PIL-LT473,2330.6
+2022-04-01,Nordeste,Pilsen,PIL-LT473,2115.5
+2022-05-01,Nordeste,Pilsen,PIL-LT473,1855.4
+2022-06-01,Nordeste,Pilsen,PIL-LT473,2210.6
+2022-07-01,Nordeste,Pilsen,PIL-LT473,1573.6
+2022-08-01,Nordeste,Pilsen,PIL-LT473,1645.0
+2022-09-01,Nordeste,Pilsen,PIL-LT473,1696.3
+2022-10-01,Nordeste,Pilsen,PIL-LT473,1828.5
+2022-11-01,Nordeste,Pilsen,PIL-LT473,2093.3
+2022-12-01,Nordeste,Pilsen,PIL-LT473,2393.1
+2023-01-01,Nordeste,Pilsen,PIL-LT473,2125.6
+2023-02-01,Nordeste,Pilsen,PIL-LT473,2254.2
+2023-03-01,Nordeste,Pilsen,PIL-LT473,2346.5
+2023-04-01,Nordeste,Pilsen,PIL-LT473,2126.7
+2023-05-01,Nordeste,Pilsen,PIL-LT473,1995.9
+2023-06-01,Nordeste,Pilsen,PIL-LT473,2140.0
+2023-07-01,Nordeste,Pilsen,PIL-LT473,1723.4
+2023-08-01,Nordeste,Pilsen,PIL-LT473,1644.0
+2023-09-01,Nordeste,Pilsen,PIL-LT473,1733.0
+2023-10-01,Nordeste,Pilsen,PIL-LT473,1830.9
+2023-11-01,Nordeste,Pilsen,PIL-LT473,2332.3
+2023-12-01,Nordeste,Pilsen,PIL-LT473,2175.9
+2024-01-01,Nordeste,Pilsen,PIL-LT473,2586.3
+2024-02-01,Nordeste,Pilsen,PIL-LT473,2424.8
+2024-03-01,Nordeste,Pilsen,PIL-LT473,2201.3
+2024-04-01,Nordeste,Pilsen,PIL-LT473,2297.3
+2024-05-01,Nordeste,Pilsen,PIL-LT473,2040.9
+2024-06-01,Nordeste,Pilsen,PIL-LT473,2278.2
+2024-07-01,Nordeste,Pilsen,PIL-LT473,1659.6
+2024-08-01,Nordeste,Pilsen,PIL-LT473,1836.3
+2024-09-01,Nordeste,Pilsen,PIL-LT473,1763.3
+2024-10-01,Nordeste,Pilsen,PIL-LT473,2041.3
+2024-11-01,Nordeste,Pilsen,PIL-LT473,2575.8
+2024-12-01,Nordeste,Pilsen,PIL-LT473,2566.4
+2025-01-01,Nordeste,Pilsen,PIL-LT473,2520.2
+2025-02-01,Nordeste,Pilsen,PIL-LT473,2654.5
+2025-03-01,Nordeste,Pilsen,PIL-LT473,2559.6
+2025-04-01,Nordeste,Pilsen,PIL-LT473,2597.7
+2025-05-01,Nordeste,Pilsen,PIL-LT473,1910.2
+2025-06-01,Nordeste,Pilsen,PIL-LT473,2339.7
+2025-07-01,Nordeste,Pilsen,PIL-LT473,1918.4
+2025-08-01,Nordeste,Pilsen,PIL-LT473,1859.4
+2025-09-01,Nordeste,Pilsen,PIL-LT473,1840.1
+2025-10-01,Nordeste,Pilsen,PIL-LT473,2032.8
+2025-11-01,Nordeste,Pilsen,PIL-LT473,2226.4
+2025-12-01,Nordeste,Pilsen,PIL-LT473,2448.6
+2018-01-01,Nordeste,Puro malte,PM-LT350,1694.1
+2018-02-01,Nordeste,Puro malte,PM-LT350,1840.6
+2018-03-01,Nordeste,Puro malte,PM-LT350,1663.5
+2018-04-01,Nordeste,Puro malte,PM-LT350,1382.6
+2018-05-01,Nordeste,Puro malte,PM-LT350,1348.0
+2018-06-01,Nordeste,Puro malte,PM-LT350,1413.2
+2018-07-01,Nordeste,Puro malte,PM-LT350,1270.3
+2018-08-01,Nordeste,Puro malte,PM-LT350,1166.6
+2018-09-01,Nordeste,Puro malte,PM-LT350,1214.1
+2018-10-01,Nordeste,Puro malte,PM-LT350,1543.6
+2018-11-01,Nordeste,Puro malte,PM-LT350,1455.8
+2018-12-01,Nordeste,Puro malte,PM-LT350,1630.6
+2019-01-01,Nordeste,Puro malte,PM-LT350,1742.8
+2019-02-01,Nordeste,Puro malte,PM-LT350,1738.0
+2019-03-01,Nordeste,Puro malte,PM-LT350,1950.5
+2019-04-01,Nordeste,Puro malte,PM-LT350,1647.9
+2019-05-01,Nordeste,Puro malte,PM-LT350,1395.6
+2019-06-01,Nordeste,Puro malte,PM-LT350,1735.1
+2019-07-01,Nordeste,Puro malte,PM-LT350,1284.8
+2019-08-01,Nordeste,Puro malte,PM-LT350,1274.3
+2019-09-01,Nordeste,Puro malte,PM-LT350,1436.1
+2019-10-01,Nordeste,Puro malte,PM-LT350,1558.2
+2019-11-01,Nordeste,Puro malte,PM-LT350,1686.8
+2019-12-01,Nordeste,Puro malte,PM-LT350,1729.6
+2020-01-01,Nordeste,Puro malte,PM-LT350,1901.9
+2020-02-01,Nordeste,Puro malte,PM-LT350,1931.1
+2020-03-01,Nordeste,Puro malte,PM-LT350,1922.9
+2020-04-01,Nordeste,Puro malte,PM-LT350,1819.7
+2020-05-01,Nordeste,Puro malte,PM-LT350,1686.0
+2020-06-01,Nordeste,Puro malte,PM-LT350,1953.1
+2020-07-01,Nordeste,Puro malte,PM-LT350,1435.5
+2020-08-01,Nordeste,Puro malte,PM-LT350,1484.1
+2020-09-01,Nordeste,Puro malte,PM-LT350,1468.0
+2020-10-01,Nordeste,Puro malte,PM-LT350,1679.2
+2020-11-01,Nordeste,Puro malte,PM-LT350,1910.8
+2020-12-01,Nordeste,Puro malte,PM-LT350,1782.9
+2021-01-01,Nordeste,Puro malte,PM-LT350,2008.4
+2021-02-01,Nordeste,Puro malte,PM-LT350,2082.0
+2021-03-01,Nordeste,Puro malte,PM-LT350,2024.6
+2021-04-01,Nordeste,Puro malte,PM-LT350,1957.9
+2021-05-01,Nordeste,Puro malte,PM-LT350,1845.3
+2021-06-01,Nordeste,Puro malte,PM-LT350,1972.6
+2021-07-01,Nordeste,Puro malte,PM-LT350,1577.2
+2021-08-01,Nordeste,Puro malte,PM-LT350,1584.1
+2021-09-01,Nordeste,Puro malte,PM-LT350,1732.3
+2021-10-01,Nordeste,Puro malte,PM-LT350,1871.4
+2021-11-01,Nordeste,Puro malte,PM-LT350,2141.8
+2021-12-01,Nordeste,Puro malte,PM-LT350,2264.8
+2022-01-01,Nordeste,Puro malte,PM-LT350,2166.2
+2022-02-01,Nordeste,Puro malte,PM-LT350,2284.2
+2022-03-01,Nordeste,Puro malte,PM-LT350,2852.4
+2022-04-01,Nordeste,Puro malte,PM-LT350,2636.7
+2022-05-01,Nordeste,Puro malte,PM-LT350,1630.5
+2022-06-01,Nordeste,Puro malte,PM-LT350,2348.7
+2022-07-01,Nordeste,Puro malte,PM-LT350,1714.0
+2022-08-01,Nordeste,Puro malte,PM-LT350,1712.5
+2022-09-01,Nordeste,Puro malte,PM-LT350,1818.6
+2022-10-01,Nordeste,Puro malte,PM-LT350,1873.2
+2022-11-01,Nordeste,Puro malte,PM-LT350,2282.9
+2022-12-01,Nordeste,Puro malte,PM-LT350,2417.7
+2023-01-01,Nordeste,Puro malte,PM-LT350,2328.0
+2023-02-01,Nordeste,Puro malte,PM-LT350,3277.2
+2023-03-01,Nordeste,Puro malte,PM-LT350,2424.6
+2023-04-01,Nordeste,Puro malte,PM-LT350,2361.2
+2023-05-01,Nordeste,Puro malte,PM-LT350,2085.1
+2023-06-01,Nordeste,Puro malte,PM-LT350,2305.4
+2023-07-01,Nordeste,Puro malte,PM-LT350,1878.4
+2023-08-01,Nordeste,Puro malte,PM-LT350,1941.3
+2023-09-01,Nordeste,Puro malte,PM-LT350,2048.7
+2023-10-01,Nordeste,Puro malte,PM-LT350,2102.4
+2023-11-01,Nordeste,Puro malte,PM-LT350,2351.6
+2023-12-01,Nordeste,Puro malte,PM-LT350,2490.5
+2024-01-01,Nordeste,Puro malte,PM-LT350,2965.5
+2024-02-01,Nordeste,Puro malte,PM-LT350,3033.6
+2024-03-01,Nordeste,Puro malte,PM-LT350,2755.8
+2024-04-01,Nordeste,Puro malte,PM-LT350,2959.4
+2024-05-01,Nordeste,Puro malte,PM-LT350,2279.2
+2024-06-01,Nordeste,Puro malte,PM-LT350,2722.4
+2024-07-01,Nordeste,Puro malte,PM-LT350,1853.0
+2024-08-01,Nordeste,Puro malte,PM-LT350,1984.6
+2024-09-01,Nordeste,Puro malte,PM-LT350,1909.2
+2024-10-01,Nordeste,Puro malte,PM-LT350,2716.0
+2024-11-01,Nordeste,Puro malte,PM-LT350,2576.4
+2024-12-01,Nordeste,Puro malte,PM-LT350,2676.1
+2025-01-01,Nordeste,Puro malte,PM-LT350,3018.0
+2025-02-01,Nordeste,Puro malte,PM-LT350,2837.4
+2025-03-01,Nordeste,Puro malte,PM-LT350,3139.2
+2025-04-01,Nordeste,Puro malte,PM-LT350,2570.7
+2025-05-01,Nordeste,Puro malte,PM-LT350,2582.6
+2025-06-01,Nordeste,Puro malte,PM-LT350,2652.6
+2025-07-01,Nordeste,Puro malte,PM-LT350,2171.1
+2025-08-01,Nordeste,Puro malte,PM-LT350,2054.7
+2025-09-01,Nordeste,Puro malte,PM-LT350,2319.2
+2025-10-01,Nordeste,Puro malte,PM-LT350,2500.0
+2025-11-01,Nordeste,Puro malte,PM-LT350,2586.6
+2025-12-01,Nordeste,Puro malte,PM-LT350,3290.1
+2018-01-01,Nordeste,Puro malte,PM-LN355,979.5
+2018-02-01,Nordeste,Puro malte,PM-LN355,1002.6
+2018-03-01,Nordeste,Puro malte,PM-LN355,955.3
+2018-04-01,Nordeste,Puro malte,PM-LN355,775.8
+2018-05-01,Nordeste,Puro malte,PM-LN355,771.8
+2018-06-01,Nordeste,Puro malte,PM-LN355,940.8
+2018-07-01,Nordeste,Puro malte,PM-LN355,779.4
+2018-08-01,Nordeste,Puro malte,PM-LN355,738.2
+2018-09-01,Nordeste,Puro malte,PM-LN355,729.3
+2018-10-01,Nordeste,Puro malte,PM-LN355,799.7
+2018-11-01,Nordeste,Puro malte,PM-LN355,916.3
+2018-12-01,Nordeste,Puro malte,PM-LN355,916.1
+2019-01-01,Nordeste,Puro malte,PM-LN355,1275.8
+2019-02-01,Nordeste,Puro malte,PM-LN355,1162.9
+2019-03-01,Nordeste,Puro malte,PM-LN355,1047.0
+2019-04-01,Nordeste,Puro malte,PM-LN355,821.3
+2019-05-01,Nordeste,Puro malte,PM-LN355,823.0
+2019-06-01,Nordeste,Puro malte,PM-LN355,961.5
+2019-07-01,Nordeste,Puro malte,PM-LN355,736.9
+2019-08-01,Nordeste,Puro malte,PM-LN355,823.5
+2019-09-01,Nordeste,Puro malte,PM-LN355,860.2
+2019-10-01,Nordeste,Puro malte,PM-LN355,843.7
+2019-11-01,Nordeste,Puro malte,PM-LN355,1303.2
+2019-12-01,Nordeste,Puro malte,PM-LN355,1157.9
+2020-01-01,Nordeste,Puro malte,PM-LN355,1158.4
+2020-02-01,Nordeste,Puro malte,PM-LN355,1173.6
+2020-03-01,Nordeste,Puro malte,PM-LN355,1073.9
+2020-04-01,Nordeste,Puro malte,PM-LN355,488.9
+2020-05-01,Nordeste,Puro malte,PM-LN355,419.6
+2020-06-01,Nordeste,Puro malte,PM-LN355,662.1
+2020-07-01,Nordeste,Puro malte,PM-LN355,624.1
+2020-08-01,Nordeste,Puro malte,PM-LN355,682.9
+2020-09-01,Nordeste,Puro malte,PM-LN355,794.7
+2020-10-01,Nordeste,Puro malte,PM-LN355,987.2
+2020-11-01,Nordeste,Puro malte,PM-LN355,1076.4
+2020-12-01,Nordeste,Puro malte,PM-LN355,1209.8
+2021-01-01,Nordeste,Puro malte,PM-LN355,1135.2
+2021-02-01,Nordeste,Puro malte,PM-LN355,1185.5
+2021-03-01,Nordeste,Puro malte,PM-LN355,996.9
+2021-04-01,Nordeste,Puro malte,PM-LN355,1021.3
+2021-05-01,Nordeste,Puro malte,PM-LN355,930.3
+2021-06-01,Nordeste,Puro malte,PM-LN355,1108.4
+2021-07-01,Nordeste,Puro malte,PM-LN355,818.6
+2021-08-01,Nordeste,Puro malte,PM-LN355,891.6
+2021-09-01,Nordeste,Puro malte,PM-LN355,842.2
+2021-10-01,Nordeste,Puro malte,PM-LN355,939.9
+2021-11-01,Nordeste,Puro malte,PM-LN355,1107.8
+2021-12-01,Nordeste,Puro malte,PM-LN355,1118.0
+2022-01-01,Nordeste,Puro malte,PM-LN355,1270.0
+2022-02-01,Nordeste,Puro malte,PM-LN355,1193.4
+2022-03-01,Nordeste,Puro malte,PM-LN355,1059.1
+2022-04-01,Nordeste,Puro malte,PM-LN355,1089.1
+2022-05-01,Nordeste,Puro malte,PM-LN355,1113.6
+2022-06-01,Nordeste,Puro malte,PM-LN355,1207.9
+2022-07-01,Nordeste,Puro malte,PM-LN355,954.8
+2022-08-01,Nordeste,Puro malte,PM-LN355,790.7
+2022-09-01,Nordeste,Puro malte,PM-LN355,953.8
+2022-10-01,Nordeste,Puro malte,PM-LN355,1111.9
+2022-11-01,Nordeste,Puro malte,PM-LN355,1231.1
+2022-12-01,Nordeste,Puro malte,PM-LN355,1413.9
+2023-01-01,Nordeste,Puro malte,PM-LN355,1368.4
+2023-02-01,Nordeste,Puro malte,PM-LN355,1736.3
+2023-03-01,Nordeste,Puro malte,PM-LN355,1367.5
+2023-04-01,Nordeste,Puro malte,PM-LN355,1624.7
+2023-05-01,Nordeste,Puro malte,PM-LN355,1166.0
+2023-06-01,Nordeste,Puro malte,PM-LN355,1307.5
+2023-07-01,Nordeste,Puro malte,PM-LN355,919.1
+2023-08-01,Nordeste,Puro malte,PM-LN355,999.9
+2023-09-01,Nordeste,Puro malte,PM-LN355,1065.5
+2023-10-01,Nordeste,Puro malte,PM-LN355,1081.8
+2023-11-01,Nordeste,Puro malte,PM-LN355,1233.4
+2023-12-01,Nordeste,Puro malte,PM-LN355,1306.0
+2024-01-01,Nordeste,Puro malte,PM-LN355,1521.1
+2024-02-01,Nordeste,Puro malte,PM-LN355,1451.0
+2024-03-01,Nordeste,Puro malte,PM-LN355,1395.3
+2024-04-01,Nordeste,Puro malte,PM-LN355,1288.2
+2024-05-01,Nordeste,Puro malte,PM-LN355,1226.4
+2024-06-01,Nordeste,Puro malte,PM-LN355,1338.2
+2024-07-01,Nordeste,Puro malte,PM-LN355,997.7
+2024-08-01,Nordeste,Puro malte,PM-LN355,1071.4
+2024-09-01,Nordeste,Puro malte,PM-LN355,1251.1
+2024-10-01,Nordeste,Puro malte,PM-LN355,1254.6
+2024-11-01,Nordeste,Puro malte,PM-LN355,1424.3
+2024-12-01,Nordeste,Puro malte,PM-LN355,1318.2
+2025-01-01,Nordeste,Puro malte,PM-LN355,1677.6
+2025-02-01,Nordeste,Puro malte,PM-LN355,1628.9
+2025-03-01,Nordeste,Puro malte,PM-LN355,2045.7
+2025-04-01,Nordeste,Puro malte,PM-LN355,1434.4
+2025-05-01,Nordeste,Puro malte,PM-LN355,1401.1
+2025-06-01,Nordeste,Puro malte,PM-LN355,1425.8
+2025-07-01,Nordeste,Puro malte,PM-LN355,1051.2
+2025-08-01,Nordeste,Puro malte,PM-LN355,1181.1
+2025-09-01,Nordeste,Puro malte,PM-LN355,1175.2
+2025-10-01,Nordeste,Puro malte,PM-LN355,1341.0
+2025-11-01,Nordeste,Puro malte,PM-LN355,1402.9
+2025-12-01,Nordeste,Puro malte,PM-LN355,1410.8
+2018-01-01,Nordeste,Puro malte,PM-LT473,861.4
+2018-02-01,Nordeste,Puro malte,PM-LT473,915.5
+2018-03-01,Nordeste,Puro malte,PM-LT473,796.4
+2018-04-01,Nordeste,Puro malte,PM-LT473,793.4
+2018-05-01,Nordeste,Puro malte,PM-LT473,583.5
+2018-06-01,Nordeste,Puro malte,PM-LT473,759.9
+2018-07-01,Nordeste,Puro malte,PM-LT473,578.3
+2018-08-01,Nordeste,Puro malte,PM-LT473,656.8
+2018-09-01,Nordeste,Puro malte,PM-LT473,644.4
+2018-10-01,Nordeste,Puro malte,PM-LT473,746.3
+2018-11-01,Nordeste,Puro malte,PM-LT473,793.4
+2018-12-01,Nordeste,Puro malte,PM-LT473,908.3
+2019-01-01,Nordeste,Puro malte,PM-LT473,937.1
+2019-02-01,Nordeste,Puro malte,PM-LT473,900.3
+2019-03-01,Nordeste,Puro malte,PM-LT473,972.3
+2019-04-01,Nordeste,Puro malte,PM-LT473,821.6
+2019-05-01,Nordeste,Puro malte,PM-LT473,738.7
+2019-06-01,Nordeste,Puro malte,PM-LT473,884.8
+2019-07-01,Nordeste,Puro malte,PM-LT473,739.7
+2019-08-01,Nordeste,Puro malte,PM-LT473,716.0
+2019-09-01,Nordeste,Puro malte,PM-LT473,689.3
+2019-10-01,Nordeste,Puro malte,PM-LT473,832.4
+2019-11-01,Nordeste,Puro malte,PM-LT473,831.2
+2019-12-01,Nordeste,Puro malte,PM-LT473,789.8
+2020-01-01,Nordeste,Puro malte,PM-LT473,933.9
+2020-02-01,Nordeste,Puro malte,PM-LT473,1086.5
+2020-03-01,Nordeste,Puro malte,PM-LT473,887.3
+2020-04-01,Nordeste,Puro malte,PM-LT473,979.4
+2020-05-01,Nordeste,Puro malte,PM-LT473,953.1
+2020-06-01,Nordeste,Puro malte,PM-LT473,985.4
+2020-07-01,Nordeste,Puro malte,PM-LT473,784.0
+2020-08-01,Nordeste,Puro malte,PM-LT473,750.6
+2020-09-01,Nordeste,Puro malte,PM-LT473,700.4
+2020-10-01,Nordeste,Puro malte,PM-LT473,888.0
+2020-11-01,Nordeste,Puro malte,PM-LT473,1141.2
+2020-12-01,Nordeste,Puro malte,PM-LT473,1060.9
+2021-01-01,Nordeste,Puro malte,PM-LT473,973.5
+2021-02-01,Nordeste,Puro malte,PM-LT473,1114.1
+2021-03-01,Nordeste,Puro malte,PM-LT473,1124.2
+2021-04-01,Nordeste,Puro malte,PM-LT473,1107.6
+2021-05-01,Nordeste,Puro malte,PM-LT473,941.2
+2021-06-01,Nordeste,Puro malte,PM-LT473,973.0
+2021-07-01,Nordeste,Puro malte,PM-LT473,827.7
+2021-08-01,Nordeste,Puro malte,PM-LT473,742.6
+2021-09-01,Nordeste,Puro malte,PM-LT473,790.7
+2021-10-01,Nordeste,Puro malte,PM-LT473,983.8
+2021-11-01,Nordeste,Puro malte,PM-LT473,1296.5
+2021-12-01,Nordeste,Puro malte,PM-LT473,1170.8
+2022-01-01,Nordeste,Puro malte,PM-LT473,1300.2
+2022-02-01,Nordeste,Puro malte,PM-LT473,1281.5
+2022-03-01,Nordeste,Puro malte,PM-LT473,1226.5
+2022-04-01,Nordeste,Puro malte,PM-LT473,1011.1
+2022-05-01,Nordeste,Puro malte,PM-LT473,987.1
+2022-06-01,Nordeste,Puro malte,PM-LT473,1176.7
+2022-07-01,Nordeste,Puro malte,PM-LT473,839.8
+2022-08-01,Nordeste,Puro malte,PM-LT473,858.2
+2022-09-01,Nordeste,Puro malte,PM-LT473,894.5
+2022-10-01,Nordeste,Puro malte,PM-LT473,1031.0
+2022-11-01,Nordeste,Puro malte,PM-LT473,1265.5
+2022-12-01,Nordeste,Puro malte,PM-LT473,1454.2
+2023-01-01,Nordeste,Puro malte,PM-LT473,1343.4
+2023-02-01,Nordeste,Puro malte,PM-LT473,1429.5
+2023-03-01,Nordeste,Puro malte,PM-LT473,1233.0
+2023-04-01,Nordeste,Puro malte,PM-LT473,1332.1
+2023-05-01,Nordeste,Puro malte,PM-LT473,1155.6
+2023-06-01,Nordeste,Puro malte,PM-LT473,1345.3
+2023-07-01,Nordeste,Puro malte,PM-LT473,951.8
+2023-08-01,Nordeste,Puro malte,PM-LT473,947.9
+2023-09-01,Nordeste,Puro malte,PM-LT473,1099.8
+2023-10-01,Nordeste,Puro malte,PM-LT473,1195.2
+2023-11-01,Nordeste,Puro malte,PM-LT473,1405.7
+2023-12-01,Nordeste,Puro malte,PM-LT473,1360.8
+2024-01-01,Nordeste,Puro malte,PM-LT473,1461.9
+2024-02-01,Nordeste,Puro malte,PM-LT473,1566.2
+2024-03-01,Nordeste,Puro malte,PM-LT473,1543.4
+2024-04-01,Nordeste,Puro malte,PM-LT473,1300.5
+2024-05-01,Nordeste,Puro malte,PM-LT473,1318.9
+2024-06-01,Nordeste,Puro malte,PM-LT473,1421.8
+2024-07-01,Nordeste,Puro malte,PM-LT473,1157.4
+2024-08-01,Nordeste,Puro malte,PM-LT473,1223.5
+2024-09-01,Nordeste,Puro malte,PM-LT473,1235.7
+2024-10-01,Nordeste,Puro malte,PM-LT473,1472.5
+2024-11-01,Nordeste,Puro malte,PM-LT473,1477.2
+2024-12-01,Nordeste,Puro malte,PM-LT473,1405.5
+2025-01-01,Nordeste,Puro malte,PM-LT473,1677.4
+2025-02-01,Nordeste,Puro malte,PM-LT473,1634.1
+2025-03-01,Nordeste,Puro malte,PM-LT473,1647.1
+2025-04-01,Nordeste,Puro malte,PM-LT473,1490.8
+2025-05-01,Nordeste,Puro malte,PM-LT473,1322.3
+2025-06-01,Nordeste,Puro malte,PM-LT473,1617.6
+2025-07-01,Nordeste,Puro malte,PM-LT473,1259.3
+2025-08-01,Nordeste,Puro malte,PM-LT473,1643.9
+2025-09-01,Nordeste,Puro malte,PM-LT473,1375.9
+2025-10-01,Nordeste,Puro malte,PM-LT473,1509.1
+2025-11-01,Nordeste,Puro malte,PM-LT473,1474.1
+2025-12-01,Nordeste,Puro malte,PM-LT473,1702.5
+2018-01-01,Nordeste,Premium,PR-LN330,922.8
+2018-02-01,Nordeste,Premium,PR-LN330,1040.3
+2018-03-01,Nordeste,Premium,PR-LN330,1055.7
+2018-04-01,Nordeste,Premium,PR-LN330,912.1
+2018-05-01,Nordeste,Premium,PR-LN330,748.2
+2018-06-01,Nordeste,Premium,PR-LN330,959.5
+2018-07-01,Nordeste,Premium,PR-LN330,673.6
+2018-08-01,Nordeste,Premium,PR-LN330,664.4
+2018-09-01,Nordeste,Premium,PR-LN330,764.3
+2018-10-01,Nordeste,Premium,PR-LN330,906.8
+2018-11-01,Nordeste,Premium,PR-LN330,972.0
+2018-12-01,Nordeste,Premium,PR-LN330,1078.8
+2019-01-01,Nordeste,Premium,PR-LN330,1090.3
+2019-02-01,Nordeste,Premium,PR-LN330,1027.1
+2019-03-01,Nordeste,Premium,PR-LN330,1127.4
+2019-04-01,Nordeste,Premium,PR-LN330,1050.8
+2019-05-01,Nordeste,Premium,PR-LN330,982.5
+2019-06-01,Nordeste,Premium,PR-LN330,904.7
+2019-07-01,Nordeste,Premium,PR-LN330,789.3
+2019-08-01,Nordeste,Premium,PR-LN330,751.3
+2019-09-01,Nordeste,Premium,PR-LN330,872.0
+2019-10-01,Nordeste,Premium,PR-LN330,939.6
+2019-11-01,Nordeste,Premium,PR-LN330,993.3
+2019-12-01,Nordeste,Premium,PR-LN330,1029.9
+2020-01-01,Nordeste,Premium,PR-LN330,1148.7
+2020-02-01,Nordeste,Premium,PR-LN330,1212.6
+2020-03-01,Nordeste,Premium,PR-LN330,1101.2
+2020-04-01,Nordeste,Premium,PR-LN330,457.0
+2020-05-01,Nordeste,Premium,PR-LN330,480.7
+2020-06-01,Nordeste,Premium,PR-LN330,693.5
+2020-07-01,Nordeste,Premium,PR-LN330,700.1
+2020-08-01,Nordeste,Premium,PR-LN330,631.4
+2020-09-01,Nordeste,Premium,PR-LN330,816.4
+2020-10-01,Nordeste,Premium,PR-LN330,946.5
+2020-11-01,Nordeste,Premium,PR-LN330,1089.1
+2020-12-01,Nordeste,Premium,PR-LN330,1211.8
+2021-01-01,Nordeste,Premium,PR-LN330,1222.1
+2021-02-01,Nordeste,Premium,PR-LN330,1219.3
+2021-03-01,Nordeste,Premium,PR-LN330,971.9
+2021-04-01,Nordeste,Premium,PR-LN330,1011.7
+2021-05-01,Nordeste,Premium,PR-LN330,1128.0
+2021-06-01,Nordeste,Premium,PR-LN330,1175.9
+2021-07-01,Nordeste,Premium,PR-LN330,911.1
+2021-08-01,Nordeste,Premium,PR-LN330,927.3
+2021-09-01,Nordeste,Premium,PR-LN330,929.1
+2021-10-01,Nordeste,Premium,PR-LN330,1001.9
+2021-11-01,Nordeste,Premium,PR-LN330,1097.7
+2021-12-01,Nordeste,Premium,PR-LN330,1254.9
+2022-01-01,Nordeste,Premium,PR-LN330,1353.9
+2022-02-01,Nordeste,Premium,PR-LN330,1328.7
+2022-03-01,Nordeste,Premium,PR-LN330,1242.4
+2022-04-01,Nordeste,Premium,PR-LN330,1229.0
+2022-05-01,Nordeste,Premium,PR-LN330,1072.3
+2022-06-01,Nordeste,Premium,PR-LN330,1258.4
+2022-07-01,Nordeste,Premium,PR-LN330,937.7
+2022-08-01,Nordeste,Premium,PR-LN330,993.0
+2022-09-01,Nordeste,Premium,PR-LN330,977.4
+2022-10-01,Nordeste,Premium,PR-LN330,1028.6
+2022-11-01,Nordeste,Premium,PR-LN330,1351.4
+2022-12-01,Nordeste,Premium,PR-LN330,1535.2
+2023-01-01,Nordeste,Premium,PR-LN330,1362.1
+2023-02-01,Nordeste,Premium,PR-LN330,1314.0
+2023-03-01,Nordeste,Premium,PR-LN330,1450.8
+2023-04-01,Nordeste,Premium,PR-LN330,1286.8
+2023-05-01,Nordeste,Premium,PR-LN330,1342.7
+2023-06-01,Nordeste,Premium,PR-LN330,1443.7
+2023-07-01,Nordeste,Premium,PR-LN330,1010.3
+2023-08-01,Nordeste,Premium,PR-LN330,1045.2
+2023-09-01,Nordeste,Premium,PR-LN330,1141.3
+2023-10-01,Nordeste,Premium,PR-LN330,1171.6
+2023-11-01,Nordeste,Premium,PR-LN330,1457.8
+2023-12-01,Nordeste,Premium,PR-LN330,1494.1
+2024-01-01,Nordeste,Premium,PR-LN330,1439.6
+2024-02-01,Nordeste,Premium,PR-LN330,1769.0
+2024-03-01,Nordeste,Premium,PR-LN330,1362.9
+2024-04-01,Nordeste,Premium,PR-LN330,1422.6
+2024-05-01,Nordeste,Premium,PR-LN330,1178.3
+2024-06-01,Nordeste,Premium,PR-LN330,1515.4
+2024-07-01,Nordeste,Premium,PR-LN330,1070.5
+2024-08-01,Nordeste,Premium,PR-LN330,1312.8
+2024-09-01,Nordeste,Premium,PR-LN330,1216.0
+2024-10-01,Nordeste,Premium,PR-LN330,1332.1
+2024-11-01,Nordeste,Premium,PR-LN330,1465.1
+2024-12-01,Nordeste,Premium,PR-LN330,1559.6
+2025-01-01,Nordeste,Premium,PR-LN330,1530.2
+2025-02-01,Nordeste,Premium,PR-LN330,1608.0
+2025-03-01,Nordeste,Premium,PR-LN330,1702.7
+2025-04-01,Nordeste,Premium,PR-LN330,1505.3
+2025-05-01,Nordeste,Premium,PR-LN330,1316.7
+2025-06-01,Nordeste,Premium,PR-LN330,1605.6
+2025-07-01,Nordeste,Premium,PR-LN330,1175.1
+2025-08-01,Nordeste,Premium,PR-LN330,1167.7
+2025-09-01,Nordeste,Premium,PR-LN330,1215.2
+2025-10-01,Nordeste,Premium,PR-LN330,1326.8
+2025-11-01,Nordeste,Premium,PR-LN330,1453.5
+2025-12-01,Nordeste,Premium,PR-LN330,1959.1
+2018-01-01,Nordeste,Premium,PR-GF600,670.2
+2018-02-01,Nordeste,Premium,PR-GF600,655.5
+2018-03-01,Nordeste,Premium,PR-GF600,640.1
+2018-04-01,Nordeste,Premium,PR-GF600,539.2
+2018-05-01,Nordeste,Premium,PR-GF600,553.7
+2018-06-01,Nordeste,Premium,PR-GF600,607.1
+2018-07-01,Nordeste,Premium,PR-GF600,471.8
+2018-08-01,Nordeste,Premium,PR-GF600,461.6
+2018-09-01,Nordeste,Premium,PR-GF600,512.1
+2018-10-01,Nordeste,Premium,PR-GF600,508.2
+2018-11-01,Nordeste,Premium,PR-GF600,609.1
+2018-12-01,Nordeste,Premium,PR-GF600,634.1
+2019-01-01,Nordeste,Premium,PR-GF600,741.7
+2019-02-01,Nordeste,Premium,PR-GF600,595.6
+2019-03-01,Nordeste,Premium,PR-GF600,711.3
+2019-04-01,Nordeste,Premium,PR-GF600,583.6
+2019-05-01,Nordeste,Premium,PR-GF600,577.0
+2019-06-01,Nordeste,Premium,PR-GF600,668.0
+2019-07-01,Nordeste,Premium,PR-GF600,452.8
+2019-08-01,Nordeste,Premium,PR-GF600,539.2
+2019-09-01,Nordeste,Premium,PR-GF600,508.8
+2019-10-01,Nordeste,Premium,PR-GF600,561.9
+2019-11-01,Nordeste,Premium,PR-GF600,598.5
+2019-12-01,Nordeste,Premium,PR-GF600,585.7
+2020-01-01,Nordeste,Premium,PR-GF600,680.7
+2020-02-01,Nordeste,Premium,PR-GF600,704.2
+2020-03-01,Nordeste,Premium,PR-GF600,614.8
+2020-04-01,Nordeste,Premium,PR-GF600,307.2
+2020-05-01,Nordeste,Premium,PR-GF600,313.0
+2020-06-01,Nordeste,Premium,PR-GF600,436.7
+2020-07-01,Nordeste,Premium,PR-GF600,388.9
+2020-08-01,Nordeste,Premium,PR-GF600,488.0
+2020-09-01,Nordeste,Premium,PR-GF600,511.5
+2020-10-01,Nordeste,Premium,PR-GF600,587.1
+2020-11-01,Nordeste,Premium,PR-GF600,621.5
+2020-12-01,Nordeste,Premium,PR-GF600,709.1
+2021-01-01,Nordeste,Premium,PR-GF600,724.3
+2021-02-01,Nordeste,Premium,PR-GF600,721.6
+2021-03-01,Nordeste,Premium,PR-GF600,592.5
+2021-04-01,Nordeste,Premium,PR-GF600,609.8
+2021-05-01,Nordeste,Premium,PR-GF600,633.3
+2021-06-01,Nordeste,Premium,PR-GF600,749.1
+2021-07-01,Nordeste,Premium,PR-GF600,679.8
+2021-08-01,Nordeste,Premium,PR-GF600,502.4
+2021-09-01,Nordeste,Premium,PR-GF600,577.7
+2021-10-01,Nordeste,Premium,PR-GF600,564.3
+2021-11-01,Nordeste,Premium,PR-GF600,646.6
+2021-12-01,Nordeste,Premium,PR-GF600,784.9
+2022-01-01,Nordeste,Premium,PR-GF600,848.3
+2022-02-01,Nordeste,Premium,PR-GF600,794.2
+2022-03-01,Nordeste,Premium,PR-GF600,752.8
+2022-04-01,Nordeste,Premium,PR-GF600,683.4
+2022-05-01,Nordeste,Premium,PR-GF600,645.1
+2022-06-01,Nordeste,Premium,PR-GF600,929.7
+2022-07-01,Nordeste,Premium,PR-GF600,575.3
+2022-08-01,Nordeste,Premium,PR-GF600,539.7
+2022-09-01,Nordeste,Premium,PR-GF600,605.9
+2022-10-01,Nordeste,Premium,PR-GF600,599.4
+2022-11-01,Nordeste,Premium,PR-GF600,688.1
+2022-12-01,Nordeste,Premium,PR-GF600,875.1
+2023-01-01,Nordeste,Premium,PR-GF600,965.6
+2023-02-01,Nordeste,Premium,PR-GF600,881.9
+2023-03-01,Nordeste,Premium,PR-GF600,782.0
+2023-04-01,Nordeste,Premium,PR-GF600,792.5
+2023-05-01,Nordeste,Premium,PR-GF600,617.9
+2023-06-01,Nordeste,Premium,PR-GF600,686.3
+2023-07-01,Nordeste,Premium,PR-GF600,617.2
+2023-08-01,Nordeste,Premium,PR-GF600,812.5
+2023-09-01,Nordeste,Premium,PR-GF600,649.4
+2023-10-01,Nordeste,Premium,PR-GF600,675.1
+2023-11-01,Nordeste,Premium,PR-GF600,835.0
+2023-12-01,Nordeste,Premium,PR-GF600,781.7
+2024-01-01,Nordeste,Premium,PR-GF600,834.7
+2024-02-01,Nordeste,Premium,PR-GF600,887.3
+2024-03-01,Nordeste,Premium,PR-GF600,758.2
+2024-04-01,Nordeste,Premium,PR-GF600,752.9
+2024-05-01,Nordeste,Premium,PR-GF600,696.0
+2024-06-01,Nordeste,Premium,PR-GF600,784.9
+2024-07-01,Nordeste,Premium,PR-GF600,639.7
+2024-08-01,Nordeste,Premium,PR-GF600,598.1
+2024-09-01,Nordeste,Premium,PR-GF600,708.2
+2024-10-01,Nordeste,Premium,PR-GF600,701.2
+2024-11-01,Nordeste,Premium,PR-GF600,953.9
+2024-12-01,Nordeste,Premium,PR-GF600,787.7
+2025-01-01,Nordeste,Premium,PR-GF600,857.8
+2025-02-01,Nordeste,Premium,PR-GF600,872.1
+2025-03-01,Nordeste,Premium,PR-GF600,944.5
+2025-04-01,Nordeste,Premium,PR-GF600,804.2
+2025-05-01,Nordeste,Premium,PR-GF600,784.7
+2025-06-01,Nordeste,Premium,PR-GF600,803.1
+2025-07-01,Nordeste,Premium,PR-GF600,673.0
+2025-08-01,Nordeste,Premium,PR-GF600,652.3
+2025-09-01,Nordeste,Premium,PR-GF600,712.5
+2025-10-01,Nordeste,Premium,PR-GF600,715.1
+2025-11-01,Nordeste,Premium,PR-GF600,864.2
+2025-12-01,Nordeste,Premium,PR-GF600,829.5
+2022-03-01,Nordeste,Sem álcool,SA-LT350,12.9
+2022-04-01,Nordeste,Sem álcool,SA-LT350,41.1
+2022-05-01,Nordeste,Sem álcool,SA-LT350,60.6
+2022-06-01,Nordeste,Sem álcool,SA-LT350,108.4
+2022-07-01,Nordeste,Sem álcool,SA-LT350,115.1
+2022-08-01,Nordeste,Sem álcool,SA-LT350,177.2
+2022-09-01,Nordeste,Sem álcool,SA-LT350,199.0
+2022-10-01,Nordeste,Sem álcool,SA-LT350,302.1
+2022-11-01,Nordeste,Sem álcool,SA-LT350,417.6
+2022-12-01,Nordeste,Sem álcool,SA-LT350,536.1
+2023-01-01,Nordeste,Sem álcool,SA-LT350,543.6
+2023-02-01,Nordeste,Sem álcool,SA-LT350,577.1
+2023-03-01,Nordeste,Sem álcool,SA-LT350,508.7
+2023-04-01,Nordeste,Sem álcool,SA-LT350,558.4
+2023-05-01,Nordeste,Sem álcool,SA-LT350,534.6
+2023-06-01,Nordeste,Sem álcool,SA-LT350,586.7
+2023-07-01,Nordeste,Sem álcool,SA-LT350,486.3
+2023-08-01,Nordeste,Sem álcool,SA-LT350,463.1
+2023-09-01,Nordeste,Sem álcool,SA-LT350,424.2
+2023-10-01,Nordeste,Sem álcool,SA-LT350,512.5
+2023-11-01,Nordeste,Sem álcool,SA-LT350,633.1
+2023-12-01,Nordeste,Sem álcool,SA-LT350,576.0
+2024-01-01,Nordeste,Sem álcool,SA-LT350,722.3
+2024-02-01,Nordeste,Sem álcool,SA-LT350,808.8
+2024-03-01,Nordeste,Sem álcool,SA-LT350,735.7
+2024-04-01,Nordeste,Sem álcool,SA-LT350,640.6
+2024-05-01,Nordeste,Sem álcool,SA-LT350,629.5
+2024-06-01,Nordeste,Sem álcool,SA-LT350,842.2
+2024-07-01,Nordeste,Sem álcool,SA-LT350,599.5
+2024-08-01,Nordeste,Sem álcool,SA-LT350,593.4
+2024-09-01,Nordeste,Sem álcool,SA-LT350,579.7
+2024-10-01,Nordeste,Sem álcool,SA-LT350,846.5
+2024-11-01,Nordeste,Sem álcool,SA-LT350,1030.2
+2024-12-01,Nordeste,Sem álcool,SA-LT350,874.4
+2025-01-01,Nordeste,Sem álcool,SA-LT350,911.6
+2025-02-01,Nordeste,Sem álcool,SA-LT350,1016.3
+2025-03-01,Nordeste,Sem álcool,SA-LT350,1042.4
+2025-04-01,Nordeste,Sem álcool,SA-LT350,934.1
+2025-05-01,Nordeste,Sem álcool,SA-LT350,770.2
+2025-06-01,Nordeste,Sem álcool,SA-LT350,851.6
+2025-07-01,Nordeste,Sem álcool,SA-LT350,851.0
+2025-08-01,Nordeste,Sem álcool,SA-LT350,808.6
+2025-09-01,Nordeste,Sem álcool,SA-LT350,874.9
+2025-10-01,Nordeste,Sem álcool,SA-LT350,1031.7
+2025-11-01,Nordeste,Sem álcool,SA-LT350,1039.9
+2025-12-01,Nordeste,Sem álcool,SA-LT350,1211.6
+2022-03-01,Nordeste,Sem álcool,SA-LN355,6.9
+2022-04-01,Nordeste,Sem álcool,SA-LN355,21.1
+2022-05-01,Nordeste,Sem álcool,SA-LN355,34.4
+2022-06-01,Nordeste,Sem álcool,SA-LN355,72.7
+2022-07-01,Nordeste,Sem álcool,SA-LN355,77.1
+2022-08-01,Nordeste,Sem álcool,SA-LN355,93.5
+2022-09-01,Nordeste,Sem álcool,SA-LN355,126.8
+2022-10-01,Nordeste,Sem álcool,SA-LN355,193.8
+2022-11-01,Nordeste,Sem álcool,SA-LN355,260.8
+2022-12-01,Nordeste,Sem álcool,SA-LN355,281.7
+2023-01-01,Nordeste,Sem álcool,SA-LN355,319.4
+2023-02-01,Nordeste,Sem álcool,SA-LN355,358.5
+2023-03-01,Nordeste,Sem álcool,SA-LN355,320.5
+2023-04-01,Nordeste,Sem álcool,SA-LN355,321.9
+2023-05-01,Nordeste,Sem álcool,SA-LN355,270.8
+2023-06-01,Nordeste,Sem álcool,SA-LN355,280.9
+2023-07-01,Nordeste,Sem álcool,SA-LN355,275.7
+2023-08-01,Nordeste,Sem álcool,SA-LN355,240.5
+2023-09-01,Nordeste,Sem álcool,SA-LN355,269.6
+2023-10-01,Nordeste,Sem álcool,SA-LN355,315.4
+2023-11-01,Nordeste,Sem álcool,SA-LN355,310.2
+2023-12-01,Nordeste,Sem álcool,SA-LN355,372.4
+2024-01-01,Nordeste,Sem álcool,SA-LN355,368.6
+2024-02-01,Nordeste,Sem álcool,SA-LN355,417.8
+2024-03-01,Nordeste,Sem álcool,SA-LN355,370.1
+2024-04-01,Nordeste,Sem álcool,SA-LN355,346.9
+2024-05-01,Nordeste,Sem álcool,SA-LN355,376.9
+2024-06-01,Nordeste,Sem álcool,SA-LN355,426.5
+2024-07-01,Nordeste,Sem álcool,SA-LN355,324.9
+2024-08-01,Nordeste,Sem álcool,SA-LN355,314.5
+2024-09-01,Nordeste,Sem álcool,SA-LN355,321.8
+2024-10-01,Nordeste,Sem álcool,SA-LN355,323.4
+2024-11-01,Nordeste,Sem álcool,SA-LN355,416.5
+2024-12-01,Nordeste,Sem álcool,SA-LN355,464.2
+2025-01-01,Nordeste,Sem álcool,SA-LN355,516.4
+2025-02-01,Nordeste,Sem álcool,SA-LN355,552.1
+2025-03-01,Nordeste,Sem álcool,SA-LN355,543.4
+2025-04-01,Nordeste,Sem álcool,SA-LN355,482.9
+2025-05-01,Nordeste,Sem álcool,SA-LN355,427.9
+2025-06-01,Nordeste,Sem álcool,SA-LN355,507.6
+2025-07-01,Nordeste,Sem álcool,SA-LN355,424.3
+2025-08-01,Nordeste,Sem álcool,SA-LN355,388.1
+2025-09-01,Nordeste,Sem álcool,SA-LN355,444.9
+2025-10-01,Nordeste,Sem álcool,SA-LN355,497.6
+2025-11-01,Nordeste,Sem álcool,SA-LN355,514.1
+2025-12-01,Nordeste,Sem álcool,SA-LN355,555.7
+2018-01-01,Sul,Pilsen,PIL-LT350,3345.6
+2018-02-01,Sul,Pilsen,PIL-LT350,3771.6
+2018-03-01,Sul,Pilsen,PIL-LT350,3425.3
+2018-04-01,Sul,Pilsen,PIL-LT350,3049.0
+2018-05-01,Sul,Pilsen,PIL-LT350,2428.9
+2018-06-01,Sul,Pilsen,PIL-LT350,2235.6
+2018-07-01,Sul,Pilsen,PIL-LT350,1993.9
+2018-08-01,Sul,Pilsen,PIL-LT350,1796.6
+2018-09-01,Sul,Pilsen,PIL-LT350,2251.8
+2018-10-01,Sul,Pilsen,PIL-LT350,2311.6
+2018-11-01,Sul,Pilsen,PIL-LT350,2791.3
+2018-12-01,Sul,Pilsen,PIL-LT350,3178.4
+2019-01-01,Sul,Pilsen,PIL-LT350,3409.4
+2019-02-01,Sul,Pilsen,PIL-LT350,3299.8
+2019-03-01,Sul,Pilsen,PIL-LT350,3494.8
+2019-04-01,Sul,Pilsen,PIL-LT350,2850.5
+2019-05-01,Sul,Pilsen,PIL-LT350,2653.9
+2019-06-01,Sul,Pilsen,PIL-LT350,2084.2
+2019-07-01,Sul,Pilsen,PIL-LT350,2457.3
+2019-08-01,Sul,Pilsen,PIL-LT350,2035.1
+2019-09-01,Sul,Pilsen,PIL-LT350,2898.0
+2019-10-01,Sul,Pilsen,PIL-LT350,2585.2
+2019-11-01,Sul,Pilsen,PIL-LT350,2707.9
+2019-12-01,Sul,Pilsen,PIL-LT350,3324.3
+2020-01-01,Sul,Pilsen,PIL-LT350,4028.5
+2020-02-01,Sul,Pilsen,PIL-LT350,3838.0
+2020-03-01,Sul,Pilsen,PIL-LT350,3986.2
+2020-04-01,Sul,Pilsen,PIL-LT350,3330.0
+2020-05-01,Sul,Pilsen,PIL-LT350,2977.3
+2020-06-01,Sul,Pilsen,PIL-LT350,2331.0
+2020-07-01,Sul,Pilsen,PIL-LT350,1934.0
+2020-08-01,Sul,Pilsen,PIL-LT350,1877.7
+2020-09-01,Sul,Pilsen,PIL-LT350,2136.5
+2020-10-01,Sul,Pilsen,PIL-LT350,2672.5
+2020-11-01,Sul,Pilsen,PIL-LT350,3068.9
+2020-12-01,Sul,Pilsen,PIL-LT350,3352.5
+2021-01-01,Sul,Pilsen,PIL-LT350,3458.1
+2021-02-01,Sul,Pilsen,PIL-LT350,3647.0
+2021-03-01,Sul,Pilsen,PIL-LT350,3419.1
+2021-04-01,Sul,Pilsen,PIL-LT350,2827.9
+2021-05-01,Sul,Pilsen,PIL-LT350,2503.5
+2021-06-01,Sul,Pilsen,PIL-LT350,2289.9
+2021-07-01,Sul,Pilsen,PIL-LT350,2054.9
+2021-08-01,Sul,Pilsen,PIL-LT350,1865.3
+2021-09-01,Sul,Pilsen,PIL-LT350,2561.9
+2021-10-01,Sul,Pilsen,PIL-LT350,3338.5
+2021-11-01,Sul,Pilsen,PIL-LT350,3234.3
+2021-12-01,Sul,Pilsen,PIL-LT350,3276.5
+2022-01-01,Sul,Pilsen,PIL-LT350,3734.7
+2022-02-01,Sul,Pilsen,PIL-LT350,3669.3
+2022-03-01,Sul,Pilsen,PIL-LT350,3288.4
+2022-04-01,Sul,Pilsen,PIL-LT350,2998.7
+2022-05-01,Sul,Pilsen,PIL-LT350,2916.9
+2022-06-01,Sul,Pilsen,PIL-LT350,2228.3
+2022-07-01,Sul,Pilsen,PIL-LT350,1928.2
+2022-08-01,Sul,Pilsen,PIL-LT350,1941.6
+2022-09-01,Sul,Pilsen,PIL-LT350,2381.8
+2022-10-01,Sul,Pilsen,PIL-LT350,2721.8
+2022-11-01,Sul,Pilsen,PIL-LT350,3089.2
+2022-12-01,Sul,Pilsen,PIL-LT350,3927.7
+2023-01-01,Sul,Pilsen,PIL-LT350,3417.0
+2023-02-01,Sul,Pilsen,PIL-LT350,3677.2
+2023-03-01,Sul,Pilsen,PIL-LT350,3115.4
+2023-04-01,Sul,Pilsen,PIL-LT350,3090.3
+2023-05-01,Sul,Pilsen,PIL-LT350,2727.9
+2023-06-01,Sul,Pilsen,PIL-LT350,2305.1
+2023-07-01,Sul,Pilsen,PIL-LT350,2018.2
+2023-08-01,Sul,Pilsen,PIL-LT350,2065.2
+2023-09-01,Sul,Pilsen,PIL-LT350,2459.7
+2023-10-01,Sul,Pilsen,PIL-LT350,2787.7
+2023-11-01,Sul,Pilsen,PIL-LT350,3083.9
+2023-12-01,Sul,Pilsen,PIL-LT350,3344.7
+2024-01-01,Sul,Pilsen,PIL-LT350,3672.6
+2024-02-01,Sul,Pilsen,PIL-LT350,4157.9
+2024-03-01,Sul,Pilsen,PIL-LT350,3936.5
+2024-04-01,Sul,Pilsen,PIL-LT350,3001.2
+2024-05-01,Sul,Pilsen,PIL-LT350,2690.0
+2024-06-01,Sul,Pilsen,PIL-LT350,2243.6
+2024-07-01,Sul,Pilsen,PIL-LT350,2193.9
+2024-08-01,Sul,Pilsen,PIL-LT350,2129.5
+2024-09-01,Sul,Pilsen,PIL-LT350,2443.7
+2024-10-01,Sul,Pilsen,PIL-LT350,2956.3
+2024-11-01,Sul,Pilsen,PIL-LT350,3544.2
+2024-12-01,Sul,Pilsen,PIL-LT350,3448.0
+2025-01-01,Sul,Pilsen,PIL-LT350,3547.9
+2025-02-01,Sul,Pilsen,PIL-LT350,3521.0
+2025-03-01,Sul,Pilsen,PIL-LT350,3563.9
+2025-04-01,Sul,Pilsen,PIL-LT350,3113.0
+2025-05-01,Sul,Pilsen,PIL-LT350,2761.1
+2025-06-01,Sul,Pilsen,PIL-LT350,2125.7
+2025-07-01,Sul,Pilsen,PIL-LT350,1980.6
+2025-08-01,Sul,Pilsen,PIL-LT350,2424.7
+2025-09-01,Sul,Pilsen,PIL-LT350,2619.9
+2025-10-01,Sul,Pilsen,PIL-LT350,2711.6
+2025-11-01,Sul,Pilsen,PIL-LT350,3305.4
+2025-12-01,Sul,Pilsen,PIL-LT350,3566.1
+2018-01-01,Sul,Pilsen,PIL-GF600,2729.0
+2018-02-01,Sul,Pilsen,PIL-GF600,2587.4
+2018-03-01,Sul,Pilsen,PIL-GF600,2549.9
+2018-04-01,Sul,Pilsen,PIL-GF600,2272.7
+2018-05-01,Sul,Pilsen,PIL-GF600,1882.2
+2018-06-01,Sul,Pilsen,PIL-GF600,1848.0
+2018-07-01,Sul,Pilsen,PIL-GF600,1458.8
+2018-08-01,Sul,Pilsen,PIL-GF600,1508.7
+2018-09-01,Sul,Pilsen,PIL-GF600,1444.5
+2018-10-01,Sul,Pilsen,PIL-GF600,1762.6
+2018-11-01,Sul,Pilsen,PIL-GF600,1944.7
+2018-12-01,Sul,Pilsen,PIL-GF600,2318.7
+2019-01-01,Sul,Pilsen,PIL-GF600,2431.6
+2019-02-01,Sul,Pilsen,PIL-GF600,2243.6
+2019-03-01,Sul,Pilsen,PIL-GF600,2374.4
+2019-04-01,Sul,Pilsen,PIL-GF600,2089.7
+2019-05-01,Sul,Pilsen,PIL-GF600,1824.3
+2019-06-01,Sul,Pilsen,PIL-GF600,1853.5
+2019-07-01,Sul,Pilsen,PIL-GF600,1338.0
+2019-08-01,Sul,Pilsen,PIL-GF600,1282.4
+2019-09-01,Sul,Pilsen,PIL-GF600,1685.7
+2019-10-01,Sul,Pilsen,PIL-GF600,1708.8
+2019-11-01,Sul,Pilsen,PIL-GF600,2675.5
+2019-12-01,Sul,Pilsen,PIL-GF600,2288.5
+2020-01-01,Sul,Pilsen,PIL-GF600,2494.7
+2020-02-01,Sul,Pilsen,PIL-GF600,2686.8
+2020-03-01,Sul,Pilsen,PIL-GF600,2085.7
+2020-04-01,Sul,Pilsen,PIL-GF600,867.3
+2020-05-01,Sul,Pilsen,PIL-GF600,802.8
+2020-06-01,Sul,Pilsen,PIL-GF600,877.9
+2020-07-01,Sul,Pilsen,PIL-GF600,1022.1
+2020-08-01,Sul,Pilsen,PIL-GF600,1243.9
+2020-09-01,Sul,Pilsen,PIL-GF600,1545.3
+2020-10-01,Sul,Pilsen,PIL-GF600,1653.7
+2020-11-01,Sul,Pilsen,PIL-GF600,2122.4
+2020-12-01,Sul,Pilsen,PIL-GF600,2168.6
+2021-01-01,Sul,Pilsen,PIL-GF600,2375.3
+2021-02-01,Sul,Pilsen,PIL-GF600,2355.3
+2021-03-01,Sul,Pilsen,PIL-GF600,1871.4
+2021-04-01,Sul,Pilsen,PIL-GF600,1905.6
+2021-05-01,Sul,Pilsen,PIL-GF600,1670.9
+2021-06-01,Sul,Pilsen,PIL-GF600,1489.2
+2021-07-01,Sul,Pilsen,PIL-GF600,1440.8
+2021-08-01,Sul,Pilsen,PIL-GF600,1314.3
+2021-09-01,Sul,Pilsen,PIL-GF600,1551.7
+2021-10-01,Sul,Pilsen,PIL-GF600,1710.2
+2021-11-01,Sul,Pilsen,PIL-GF600,2047.7
+2021-12-01,Sul,Pilsen,PIL-GF600,2259.9
+2022-01-01,Sul,Pilsen,PIL-GF600,2368.6
+2022-02-01,Sul,Pilsen,PIL-GF600,2075.6
+2022-03-01,Sul,Pilsen,PIL-GF600,2411.9
+2022-04-01,Sul,Pilsen,PIL-GF600,2111.7
+2022-05-01,Sul,Pilsen,PIL-GF600,1772.4
+2022-06-01,Sul,Pilsen,PIL-GF600,1473.6
+2022-07-01,Sul,Pilsen,PIL-GF600,1239.3
+2022-08-01,Sul,Pilsen,PIL-GF600,1356.9
+2022-09-01,Sul,Pilsen,PIL-GF600,1528.3
+2022-10-01,Sul,Pilsen,PIL-GF600,1817.4
+2022-11-01,Sul,Pilsen,PIL-GF600,2012.6
+2022-12-01,Sul,Pilsen,PIL-GF600,2276.1
+2023-01-01,Sul,Pilsen,PIL-GF600,2371.9
+2023-02-01,Sul,Pilsen,PIL-GF600,2422.3
+2023-03-01,Sul,Pilsen,PIL-GF600,2213.7
+2023-04-01,Sul,Pilsen,PIL-GF600,1988.5
+2023-05-01,Sul,Pilsen,PIL-GF600,1896.0
+2023-06-01,Sul,Pilsen,PIL-GF600,1480.5
+2023-07-01,Sul,Pilsen,PIL-GF600,1330.9
+2023-08-01,Sul,Pilsen,PIL-GF600,1481.5
+2023-09-01,Sul,Pilsen,PIL-GF600,1603.3
+2023-10-01,Sul,Pilsen,PIL-GF600,1712.9
+2023-11-01,Sul,Pilsen,PIL-GF600,2177.2
+2023-12-01,Sul,Pilsen,PIL-GF600,2137.9
+2024-01-01,Sul,Pilsen,PIL-GF600,2247.7
+2024-02-01,Sul,Pilsen,PIL-GF600,2347.2
+2024-03-01,Sul,Pilsen,PIL-GF600,2159.1
+2024-04-01,Sul,Pilsen,PIL-GF600,2058.2
+2024-05-01,Sul,Pilsen,PIL-GF600,1601.5
+2024-06-01,Sul,Pilsen,PIL-GF600,1398.0
+2024-07-01,Sul,Pilsen,PIL-GF600,1202.3
+2024-08-01,Sul,Pilsen,PIL-GF600,1398.5
+2024-09-01,Sul,Pilsen,PIL-GF600,1561.1
+2024-10-01,Sul,Pilsen,PIL-GF600,1879.3
+2024-11-01,Sul,Pilsen,PIL-GF600,1957.9
+2024-12-01,Sul,Pilsen,PIL-GF600,1977.3
+2025-01-01,Sul,Pilsen,PIL-GF600,2214.0
+2025-02-01,Sul,Pilsen,PIL-GF600,2703.0
+2025-03-01,Sul,Pilsen,PIL-GF600,2329.7
+2025-04-01,Sul,Pilsen,PIL-GF600,2074.9
+2025-05-01,Sul,Pilsen,PIL-GF600,1663.5
+2025-06-01,Sul,Pilsen,PIL-GF600,1363.5
+2025-07-01,Sul,Pilsen,PIL-GF600,1352.6
+2025-08-01,Sul,Pilsen,PIL-GF600,1383.8
+2025-09-01,Sul,Pilsen,PIL-GF600,1635.9
+2025-10-01,Sul,Pilsen,PIL-GF600,1641.1
+2025-11-01,Sul,Pilsen,PIL-GF600,1787.9
+2025-12-01,Sul,Pilsen,PIL-GF600,1979.3
+2018-01-01,Sul,Pilsen,PIL-LT473,1350.2
+2018-02-01,Sul,Pilsen,PIL-LT473,1471.7
+2018-03-01,Sul,Pilsen,PIL-LT473,1202.2
+2018-04-01,Sul,Pilsen,PIL-LT473,1433.0
+2018-05-01,Sul,Pilsen,PIL-LT473,1011.7
+2018-06-01,Sul,Pilsen,PIL-LT473,843.3
+2018-07-01,Sul,Pilsen,PIL-LT473,797.9
+2018-08-01,Sul,Pilsen,PIL-LT473,756.2
+2018-09-01,Sul,Pilsen,PIL-LT473,925.5
+2018-10-01,Sul,Pilsen,PIL-LT473,1094.9
+2018-11-01,Sul,Pilsen,PIL-LT473,1089.5
+2018-12-01,Sul,Pilsen,PIL-LT473,1277.9
+2019-01-01,Sul,Pilsen,PIL-LT473,1539.2
+2019-02-01,Sul,Pilsen,PIL-LT473,1327.0
+2019-03-01,Sul,Pilsen,PIL-LT473,1547.8
+2019-04-01,Sul,Pilsen,PIL-LT473,1283.1
+2019-05-01,Sul,Pilsen,PIL-LT473,1138.9
+2019-06-01,Sul,Pilsen,PIL-LT473,905.5
+2019-07-01,Sul,Pilsen,PIL-LT473,793.6
+2019-08-01,Sul,Pilsen,PIL-LT473,814.7
+2019-09-01,Sul,Pilsen,PIL-LT473,1049.5
+2019-10-01,Sul,Pilsen,PIL-LT473,1221.7
+2019-11-01,Sul,Pilsen,PIL-LT473,1323.4
+2019-12-01,Sul,Pilsen,PIL-LT473,1326.5
+2020-01-01,Sul,Pilsen,PIL-LT473,1565.4
+2020-02-01,Sul,Pilsen,PIL-LT473,1690.7
+2020-03-01,Sul,Pilsen,PIL-LT473,1420.7
+2020-04-01,Sul,Pilsen,PIL-LT473,1404.1
+2020-05-01,Sul,Pilsen,PIL-LT473,1131.9
+2020-06-01,Sul,Pilsen,PIL-LT473,967.1
+2020-07-01,Sul,Pilsen,PIL-LT473,871.1
+2020-08-01,Sul,Pilsen,PIL-LT473,885.2
+2020-09-01,Sul,Pilsen,PIL-LT473,1098.6
+2020-10-01,Sul,Pilsen,PIL-LT473,1121.0
+2020-11-01,Sul,Pilsen,PIL-LT473,1223.0
+2020-12-01,Sul,Pilsen,PIL-LT473,1392.6
+2021-01-01,Sul,Pilsen,PIL-LT473,1494.2
+2021-02-01,Sul,Pilsen,PIL-LT473,1445.7
+2021-03-01,Sul,Pilsen,PIL-LT473,1470.5
+2021-04-01,Sul,Pilsen,PIL-LT473,1340.0
+2021-05-01,Sul,Pilsen,PIL-LT473,1132.9
+2021-06-01,Sul,Pilsen,PIL-LT473,995.4
+2021-07-01,Sul,Pilsen,PIL-LT473,816.3
+2021-08-01,Sul,Pilsen,PIL-LT473,898.3
+2021-09-01,Sul,Pilsen,PIL-LT473,1056.0
+2021-10-01,Sul,Pilsen,PIL-LT473,1140.4
+2021-11-01,Sul,Pilsen,PIL-LT473,1355.9
+2021-12-01,Sul,Pilsen,PIL-LT473,1282.4
+2022-01-01,Sul,Pilsen,PIL-LT473,1557.5
+2022-02-01,Sul,Pilsen,PIL-LT473,1574.0
+2022-03-01,Sul,Pilsen,PIL-LT473,1453.5
+2022-04-01,Sul,Pilsen,PIL-LT473,1332.6
+2022-05-01,Sul,Pilsen,PIL-LT473,1126.7
+2022-06-01,Sul,Pilsen,PIL-LT473,891.9
+2022-07-01,Sul,Pilsen,PIL-LT473,833.3
+2022-08-01,Sul,Pilsen,PIL-LT473,879.7
+2022-09-01,Sul,Pilsen,PIL-LT473,974.2
+2022-10-01,Sul,Pilsen,PIL-LT473,1154.7
+2022-11-01,Sul,Pilsen,PIL-LT473,1518.3
+2022-12-01,Sul,Pilsen,PIL-LT473,1554.4
+2023-01-01,Sul,Pilsen,PIL-LT473,1465.8
+2023-02-01,Sul,Pilsen,PIL-LT473,1837.7
+2023-03-01,Sul,Pilsen,PIL-LT473,1457.5
+2023-04-01,Sul,Pilsen,PIL-LT473,1306.1
+2023-05-01,Sul,Pilsen,PIL-LT473,1165.1
+2023-06-01,Sul,Pilsen,PIL-LT473,1049.4
+2023-07-01,Sul,Pilsen,PIL-LT473,922.2
+2023-08-01,Sul,Pilsen,PIL-LT473,918.8
+2023-09-01,Sul,Pilsen,PIL-LT473,1145.4
+2023-10-01,Sul,Pilsen,PIL-LT473,1243.1
+2023-11-01,Sul,Pilsen,PIL-LT473,1426.8
+2023-12-01,Sul,Pilsen,PIL-LT473,1479.5
+2024-01-01,Sul,Pilsen,PIL-LT473,2104.6
+2024-02-01,Sul,Pilsen,PIL-LT473,1677.5
+2024-03-01,Sul,Pilsen,PIL-LT473,1573.9
+2024-04-01,Sul,Pilsen,PIL-LT473,1305.5
+2024-05-01,Sul,Pilsen,PIL-LT473,1290.6
+2024-06-01,Sul,Pilsen,PIL-LT473,1090.3
+2024-07-01,Sul,Pilsen,PIL-LT473,977.4
+2024-08-01,Sul,Pilsen,PIL-LT473,955.1
+2024-09-01,Sul,Pilsen,PIL-LT473,1146.1
+2024-10-01,Sul,Pilsen,PIL-LT473,1274.6
+2024-11-01,Sul,Pilsen,PIL-LT473,1280.4
+2024-12-01,Sul,Pilsen,PIL-LT473,1693.2
+2025-01-01,Sul,Pilsen,PIL-LT473,1744.7
+2025-02-01,Sul,Pilsen,PIL-LT473,1614.5
+2025-03-01,Sul,Pilsen,PIL-LT473,1746.7
+2025-04-01,Sul,Pilsen,PIL-LT473,1586.2
+2025-05-01,Sul,Pilsen,PIL-LT473,1234.2
+2025-06-01,Sul,Pilsen,PIL-LT473,1063.1
+2025-07-01,Sul,Pilsen,PIL-LT473,1022.9
+2025-08-01,Sul,Pilsen,PIL-LT473,952.0
+2025-09-01,Sul,Pilsen,PIL-LT473,1228.4
+2025-10-01,Sul,Pilsen,PIL-LT473,1276.4
+2025-11-01,Sul,Pilsen,PIL-LT473,1616.7
+2025-12-01,Sul,Pilsen,PIL-LT473,1632.3
+2018-01-01,Sul,Puro malte,PM-LT350,977.0
+2018-02-01,Sul,Puro malte,PM-LT350,1217.0
+2018-03-01,Sul,Puro malte,PM-LT350,1068.7
+2018-04-01,Sul,Puro malte,PM-LT350,1009.5
+2018-05-01,Sul,Puro malte,PM-LT350,901.5
+2018-06-01,Sul,Puro malte,PM-LT350,691.5
+2018-07-01,Sul,Puro malte,PM-LT350,662.2
+2018-08-01,Sul,Puro malte,PM-LT350,625.9
+2018-09-01,Sul,Puro malte,PM-LT350,829.5
+2018-10-01,Sul,Puro malte,PM-LT350,901.9
+2018-11-01,Sul,Puro malte,PM-LT350,1016.5
+2018-12-01,Sul,Puro malte,PM-LT350,1218.7
+2019-01-01,Sul,Puro malte,PM-LT350,1234.5
+2019-02-01,Sul,Puro malte,PM-LT350,1258.6
+2019-03-01,Sul,Puro malte,PM-LT350,1238.8
+2019-04-01,Sul,Puro malte,PM-LT350,1033.1
+2019-05-01,Sul,Puro malte,PM-LT350,953.6
+2019-06-01,Sul,Puro malte,PM-LT350,776.5
+2019-07-01,Sul,Puro malte,PM-LT350,718.6
+2019-08-01,Sul,Puro malte,PM-LT350,728.5
+2019-09-01,Sul,Puro malte,PM-LT350,892.6
+2019-10-01,Sul,Puro malte,PM-LT350,1044.4
+2019-11-01,Sul,Puro malte,PM-LT350,1047.6
+2019-12-01,Sul,Puro malte,PM-LT350,1168.6
+2020-01-01,Sul,Puro malte,PM-LT350,1103.7
+2020-02-01,Sul,Puro malte,PM-LT350,1423.9
+2020-03-01,Sul,Puro malte,PM-LT350,1171.0
+2020-04-01,Sul,Puro malte,PM-LT350,1100.9
+2020-05-01,Sul,Puro malte,PM-LT350,1081.0
+2020-06-01,Sul,Puro malte,PM-LT350,1049.8
+2020-07-01,Sul,Puro malte,PM-LT350,841.6
+2020-08-01,Sul,Puro malte,PM-LT350,852.5
+2020-09-01,Sul,Puro malte,PM-LT350,985.6
+2020-10-01,Sul,Puro malte,PM-LT350,1040.9
+2020-11-01,Sul,Puro malte,PM-LT350,1117.1
+2020-12-01,Sul,Puro malte,PM-LT350,1269.5
+2021-01-01,Sul,Puro malte,PM-LT350,1338.6
+2021-02-01,Sul,Puro malte,PM-LT350,1392.2
+2021-03-01,Sul,Puro malte,PM-LT350,1363.6
+2021-04-01,Sul,Puro malte,PM-LT350,1402.5
+2021-05-01,Sul,Puro malte,PM-LT350,1173.3
+2021-06-01,Sul,Puro malte,PM-LT350,1005.0
+2021-07-01,Sul,Puro malte,PM-LT350,856.2
+2021-08-01,Sul,Puro malte,PM-LT350,809.7
+2021-09-01,Sul,Puro malte,PM-LT350,988.5
+2021-10-01,Sul,Puro malte,PM-LT350,1157.1
+2021-11-01,Sul,Puro malte,PM-LT350,1344.5
+2021-12-01,Sul,Puro malte,PM-LT350,1551.3
+2022-01-01,Sul,Puro malte,PM-LT350,1488.6
+2022-02-01,Sul,Puro malte,PM-LT350,1515.9
+2022-03-01,Sul,Puro malte,PM-LT350,1499.9
+2022-04-01,Sul,Puro malte,PM-LT350,1831.5
+2022-05-01,Sul,Puro malte,PM-LT350,1187.7
+2022-06-01,Sul,Puro malte,PM-LT350,1011.5
+2022-07-01,Sul,Puro malte,PM-LT350,863.5
+2022-08-01,Sul,Puro malte,PM-LT350,947.1
+2022-09-01,Sul,Puro malte,PM-LT350,1146.0
+2022-10-01,Sul,Puro malte,PM-LT350,1302.8
+2022-11-01,Sul,Puro malte,PM-LT350,1634.1
+2022-12-01,Sul,Puro malte,PM-LT350,1670.1
+2023-01-01,Sul,Puro malte,PM-LT350,1737.2
+2023-02-01,Sul,Puro malte,PM-LT350,1730.1
+2023-03-01,Sul,Puro malte,PM-LT350,1509.3
+2023-04-01,Sul,Puro malte,PM-LT350,1476.7
+2023-05-01,Sul,Puro malte,PM-LT350,1305.0
+2023-06-01,Sul,Puro malte,PM-LT350,1176.6
+2023-07-01,Sul,Puro malte,PM-LT350,1039.7
+2023-08-01,Sul,Puro malte,PM-LT350,1089.7
+2023-09-01,Sul,Puro malte,PM-LT350,1239.4
+2023-10-01,Sul,Puro malte,PM-LT350,1437.9
+2023-11-01,Sul,Puro malte,PM-LT350,1531.2
+2023-12-01,Sul,Puro malte,PM-LT350,1785.7
+2024-01-01,Sul,Puro malte,PM-LT350,1766.6
+2024-02-01,Sul,Puro malte,PM-LT350,1923.9
+2024-03-01,Sul,Puro malte,PM-LT350,1536.5
+2024-04-01,Sul,Puro malte,PM-LT350,1646.0
+2024-05-01,Sul,Puro malte,PM-LT350,1515.0
+2024-06-01,Sul,Puro malte,PM-LT350,1206.8
+2024-07-01,Sul,Puro malte,PM-LT350,1103.1
+2024-08-01,Sul,Puro malte,PM-LT350,1067.3
+2024-09-01,Sul,Puro malte,PM-LT350,1155.2
+2024-10-01,Sul,Puro malte,PM-LT350,1395.4
+2024-11-01,Sul,Puro malte,PM-LT350,1678.8
+2024-12-01,Sul,Puro malte,PM-LT350,1944.4
+2025-01-01,Sul,Puro malte,PM-LT350,2118.6
+2025-02-01,Sul,Puro malte,PM-LT350,2469.2
+2025-03-01,Sul,Puro malte,PM-LT350,1985.5
+2025-04-01,Sul,Puro malte,PM-LT350,1730.5
+2025-05-01,Sul,Puro malte,PM-LT350,1885.9
+2025-06-01,Sul,Puro malte,PM-LT350,1137.5
+2025-07-01,Sul,Puro malte,PM-LT350,1125.7
+2025-08-01,Sul,Puro malte,PM-LT350,1137.3
+2025-09-01,Sul,Puro malte,PM-LT350,1361.8
+2025-10-01,Sul,Puro malte,PM-LT350,2126.8
+2025-11-01,Sul,Puro malte,PM-LT350,2325.8
+2025-12-01,Sul,Puro malte,PM-LT350,1940.7
+2018-01-01,Sul,Puro malte,PM-LN355,619.7
+2018-02-01,Sul,Puro malte,PM-LN355,809.4
+2018-03-01,Sul,Puro malte,PM-LN355,685.3
+2018-04-01,Sul,Puro malte,PM-LN355,638.1
+2018-05-01,Sul,Puro malte,PM-LN355,531.3
+2018-06-01,Sul,Puro malte,PM-LN355,405.2
+2018-07-01,Sul,Puro malte,PM-LN355,409.9
+2018-08-01,Sul,Puro malte,PM-LN355,369.4
+2018-09-01,Sul,Puro malte,PM-LN355,467.3
+2018-10-01,Sul,Puro malte,PM-LN355,554.6
+2018-11-01,Sul,Puro malte,PM-LN355,615.6
+2018-12-01,Sul,Puro malte,PM-LN355,637.4
+2019-01-01,Sul,Puro malte,PM-LN355,732.2
+2019-02-01,Sul,Puro malte,PM-LN355,700.8
+2019-03-01,Sul,Puro malte,PM-LN355,768.4
+2019-04-01,Sul,Puro malte,PM-LN355,613.9
+2019-05-01,Sul,Puro malte,PM-LN355,553.9
+2019-06-01,Sul,Puro malte,PM-LN355,421.9
+2019-07-01,Sul,Puro malte,PM-LN355,469.9
+2019-08-01,Sul,Puro malte,PM-LN355,464.0
+2019-09-01,Sul,Puro malte,PM-LN355,481.7
+2019-10-01,Sul,Puro malte,PM-LN355,556.3
+2019-11-01,Sul,Puro malte,PM-LN355,699.0
+2019-12-01,Sul,Puro malte,PM-LN355,667.1
+2020-01-01,Sul,Puro malte,PM-LN355,805.0
+2020-02-01,Sul,Puro malte,PM-LN355,864.3
+2020-03-01,Sul,Puro malte,PM-LN355,708.2
+2020-04-01,Sul,Puro malte,PM-LN355,320.9
+2020-05-01,Sul,Puro malte,PM-LN355,304.3
+2020-06-01,Sul,Puro malte,PM-LN355,314.6
+2020-07-01,Sul,Puro malte,PM-LN355,364.9
+2020-08-01,Sul,Puro malte,PM-LN355,402.0
+2020-09-01,Sul,Puro malte,PM-LN355,469.8
+2020-10-01,Sul,Puro malte,PM-LN355,614.1
+2020-11-01,Sul,Puro malte,PM-LN355,684.1
+2020-12-01,Sul,Puro malte,PM-LN355,752.0
+2021-01-01,Sul,Puro malte,PM-LN355,829.0
+2021-02-01,Sul,Puro malte,PM-LN355,794.4
+2021-03-01,Sul,Puro malte,PM-LN355,666.5
+2021-04-01,Sul,Puro malte,PM-LN355,649.5
+2021-05-01,Sul,Puro malte,PM-LN355,606.8
+2021-06-01,Sul,Puro malte,PM-LN355,507.9
+2021-07-01,Sul,Puro malte,PM-LN355,451.2
+2021-08-01,Sul,Puro malte,PM-LN355,472.4
+2021-09-01,Sul,Puro malte,PM-LN355,605.2
+2021-10-01,Sul,Puro malte,PM-LN355,669.9
+2021-11-01,Sul,Puro malte,PM-LN355,662.6
+2021-12-01,Sul,Puro malte,PM-LN355,951.1
+2022-01-01,Sul,Puro malte,PM-LN355,879.3
+2022-02-01,Sul,Puro malte,PM-LN355,883.0
+2022-03-01,Sul,Puro malte,PM-LN355,803.7
+2022-04-01,Sul,Puro malte,PM-LN355,706.1
+2022-05-01,Sul,Puro malte,PM-LN355,672.7
+2022-06-01,Sul,Puro malte,PM-LN355,474.9
+2022-07-01,Sul,Puro malte,PM-LN355,495.3
+2022-08-01,Sul,Puro malte,PM-LN355,505.8
+2022-09-01,Sul,Puro malte,PM-LN355,548.6
+2022-10-01,Sul,Puro malte,PM-LN355,712.3
+2022-11-01,Sul,Puro malte,PM-LN355,847.7
+2022-12-01,Sul,Puro malte,PM-LN355,1199.4
+2023-01-01,Sul,Puro malte,PM-LN355,855.1
+2023-02-01,Sul,Puro malte,PM-LN355,1008.5
+2023-03-01,Sul,Puro malte,PM-LN355,872.0
+2023-04-01,Sul,Puro malte,PM-LN355,845.0
+2023-05-01,Sul,Puro malte,PM-LN355,746.2
+2023-06-01,Sul,Puro malte,PM-LN355,559.0
+2023-07-01,Sul,Puro malte,PM-LN355,543.6
+2023-08-01,Sul,Puro malte,PM-LN355,564.1
+2023-09-01,Sul,Puro malte,PM-LN355,647.2
+2023-10-01,Sul,Puro malte,PM-LN355,773.6
+2023-11-01,Sul,Puro malte,PM-LN355,854.7
+2023-12-01,Sul,Puro malte,PM-LN355,933.8
+2024-01-01,Sul,Puro malte,PM-LN355,942.3
+2024-02-01,Sul,Puro malte,PM-LN355,1006.4
+2024-03-01,Sul,Puro malte,PM-LN355,829.4
+2024-04-01,Sul,Puro malte,PM-LN355,761.1
+2024-05-01,Sul,Puro malte,PM-LN355,704.8
+2024-06-01,Sul,Puro malte,PM-LN355,619.7
+2024-07-01,Sul,Puro malte,PM-LN355,550.0
+2024-08-01,Sul,Puro malte,PM-LN355,567.6
+2024-09-01,Sul,Puro malte,PM-LN355,851.1
+2024-10-01,Sul,Puro malte,PM-LN355,679.5
+2024-11-01,Sul,Puro malte,PM-LN355,878.7
+2024-12-01,Sul,Puro malte,PM-LN355,1107.8
+2025-01-01,Sul,Puro malte,PM-LN355,1030.6
+2025-02-01,Sul,Puro malte,PM-LN355,991.7
+2025-03-01,Sul,Puro malte,PM-LN355,1046.2
+2025-04-01,Sul,Puro malte,PM-LN355,850.1
+2025-05-01,Sul,Puro malte,PM-LN355,829.3
+2025-06-01,Sul,Puro malte,PM-LN355,746.3
+2025-07-01,Sul,Puro malte,PM-LN355,693.5
+2025-08-01,Sul,Puro malte,PM-LN355,550.6
+2025-09-01,Sul,Puro malte,PM-LN355,720.3
+2025-10-01,Sul,Puro malte,PM-LN355,878.2
+2025-11-01,Sul,Puro malte,PM-LN355,919.7
+2025-12-01,Sul,Puro malte,PM-LN355,1187.2
+2018-01-01,Sul,Puro malte,PM-LT473,541.3
+2018-02-01,Sul,Puro malte,PM-LT473,648.5
+2018-03-01,Sul,Puro malte,PM-LT473,537.6
+2018-04-01,Sul,Puro malte,PM-LT473,512.3
+2018-05-01,Sul,Puro malte,PM-LT473,419.1
+2018-06-01,Sul,Puro malte,PM-LT473,365.5
+2018-07-01,Sul,Puro malte,PM-LT473,322.4
+2018-08-01,Sul,Puro malte,PM-LT473,354.2
+2018-09-01,Sul,Puro malte,PM-LT473,441.7
+2018-10-01,Sul,Puro malte,PM-LT473,452.2
+2018-11-01,Sul,Puro malte,PM-LT473,510.8
+2018-12-01,Sul,Puro malte,PM-LT473,511.8
+2019-01-01,Sul,Puro malte,PM-LT473,683.4
+2019-02-01,Sul,Puro malte,PM-LT473,698.0
+2019-03-01,Sul,Puro malte,PM-LT473,689.1
+2019-04-01,Sul,Puro malte,PM-LT473,500.2
+2019-05-01,Sul,Puro malte,PM-LT473,482.3
+2019-06-01,Sul,Puro malte,PM-LT473,370.7
+2019-07-01,Sul,Puro malte,PM-LT473,370.7
+2019-08-01,Sul,Puro malte,PM-LT473,361.5
+2019-09-01,Sul,Puro malte,PM-LT473,439.1
+2019-10-01,Sul,Puro malte,PM-LT473,440.9
+2019-11-01,Sul,Puro malte,PM-LT473,572.6
+2019-12-01,Sul,Puro malte,PM-LT473,673.4
+2020-01-01,Sul,Puro malte,PM-LT473,655.7
+2020-02-01,Sul,Puro malte,PM-LT473,687.0
+2020-03-01,Sul,Puro malte,PM-LT473,614.6
+2020-04-01,Sul,Puro malte,PM-LT473,613.5
+2020-05-01,Sul,Puro malte,PM-LT473,549.2
+2020-06-01,Sul,Puro malte,PM-LT473,435.8
+2020-07-01,Sul,Puro malte,PM-LT473,477.2
+2020-08-01,Sul,Puro malte,PM-LT473,398.5
+2020-09-01,Sul,Puro malte,PM-LT473,490.7
+2020-10-01,Sul,Puro malte,PM-LT473,589.1
+2020-11-01,Sul,Puro malte,PM-LT473,643.3
+2020-12-01,Sul,Puro malte,PM-LT473,662.0
+2021-01-01,Sul,Puro malte,PM-LT473,720.1
+2021-02-01,Sul,Puro malte,PM-LT473,748.7
+2021-03-01,Sul,Puro malte,PM-LT473,752.3
+2021-04-01,Sul,Puro malte,PM-LT473,622.9
+2021-05-01,Sul,Puro malte,PM-LT473,628.1
+2021-06-01,Sul,Puro malte,PM-LT473,510.1
+2021-07-01,Sul,Puro malte,PM-LT473,430.0
+2021-08-01,Sul,Puro malte,PM-LT473,450.3
+2021-09-01,Sul,Puro malte,PM-LT473,571.9
+2021-10-01,Sul,Puro malte,PM-LT473,603.8
+2021-11-01,Sul,Puro malte,PM-LT473,608.6
+2021-12-01,Sul,Puro malte,PM-LT473,737.4
+2022-01-01,Sul,Puro malte,PM-LT473,978.7
+2022-02-01,Sul,Puro malte,PM-LT473,788.3
+2022-03-01,Sul,Puro malte,PM-LT473,939.3
+2022-04-01,Sul,Puro malte,PM-LT473,835.9
+2022-05-01,Sul,Puro malte,PM-LT473,636.2
+2022-06-01,Sul,Puro malte,PM-LT473,511.9
+2022-07-01,Sul,Puro malte,PM-LT473,469.3
+2022-08-01,Sul,Puro malte,PM-LT473,519.9
+2022-09-01,Sul,Puro malte,PM-LT473,571.3
+2022-10-01,Sul,Puro malte,PM-LT473,729.2
+2022-11-01,Sul,Puro malte,PM-LT473,893.2
+2022-12-01,Sul,Puro malte,PM-LT473,1013.6
+2023-01-01,Sul,Puro malte,PM-LT473,994.6
+2023-02-01,Sul,Puro malte,PM-LT473,981.7
+2023-03-01,Sul,Puro malte,PM-LT473,969.6
+2023-04-01,Sul,Puro malte,PM-LT473,768.5
+2023-05-01,Sul,Puro malte,PM-LT473,846.0
+2023-06-01,Sul,Puro malte,PM-LT473,707.6
+2023-07-01,Sul,Puro malte,PM-LT473,576.4
+2023-08-01,Sul,Puro malte,PM-LT473,508.0
+2023-09-01,Sul,Puro malte,PM-LT473,724.6
+2023-10-01,Sul,Puro malte,PM-LT473,919.7
+2023-11-01,Sul,Puro malte,PM-LT473,824.8
+2023-12-01,Sul,Puro malte,PM-LT473,1021.2
+2024-01-01,Sul,Puro malte,PM-LT473,1044.9
+2024-02-01,Sul,Puro malte,PM-LT473,962.9
+2024-03-01,Sul,Puro malte,PM-LT473,1026.1
+2024-04-01,Sul,Puro malte,PM-LT473,917.5
+2024-05-01,Sul,Puro malte,PM-LT473,748.6
+2024-06-01,Sul,Puro malte,PM-LT473,637.5
+2024-07-01,Sul,Puro malte,PM-LT473,585.9
+2024-08-01,Sul,Puro malte,PM-LT473,671.8
+2024-09-01,Sul,Puro malte,PM-LT473,778.3
+2024-10-01,Sul,Puro malte,PM-LT473,841.1
+2024-11-01,Sul,Puro malte,PM-LT473,962.7
+2024-12-01,Sul,Puro malte,PM-LT473,1092.1
+2025-01-01,Sul,Puro malte,PM-LT473,1175.4
+2025-02-01,Sul,Puro malte,PM-LT473,1228.3
+2025-03-01,Sul,Puro malte,PM-LT473,1309.8
+2025-04-01,Sul,Puro malte,PM-LT473,1186.5
+2025-05-01,Sul,Puro malte,PM-LT473,864.3
+2025-06-01,Sul,Puro malte,PM-LT473,721.5
+2025-07-01,Sul,Puro malte,PM-LT473,658.9
+2025-08-01,Sul,Puro malte,PM-LT473,725.5
+2025-09-01,Sul,Puro malte,PM-LT473,791.5
+2025-10-01,Sul,Puro malte,PM-LT473,928.8
+2025-11-01,Sul,Puro malte,PM-LT473,1232.0
+2025-12-01,Sul,Puro malte,PM-LT473,1241.3
+2018-01-01,Sul,Premium,PR-LN330,706.9
+2018-02-01,Sul,Premium,PR-LN330,626.5
+2018-03-01,Sul,Premium,PR-LN330,697.7
+2018-04-01,Sul,Premium,PR-LN330,543.0
+2018-05-01,Sul,Premium,PR-LN330,548.4
+2018-06-01,Sul,Premium,PR-LN330,439.5
+2018-07-01,Sul,Premium,PR-LN330,421.2
+2018-08-01,Sul,Premium,PR-LN330,430.3
+2018-09-01,Sul,Premium,PR-LN330,499.0
+2018-10-01,Sul,Premium,PR-LN330,505.4
+2018-11-01,Sul,Premium,PR-LN330,588.2
+2018-12-01,Sul,Premium,PR-LN330,645.7
+2019-01-01,Sul,Premium,PR-LN330,722.1
+2019-02-01,Sul,Premium,PR-LN330,684.6
+2019-03-01,Sul,Premium,PR-LN330,720.1
+2019-04-01,Sul,Premium,PR-LN330,654.6
+2019-05-01,Sul,Premium,PR-LN330,619.4
+2019-06-01,Sul,Premium,PR-LN330,445.5
+2019-07-01,Sul,Premium,PR-LN330,426.4
+2019-08-01,Sul,Premium,PR-LN330,425.7
+2019-09-01,Sul,Premium,PR-LN330,515.7
+2019-10-01,Sul,Premium,PR-LN330,606.2
+2019-11-01,Sul,Premium,PR-LN330,663.5
+2019-12-01,Sul,Premium,PR-LN330,752.9
+2020-01-01,Sul,Premium,PR-LN330,767.4
+2020-02-01,Sul,Premium,PR-LN330,739.0
+2020-03-01,Sul,Premium,PR-LN330,736.4
+2020-04-01,Sul,Premium,PR-LN330,318.2
+2020-05-01,Sul,Premium,PR-LN330,289.1
+2020-06-01,Sul,Premium,PR-LN330,335.7
+2020-07-01,Sul,Premium,PR-LN330,341.7
+2020-08-01,Sul,Premium,PR-LN330,396.5
+2020-09-01,Sul,Premium,PR-LN330,508.1
+2020-10-01,Sul,Premium,PR-LN330,548.8
+2020-11-01,Sul,Premium,PR-LN330,669.5
+2020-12-01,Sul,Premium,PR-LN330,719.6
+2021-01-01,Sul,Premium,PR-LN330,808.8
+2021-02-01,Sul,Premium,PR-LN330,849.6
+2021-03-01,Sul,Premium,PR-LN330,596.7
+2021-04-01,Sul,Premium,PR-LN330,610.2
+2021-05-01,Sul,Premium,PR-LN330,662.8
+2021-06-01,Sul,Premium,PR-LN330,560.0
+2021-07-01,Sul,Premium,PR-LN330,524.7
+2021-08-01,Sul,Premium,PR-LN330,487.6
+2021-09-01,Sul,Premium,PR-LN330,588.4
+2021-10-01,Sul,Premium,PR-LN330,704.8
+2021-11-01,Sul,Premium,PR-LN330,784.7
+2021-12-01,Sul,Premium,PR-LN330,907.4
+2022-01-01,Sul,Premium,PR-LN330,821.7
+2022-02-01,Sul,Premium,PR-LN330,919.7
+2022-03-01,Sul,Premium,PR-LN330,1087.7
+2022-04-01,Sul,Premium,PR-LN330,829.1
+2022-05-01,Sul,Premium,PR-LN330,608.2
+2022-06-01,Sul,Premium,PR-LN330,566.1
+2022-07-01,Sul,Premium,PR-LN330,556.5
+2022-08-01,Sul,Premium,PR-LN330,563.2
+2022-09-01,Sul,Premium,PR-LN330,676.1
+2022-10-01,Sul,Premium,PR-LN330,632.6
+2022-11-01,Sul,Premium,PR-LN330,831.1
+2022-12-01,Sul,Premium,PR-LN330,993.4
+2023-01-01,Sul,Premium,PR-LN330,921.7
+2023-02-01,Sul,Premium,PR-LN330,954.1
+2023-03-01,Sul,Premium,PR-LN330,872.8
+2023-04-01,Sul,Premium,PR-LN330,832.7
+2023-05-01,Sul,Premium,PR-LN330,775.3
+2023-06-01,Sul,Premium,PR-LN330,601.7
+2023-07-01,Sul,Premium,PR-LN330,542.8
+2023-08-01,Sul,Premium,PR-LN330,601.8
+2023-09-01,Sul,Premium,PR-LN330,643.7
+2023-10-01,Sul,Premium,PR-LN330,849.7
+2023-11-01,Sul,Premium,PR-LN330,853.2
+2023-12-01,Sul,Premium,PR-LN330,1023.8
+2024-01-01,Sul,Premium,PR-LN330,1008.4
+2024-02-01,Sul,Premium,PR-LN330,1315.5
+2024-03-01,Sul,Premium,PR-LN330,1069.5
+2024-04-01,Sul,Premium,PR-LN330,976.2
+2024-05-01,Sul,Premium,PR-LN330,758.3
+2024-06-01,Sul,Premium,PR-LN330,652.2
+2024-07-01,Sul,Premium,PR-LN330,606.5
+2024-08-01,Sul,Premium,PR-LN330,575.3
+2024-09-01,Sul,Premium,PR-LN330,788.4
+2024-10-01,Sul,Premium,PR-LN330,928.5
+2024-11-01,Sul,Premium,PR-LN330,910.0
+2024-12-01,Sul,Premium,PR-LN330,1002.6
+2025-01-01,Sul,Premium,PR-LN330,1187.3
+2025-02-01,Sul,Premium,PR-LN330,1155.9
+2025-03-01,Sul,Premium,PR-LN330,1187.1
+2025-04-01,Sul,Premium,PR-LN330,986.6
+2025-05-01,Sul,Premium,PR-LN330,832.3
+2025-06-01,Sul,Premium,PR-LN330,675.3
+2025-07-01,Sul,Premium,PR-LN330,678.7
+2025-08-01,Sul,Premium,PR-LN330,673.4
+2025-09-01,Sul,Premium,PR-LN330,754.8
+2025-10-01,Sul,Premium,PR-LN330,959.4
+2025-11-01,Sul,Premium,PR-LN330,1004.9
+2025-12-01,Sul,Premium,PR-LN330,1219.8
+2018-01-01,Sul,Premium,PR-GF600,448.5
+2018-02-01,Sul,Premium,PR-GF600,445.0
+2018-03-01,Sul,Premium,PR-GF600,406.7
+2018-04-01,Sul,Premium,PR-GF600,379.7
+2018-05-01,Sul,Premium,PR-GF600,307.4
+2018-06-01,Sul,Premium,PR-GF600,266.0
+2018-07-01,Sul,Premium,PR-GF600,226.5
+2018-08-01,Sul,Premium,PR-GF600,250.9
+2018-09-01,Sul,Premium,PR-GF600,310.1
+2018-10-01,Sul,Premium,PR-GF600,377.2
+2018-11-01,Sul,Premium,PR-GF600,349.4
+2018-12-01,Sul,Premium,PR-GF600,408.4
+2019-01-01,Sul,Premium,PR-GF600,481.8
+2019-02-01,Sul,Premium,PR-GF600,478.7
+2019-03-01,Sul,Premium,PR-GF600,560.3
+2019-04-01,Sul,Premium,PR-GF600,456.6
+2019-05-01,Sul,Premium,PR-GF600,346.8
+2019-06-01,Sul,Premium,PR-GF600,306.4
+2019-07-01,Sul,Premium,PR-GF600,286.2
+2019-08-01,Sul,Premium,PR-GF600,241.6
+2019-09-01,Sul,Premium,PR-GF600,335.9
+2019-10-01,Sul,Premium,PR-GF600,375.9
+2019-11-01,Sul,Premium,PR-GF600,381.9
+2019-12-01,Sul,Premium,PR-GF600,510.3
+2020-01-01,Sul,Premium,PR-GF600,579.6
+2020-02-01,Sul,Premium,PR-GF600,586.1
+2020-03-01,Sul,Premium,PR-GF600,419.9
+2020-04-01,Sul,Premium,PR-GF600,181.2
+2020-05-01,Sul,Premium,PR-GF600,195.9
+2020-06-01,Sul,Premium,PR-GF600,191.7
+2020-07-01,Sul,Premium,PR-GF600,244.9
+2020-08-01,Sul,Premium,PR-GF600,241.8
+2020-09-01,Sul,Premium,PR-GF600,275.1
+2020-10-01,Sul,Premium,PR-GF600,414.1
+2020-11-01,Sul,Premium,PR-GF600,426.4
+2020-12-01,Sul,Premium,PR-GF600,478.5
+2021-01-01,Sul,Premium,PR-GF600,494.9
+2021-02-01,Sul,Premium,PR-GF600,532.2
+2021-03-01,Sul,Premium,PR-GF600,431.0
+2021-04-01,Sul,Premium,PR-GF600,321.2
+2021-05-01,Sul,Premium,PR-GF600,404.7
+2021-06-01,Sul,Premium,PR-GF600,281.4
+2021-07-01,Sul,Premium,PR-GF600,298.3
+2021-08-01,Sul,Premium,PR-GF600,293.0
+2021-09-01,Sul,Premium,PR-GF600,370.5
+2021-10-01,Sul,Premium,PR-GF600,353.6
+2021-11-01,Sul,Premium,PR-GF600,447.0
+2021-12-01,Sul,Premium,PR-GF600,568.0
+2022-01-01,Sul,Premium,PR-GF600,611.0
+2022-02-01,Sul,Premium,PR-GF600,481.7
+2022-03-01,Sul,Premium,PR-GF600,485.4
+2022-04-01,Sul,Premium,PR-GF600,422.6
+2022-05-01,Sul,Premium,PR-GF600,403.6
+2022-06-01,Sul,Premium,PR-GF600,356.3
+2022-07-01,Sul,Premium,PR-GF600,329.7
+2022-08-01,Sul,Premium,PR-GF600,294.2
+2022-09-01,Sul,Premium,PR-GF600,353.5
+2022-10-01,Sul,Premium,PR-GF600,377.8
+2022-11-01,Sul,Premium,PR-GF600,478.8
+2022-12-01,Sul,Premium,PR-GF600,578.2
+2023-01-01,Sul,Premium,PR-GF600,559.3
+2023-02-01,Sul,Premium,PR-GF600,637.8
+2023-03-01,Sul,Premium,PR-GF600,559.4
+2023-04-01,Sul,Premium,PR-GF600,517.7
+2023-05-01,Sul,Premium,PR-GF600,455.0
+2023-06-01,Sul,Premium,PR-GF600,326.8
+2023-07-01,Sul,Premium,PR-GF600,337.8
+2023-08-01,Sul,Premium,PR-GF600,300.8
+2023-09-01,Sul,Premium,PR-GF600,336.5
+2023-10-01,Sul,Premium,PR-GF600,389.9
+2023-11-01,Sul,Premium,PR-GF600,490.3
+2023-12-01,Sul,Premium,PR-GF600,576.6
+2024-01-01,Sul,Premium,PR-GF600,599.9
+2024-02-01,Sul,Premium,PR-GF600,558.8
+2024-03-01,Sul,Premium,PR-GF600,541.7
+2024-04-01,Sul,Premium,PR-GF600,532.4
+2024-05-01,Sul,Premium,PR-GF600,458.4
+2024-06-01,Sul,Premium,PR-GF600,355.6
+2024-07-01,Sul,Premium,PR-GF600,322.1
+2024-08-01,Sul,Premium,PR-GF600,319.5
+2024-09-01,Sul,Premium,PR-GF600,411.5
+2024-10-01,Sul,Premium,PR-GF600,506.1
+2024-11-01,Sul,Premium,PR-GF600,587.7
+2024-12-01,Sul,Premium,PR-GF600,509.5
+2025-01-01,Sul,Premium,PR-GF600,616.3
+2025-02-01,Sul,Premium,PR-GF600,690.8
+2025-03-01,Sul,Premium,PR-GF600,555.2
+2025-04-01,Sul,Premium,PR-GF600,534.8
+2025-05-01,Sul,Premium,PR-GF600,528.0
+2025-06-01,Sul,Premium,PR-GF600,412.3
+2025-07-01,Sul,Premium,PR-GF600,391.5
+2025-08-01,Sul,Premium,PR-GF600,359.5
+2025-09-01,Sul,Premium,PR-GF600,433.7
+2025-10-01,Sul,Premium,PR-GF600,543.2
+2025-11-01,Sul,Premium,PR-GF600,556.7
+2025-12-01,Sul,Premium,PR-GF600,644.4
+2022-03-01,Sul,Sem álcool,SA-LT350,8.3
+2022-04-01,Sul,Sem álcool,SA-LT350,24.4
+2022-05-01,Sul,Sem álcool,SA-LT350,34.2
+2022-06-01,Sul,Sem álcool,SA-LT350,44.9
+2022-07-01,Sul,Sem álcool,SA-LT350,64.2
+2022-08-01,Sul,Sem álcool,SA-LT350,87.4
+2022-09-01,Sul,Sem álcool,SA-LT350,149.1
+2022-10-01,Sul,Sem álcool,SA-LT350,235.0
+2022-11-01,Sul,Sem álcool,SA-LT350,273.5
+2022-12-01,Sul,Sem álcool,SA-LT350,444.6
+2023-01-01,Sul,Sem álcool,SA-LT350,387.5
+2023-02-01,Sul,Sem álcool,SA-LT350,429.3
+2023-03-01,Sul,Sem álcool,SA-LT350,399.1
+2023-04-01,Sul,Sem álcool,SA-LT350,364.7
+2023-05-01,Sul,Sem álcool,SA-LT350,313.3
+2023-06-01,Sul,Sem álcool,SA-LT350,247.2
+2023-07-01,Sul,Sem álcool,SA-LT350,222.0
+2023-08-01,Sul,Sem álcool,SA-LT350,263.8
+2023-09-01,Sul,Sem álcool,SA-LT350,309.1
+2023-10-01,Sul,Sem álcool,SA-LT350,375.1
+2023-11-01,Sul,Sem álcool,SA-LT350,401.8
+2023-12-01,Sul,Sem álcool,SA-LT350,470.3
+2024-01-01,Sul,Sem álcool,SA-LT350,495.1
+2024-02-01,Sul,Sem álcool,SA-LT350,486.3
+2024-03-01,Sul,Sem álcool,SA-LT350,476.9
+2024-04-01,Sul,Sem álcool,SA-LT350,391.3
+2024-05-01,Sul,Sem álcool,SA-LT350,415.5
+2024-06-01,Sul,Sem álcool,SA-LT350,423.5
+2024-07-01,Sul,Sem álcool,SA-LT350,350.1
+2024-08-01,Sul,Sem álcool,SA-LT350,365.5
+2024-09-01,Sul,Sem álcool,SA-LT350,397.1
+2024-10-01,Sul,Sem álcool,SA-LT350,438.2
+2024-11-01,Sul,Sem álcool,SA-LT350,520.3
+2024-12-01,Sul,Sem álcool,SA-LT350,635.0
+2025-01-01,Sul,Sem álcool,SA-LT350,598.7
+2025-02-01,Sul,Sem álcool,SA-LT350,789.2
+2025-03-01,Sul,Sem álcool,SA-LT350,671.0
+2025-04-01,Sul,Sem álcool,SA-LT350,589.7
+2025-05-01,Sul,Sem álcool,SA-LT350,597.8
+2025-06-01,Sul,Sem álcool,SA-LT350,462.9
+2025-07-01,Sul,Sem álcool,SA-LT350,454.5
+2025-08-01,Sul,Sem álcool,SA-LT350,371.2
+2025-09-01,Sul,Sem álcool,SA-LT350,521.6
+2025-10-01,Sul,Sem álcool,SA-LT350,609.2
+2025-11-01,Sul,Sem álcool,SA-LT350,708.9
+2025-12-01,Sul,Sem álcool,SA-LT350,902.6
+2022-03-01,Sul,Sem álcool,SA-LN355,5.2
+2022-04-01,Sul,Sem álcool,SA-LN355,14.0
+2022-05-01,Sul,Sem álcool,SA-LN355,24.6
+2022-06-01,Sul,Sem álcool,SA-LN355,30.4
+2022-07-01,Sul,Sem álcool,SA-LN355,36.0
+2022-08-01,Sul,Sem álcool,SA-LN355,48.8
+2022-09-01,Sul,Sem álcool,SA-LN355,74.3
+2022-10-01,Sul,Sem álcool,SA-LN355,106.7
+2022-11-01,Sul,Sem álcool,SA-LN355,147.0
+2022-12-01,Sul,Sem álcool,SA-LN355,198.0
+2023-01-01,Sul,Sem álcool,SA-LN355,236.8
+2023-02-01,Sul,Sem álcool,SA-LN355,253.0
+2023-03-01,Sul,Sem álcool,SA-LN355,206.8
+2023-04-01,Sul,Sem álcool,SA-LN355,185.9
+2023-05-01,Sul,Sem álcool,SA-LN355,158.7
+2023-06-01,Sul,Sem álcool,SA-LN355,145.1
+2023-07-01,Sul,Sem álcool,SA-LN355,118.7
+2023-08-01,Sul,Sem álcool,SA-LN355,149.2
+2023-09-01,Sul,Sem álcool,SA-LN355,173.5
+2023-10-01,Sul,Sem álcool,SA-LN355,184.5
+2023-11-01,Sul,Sem álcool,SA-LN355,201.4
+2023-12-01,Sul,Sem álcool,SA-LN355,238.0
+2024-01-01,Sul,Sem álcool,SA-LN355,297.4
+2024-02-01,Sul,Sem álcool,SA-LN355,319.9
+2024-03-01,Sul,Sem álcool,SA-LN355,273.8
+2024-04-01,Sul,Sem álcool,SA-LN355,258.8
+2024-05-01,Sul,Sem álcool,SA-LN355,233.5
+2024-06-01,Sul,Sem álcool,SA-LN355,197.2
+2024-07-01,Sul,Sem álcool,SA-LN355,157.8
+2024-08-01,Sul,Sem álcool,SA-LN355,182.1
+2024-09-01,Sul,Sem álcool,SA-LN355,215.2
+2024-10-01,Sul,Sem álcool,SA-LN355,260.7
+2024-11-01,Sul,Sem álcool,SA-LN355,276.9
+2024-12-01,Sul,Sem álcool,SA-LN355,317.1
+2025-01-01,Sul,Sem álcool,SA-LN355,354.2
+2025-02-01,Sul,Sem álcool,SA-LN355,376.2
+2025-03-01,Sul,Sem álcool,SA-LN355,348.6
+2025-04-01,Sul,Sem álcool,SA-LN355,333.3
+2025-05-01,Sul,Sem álcool,SA-LN355,285.4
+2025-06-01,Sul,Sem álcool,SA-LN355,220.3
+2025-07-01,Sul,Sem álcool,SA-LN355,228.3
+2025-08-01,Sul,Sem álcool,SA-LN355,263.1
+2025-09-01,Sul,Sem álcool,SA-LN355,256.0
+2025-10-01,Sul,Sem álcool,SA-LN355,366.6
+2025-11-01,Sul,Sem álcool,SA-LN355,379.9
+2025-12-01,Sul,Sem álcool,SA-LN355,380.4
+2018-01-01,Centro-Oeste,Pilsen,PIL-LT350,2507.1
+2018-02-01,Centro-Oeste,Pilsen,PIL-LT350,2285.1
+2018-03-01,Centro-Oeste,Pilsen,PIL-LT350,1984.5
+2018-04-01,Centro-Oeste,Pilsen,PIL-LT350,1882.0
+2018-05-01,Centro-Oeste,Pilsen,PIL-LT350,2046.7
+2018-06-01,Centro-Oeste,Pilsen,PIL-LT350,1672.6
+2018-07-01,Centro-Oeste,Pilsen,PIL-LT350,1424.0
+2018-08-01,Centro-Oeste,Pilsen,PIL-LT350,1471.1
+2018-09-01,Centro-Oeste,Pilsen,PIL-LT350,2143.2
+2018-10-01,Centro-Oeste,Pilsen,PIL-LT350,1664.9
+2018-11-01,Centro-Oeste,Pilsen,PIL-LT350,1941.7
+2018-12-01,Centro-Oeste,Pilsen,PIL-LT350,1992.5
+2019-01-01,Centro-Oeste,Pilsen,PIL-LT350,1968.3
+2019-02-01,Centro-Oeste,Pilsen,PIL-LT350,2116.5
+2019-03-01,Centro-Oeste,Pilsen,PIL-LT350,2360.7
+2019-04-01,Centro-Oeste,Pilsen,PIL-LT350,1886.7
+2019-05-01,Centro-Oeste,Pilsen,PIL-LT350,1835.0
+2019-06-01,Centro-Oeste,Pilsen,PIL-LT350,1708.0
+2019-07-01,Centro-Oeste,Pilsen,PIL-LT350,1450.7
+2019-08-01,Centro-Oeste,Pilsen,PIL-LT350,1629.1
+2019-09-01,Centro-Oeste,Pilsen,PIL-LT350,1593.3
+2019-10-01,Centro-Oeste,Pilsen,PIL-LT350,1868.4
+2019-11-01,Centro-Oeste,Pilsen,PIL-LT350,1898.6
+2019-12-01,Centro-Oeste,Pilsen,PIL-LT350,2140.2
+2020-01-01,Centro-Oeste,Pilsen,PIL-LT350,2523.4
+2020-02-01,Centro-Oeste,Pilsen,PIL-LT350,2258.6
+2020-03-01,Centro-Oeste,Pilsen,PIL-LT350,1955.0
+2020-04-01,Centro-Oeste,Pilsen,PIL-LT350,2537.1
+2020-05-01,Centro-Oeste,Pilsen,PIL-LT350,1974.0
+2020-06-01,Centro-Oeste,Pilsen,PIL-LT350,1878.4
+2020-07-01,Centro-Oeste,Pilsen,PIL-LT350,1750.9
+2020-08-01,Centro-Oeste,Pilsen,PIL-LT350,1588.5
+2020-09-01,Centro-Oeste,Pilsen,PIL-LT350,1645.6
+2020-10-01,Centro-Oeste,Pilsen,PIL-LT350,1686.8
+2020-11-01,Centro-Oeste,Pilsen,PIL-LT350,1879.5
+2020-12-01,Centro-Oeste,Pilsen,PIL-LT350,2095.0
+2021-01-01,Centro-Oeste,Pilsen,PIL-LT350,2307.3
+2021-02-01,Centro-Oeste,Pilsen,PIL-LT350,2358.8
+2021-03-01,Centro-Oeste,Pilsen,PIL-LT350,2044.9
+2021-04-01,Centro-Oeste,Pilsen,PIL-LT350,1936.5
+2021-05-01,Centro-Oeste,Pilsen,PIL-LT350,1831.9
+2021-06-01,Centro-Oeste,Pilsen,PIL-LT350,1719.8
+2021-07-01,Centro-Oeste,Pilsen,PIL-LT350,1653.9
+2021-08-01,Centro-Oeste,Pilsen,PIL-LT350,1494.2
+2021-09-01,Centro-Oeste,Pilsen,PIL-LT350,1590.3
+2021-10-01,Centro-Oeste,Pilsen,PIL-LT350,1917.0
+2021-11-01,Centro-Oeste,Pilsen,PIL-LT350,2116.0
+2021-12-01,Centro-Oeste,Pilsen,PIL-LT350,2060.0
+2022-01-01,Centro-Oeste,Pilsen,PIL-LT350,2221.6
+2022-02-01,Centro-Oeste,Pilsen,PIL-LT350,2310.6
+2022-03-01,Centro-Oeste,Pilsen,PIL-LT350,2175.2
+2022-04-01,Centro-Oeste,Pilsen,PIL-LT350,1904.3
+2022-05-01,Centro-Oeste,Pilsen,PIL-LT350,1869.7
+2022-06-01,Centro-Oeste,Pilsen,PIL-LT350,1614.1
+2022-07-01,Centro-Oeste,Pilsen,PIL-LT350,1673.4
+2022-08-01,Centro-Oeste,Pilsen,PIL-LT350,1607.6
+2022-09-01,Centro-Oeste,Pilsen,PIL-LT350,1651.3
+2022-10-01,Centro-Oeste,Pilsen,PIL-LT350,2414.2
+2022-11-01,Centro-Oeste,Pilsen,PIL-LT350,2064.4
+2022-12-01,Centro-Oeste,Pilsen,PIL-LT350,2159.3
+2023-01-01,Centro-Oeste,Pilsen,PIL-LT350,2314.2
+2023-02-01,Centro-Oeste,Pilsen,PIL-LT350,2342.0
+2023-03-01,Centro-Oeste,Pilsen,PIL-LT350,2320.6
+2023-04-01,Centro-Oeste,Pilsen,PIL-LT350,2152.8
+2023-05-01,Centro-Oeste,Pilsen,PIL-LT350,1955.9
+2023-06-01,Centro-Oeste,Pilsen,PIL-LT350,1616.3
+2023-07-01,Centro-Oeste,Pilsen,PIL-LT350,1708.1
+2023-08-01,Centro-Oeste,Pilsen,PIL-LT350,1583.6
+2023-09-01,Centro-Oeste,Pilsen,PIL-LT350,1835.0
+2023-10-01,Centro-Oeste,Pilsen,PIL-LT350,1787.2
+2023-11-01,Centro-Oeste,Pilsen,PIL-LT350,2021.8
+2023-12-01,Centro-Oeste,Pilsen,PIL-LT350,2272.9
+2024-01-01,Centro-Oeste,Pilsen,PIL-LT350,2218.6
+2024-02-01,Centro-Oeste,Pilsen,PIL-LT350,2413.2
+2024-03-01,Centro-Oeste,Pilsen,PIL-LT350,2217.0
+2024-04-01,Centro-Oeste,Pilsen,PIL-LT350,2045.2
+2024-05-01,Centro-Oeste,Pilsen,PIL-LT350,1925.5
+2024-06-01,Centro-Oeste,Pilsen,PIL-LT350,1781.1
+2024-07-01,Centro-Oeste,Pilsen,PIL-LT350,1574.0
+2024-08-01,Centro-Oeste,Pilsen,PIL-LT350,1904.5
+2024-09-01,Centro-Oeste,Pilsen,PIL-LT350,1876.5
+2024-10-01,Centro-Oeste,Pilsen,PIL-LT350,1964.8
+2024-11-01,Centro-Oeste,Pilsen,PIL-LT350,2007.7
+2024-12-01,Centro-Oeste,Pilsen,PIL-LT350,2343.5
+2025-01-01,Centro-Oeste,Pilsen,PIL-LT350,2259.2
+2025-02-01,Centro-Oeste,Pilsen,PIL-LT350,2325.8
+2025-03-01,Centro-Oeste,Pilsen,PIL-LT350,2389.6
+2025-04-01,Centro-Oeste,Pilsen,PIL-LT350,2117.7
+2025-05-01,Centro-Oeste,Pilsen,PIL-LT350,2110.1
+2025-06-01,Centro-Oeste,Pilsen,PIL-LT350,1752.2
+2025-07-01,Centro-Oeste,Pilsen,PIL-LT350,1829.9
+2025-08-01,Centro-Oeste,Pilsen,PIL-LT350,1753.1
+2025-09-01,Centro-Oeste,Pilsen,PIL-LT350,1718.8
+2025-10-01,Centro-Oeste,Pilsen,PIL-LT350,2189.4
+2025-11-01,Centro-Oeste,Pilsen,PIL-LT350,2198.1
+2025-12-01,Centro-Oeste,Pilsen,PIL-LT350,2098.6
+2018-01-01,Centro-Oeste,Pilsen,PIL-GF600,1485.6
+2018-02-01,Centro-Oeste,Pilsen,PIL-GF600,1640.5
+2018-03-01,Centro-Oeste,Pilsen,PIL-GF600,1514.2
+2018-04-01,Centro-Oeste,Pilsen,PIL-GF600,1514.1
+2018-05-01,Centro-Oeste,Pilsen,PIL-GF600,1244.0
+2018-06-01,Centro-Oeste,Pilsen,PIL-GF600,1159.9
+2018-07-01,Centro-Oeste,Pilsen,PIL-GF600,1085.3
+2018-08-01,Centro-Oeste,Pilsen,PIL-GF600,1177.7
+2018-09-01,Centro-Oeste,Pilsen,PIL-GF600,1119.7
+2018-10-01,Centro-Oeste,Pilsen,PIL-GF600,1203.4
+2018-11-01,Centro-Oeste,Pilsen,PIL-GF600,1411.3
+2018-12-01,Centro-Oeste,Pilsen,PIL-GF600,1428.7
+2019-01-01,Centro-Oeste,Pilsen,PIL-GF600,1661.3
+2019-02-01,Centro-Oeste,Pilsen,PIL-GF600,1509.3
+2019-03-01,Centro-Oeste,Pilsen,PIL-GF600,1398.7
+2019-04-01,Centro-Oeste,Pilsen,PIL-GF600,1322.4
+2019-05-01,Centro-Oeste,Pilsen,PIL-GF600,1135.2
+2019-06-01,Centro-Oeste,Pilsen,PIL-GF600,1139.7
+2019-07-01,Centro-Oeste,Pilsen,PIL-GF600,1074.8
+2019-08-01,Centro-Oeste,Pilsen,PIL-GF600,1079.3
+2019-09-01,Centro-Oeste,Pilsen,PIL-GF600,1054.4
+2019-10-01,Centro-Oeste,Pilsen,PIL-GF600,1269.8
+2019-11-01,Centro-Oeste,Pilsen,PIL-GF600,1266.1
+2019-12-01,Centro-Oeste,Pilsen,PIL-GF600,1599.4
+2020-01-01,Centro-Oeste,Pilsen,PIL-GF600,1605.5
+2020-02-01,Centro-Oeste,Pilsen,PIL-GF600,1487.1
+2020-03-01,Centro-Oeste,Pilsen,PIL-GF600,1452.5
+2020-04-01,Centro-Oeste,Pilsen,PIL-GF600,595.7
+2020-05-01,Centro-Oeste,Pilsen,PIL-GF600,642.1
+2020-06-01,Centro-Oeste,Pilsen,PIL-GF600,741.1
+2020-07-01,Centro-Oeste,Pilsen,PIL-GF600,881.3
+2020-08-01,Centro-Oeste,Pilsen,PIL-GF600,901.1
+2020-09-01,Centro-Oeste,Pilsen,PIL-GF600,980.0
+2020-10-01,Centro-Oeste,Pilsen,PIL-GF600,1113.8
+2020-11-01,Centro-Oeste,Pilsen,PIL-GF600,1396.3
+2020-12-01,Centro-Oeste,Pilsen,PIL-GF600,1452.7
+2021-01-01,Centro-Oeste,Pilsen,PIL-GF600,1514.5
+2021-02-01,Centro-Oeste,Pilsen,PIL-GF600,1461.2
+2021-03-01,Centro-Oeste,Pilsen,PIL-GF600,1216.0
+2021-04-01,Centro-Oeste,Pilsen,PIL-GF600,1115.8
+2021-05-01,Centro-Oeste,Pilsen,PIL-GF600,1252.2
+2021-06-01,Centro-Oeste,Pilsen,PIL-GF600,1067.1
+2021-07-01,Centro-Oeste,Pilsen,PIL-GF600,1053.6
+2021-08-01,Centro-Oeste,Pilsen,PIL-GF600,1061.3
+2021-09-01,Centro-Oeste,Pilsen,PIL-GF600,1094.9
+2021-10-01,Centro-Oeste,Pilsen,PIL-GF600,1159.2
+2021-11-01,Centro-Oeste,Pilsen,PIL-GF600,1338.2
+2021-12-01,Centro-Oeste,Pilsen,PIL-GF600,1414.0
+2022-01-01,Centro-Oeste,Pilsen,PIL-GF600,1456.5
+2022-02-01,Centro-Oeste,Pilsen,PIL-GF600,1462.9
+2022-03-01,Centro-Oeste,Pilsen,PIL-GF600,1417.9
+2022-04-01,Centro-Oeste,Pilsen,PIL-GF600,1287.4
+2022-05-01,Centro-Oeste,Pilsen,PIL-GF600,1091.3
+2022-06-01,Centro-Oeste,Pilsen,PIL-GF600,1133.4
+2022-07-01,Centro-Oeste,Pilsen,PIL-GF600,962.4
+2022-08-01,Centro-Oeste,Pilsen,PIL-GF600,1100.2
+2022-09-01,Centro-Oeste,Pilsen,PIL-GF600,1126.8
+2022-10-01,Centro-Oeste,Pilsen,PIL-GF600,1140.7
+2022-11-01,Centro-Oeste,Pilsen,PIL-GF600,1325.8
+2022-12-01,Centro-Oeste,Pilsen,PIL-GF600,1450.3
+2023-01-01,Centro-Oeste,Pilsen,PIL-GF600,1512.0
+2023-02-01,Centro-Oeste,Pilsen,PIL-GF600,1642.9
+2023-03-01,Centro-Oeste,Pilsen,PIL-GF600,1526.3
+2023-04-01,Centro-Oeste,Pilsen,PIL-GF600,1352.4
+2023-05-01,Centro-Oeste,Pilsen,PIL-GF600,1139.2
+2023-06-01,Centro-Oeste,Pilsen,PIL-GF600,1053.0
+2023-07-01,Centro-Oeste,Pilsen,PIL-GF600,1168.1
+2023-08-01,Centro-Oeste,Pilsen,PIL-GF600,1135.0
+2023-09-01,Centro-Oeste,Pilsen,PIL-GF600,1118.6
+2023-10-01,Centro-Oeste,Pilsen,PIL-GF600,1294.8
+2023-11-01,Centro-Oeste,Pilsen,PIL-GF600,1215.5
+2023-12-01,Centro-Oeste,Pilsen,PIL-GF600,1521.7
+2024-01-01,Centro-Oeste,Pilsen,PIL-GF600,1472.8
+2024-02-01,Centro-Oeste,Pilsen,PIL-GF600,1584.3
+2024-03-01,Centro-Oeste,Pilsen,PIL-GF600,1355.6
+2024-04-01,Centro-Oeste,Pilsen,PIL-GF600,1186.4
+2024-05-01,Centro-Oeste,Pilsen,PIL-GF600,1208.9
+2024-06-01,Centro-Oeste,Pilsen,PIL-GF600,1226.0
+2024-07-01,Centro-Oeste,Pilsen,PIL-GF600,1029.8
+2024-08-01,Centro-Oeste,Pilsen,PIL-GF600,1008.4
+2024-09-01,Centro-Oeste,Pilsen,PIL-GF600,1076.2
+2024-10-01,Centro-Oeste,Pilsen,PIL-GF600,1186.2
+2024-11-01,Centro-Oeste,Pilsen,PIL-GF600,1214.3
+2024-12-01,Centro-Oeste,Pilsen,PIL-GF600,1415.9
+2025-01-01,Centro-Oeste,Pilsen,PIL-GF600,1363.3
+2025-02-01,Centro-Oeste,Pilsen,PIL-GF600,1516.6
+2025-03-01,Centro-Oeste,Pilsen,PIL-GF600,1585.0
+2025-04-01,Centro-Oeste,Pilsen,PIL-GF600,1341.2
+2025-05-01,Centro-Oeste,Pilsen,PIL-GF600,1130.8
+2025-06-01,Centro-Oeste,Pilsen,PIL-GF600,1095.5
+2025-07-01,Centro-Oeste,Pilsen,PIL-GF600,1050.6
+2025-08-01,Centro-Oeste,Pilsen,PIL-GF600,1030.1
+2025-09-01,Centro-Oeste,Pilsen,PIL-GF600,1060.9
+2025-10-01,Centro-Oeste,Pilsen,PIL-GF600,1245.5
+2025-11-01,Centro-Oeste,Pilsen,PIL-GF600,1211.8
+2025-12-01,Centro-Oeste,Pilsen,PIL-GF600,1445.4
+2018-01-01,Centro-Oeste,Pilsen,PIL-LT473,903.7
+2018-02-01,Centro-Oeste,Pilsen,PIL-LT473,849.9
+2018-03-01,Centro-Oeste,Pilsen,PIL-LT473,835.8
+2018-04-01,Centro-Oeste,Pilsen,PIL-LT473,747.9
+2018-05-01,Centro-Oeste,Pilsen,PIL-LT473,645.6
+2018-06-01,Centro-Oeste,Pilsen,PIL-LT473,649.2
+2018-07-01,Centro-Oeste,Pilsen,PIL-LT473,608.6
+2018-08-01,Centro-Oeste,Pilsen,PIL-LT473,652.8
+2018-09-01,Centro-Oeste,Pilsen,PIL-LT473,783.3
+2018-10-01,Centro-Oeste,Pilsen,PIL-LT473,757.2
+2018-11-01,Centro-Oeste,Pilsen,PIL-LT473,733.6
+2018-12-01,Centro-Oeste,Pilsen,PIL-LT473,816.1
+2019-01-01,Centro-Oeste,Pilsen,PIL-LT473,764.4
+2019-02-01,Centro-Oeste,Pilsen,PIL-LT473,904.9
+2019-03-01,Centro-Oeste,Pilsen,PIL-LT473,808.1
+2019-04-01,Centro-Oeste,Pilsen,PIL-LT473,851.7
+2019-05-01,Centro-Oeste,Pilsen,PIL-LT473,725.1
+2019-06-01,Centro-Oeste,Pilsen,PIL-LT473,642.4
+2019-07-01,Centro-Oeste,Pilsen,PIL-LT473,666.4
+2019-08-01,Centro-Oeste,Pilsen,PIL-LT473,654.4
+2019-09-01,Centro-Oeste,Pilsen,PIL-LT473,608.0
+2019-10-01,Centro-Oeste,Pilsen,PIL-LT473,769.5
+2019-11-01,Centro-Oeste,Pilsen,PIL-LT473,901.6
+2019-12-01,Centro-Oeste,Pilsen,PIL-LT473,773.1
+2020-01-01,Centro-Oeste,Pilsen,PIL-LT473,904.9
+2020-02-01,Centro-Oeste,Pilsen,PIL-LT473,1049.3
+2020-03-01,Centro-Oeste,Pilsen,PIL-LT473,850.8
+2020-04-01,Centro-Oeste,Pilsen,PIL-LT473,773.7
+2020-05-01,Centro-Oeste,Pilsen,PIL-LT473,800.1
+2020-06-01,Centro-Oeste,Pilsen,PIL-LT473,763.4
+2020-07-01,Centro-Oeste,Pilsen,PIL-LT473,648.0
+2020-08-01,Centro-Oeste,Pilsen,PIL-LT473,587.3
+2020-09-01,Centro-Oeste,Pilsen,PIL-LT473,632.8
+2020-10-01,Centro-Oeste,Pilsen,PIL-LT473,701.6
+2020-11-01,Centro-Oeste,Pilsen,PIL-LT473,875.9
+2020-12-01,Centro-Oeste,Pilsen,PIL-LT473,851.9
+2021-01-01,Centro-Oeste,Pilsen,PIL-LT473,908.9
+2021-02-01,Centro-Oeste,Pilsen,PIL-LT473,951.2
+2021-03-01,Centro-Oeste,Pilsen,PIL-LT473,808.1
+2021-04-01,Centro-Oeste,Pilsen,PIL-LT473,839.6
+2021-05-01,Centro-Oeste,Pilsen,PIL-LT473,757.3
+2021-06-01,Centro-Oeste,Pilsen,PIL-LT473,721.7
+2021-07-01,Centro-Oeste,Pilsen,PIL-LT473,683.9
+2021-08-01,Centro-Oeste,Pilsen,PIL-LT473,666.6
+2021-09-01,Centro-Oeste,Pilsen,PIL-LT473,703.4
+2021-10-01,Centro-Oeste,Pilsen,PIL-LT473,787.2
+2021-11-01,Centro-Oeste,Pilsen,PIL-LT473,821.4
+2021-12-01,Centro-Oeste,Pilsen,PIL-LT473,1005.0
+2022-01-01,Centro-Oeste,Pilsen,PIL-LT473,1029.2
+2022-02-01,Centro-Oeste,Pilsen,PIL-LT473,991.8
+2022-03-01,Centro-Oeste,Pilsen,PIL-LT473,915.5
+2022-04-01,Centro-Oeste,Pilsen,PIL-LT473,860.1
+2022-05-01,Centro-Oeste,Pilsen,PIL-LT473,847.9
+2022-06-01,Centro-Oeste,Pilsen,PIL-LT473,751.5
+2022-07-01,Centro-Oeste,Pilsen,PIL-LT473,679.3
+2022-08-01,Centro-Oeste,Pilsen,PIL-LT473,730.2
+2022-09-01,Centro-Oeste,Pilsen,PIL-LT473,771.0
+2022-10-01,Centro-Oeste,Pilsen,PIL-LT473,834.4
+2022-11-01,Centro-Oeste,Pilsen,PIL-LT473,889.6
+2022-12-01,Centro-Oeste,Pilsen,PIL-LT473,947.5
+2023-01-01,Centro-Oeste,Pilsen,PIL-LT473,955.1
+2023-02-01,Centro-Oeste,Pilsen,PIL-LT473,1012.7
+2023-03-01,Centro-Oeste,Pilsen,PIL-LT473,890.5
+2023-04-01,Centro-Oeste,Pilsen,PIL-LT473,946.4
+2023-05-01,Centro-Oeste,Pilsen,PIL-LT473,815.6
+2023-06-01,Centro-Oeste,Pilsen,PIL-LT473,892.4
+2023-07-01,Centro-Oeste,Pilsen,PIL-LT473,734.5
+2023-08-01,Centro-Oeste,Pilsen,PIL-LT473,655.5
+2023-09-01,Centro-Oeste,Pilsen,PIL-LT473,805.4
+2023-10-01,Centro-Oeste,Pilsen,PIL-LT473,832.3
+2023-11-01,Centro-Oeste,Pilsen,PIL-LT473,864.2
+2023-12-01,Centro-Oeste,Pilsen,PIL-LT473,963.7
+2024-01-01,Centro-Oeste,Pilsen,PIL-LT473,1078.0
+2024-02-01,Centro-Oeste,Pilsen,PIL-LT473,1098.6
+2024-03-01,Centro-Oeste,Pilsen,PIL-LT473,1079.5
+2024-04-01,Centro-Oeste,Pilsen,PIL-LT473,1009.4
+2024-05-01,Centro-Oeste,Pilsen,PIL-LT473,944.6
+2024-06-01,Centro-Oeste,Pilsen,PIL-LT473,823.7
+2024-07-01,Centro-Oeste,Pilsen,PIL-LT473,796.6
+2024-08-01,Centro-Oeste,Pilsen,PIL-LT473,825.9
+2024-09-01,Centro-Oeste,Pilsen,PIL-LT473,786.1
+2024-10-01,Centro-Oeste,Pilsen,PIL-LT473,926.3
+2024-11-01,Centro-Oeste,Pilsen,PIL-LT473,980.0
+2024-12-01,Centro-Oeste,Pilsen,PIL-LT473,897.9
+2025-01-01,Centro-Oeste,Pilsen,PIL-LT473,1045.9
+2025-02-01,Centro-Oeste,Pilsen,PIL-LT473,1031.4
+2025-03-01,Centro-Oeste,Pilsen,PIL-LT473,1132.8
+2025-04-01,Centro-Oeste,Pilsen,PIL-LT473,937.2
+2025-05-01,Centro-Oeste,Pilsen,PIL-LT473,873.1
+2025-06-01,Centro-Oeste,Pilsen,PIL-LT473,828.6
+2025-07-01,Centro-Oeste,Pilsen,PIL-LT473,784.1
+2025-08-01,Centro-Oeste,Pilsen,PIL-LT473,810.0
+2025-09-01,Centro-Oeste,Pilsen,PIL-LT473,779.2
+2025-10-01,Centro-Oeste,Pilsen,PIL-LT473,911.3
+2025-11-01,Centro-Oeste,Pilsen,PIL-LT473,1004.8
+2025-12-01,Centro-Oeste,Pilsen,PIL-LT473,989.7
+2018-01-01,Centro-Oeste,Puro malte,PM-LT350,721.8
+2018-02-01,Centro-Oeste,Puro malte,PM-LT350,752.3
+2018-03-01,Centro-Oeste,Puro malte,PM-LT350,652.6
+2018-04-01,Centro-Oeste,Puro malte,PM-LT350,692.4
+2018-05-01,Centro-Oeste,Puro malte,PM-LT350,559.4
+2018-06-01,Centro-Oeste,Puro malte,PM-LT350,524.0
+2018-07-01,Centro-Oeste,Puro malte,PM-LT350,494.4
+2018-08-01,Centro-Oeste,Puro malte,PM-LT350,594.6
+2018-09-01,Centro-Oeste,Puro malte,PM-LT350,561.3
+2018-10-01,Centro-Oeste,Puro malte,PM-LT350,569.4
+2018-11-01,Centro-Oeste,Puro malte,PM-LT350,667.3
+2018-12-01,Centro-Oeste,Puro malte,PM-LT350,719.7
+2019-01-01,Centro-Oeste,Puro malte,PM-LT350,769.6
+2019-02-01,Centro-Oeste,Puro malte,PM-LT350,840.0
+2019-03-01,Centro-Oeste,Puro malte,PM-LT350,859.7
+2019-04-01,Centro-Oeste,Puro malte,PM-LT350,627.9
+2019-05-01,Centro-Oeste,Puro malte,PM-LT350,707.4
+2019-06-01,Centro-Oeste,Puro malte,PM-LT350,611.5
+2019-07-01,Centro-Oeste,Puro malte,PM-LT350,628.1
+2019-08-01,Centro-Oeste,Puro malte,PM-LT350,618.0
+2019-09-01,Centro-Oeste,Puro malte,PM-LT350,591.0
+2019-10-01,Centro-Oeste,Puro malte,PM-LT350,669.7
+2019-11-01,Centro-Oeste,Puro malte,PM-LT350,784.8
+2019-12-01,Centro-Oeste,Puro malte,PM-LT350,770.2
+2020-01-01,Centro-Oeste,Puro malte,PM-LT350,783.0
+2020-02-01,Centro-Oeste,Puro malte,PM-LT350,950.2
+2020-03-01,Centro-Oeste,Puro malte,PM-LT350,775.1
+2020-04-01,Centro-Oeste,Puro malte,PM-LT350,806.0
+2020-05-01,Centro-Oeste,Puro malte,PM-LT350,775.7
+2020-06-01,Centro-Oeste,Puro malte,PM-LT350,712.7
+2020-07-01,Centro-Oeste,Puro malte,PM-LT350,625.7
+2020-08-01,Centro-Oeste,Puro malte,PM-LT350,622.7
+2020-09-01,Centro-Oeste,Puro malte,PM-LT350,668.4
+2020-10-01,Centro-Oeste,Puro malte,PM-LT350,890.4
+2020-11-01,Centro-Oeste,Puro malte,PM-LT350,759.4
+2020-12-01,Centro-Oeste,Puro malte,PM-LT350,800.8
+2021-01-01,Centro-Oeste,Puro malte,PM-LT350,877.7
+2021-02-01,Centro-Oeste,Puro malte,PM-LT350,824.5
+2021-03-01,Centro-Oeste,Puro malte,PM-LT350,875.1
+2021-04-01,Centro-Oeste,Puro malte,PM-LT350,760.2
+2021-05-01,Centro-Oeste,Puro malte,PM-LT350,778.0
+2021-06-01,Centro-Oeste,Puro malte,PM-LT350,653.4
+2021-07-01,Centro-Oeste,Puro malte,PM-LT350,735.5
+2021-08-01,Centro-Oeste,Puro malte,PM-LT350,688.9
+2021-09-01,Centro-Oeste,Puro malte,PM-LT350,772.6
+2021-10-01,Centro-Oeste,Puro malte,PM-LT350,789.7
+2021-11-01,Centro-Oeste,Puro malte,PM-LT350,831.5
+2021-12-01,Centro-Oeste,Puro malte,PM-LT350,967.1
+2022-01-01,Centro-Oeste,Puro malte,PM-LT350,964.0
+2022-02-01,Centro-Oeste,Puro malte,PM-LT350,1066.5
+2022-03-01,Centro-Oeste,Puro malte,PM-LT350,854.8
+2022-04-01,Centro-Oeste,Puro malte,PM-LT350,908.1
+2022-05-01,Centro-Oeste,Puro malte,PM-LT350,834.7
+2022-06-01,Centro-Oeste,Puro malte,PM-LT350,864.7
+2022-07-01,Centro-Oeste,Puro malte,PM-LT350,712.7
+2022-08-01,Centro-Oeste,Puro malte,PM-LT350,718.4
+2022-09-01,Centro-Oeste,Puro malte,PM-LT350,799.4
+2022-10-01,Centro-Oeste,Puro malte,PM-LT350,923.4
+2022-11-01,Centro-Oeste,Puro malte,PM-LT350,1037.0
+2022-12-01,Centro-Oeste,Puro malte,PM-LT350,1113.4
+2023-01-01,Centro-Oeste,Puro malte,PM-LT350,957.2
+2023-02-01,Centro-Oeste,Puro malte,PM-LT350,1139.5
+2023-03-01,Centro-Oeste,Puro malte,PM-LT350,975.4
+2023-04-01,Centro-Oeste,Puro malte,PM-LT350,887.5
+2023-05-01,Centro-Oeste,Puro malte,PM-LT350,943.9
+2023-06-01,Centro-Oeste,Puro malte,PM-LT350,801.1
+2023-07-01,Centro-Oeste,Puro malte,PM-LT350,782.3
+2023-08-01,Centro-Oeste,Puro malte,PM-LT350,776.0
+2023-09-01,Centro-Oeste,Puro malte,PM-LT350,923.6
+2023-10-01,Centro-Oeste,Puro malte,PM-LT350,998.9
+2023-11-01,Centro-Oeste,Puro malte,PM-LT350,1068.6
+2023-12-01,Centro-Oeste,Puro malte,PM-LT350,1237.9
+2024-01-01,Centro-Oeste,Puro malte,PM-LT350,1247.3
+2024-02-01,Centro-Oeste,Puro malte,PM-LT350,1381.8
+2024-03-01,Centro-Oeste,Puro malte,PM-LT350,990.9
+2024-04-01,Centro-Oeste,Puro malte,PM-LT350,1075.1
+2024-05-01,Centro-Oeste,Puro malte,PM-LT350,841.3
+2024-06-01,Centro-Oeste,Puro malte,PM-LT350,925.4
+2024-07-01,Centro-Oeste,Puro malte,PM-LT350,830.5
+2024-08-01,Centro-Oeste,Puro malte,PM-LT350,863.6
+2024-09-01,Centro-Oeste,Puro malte,PM-LT350,952.8
+2024-10-01,Centro-Oeste,Puro malte,PM-LT350,870.3
+2024-11-01,Centro-Oeste,Puro malte,PM-LT350,1107.1
+2024-12-01,Centro-Oeste,Puro malte,PM-LT350,1210.7
+2025-01-01,Centro-Oeste,Puro malte,PM-LT350,1285.8
+2025-02-01,Centro-Oeste,Puro malte,PM-LT350,1252.3
+2025-03-01,Centro-Oeste,Puro malte,PM-LT350,1223.7
+2025-04-01,Centro-Oeste,Puro malte,PM-LT350,1262.3
+2025-05-01,Centro-Oeste,Puro malte,PM-LT350,1053.1
+2025-06-01,Centro-Oeste,Puro malte,PM-LT350,1003.4
+2025-07-01,Centro-Oeste,Puro malte,PM-LT350,1072.9
+2025-08-01,Centro-Oeste,Puro malte,PM-LT350,864.1
+2025-09-01,Centro-Oeste,Puro malte,PM-LT350,966.8
+2025-10-01,Centro-Oeste,Puro malte,PM-LT350,1151.0
+2025-11-01,Centro-Oeste,Puro malte,PM-LT350,1205.3
+2025-12-01,Centro-Oeste,Puro malte,PM-LT350,1270.1
+2018-01-01,Centro-Oeste,Puro malte,PM-LN355,445.4
+2018-02-01,Centro-Oeste,Puro malte,PM-LN355,385.0
+2018-03-01,Centro-Oeste,Puro malte,PM-LN355,420.1
+2018-04-01,Centro-Oeste,Puro malte,PM-LN355,351.1
+2018-05-01,Centro-Oeste,Puro malte,PM-LN355,343.2
+2018-06-01,Centro-Oeste,Puro malte,PM-LN355,345.9
+2018-07-01,Centro-Oeste,Puro malte,PM-LN355,329.1
+2018-08-01,Centro-Oeste,Puro malte,PM-LN355,335.4
+2018-09-01,Centro-Oeste,Puro malte,PM-LN355,338.1
+2018-10-01,Centro-Oeste,Puro malte,PM-LN355,343.0
+2018-11-01,Centro-Oeste,Puro malte,PM-LN355,399.3
+2018-12-01,Centro-Oeste,Puro malte,PM-LN355,416.9
+2019-01-01,Centro-Oeste,Puro malte,PM-LN355,477.7
+2019-02-01,Centro-Oeste,Puro malte,PM-LN355,488.7
+2019-03-01,Centro-Oeste,Puro malte,PM-LN355,442.3
+2019-04-01,Centro-Oeste,Puro malte,PM-LN355,428.8
+2019-05-01,Centro-Oeste,Puro malte,PM-LN355,375.0
+2019-06-01,Centro-Oeste,Puro malte,PM-LN355,359.4
+2019-07-01,Centro-Oeste,Puro malte,PM-LN355,363.8
+2019-08-01,Centro-Oeste,Puro malte,PM-LN355,365.4
+2019-09-01,Centro-Oeste,Puro malte,PM-LN355,336.1
+2019-10-01,Centro-Oeste,Puro malte,PM-LN355,406.5
+2019-11-01,Centro-Oeste,Puro malte,PM-LN355,447.3
+2019-12-01,Centro-Oeste,Puro malte,PM-LN355,462.8
+2020-01-01,Centro-Oeste,Puro malte,PM-LN355,485.3
+2020-02-01,Centro-Oeste,Puro malte,PM-LN355,549.0
+2020-03-01,Centro-Oeste,Puro malte,PM-LN355,438.2
+2020-04-01,Centro-Oeste,Puro malte,PM-LN355,213.8
+2020-05-01,Centro-Oeste,Puro malte,PM-LN355,199.0
+2020-06-01,Centro-Oeste,Puro malte,PM-LN355,246.8
+2020-07-01,Centro-Oeste,Puro malte,PM-LN355,270.9
+2020-08-01,Centro-Oeste,Puro malte,PM-LN355,320.8
+2020-09-01,Centro-Oeste,Puro malte,PM-LN355,354.2
+2020-10-01,Centro-Oeste,Puro malte,PM-LN355,408.2
+2020-11-01,Centro-Oeste,Puro malte,PM-LN355,400.7
+2020-12-01,Centro-Oeste,Puro malte,PM-LN355,508.2
+2021-01-01,Centro-Oeste,Puro malte,PM-LN355,469.8
+2021-02-01,Centro-Oeste,Puro malte,PM-LN355,497.4
+2021-03-01,Centro-Oeste,Puro malte,PM-LN355,427.6
+2021-04-01,Centro-Oeste,Puro malte,PM-LN355,393.8
+2021-05-01,Centro-Oeste,Puro malte,PM-LN355,405.1
+2021-06-01,Centro-Oeste,Puro malte,PM-LN355,416.5
+2021-07-01,Centro-Oeste,Puro malte,PM-LN355,346.5
+2021-08-01,Centro-Oeste,Puro malte,PM-LN355,384.0
+2021-09-01,Centro-Oeste,Puro malte,PM-LN355,398.0
+2021-10-01,Centro-Oeste,Puro malte,PM-LN355,444.8
+2021-11-01,Centro-Oeste,Puro malte,PM-LN355,459.4
+2021-12-01,Centro-Oeste,Puro malte,PM-LN355,494.8
+2022-01-01,Centro-Oeste,Puro malte,PM-LN355,708.8
+2022-02-01,Centro-Oeste,Puro malte,PM-LN355,590.1
+2022-03-01,Centro-Oeste,Puro malte,PM-LN355,497.6
+2022-04-01,Centro-Oeste,Puro malte,PM-LN355,512.3
+2022-05-01,Centro-Oeste,Puro malte,PM-LN355,551.1
+2022-06-01,Centro-Oeste,Puro malte,PM-LN355,459.8
+2022-07-01,Centro-Oeste,Puro malte,PM-LN355,457.7
+2022-08-01,Centro-Oeste,Puro malte,PM-LN355,412.3
+2022-09-01,Centro-Oeste,Puro malte,PM-LN355,434.6
+2022-10-01,Centro-Oeste,Puro malte,PM-LN355,453.6
+2022-11-01,Centro-Oeste,Puro malte,PM-LN355,571.8
+2022-12-01,Centro-Oeste,Puro malte,PM-LN355,601.6
+2023-01-01,Centro-Oeste,Puro malte,PM-LN355,682.8
+2023-02-01,Centro-Oeste,Puro malte,PM-LN355,595.0
+2023-03-01,Centro-Oeste,Puro malte,PM-LN355,542.2
+2023-04-01,Centro-Oeste,Puro malte,PM-LN355,462.7
+2023-05-01,Centro-Oeste,Puro malte,PM-LN355,410.8
+2023-06-01,Centro-Oeste,Puro malte,PM-LN355,569.0
+2023-07-01,Centro-Oeste,Puro malte,PM-LN355,413.6
+2023-08-01,Centro-Oeste,Puro malte,PM-LN355,448.0
+2023-09-01,Centro-Oeste,Puro malte,PM-LN355,466.0
+2023-10-01,Centro-Oeste,Puro malte,PM-LN355,478.7
+2023-11-01,Centro-Oeste,Puro malte,PM-LN355,537.4
+2023-12-01,Centro-Oeste,Puro malte,PM-LN355,565.0
+2024-01-01,Centro-Oeste,Puro malte,PM-LN355,657.8
+2024-02-01,Centro-Oeste,Puro malte,PM-LN355,681.8
+2024-03-01,Centro-Oeste,Puro malte,PM-LN355,597.0
+2024-04-01,Centro-Oeste,Puro malte,PM-LN355,599.3
+2024-05-01,Centro-Oeste,Puro malte,PM-LN355,570.5
+2024-06-01,Centro-Oeste,Puro malte,PM-LN355,513.6
+2024-07-01,Centro-Oeste,Puro malte,PM-LN355,470.2
+2024-08-01,Centro-Oeste,Puro malte,PM-LN355,472.2
+2024-09-01,Centro-Oeste,Puro malte,PM-LN355,476.8
+2024-10-01,Centro-Oeste,Puro malte,PM-LN355,533.7
+2024-11-01,Centro-Oeste,Puro malte,PM-LN355,582.6
+2024-12-01,Centro-Oeste,Puro malte,PM-LN355,608.1
+2025-01-01,Centro-Oeste,Puro malte,PM-LN355,655.4
+2025-02-01,Centro-Oeste,Puro malte,PM-LN355,662.7
+2025-03-01,Centro-Oeste,Puro malte,PM-LN355,728.2
+2025-04-01,Centro-Oeste,Puro malte,PM-LN355,596.2
+2025-05-01,Centro-Oeste,Puro malte,PM-LN355,588.0
+2025-06-01,Centro-Oeste,Puro malte,PM-LN355,551.3
+2025-07-01,Centro-Oeste,Puro malte,PM-LN355,444.9
+2025-08-01,Centro-Oeste,Puro malte,PM-LN355,504.3
+2025-09-01,Centro-Oeste,Puro malte,PM-LN355,504.0
+2025-10-01,Centro-Oeste,Puro malte,PM-LN355,550.0
+2025-11-01,Centro-Oeste,Puro malte,PM-LN355,533.7
+2025-12-01,Centro-Oeste,Puro malte,PM-LN355,728.5
+2018-01-01,Centro-Oeste,Puro malte,PM-LT473,334.8
+2018-02-01,Centro-Oeste,Puro malte,PM-LT473,378.4
+2018-03-01,Centro-Oeste,Puro malte,PM-LT473,326.7
+2018-04-01,Centro-Oeste,Puro malte,PM-LT473,307.7
+2018-05-01,Centro-Oeste,Puro malte,PM-LT473,291.4
+2018-06-01,Centro-Oeste,Puro malte,PM-LT473,291.9
+2018-07-01,Centro-Oeste,Puro malte,PM-LT473,272.2
+2018-08-01,Centro-Oeste,Puro malte,PM-LT473,255.6
+2018-09-01,Centro-Oeste,Puro malte,PM-LT473,276.0
+2018-10-01,Centro-Oeste,Puro malte,PM-LT473,307.6
+2018-11-01,Centro-Oeste,Puro malte,PM-LT473,356.1
+2018-12-01,Centro-Oeste,Puro malte,PM-LT473,352.7
+2019-01-01,Centro-Oeste,Puro malte,PM-LT473,467.8
+2019-02-01,Centro-Oeste,Puro malte,PM-LT473,370.9
+2019-03-01,Centro-Oeste,Puro malte,PM-LT473,373.8
+2019-04-01,Centro-Oeste,Puro malte,PM-LT473,347.0
+2019-05-01,Centro-Oeste,Puro malte,PM-LT473,328.7
+2019-06-01,Centro-Oeste,Puro malte,PM-LT473,327.7
+2019-07-01,Centro-Oeste,Puro malte,PM-LT473,303.0
+2019-08-01,Centro-Oeste,Puro malte,PM-LT473,300.7
+2019-09-01,Centro-Oeste,Puro malte,PM-LT473,293.6
+2019-10-01,Centro-Oeste,Puro malte,PM-LT473,325.7
+2019-11-01,Centro-Oeste,Puro malte,PM-LT473,390.0
+2019-12-01,Centro-Oeste,Puro malte,PM-LT473,442.8
+2020-01-01,Centro-Oeste,Puro malte,PM-LT473,375.6
+2020-02-01,Centro-Oeste,Puro malte,PM-LT473,445.5
+2020-03-01,Centro-Oeste,Puro malte,PM-LT473,424.1
+2020-04-01,Centro-Oeste,Puro malte,PM-LT473,420.2
+2020-05-01,Centro-Oeste,Puro malte,PM-LT473,368.7
+2020-06-01,Centro-Oeste,Puro malte,PM-LT473,356.4
+2020-07-01,Centro-Oeste,Puro malte,PM-LT473,299.3
+2020-08-01,Centro-Oeste,Puro malte,PM-LT473,320.3
+2020-09-01,Centro-Oeste,Puro malte,PM-LT473,415.6
+2020-10-01,Centro-Oeste,Puro malte,PM-LT473,330.1
+2020-11-01,Centro-Oeste,Puro malte,PM-LT473,396.6
+2020-12-01,Centro-Oeste,Puro malte,PM-LT473,466.0
+2021-01-01,Centro-Oeste,Puro malte,PM-LT473,507.3
+2021-02-01,Centro-Oeste,Puro malte,PM-LT473,550.2
+2021-03-01,Centro-Oeste,Puro malte,PM-LT473,520.8
+2021-04-01,Centro-Oeste,Puro malte,PM-LT473,478.4
+2021-05-01,Centro-Oeste,Puro malte,PM-LT473,456.7
+2021-06-01,Centro-Oeste,Puro malte,PM-LT473,432.0
+2021-07-01,Centro-Oeste,Puro malte,PM-LT473,382.3
+2021-08-01,Centro-Oeste,Puro malte,PM-LT473,342.2
+2021-09-01,Centro-Oeste,Puro malte,PM-LT473,368.8
+2021-10-01,Centro-Oeste,Puro malte,PM-LT473,465.8
+2021-11-01,Centro-Oeste,Puro malte,PM-LT473,456.7
+2021-12-01,Centro-Oeste,Puro malte,PM-LT473,509.1
+2022-01-01,Centro-Oeste,Puro malte,PM-LT473,468.7
+2022-02-01,Centro-Oeste,Puro malte,PM-LT473,500.5
+2022-03-01,Centro-Oeste,Puro malte,PM-LT473,539.5
+2022-04-01,Centro-Oeste,Puro malte,PM-LT473,475.2
+2022-05-01,Centro-Oeste,Puro malte,PM-LT473,393.1
+2022-06-01,Centro-Oeste,Puro malte,PM-LT473,383.1
+2022-07-01,Centro-Oeste,Puro malte,PM-LT473,392.1
+2022-08-01,Centro-Oeste,Puro malte,PM-LT473,469.4
+2022-09-01,Centro-Oeste,Puro malte,PM-LT473,408.8
+2022-10-01,Centro-Oeste,Puro malte,PM-LT473,466.2
+2022-11-01,Centro-Oeste,Puro malte,PM-LT473,542.4
+2022-12-01,Centro-Oeste,Puro malte,PM-LT473,642.9
+2023-01-01,Centro-Oeste,Puro malte,PM-LT473,626.7
+2023-02-01,Centro-Oeste,Puro malte,PM-LT473,674.6
+2023-03-01,Centro-Oeste,Puro malte,PM-LT473,533.4
+2023-04-01,Centro-Oeste,Puro malte,PM-LT473,547.3
+2023-05-01,Centro-Oeste,Puro malte,PM-LT473,475.7
+2023-06-01,Centro-Oeste,Puro malte,PM-LT473,521.6
+2023-07-01,Centro-Oeste,Puro malte,PM-LT473,419.1
+2023-08-01,Centro-Oeste,Puro malte,PM-LT473,441.9
+2023-09-01,Centro-Oeste,Puro malte,PM-LT473,496.0
+2023-10-01,Centro-Oeste,Puro malte,PM-LT473,509.8
+2023-11-01,Centro-Oeste,Puro malte,PM-LT473,517.8
+2023-12-01,Centro-Oeste,Puro malte,PM-LT473,582.3
+2024-01-01,Centro-Oeste,Puro malte,PM-LT473,727.2
+2024-02-01,Centro-Oeste,Puro malte,PM-LT473,716.4
+2024-03-01,Centro-Oeste,Puro malte,PM-LT473,643.8
+2024-04-01,Centro-Oeste,Puro malte,PM-LT473,630.7
+2024-05-01,Centro-Oeste,Puro malte,PM-LT473,573.0
+2024-06-01,Centro-Oeste,Puro malte,PM-LT473,448.1
+2024-07-01,Centro-Oeste,Puro malte,PM-LT473,601.2
+2024-08-01,Centro-Oeste,Puro malte,PM-LT473,444.8
+2024-09-01,Centro-Oeste,Puro malte,PM-LT473,577.1
+2024-10-01,Centro-Oeste,Puro malte,PM-LT473,600.0
+2024-11-01,Centro-Oeste,Puro malte,PM-LT473,604.6
+2024-12-01,Centro-Oeste,Puro malte,PM-LT473,666.5
+2025-01-01,Centro-Oeste,Puro malte,PM-LT473,633.7
+2025-02-01,Centro-Oeste,Puro malte,PM-LT473,636.4
+2025-03-01,Centro-Oeste,Puro malte,PM-LT473,906.8
+2025-04-01,Centro-Oeste,Puro malte,PM-LT473,713.3
+2025-05-01,Centro-Oeste,Puro malte,PM-LT473,543.3
+2025-06-01,Centro-Oeste,Puro malte,PM-LT473,575.3
+2025-07-01,Centro-Oeste,Puro malte,PM-LT473,543.7
+2025-08-01,Centro-Oeste,Puro malte,PM-LT473,556.2
+2025-09-01,Centro-Oeste,Puro malte,PM-LT473,612.1
+2025-10-01,Centro-Oeste,Puro malte,PM-LT473,671.1
+2025-11-01,Centro-Oeste,Puro malte,PM-LT473,709.3
+2025-12-01,Centro-Oeste,Puro malte,PM-LT473,745.7
+2018-01-01,Centro-Oeste,Premium,PR-LN330,512.1
+2018-02-01,Centro-Oeste,Premium,PR-LN330,449.1
+2018-03-01,Centro-Oeste,Premium,PR-LN330,395.8
+2018-04-01,Centro-Oeste,Premium,PR-LN330,425.8
+2018-05-01,Centro-Oeste,Premium,PR-LN330,365.5
+2018-06-01,Centro-Oeste,Premium,PR-LN330,323.0
+2018-07-01,Centro-Oeste,Premium,PR-LN330,322.2
+2018-08-01,Centro-Oeste,Premium,PR-LN330,298.1
+2018-09-01,Centro-Oeste,Premium,PR-LN330,425.0
+2018-10-01,Centro-Oeste,Premium,PR-LN330,324.2
+2018-11-01,Centro-Oeste,Premium,PR-LN330,417.6
+2018-12-01,Centro-Oeste,Premium,PR-LN330,422.2
+2019-01-01,Centro-Oeste,Premium,PR-LN330,493.8
+2019-02-01,Centro-Oeste,Premium,PR-LN330,461.5
+2019-03-01,Centro-Oeste,Premium,PR-LN330,495.8
+2019-04-01,Centro-Oeste,Premium,PR-LN330,378.2
+2019-05-01,Centro-Oeste,Premium,PR-LN330,365.2
+2019-06-01,Centro-Oeste,Premium,PR-LN330,366.2
+2019-07-01,Centro-Oeste,Premium,PR-LN330,331.9
+2019-08-01,Centro-Oeste,Premium,PR-LN330,341.7
+2019-09-01,Centro-Oeste,Premium,PR-LN330,423.5
+2019-10-01,Centro-Oeste,Premium,PR-LN330,365.2
+2019-11-01,Centro-Oeste,Premium,PR-LN330,402.5
+2019-12-01,Centro-Oeste,Premium,PR-LN330,443.3
+2020-01-01,Centro-Oeste,Premium,PR-LN330,467.2
+2020-02-01,Centro-Oeste,Premium,PR-LN330,667.7
+2020-03-01,Centro-Oeste,Premium,PR-LN330,452.9
+2020-04-01,Centro-Oeste,Premium,PR-LN330,199.4
+2020-05-01,Centro-Oeste,Premium,PR-LN330,195.7
+2020-06-01,Centro-Oeste,Premium,PR-LN330,244.2
+2020-07-01,Centro-Oeste,Premium,PR-LN330,312.5
+2020-08-01,Centro-Oeste,Premium,PR-LN330,316.1
+2020-09-01,Centro-Oeste,Premium,PR-LN330,340.5
+2020-10-01,Centro-Oeste,Premium,PR-LN330,447.6
+2020-11-01,Centro-Oeste,Premium,PR-LN330,453.5
+2020-12-01,Centro-Oeste,Premium,PR-LN330,506.1
+2021-01-01,Centro-Oeste,Premium,PR-LN330,514.3
+2021-02-01,Centro-Oeste,Premium,PR-LN330,528.8
+2021-03-01,Centro-Oeste,Premium,PR-LN330,421.8
+2021-04-01,Centro-Oeste,Premium,PR-LN330,417.9
+2021-05-01,Centro-Oeste,Premium,PR-LN330,448.7
+2021-06-01,Centro-Oeste,Premium,PR-LN330,391.3
+2021-07-01,Centro-Oeste,Premium,PR-LN330,463.3
+2021-08-01,Centro-Oeste,Premium,PR-LN330,374.7
+2021-09-01,Centro-Oeste,Premium,PR-LN330,438.2
+2021-10-01,Centro-Oeste,Premium,PR-LN330,462.2
+2021-11-01,Centro-Oeste,Premium,PR-LN330,489.5
+2021-12-01,Centro-Oeste,Premium,PR-LN330,527.6
+2022-01-01,Centro-Oeste,Premium,PR-LN330,592.6
+2022-02-01,Centro-Oeste,Premium,PR-LN330,622.4
+2022-03-01,Centro-Oeste,Premium,PR-LN330,498.2
+2022-04-01,Centro-Oeste,Premium,PR-LN330,598.7
+2022-05-01,Centro-Oeste,Premium,PR-LN330,493.8
+2022-06-01,Centro-Oeste,Premium,PR-LN330,418.0
+2022-07-01,Centro-Oeste,Premium,PR-LN330,465.9
+2022-08-01,Centro-Oeste,Premium,PR-LN330,452.1
+2022-09-01,Centro-Oeste,Premium,PR-LN330,437.0
+2022-10-01,Centro-Oeste,Premium,PR-LN330,574.3
+2022-11-01,Centro-Oeste,Premium,PR-LN330,566.0
+2022-12-01,Centro-Oeste,Premium,PR-LN330,647.6
+2023-01-01,Centro-Oeste,Premium,PR-LN330,589.1
+2023-02-01,Centro-Oeste,Premium,PR-LN330,617.1
+2023-03-01,Centro-Oeste,Premium,PR-LN330,628.7
+2023-04-01,Centro-Oeste,Premium,PR-LN330,576.6
+2023-05-01,Centro-Oeste,Premium,PR-LN330,613.9
+2023-06-01,Centro-Oeste,Premium,PR-LN330,530.7
+2023-07-01,Centro-Oeste,Premium,PR-LN330,473.2
+2023-08-01,Centro-Oeste,Premium,PR-LN330,492.8
+2023-09-01,Centro-Oeste,Premium,PR-LN330,532.9
+2023-10-01,Centro-Oeste,Premium,PR-LN330,547.3
+2023-11-01,Centro-Oeste,Premium,PR-LN330,599.9
+2023-12-01,Centro-Oeste,Premium,PR-LN330,582.5
+2024-01-01,Centro-Oeste,Premium,PR-LN330,633.2
+2024-02-01,Centro-Oeste,Premium,PR-LN330,681.2
+2024-03-01,Centro-Oeste,Premium,PR-LN330,662.8
+2024-04-01,Centro-Oeste,Premium,PR-LN330,559.0
+2024-05-01,Centro-Oeste,Premium,PR-LN330,526.1
+2024-06-01,Centro-Oeste,Premium,PR-LN330,546.5
+2024-07-01,Centro-Oeste,Premium,PR-LN330,548.0
+2024-08-01,Centro-Oeste,Premium,PR-LN330,475.7
+2024-09-01,Centro-Oeste,Premium,PR-LN330,519.6
+2024-10-01,Centro-Oeste,Premium,PR-LN330,590.1
+2024-11-01,Centro-Oeste,Premium,PR-LN330,626.2
+2024-12-01,Centro-Oeste,Premium,PR-LN330,865.5
+2025-01-01,Centro-Oeste,Premium,PR-LN330,740.5
+2025-02-01,Centro-Oeste,Premium,PR-LN330,644.5
+2025-03-01,Centro-Oeste,Premium,PR-LN330,674.1
+2025-04-01,Centro-Oeste,Premium,PR-LN330,665.5
+2025-05-01,Centro-Oeste,Premium,PR-LN330,670.4
+2025-06-01,Centro-Oeste,Premium,PR-LN330,566.6
+2025-07-01,Centro-Oeste,Premium,PR-LN330,482.3
+2025-08-01,Centro-Oeste,Premium,PR-LN330,502.0
+2025-09-01,Centro-Oeste,Premium,PR-LN330,566.4
+2025-10-01,Centro-Oeste,Premium,PR-LN330,627.6
+2025-11-01,Centro-Oeste,Premium,PR-LN330,678.1
+2025-12-01,Centro-Oeste,Premium,PR-LN330,778.2
+2018-01-01,Centro-Oeste,Premium,PR-GF600,266.6
+2018-02-01,Centro-Oeste,Premium,PR-GF600,287.1
+2018-03-01,Centro-Oeste,Premium,PR-GF600,269.2
+2018-04-01,Centro-Oeste,Premium,PR-GF600,271.1
+2018-05-01,Centro-Oeste,Premium,PR-GF600,226.7
+2018-06-01,Centro-Oeste,Premium,PR-GF600,215.2
+2018-07-01,Centro-Oeste,Premium,PR-GF600,184.1
+2018-08-01,Centro-Oeste,Premium,PR-GF600,223.0
+2018-09-01,Centro-Oeste,Premium,PR-GF600,220.1
+2018-10-01,Centro-Oeste,Premium,PR-GF600,237.0
+2018-11-01,Centro-Oeste,Premium,PR-GF600,277.0
+2018-12-01,Centro-Oeste,Premium,PR-GF600,276.6
+2019-01-01,Centro-Oeste,Premium,PR-GF600,309.0
+2019-02-01,Centro-Oeste,Premium,PR-GF600,292.1
+2019-03-01,Centro-Oeste,Premium,PR-GF600,337.1
+2019-04-01,Centro-Oeste,Premium,PR-GF600,246.2
+2019-05-01,Centro-Oeste,Premium,PR-GF600,256.0
+2019-06-01,Centro-Oeste,Premium,PR-GF600,211.0
+2019-07-01,Centro-Oeste,Premium,PR-GF600,218.5
+2019-08-01,Centro-Oeste,Premium,PR-GF600,242.4
+2019-09-01,Centro-Oeste,Premium,PR-GF600,227.6
+2019-10-01,Centro-Oeste,Premium,PR-GF600,240.3
+2019-11-01,Centro-Oeste,Premium,PR-GF600,284.1
+2019-12-01,Centro-Oeste,Premium,PR-GF600,318.2
+2020-01-01,Centro-Oeste,Premium,PR-GF600,331.8
+2020-02-01,Centro-Oeste,Premium,PR-GF600,361.3
+2020-03-01,Centro-Oeste,Premium,PR-GF600,280.8
+2020-04-01,Centro-Oeste,Premium,PR-GF600,124.1
+2020-05-01,Centro-Oeste,Premium,PR-GF600,113.6
+2020-06-01,Centro-Oeste,Premium,PR-GF600,177.6
+2020-07-01,Centro-Oeste,Premium,PR-GF600,162.8
+2020-08-01,Centro-Oeste,Premium,PR-GF600,201.4
+2020-09-01,Centro-Oeste,Premium,PR-GF600,225.8
+2020-10-01,Centro-Oeste,Premium,PR-GF600,253.1
+2020-11-01,Centro-Oeste,Premium,PR-GF600,293.7
+2020-12-01,Centro-Oeste,Premium,PR-GF600,307.4
+2021-01-01,Centro-Oeste,Premium,PR-GF600,306.5
+2021-02-01,Centro-Oeste,Premium,PR-GF600,276.4
+2021-03-01,Centro-Oeste,Premium,PR-GF600,261.2
+2021-04-01,Centro-Oeste,Premium,PR-GF600,262.7
+2021-05-01,Centro-Oeste,Premium,PR-GF600,253.8
+2021-06-01,Centro-Oeste,Premium,PR-GF600,267.0
+2021-07-01,Centro-Oeste,Premium,PR-GF600,213.7
+2021-08-01,Centro-Oeste,Premium,PR-GF600,247.4
+2021-09-01,Centro-Oeste,Premium,PR-GF600,256.7
+2021-10-01,Centro-Oeste,Premium,PR-GF600,249.8
+2021-11-01,Centro-Oeste,Premium,PR-GF600,313.8
+2021-12-01,Centro-Oeste,Premium,PR-GF600,347.3
+2022-01-01,Centro-Oeste,Premium,PR-GF600,389.2
+2022-02-01,Centro-Oeste,Premium,PR-GF600,328.9
+2022-03-01,Centro-Oeste,Premium,PR-GF600,324.4
+2022-04-01,Centro-Oeste,Premium,PR-GF600,272.9
+2022-05-01,Centro-Oeste,Premium,PR-GF600,272.1
+2022-06-01,Centro-Oeste,Premium,PR-GF600,267.6
+2022-07-01,Centro-Oeste,Premium,PR-GF600,255.4
+2022-08-01,Centro-Oeste,Premium,PR-GF600,199.7
+2022-09-01,Centro-Oeste,Premium,PR-GF600,226.8
+2022-10-01,Centro-Oeste,Premium,PR-GF600,340.2
+2022-11-01,Centro-Oeste,Premium,PR-GF600,354.0
+2022-12-01,Centro-Oeste,Premium,PR-GF600,357.0
+2023-01-01,Centro-Oeste,Premium,PR-GF600,356.5
+2023-02-01,Centro-Oeste,Premium,PR-GF600,353.0
+2023-03-01,Centro-Oeste,Premium,PR-GF600,348.1
+2023-04-01,Centro-Oeste,Premium,PR-GF600,283.2
+2023-05-01,Centro-Oeste,Premium,PR-GF600,270.2
+2023-06-01,Centro-Oeste,Premium,PR-GF600,286.5
+2023-07-01,Centro-Oeste,Premium,PR-GF600,250.6
+2023-08-01,Centro-Oeste,Premium,PR-GF600,292.5
+2023-09-01,Centro-Oeste,Premium,PR-GF600,248.4
+2023-10-01,Centro-Oeste,Premium,PR-GF600,287.3
+2023-11-01,Centro-Oeste,Premium,PR-GF600,295.6
+2023-12-01,Centro-Oeste,Premium,PR-GF600,476.1
+2024-01-01,Centro-Oeste,Premium,PR-GF600,375.0
+2024-02-01,Centro-Oeste,Premium,PR-GF600,507.9
+2024-03-01,Centro-Oeste,Premium,PR-GF600,311.8
+2024-04-01,Centro-Oeste,Premium,PR-GF600,331.7
+2024-05-01,Centro-Oeste,Premium,PR-GF600,296.7
+2024-06-01,Centro-Oeste,Premium,PR-GF600,273.1
+2024-07-01,Centro-Oeste,Premium,PR-GF600,291.2
+2024-08-01,Centro-Oeste,Premium,PR-GF600,259.9
+2024-09-01,Centro-Oeste,Premium,PR-GF600,294.9
+2024-10-01,Centro-Oeste,Premium,PR-GF600,328.7
+2024-11-01,Centro-Oeste,Premium,PR-GF600,372.4
+2024-12-01,Centro-Oeste,Premium,PR-GF600,314.0
+2025-01-01,Centro-Oeste,Premium,PR-GF600,363.5
+2025-02-01,Centro-Oeste,Premium,PR-GF600,364.7
+2025-03-01,Centro-Oeste,Premium,PR-GF600,391.8
+2025-04-01,Centro-Oeste,Premium,PR-GF600,353.7
+2025-05-01,Centro-Oeste,Premium,PR-GF600,313.2
+2025-06-01,Centro-Oeste,Premium,PR-GF600,319.6
+2025-07-01,Centro-Oeste,Premium,PR-GF600,310.1
+2025-08-01,Centro-Oeste,Premium,PR-GF600,263.5
+2025-09-01,Centro-Oeste,Premium,PR-GF600,302.7
+2025-10-01,Centro-Oeste,Premium,PR-GF600,359.9
+2025-11-01,Centro-Oeste,Premium,PR-GF600,310.9
+2025-12-01,Centro-Oeste,Premium,PR-GF600,336.7
+2022-03-01,Centro-Oeste,Sem álcool,SA-LT350,6.5
+2022-04-01,Centro-Oeste,Sem álcool,SA-LT350,14.8
+2022-05-01,Centro-Oeste,Sem álcool,SA-LT350,29.6
+2022-06-01,Centro-Oeste,Sem álcool,SA-LT350,34.5
+2022-07-01,Centro-Oeste,Sem álcool,SA-LT350,50.6
+2022-08-01,Centro-Oeste,Sem álcool,SA-LT350,68.2
+2022-09-01,Centro-Oeste,Sem álcool,SA-LT350,79.9
+2022-10-01,Centro-Oeste,Sem álcool,SA-LT350,148.5
+2022-11-01,Centro-Oeste,Sem álcool,SA-LT350,186.4
+2022-12-01,Centro-Oeste,Sem álcool,SA-LT350,235.4
+2023-01-01,Centro-Oeste,Sem álcool,SA-LT350,236.2
+2023-02-01,Centro-Oeste,Sem álcool,SA-LT350,264.1
+2023-03-01,Centro-Oeste,Sem álcool,SA-LT350,266.3
+2023-04-01,Centro-Oeste,Sem álcool,SA-LT350,252.7
+2023-05-01,Centro-Oeste,Sem álcool,SA-LT350,206.8
+2023-06-01,Centro-Oeste,Sem álcool,SA-LT350,201.6
+2023-07-01,Centro-Oeste,Sem álcool,SA-LT350,195.1
+2023-08-01,Centro-Oeste,Sem álcool,SA-LT350,208.3
+2023-09-01,Centro-Oeste,Sem álcool,SA-LT350,213.4
+2023-10-01,Centro-Oeste,Sem álcool,SA-LT350,243.3
+2023-11-01,Centro-Oeste,Sem álcool,SA-LT350,283.1
+2023-12-01,Centro-Oeste,Sem álcool,SA-LT350,311.9
+2024-01-01,Centro-Oeste,Sem álcool,SA-LT350,316.0
+2024-02-01,Centro-Oeste,Sem álcool,SA-LT350,332.9
+2024-03-01,Centro-Oeste,Sem álcool,SA-LT350,307.9
+2024-04-01,Centro-Oeste,Sem álcool,SA-LT350,297.6
+2024-05-01,Centro-Oeste,Sem álcool,SA-LT350,293.1
+2024-06-01,Centro-Oeste,Sem álcool,SA-LT350,267.1
+2024-07-01,Centro-Oeste,Sem álcool,SA-LT350,284.7
+2024-08-01,Centro-Oeste,Sem álcool,SA-LT350,260.9
+2024-09-01,Centro-Oeste,Sem álcool,SA-LT350,264.5
+2024-10-01,Centro-Oeste,Sem álcool,SA-LT350,333.0
+2024-11-01,Centro-Oeste,Sem álcool,SA-LT350,306.2
+2024-12-01,Centro-Oeste,Sem álcool,SA-LT350,512.9
+2025-01-01,Centro-Oeste,Sem álcool,SA-LT350,401.2
+2025-02-01,Centro-Oeste,Sem álcool,SA-LT350,397.4
+2025-03-01,Centro-Oeste,Sem álcool,SA-LT350,420.3
+2025-04-01,Centro-Oeste,Sem álcool,SA-LT350,345.9
+2025-05-01,Centro-Oeste,Sem álcool,SA-LT350,317.5
+2025-06-01,Centro-Oeste,Sem álcool,SA-LT350,418.7
+2025-07-01,Centro-Oeste,Sem álcool,SA-LT350,354.7
+2025-08-01,Centro-Oeste,Sem álcool,SA-LT350,325.6
+2025-09-01,Centro-Oeste,Sem álcool,SA-LT350,401.5
+2025-10-01,Centro-Oeste,Sem álcool,SA-LT350,382.2
+2025-11-01,Centro-Oeste,Sem álcool,SA-LT350,475.5
+2025-12-01,Centro-Oeste,Sem álcool,SA-LT350,493.8
+2022-03-01,Centro-Oeste,Sem álcool,SA-LN355,3.7
+2022-04-01,Centro-Oeste,Sem álcool,SA-LN355,9.6
+2022-05-01,Centro-Oeste,Sem álcool,SA-LN355,15.2
+2022-06-01,Centro-Oeste,Sem álcool,SA-LN355,22.5
+2022-07-01,Centro-Oeste,Sem álcool,SA-LN355,31.4
+2022-08-01,Centro-Oeste,Sem álcool,SA-LN355,46.6
+2022-09-01,Centro-Oeste,Sem álcool,SA-LN355,55.7
+2022-10-01,Centro-Oeste,Sem álcool,SA-LN355,74.1
+2022-11-01,Centro-Oeste,Sem álcool,SA-LN355,104.2
+2022-12-01,Centro-Oeste,Sem álcool,SA-LN355,172.0
+2023-01-01,Centro-Oeste,Sem álcool,SA-LN355,157.2
+2023-02-01,Centro-Oeste,Sem álcool,SA-LN355,158.8
+2023-03-01,Centro-Oeste,Sem álcool,SA-LN355,128.2
+2023-04-01,Centro-Oeste,Sem álcool,SA-LN355,106.6
+2023-05-01,Centro-Oeste,Sem álcool,SA-LN355,150.9
+2023-06-01,Centro-Oeste,Sem álcool,SA-LN355,105.9
+2023-07-01,Centro-Oeste,Sem álcool,SA-LN355,110.9
+2023-08-01,Centro-Oeste,Sem álcool,SA-LN355,111.9
+2023-09-01,Centro-Oeste,Sem álcool,SA-LN355,128.9
+2023-10-01,Centro-Oeste,Sem álcool,SA-LN355,138.2
+2023-11-01,Centro-Oeste,Sem álcool,SA-LN355,143.2
+2023-12-01,Centro-Oeste,Sem álcool,SA-LN355,183.4
+2024-01-01,Centro-Oeste,Sem álcool,SA-LN355,157.8
+2024-02-01,Centro-Oeste,Sem álcool,SA-LN355,216.5
+2024-03-01,Centro-Oeste,Sem álcool,SA-LN355,184.8
+2024-04-01,Centro-Oeste,Sem álcool,SA-LN355,187.5
+2024-05-01,Centro-Oeste,Sem álcool,SA-LN355,175.8
+2024-06-01,Centro-Oeste,Sem álcool,SA-LN355,149.7
+2024-07-01,Centro-Oeste,Sem álcool,SA-LN355,162.2
+2024-08-01,Centro-Oeste,Sem álcool,SA-LN355,136.8
+2024-09-01,Centro-Oeste,Sem álcool,SA-LN355,174.8
+2024-10-01,Centro-Oeste,Sem álcool,SA-LN355,164.8
+2024-11-01,Centro-Oeste,Sem álcool,SA-LN355,202.0
+2024-12-01,Centro-Oeste,Sem álcool,SA-LN355,223.8
+2025-01-01,Centro-Oeste,Sem álcool,SA-LN355,228.4
+2025-02-01,Centro-Oeste,Sem álcool,SA-LN355,268.4
+2025-03-01,Centro-Oeste,Sem álcool,SA-LN355,249.9
+2025-04-01,Centro-Oeste,Sem álcool,SA-LN355,170.5
+2025-05-01,Centro-Oeste,Sem álcool,SA-LN355,167.2
+2025-06-01,Centro-Oeste,Sem álcool,SA-LN355,172.1
+2025-07-01,Centro-Oeste,Sem álcool,SA-LN355,158.0
+2025-08-01,Centro-Oeste,Sem álcool,SA-LN355,156.3
+2025-09-01,Centro-Oeste,Sem álcool,SA-LN355,194.1
+2025-10-01,Centro-Oeste,Sem álcool,SA-LN355,218.5
+2025-11-01,Centro-Oeste,Sem álcool,SA-LN355,241.8
+2025-12-01,Centro-Oeste,Sem álcool,SA-LN355,289.6
+2018-01-01,Norte,Pilsen,PIL-LT350,1632.4
+2018-02-01,Norte,Pilsen,PIL-LT350,1614.0
+2018-03-01,Norte,Pilsen,PIL-LT350,1989.7
+2018-04-01,Norte,Pilsen,PIL-LT350,1396.2
+2018-05-01,Norte,Pilsen,PIL-LT350,1693.1
+2018-06-01,Norte,Pilsen,PIL-LT350,1469.5
+2018-07-01,Norte,Pilsen,PIL-LT350,1375.2
+2018-08-01,Norte,Pilsen,PIL-LT350,1351.5
+2018-09-01,Norte,Pilsen,PIL-LT350,1442.0
+2018-10-01,Norte,Pilsen,PIL-LT350,1465.5
+2018-11-01,Norte,Pilsen,PIL-LT350,1420.0
+2018-12-01,Norte,Pilsen,PIL-LT350,1605.7
+2019-01-01,Norte,Pilsen,PIL-LT350,1697.1
+2019-02-01,Norte,Pilsen,PIL-LT350,1486.6
+2019-03-01,Norte,Pilsen,PIL-LT350,1472.9
+2019-04-01,Norte,Pilsen,PIL-LT350,1559.6
+2019-05-01,Norte,Pilsen,PIL-LT350,1537.2
+2019-06-01,Norte,Pilsen,PIL-LT350,1398.3
+2019-07-01,Norte,Pilsen,PIL-LT350,1528.9
+2019-08-01,Norte,Pilsen,PIL-LT350,1334.2
+2019-09-01,Norte,Pilsen,PIL-LT350,1519.6
+2019-10-01,Norte,Pilsen,PIL-LT350,1547.6
+2019-11-01,Norte,Pilsen,PIL-LT350,1626.2
+2019-12-01,Norte,Pilsen,PIL-LT350,1564.3
+2020-01-01,Norte,Pilsen,PIL-LT350,1741.6
+2020-02-01,Norte,Pilsen,PIL-LT350,1671.7
+2020-03-01,Norte,Pilsen,PIL-LT350,1650.3
+2020-04-01,Norte,Pilsen,PIL-LT350,1694.5
+2020-05-01,Norte,Pilsen,PIL-LT350,1566.8
+2020-06-01,Norte,Pilsen,PIL-LT350,1591.8
+2020-07-01,Norte,Pilsen,PIL-LT350,1401.8
+2020-08-01,Norte,Pilsen,PIL-LT350,1521.3
+2020-09-01,Norte,Pilsen,PIL-LT350,1371.9
+2020-10-01,Norte,Pilsen,PIL-LT350,1503.5
+2020-11-01,Norte,Pilsen,PIL-LT350,1356.8
+2020-12-01,Norte,Pilsen,PIL-LT350,1682.0
+2021-01-01,Norte,Pilsen,PIL-LT350,1593.5
+2021-02-01,Norte,Pilsen,PIL-LT350,1627.9
+2021-03-01,Norte,Pilsen,PIL-LT350,1599.7
+2021-04-01,Norte,Pilsen,PIL-LT350,1589.3
+2021-05-01,Norte,Pilsen,PIL-LT350,1479.6
+2021-06-01,Norte,Pilsen,PIL-LT350,1638.9
+2021-07-01,Norte,Pilsen,PIL-LT350,1501.2
+2021-08-01,Norte,Pilsen,PIL-LT350,1362.3
+2021-09-01,Norte,Pilsen,PIL-LT350,1301.0
+2021-10-01,Norte,Pilsen,PIL-LT350,1620.2
+2021-11-01,Norte,Pilsen,PIL-LT350,1575.4
+2021-12-01,Norte,Pilsen,PIL-LT350,1568.8
+2022-01-01,Norte,Pilsen,PIL-LT350,1703.6
+2022-02-01,Norte,Pilsen,PIL-LT350,1464.4
+2022-03-01,Norte,Pilsen,PIL-LT350,1569.0
+2022-04-01,Norte,Pilsen,PIL-LT350,1627.3
+2022-05-01,Norte,Pilsen,PIL-LT350,1448.2
+2022-06-01,Norte,Pilsen,PIL-LT350,1429.8
+2022-07-01,Norte,Pilsen,PIL-LT350,1411.8
+2022-08-01,Norte,Pilsen,PIL-LT350,1438.4
+2022-09-01,Norte,Pilsen,PIL-LT350,1466.9
+2022-10-01,Norte,Pilsen,PIL-LT350,1620.9
+2022-11-01,Norte,Pilsen,PIL-LT350,1726.0
+2022-12-01,Norte,Pilsen,PIL-LT350,1703.6
+2023-01-01,Norte,Pilsen,PIL-LT350,1705.9
+2023-02-01,Norte,Pilsen,PIL-LT350,1836.0
+2023-03-01,Norte,Pilsen,PIL-LT350,1765.9
+2023-04-01,Norte,Pilsen,PIL-LT350,1662.6
+2023-05-01,Norte,Pilsen,PIL-LT350,1739.3
+2023-06-01,Norte,Pilsen,PIL-LT350,1614.8
+2023-07-01,Norte,Pilsen,PIL-LT350,1449.4
+2023-08-01,Norte,Pilsen,PIL-LT350,1454.7
+2023-09-01,Norte,Pilsen,PIL-LT350,1399.4
+2023-10-01,Norte,Pilsen,PIL-LT350,1477.8
+2023-11-01,Norte,Pilsen,PIL-LT350,1621.7
+2023-12-01,Norte,Pilsen,PIL-LT350,1749.6
+2024-01-01,Norte,Pilsen,PIL-LT350,1629.8
+2024-02-01,Norte,Pilsen,PIL-LT350,1739.4
+2024-03-01,Norte,Pilsen,PIL-LT350,1727.1
+2024-04-01,Norte,Pilsen,PIL-LT350,1542.4
+2024-05-01,Norte,Pilsen,PIL-LT350,1749.2
+2024-06-01,Norte,Pilsen,PIL-LT350,1716.7
+2024-07-01,Norte,Pilsen,PIL-LT350,1521.9
+2024-08-01,Norte,Pilsen,PIL-LT350,1480.8
+2024-09-01,Norte,Pilsen,PIL-LT350,1523.1
+2024-10-01,Norte,Pilsen,PIL-LT350,1609.0
+2024-11-01,Norte,Pilsen,PIL-LT350,1597.5
+2024-12-01,Norte,Pilsen,PIL-LT350,1643.9
+2025-01-01,Norte,Pilsen,PIL-LT350,1623.6
+2025-02-01,Norte,Pilsen,PIL-LT350,1839.3
+2025-03-01,Norte,Pilsen,PIL-LT350,1759.7
+2025-04-01,Norte,Pilsen,PIL-LT350,1643.2
+2025-05-01,Norte,Pilsen,PIL-LT350,1756.3
+2025-06-01,Norte,Pilsen,PIL-LT350,1621.3
+2025-07-01,Norte,Pilsen,PIL-LT350,1663.4
+2025-08-01,Norte,Pilsen,PIL-LT350,1555.4
+2025-09-01,Norte,Pilsen,PIL-LT350,1458.9
+2025-10-01,Norte,Pilsen,PIL-LT350,1605.9
+2025-11-01,Norte,Pilsen,PIL-LT350,1671.7
+2025-12-01,Norte,Pilsen,PIL-LT350,1645.4
+2018-01-01,Norte,Pilsen,PIL-GF600,1064.5
+2018-02-01,Norte,Pilsen,PIL-GF600,1200.9
+2018-03-01,Norte,Pilsen,PIL-GF600,1075.3
+2018-04-01,Norte,Pilsen,PIL-GF600,1093.0
+2018-05-01,Norte,Pilsen,PIL-GF600,1147.2
+2018-06-01,Norte,Pilsen,PIL-GF600,1030.2
+2018-07-01,Norte,Pilsen,PIL-GF600,932.0
+2018-08-01,Norte,Pilsen,PIL-GF600,1036.7
+2018-09-01,Norte,Pilsen,PIL-GF600,1105.8
+2018-10-01,Norte,Pilsen,PIL-GF600,1047.7
+2018-11-01,Norte,Pilsen,PIL-GF600,1136.9
+2018-12-01,Norte,Pilsen,PIL-GF600,1148.7
+2019-01-01,Norte,Pilsen,PIL-GF600,1156.9
+2019-02-01,Norte,Pilsen,PIL-GF600,1009.0
+2019-03-01,Norte,Pilsen,PIL-GF600,1290.9
+2019-04-01,Norte,Pilsen,PIL-GF600,1212.4
+2019-05-01,Norte,Pilsen,PIL-GF600,975.6
+2019-06-01,Norte,Pilsen,PIL-GF600,1006.4
+2019-07-01,Norte,Pilsen,PIL-GF600,971.9
+2019-08-01,Norte,Pilsen,PIL-GF600,958.5
+2019-09-01,Norte,Pilsen,PIL-GF600,994.1
+2019-10-01,Norte,Pilsen,PIL-GF600,1052.2
+2019-11-01,Norte,Pilsen,PIL-GF600,1048.3
+2019-12-01,Norte,Pilsen,PIL-GF600,1153.6
+2020-01-01,Norte,Pilsen,PIL-GF600,1049.0
+2020-02-01,Norte,Pilsen,PIL-GF600,1239.9
+2020-03-01,Norte,Pilsen,PIL-GF600,1131.2
+2020-04-01,Norte,Pilsen,PIL-GF600,486.1
+2020-05-01,Norte,Pilsen,PIL-GF600,524.1
+2020-06-01,Norte,Pilsen,PIL-GF600,821.9
+2020-07-01,Norte,Pilsen,PIL-GF600,745.4
+2020-08-01,Norte,Pilsen,PIL-GF600,830.9
+2020-09-01,Norte,Pilsen,PIL-GF600,845.5
+2020-10-01,Norte,Pilsen,PIL-GF600,1102.0
+2020-11-01,Norte,Pilsen,PIL-GF600,970.1
+2020-12-01,Norte,Pilsen,PIL-GF600,1101.9
+2021-01-01,Norte,Pilsen,PIL-GF600,1053.2
+2021-02-01,Norte,Pilsen,PIL-GF600,1132.4
+2021-03-01,Norte,Pilsen,PIL-GF600,891.5
+2021-04-01,Norte,Pilsen,PIL-GF600,1045.0
+2021-05-01,Norte,Pilsen,PIL-GF600,1036.9
+2021-06-01,Norte,Pilsen,PIL-GF600,1049.2
+2021-07-01,Norte,Pilsen,PIL-GF600,929.8
+2021-08-01,Norte,Pilsen,PIL-GF600,918.3
+2021-09-01,Norte,Pilsen,PIL-GF600,918.2
+2021-10-01,Norte,Pilsen,PIL-GF600,1042.9
+2021-11-01,Norte,Pilsen,PIL-GF600,980.5
+2021-12-01,Norte,Pilsen,PIL-GF600,1094.1
+2022-01-01,Norte,Pilsen,PIL-GF600,1051.7
+2022-02-01,Norte,Pilsen,PIL-GF600,1092.9
+2022-03-01,Norte,Pilsen,PIL-GF600,1006.5
+2022-04-01,Norte,Pilsen,PIL-GF600,1030.6
+2022-05-01,Norte,Pilsen,PIL-GF600,928.8
+2022-06-01,Norte,Pilsen,PIL-GF600,1009.4
+2022-07-01,Norte,Pilsen,PIL-GF600,914.9
+2022-08-01,Norte,Pilsen,PIL-GF600,898.3
+2022-09-01,Norte,Pilsen,PIL-GF600,931.5
+2022-10-01,Norte,Pilsen,PIL-GF600,1011.4
+2022-11-01,Norte,Pilsen,PIL-GF600,1001.5
+2022-12-01,Norte,Pilsen,PIL-GF600,1085.5
+2023-01-01,Norte,Pilsen,PIL-GF600,906.7
+2023-02-01,Norte,Pilsen,PIL-GF600,1262.7
+2023-03-01,Norte,Pilsen,PIL-GF600,1115.8
+2023-04-01,Norte,Pilsen,PIL-GF600,1052.2
+2023-05-01,Norte,Pilsen,PIL-GF600,1004.3
+2023-06-01,Norte,Pilsen,PIL-GF600,989.2
+2023-07-01,Norte,Pilsen,PIL-GF600,997.1
+2023-08-01,Norte,Pilsen,PIL-GF600,911.8
+2023-09-01,Norte,Pilsen,PIL-GF600,919.7
+2023-10-01,Norte,Pilsen,PIL-GF600,947.2
+2023-11-01,Norte,Pilsen,PIL-GF600,1080.5
+2023-12-01,Norte,Pilsen,PIL-GF600,1051.2
+2024-01-01,Norte,Pilsen,PIL-GF600,1111.6
+2024-02-01,Norte,Pilsen,PIL-GF600,1177.8
+2024-03-01,Norte,Pilsen,PIL-GF600,1171.3
+2024-04-01,Norte,Pilsen,PIL-GF600,932.0
+2024-05-01,Norte,Pilsen,PIL-GF600,933.8
+2024-06-01,Norte,Pilsen,PIL-GF600,1243.8
+2024-07-01,Norte,Pilsen,PIL-GF600,946.1
+2024-08-01,Norte,Pilsen,PIL-GF600,934.3
+2024-09-01,Norte,Pilsen,PIL-GF600,943.2
+2024-10-01,Norte,Pilsen,PIL-GF600,976.6
+2024-11-01,Norte,Pilsen,PIL-GF600,987.2
+2024-12-01,Norte,Pilsen,PIL-GF600,1061.5
+2025-01-01,Norte,Pilsen,PIL-GF600,1077.7
+2025-02-01,Norte,Pilsen,PIL-GF600,1154.6
+2025-03-01,Norte,Pilsen,PIL-GF600,1146.9
+2025-04-01,Norte,Pilsen,PIL-GF600,1031.7
+2025-05-01,Norte,Pilsen,PIL-GF600,927.0
+2025-06-01,Norte,Pilsen,PIL-GF600,991.1
+2025-07-01,Norte,Pilsen,PIL-GF600,873.3
+2025-08-01,Norte,Pilsen,PIL-GF600,952.2
+2025-09-01,Norte,Pilsen,PIL-GF600,1014.9
+2025-10-01,Norte,Pilsen,PIL-GF600,1002.1
+2025-11-01,Norte,Pilsen,PIL-GF600,1017.7
+2025-12-01,Norte,Pilsen,PIL-GF600,987.6
+2018-01-01,Norte,Pilsen,PIL-LT473,704.2
+2018-02-01,Norte,Pilsen,PIL-LT473,685.5
+2018-03-01,Norte,Pilsen,PIL-LT473,616.4
+2018-04-01,Norte,Pilsen,PIL-LT473,560.3
+2018-05-01,Norte,Pilsen,PIL-LT473,674.6
+2018-06-01,Norte,Pilsen,PIL-LT473,610.6
+2018-07-01,Norte,Pilsen,PIL-LT473,584.0
+2018-08-01,Norte,Pilsen,PIL-LT473,524.8
+2018-09-01,Norte,Pilsen,PIL-LT473,557.1
+2018-10-01,Norte,Pilsen,PIL-LT473,585.3
+2018-11-01,Norte,Pilsen,PIL-LT473,599.8
+2018-12-01,Norte,Pilsen,PIL-LT473,661.3
+2019-01-01,Norte,Pilsen,PIL-LT473,865.2
+2019-02-01,Norte,Pilsen,PIL-LT473,861.7
+2019-03-01,Norte,Pilsen,PIL-LT473,668.9
+2019-04-01,Norte,Pilsen,PIL-LT473,772.4
+2019-05-01,Norte,Pilsen,PIL-LT473,555.5
+2019-06-01,Norte,Pilsen,PIL-LT473,583.7
+2019-07-01,Norte,Pilsen,PIL-LT473,546.1
+2019-08-01,Norte,Pilsen,PIL-LT473,623.8
+2019-09-01,Norte,Pilsen,PIL-LT473,617.0
+2019-10-01,Norte,Pilsen,PIL-LT473,598.4
+2019-11-01,Norte,Pilsen,PIL-LT473,663.7
+2019-12-01,Norte,Pilsen,PIL-LT473,664.3
+2020-01-01,Norte,Pilsen,PIL-LT473,621.0
+2020-02-01,Norte,Pilsen,PIL-LT473,661.1
+2020-03-01,Norte,Pilsen,PIL-LT473,639.3
+2020-04-01,Norte,Pilsen,PIL-LT473,632.1
+2020-05-01,Norte,Pilsen,PIL-LT473,677.8
+2020-06-01,Norte,Pilsen,PIL-LT473,743.3
+2020-07-01,Norte,Pilsen,PIL-LT473,591.5
+2020-08-01,Norte,Pilsen,PIL-LT473,582.8
+2020-09-01,Norte,Pilsen,PIL-LT473,568.5
+2020-10-01,Norte,Pilsen,PIL-LT473,665.8
+2020-11-01,Norte,Pilsen,PIL-LT473,600.7
+2020-12-01,Norte,Pilsen,PIL-LT473,661.1
+2021-01-01,Norte,Pilsen,PIL-LT473,736.5
+2021-02-01,Norte,Pilsen,PIL-LT473,687.5
+2021-03-01,Norte,Pilsen,PIL-LT473,644.3
+2021-04-01,Norte,Pilsen,PIL-LT473,681.1
+2021-05-01,Norte,Pilsen,PIL-LT473,805.3
+2021-06-01,Norte,Pilsen,PIL-LT473,661.7
+2021-07-01,Norte,Pilsen,PIL-LT473,595.7
+2021-08-01,Norte,Pilsen,PIL-LT473,591.8
+2021-09-01,Norte,Pilsen,PIL-LT473,655.0
+2021-10-01,Norte,Pilsen,PIL-LT473,615.4
+2021-11-01,Norte,Pilsen,PIL-LT473,685.1
+2021-12-01,Norte,Pilsen,PIL-LT473,668.4
+2022-01-01,Norte,Pilsen,PIL-LT473,728.8
+2022-02-01,Norte,Pilsen,PIL-LT473,734.4
+2022-03-01,Norte,Pilsen,PIL-LT473,699.1
+2022-04-01,Norte,Pilsen,PIL-LT473,694.7
+2022-05-01,Norte,Pilsen,PIL-LT473,658.6
+2022-06-01,Norte,Pilsen,PIL-LT473,671.7
+2022-07-01,Norte,Pilsen,PIL-LT473,603.6
+2022-08-01,Norte,Pilsen,PIL-LT473,636.6
+2022-09-01,Norte,Pilsen,PIL-LT473,705.6
+2022-10-01,Norte,Pilsen,PIL-LT473,662.6
+2022-11-01,Norte,Pilsen,PIL-LT473,675.9
+2022-12-01,Norte,Pilsen,PIL-LT473,824.0
+2023-01-01,Norte,Pilsen,PIL-LT473,673.0
+2023-02-01,Norte,Pilsen,PIL-LT473,815.5
+2023-03-01,Norte,Pilsen,PIL-LT473,648.6
+2023-04-01,Norte,Pilsen,PIL-LT473,720.7
+2023-05-01,Norte,Pilsen,PIL-LT473,803.6
+2023-06-01,Norte,Pilsen,PIL-LT473,715.5
+2023-07-01,Norte,Pilsen,PIL-LT473,695.0
+2023-08-01,Norte,Pilsen,PIL-LT473,654.9
+2023-09-01,Norte,Pilsen,PIL-LT473,853.3
+2023-10-01,Norte,Pilsen,PIL-LT473,687.8
+2023-11-01,Norte,Pilsen,PIL-LT473,775.6
+2023-12-01,Norte,Pilsen,PIL-LT473,787.4
+2024-01-01,Norte,Pilsen,PIL-LT473,771.0
+2024-02-01,Norte,Pilsen,PIL-LT473,793.5
+2024-03-01,Norte,Pilsen,PIL-LT473,688.9
+2024-04-01,Norte,Pilsen,PIL-LT473,744.2
+2024-05-01,Norte,Pilsen,PIL-LT473,728.4
+2024-06-01,Norte,Pilsen,PIL-LT473,664.0
+2024-07-01,Norte,Pilsen,PIL-LT473,681.6
+2024-08-01,Norte,Pilsen,PIL-LT473,640.0
+2024-09-01,Norte,Pilsen,PIL-LT473,629.8
+2024-10-01,Norte,Pilsen,PIL-LT473,640.9
+2024-11-01,Norte,Pilsen,PIL-LT473,742.8
+2024-12-01,Norte,Pilsen,PIL-LT473,820.6
+2025-01-01,Norte,Pilsen,PIL-LT473,860.9
+2025-02-01,Norte,Pilsen,PIL-LT473,709.7
+2025-03-01,Norte,Pilsen,PIL-LT473,1107.2
+2025-04-01,Norte,Pilsen,PIL-LT473,766.6
+2025-05-01,Norte,Pilsen,PIL-LT473,714.8
+2025-06-01,Norte,Pilsen,PIL-LT473,780.9
+2025-07-01,Norte,Pilsen,PIL-LT473,678.7
+2025-08-01,Norte,Pilsen,PIL-LT473,688.4
+2025-09-01,Norte,Pilsen,PIL-LT473,722.8
+2025-10-01,Norte,Pilsen,PIL-LT473,747.4
+2025-11-01,Norte,Pilsen,PIL-LT473,748.3
+2025-12-01,Norte,Pilsen,PIL-LT473,781.7
+2018-01-01,Norte,Puro malte,PM-LT350,508.1
+2018-02-01,Norte,Puro malte,PM-LT350,556.5
+2018-03-01,Norte,Puro malte,PM-LT350,521.3
+2018-04-01,Norte,Puro malte,PM-LT350,465.6
+2018-05-01,Norte,Puro malte,PM-LT350,517.9
+2018-06-01,Norte,Puro malte,PM-LT350,472.2
+2018-07-01,Norte,Puro malte,PM-LT350,499.7
+2018-08-01,Norte,Puro malte,PM-LT350,467.6
+2018-09-01,Norte,Puro malte,PM-LT350,490.9
+2018-10-01,Norte,Puro malte,PM-LT350,475.6
+2018-11-01,Norte,Puro malte,PM-LT350,497.9
+2018-12-01,Norte,Puro malte,PM-LT350,591.7
+2019-01-01,Norte,Puro malte,PM-LT350,554.0
+2019-02-01,Norte,Puro malte,PM-LT350,690.7
+2019-03-01,Norte,Puro malte,PM-LT350,591.0
+2019-04-01,Norte,Puro malte,PM-LT350,531.2
+2019-05-01,Norte,Puro malte,PM-LT350,525.6
+2019-06-01,Norte,Puro malte,PM-LT350,555.7
+2019-07-01,Norte,Puro malte,PM-LT350,495.4
+2019-08-01,Norte,Puro malte,PM-LT350,563.7
+2019-09-01,Norte,Puro malte,PM-LT350,553.5
+2019-10-01,Norte,Puro malte,PM-LT350,497.0
+2019-11-01,Norte,Puro malte,PM-LT350,537.5
+2019-12-01,Norte,Puro malte,PM-LT350,542.7
+2020-01-01,Norte,Puro malte,PM-LT350,582.4
+2020-02-01,Norte,Puro malte,PM-LT350,626.4
+2020-03-01,Norte,Puro malte,PM-LT350,655.1
+2020-04-01,Norte,Puro malte,PM-LT350,644.1
+2020-05-01,Norte,Puro malte,PM-LT350,676.7
+2020-06-01,Norte,Puro malte,PM-LT350,590.4
+2020-07-01,Norte,Puro malte,PM-LT350,511.0
+2020-08-01,Norte,Puro malte,PM-LT350,567.3
+2020-09-01,Norte,Puro malte,PM-LT350,633.9
+2020-10-01,Norte,Puro malte,PM-LT350,557.0
+2020-11-01,Norte,Puro malte,PM-LT350,576.0
+2020-12-01,Norte,Puro malte,PM-LT350,670.5
+2021-01-01,Norte,Puro malte,PM-LT350,647.6
+2021-02-01,Norte,Puro malte,PM-LT350,812.8
+2021-03-01,Norte,Puro malte,PM-LT350,612.5
+2021-04-01,Norte,Puro malte,PM-LT350,635.5
+2021-05-01,Norte,Puro malte,PM-LT350,643.6
+2021-06-01,Norte,Puro malte,PM-LT350,660.5
+2021-07-01,Norte,Puro malte,PM-LT350,618.1
+2021-08-01,Norte,Puro malte,PM-LT350,636.3
+2021-09-01,Norte,Puro malte,PM-LT350,602.2
+2021-10-01,Norte,Puro malte,PM-LT350,606.0
+2021-11-01,Norte,Puro malte,PM-LT350,574.4
+2021-12-01,Norte,Puro malte,PM-LT350,666.5
+2022-01-01,Norte,Puro malte,PM-LT350,835.7
+2022-02-01,Norte,Puro malte,PM-LT350,724.4
+2022-03-01,Norte,Puro malte,PM-LT350,853.6
+2022-04-01,Norte,Puro malte,PM-LT350,686.4
+2022-05-01,Norte,Puro malte,PM-LT350,616.9
+2022-06-01,Norte,Puro malte,PM-LT350,769.1
+2022-07-01,Norte,Puro malte,PM-LT350,685.6
+2022-08-01,Norte,Puro malte,PM-LT350,805.2
+2022-09-01,Norte,Puro malte,PM-LT350,661.5
+2022-10-01,Norte,Puro malte,PM-LT350,693.4
+2022-11-01,Norte,Puro malte,PM-LT350,833.9
+2022-12-01,Norte,Puro malte,PM-LT350,762.5
+2023-01-01,Norte,Puro malte,PM-LT350,786.3
+2023-02-01,Norte,Puro malte,PM-LT350,831.8
+2023-03-01,Norte,Puro malte,PM-LT350,710.8
+2023-04-01,Norte,Puro malte,PM-LT350,718.0
+2023-05-01,Norte,Puro malte,PM-LT350,685.7
+2023-06-01,Norte,Puro malte,PM-LT350,763.3
+2023-07-01,Norte,Puro malte,PM-LT350,712.5
+2023-08-01,Norte,Puro malte,PM-LT350,636.4
+2023-09-01,Norte,Puro malte,PM-LT350,733.0
+2023-10-01,Norte,Puro malte,PM-LT350,731.0
+2023-11-01,Norte,Puro malte,PM-LT350,797.2
+2023-12-01,Norte,Puro malte,PM-LT350,813.9
+2024-01-01,Norte,Puro malte,PM-LT350,918.7
+2024-02-01,Norte,Puro malte,PM-LT350,964.4
+2024-03-01,Norte,Puro malte,PM-LT350,1006.1
+2024-04-01,Norte,Puro malte,PM-LT350,788.9
+2024-05-01,Norte,Puro malte,PM-LT350,923.5
+2024-06-01,Norte,Puro malte,PM-LT350,866.4
+2024-07-01,Norte,Puro malte,PM-LT350,776.0
+2024-08-01,Norte,Puro malte,PM-LT350,785.6
+2024-09-01,Norte,Puro malte,PM-LT350,809.8
+2024-10-01,Norte,Puro malte,PM-LT350,890.3
+2024-11-01,Norte,Puro malte,PM-LT350,920.3
+2024-12-01,Norte,Puro malte,PM-LT350,937.1
+2025-01-01,Norte,Puro malte,PM-LT350,1026.8
+2025-02-01,Norte,Puro malte,PM-LT350,927.5
+2025-03-01,Norte,Puro malte,PM-LT350,926.3
+2025-04-01,Norte,Puro malte,PM-LT350,889.1
+2025-05-01,Norte,Puro malte,PM-LT350,860.2
+2025-06-01,Norte,Puro malte,PM-LT350,855.0
+2025-07-01,Norte,Puro malte,PM-LT350,747.4
+2025-08-01,Norte,Puro malte,PM-LT350,896.9
+2025-09-01,Norte,Puro malte,PM-LT350,926.0
+2025-10-01,Norte,Puro malte,PM-LT350,840.8
+2025-11-01,Norte,Puro malte,PM-LT350,970.8
+2025-12-01,Norte,Puro malte,PM-LT350,950.6
+2018-01-01,Norte,Puro malte,PM-LN355,278.7
+2018-02-01,Norte,Puro malte,PM-LN355,359.0
+2018-03-01,Norte,Puro malte,PM-LN355,316.5
+2018-04-01,Norte,Puro malte,PM-LN355,296.8
+2018-05-01,Norte,Puro malte,PM-LN355,301.2
+2018-06-01,Norte,Puro malte,PM-LN355,327.1
+2018-07-01,Norte,Puro malte,PM-LN355,331.4
+2018-08-01,Norte,Puro malte,PM-LN355,268.9
+2018-09-01,Norte,Puro malte,PM-LN355,322.3
+2018-10-01,Norte,Puro malte,PM-LN355,305.1
+2018-11-01,Norte,Puro malte,PM-LN355,314.7
+2018-12-01,Norte,Puro malte,PM-LN355,317.0
+2019-01-01,Norte,Puro malte,PM-LN355,364.4
+2019-02-01,Norte,Puro malte,PM-LN355,313.3
+2019-03-01,Norte,Puro malte,PM-LN355,373.4
+2019-04-01,Norte,Puro malte,PM-LN355,341.8
+2019-05-01,Norte,Puro malte,PM-LN355,314.7
+2019-06-01,Norte,Puro malte,PM-LN355,303.9
+2019-07-01,Norte,Puro malte,PM-LN355,337.9
+2019-08-01,Norte,Puro malte,PM-LN355,287.5
+2019-09-01,Norte,Puro malte,PM-LN355,323.1
+2019-10-01,Norte,Puro malte,PM-LN355,318.6
+2019-11-01,Norte,Puro malte,PM-LN355,314.2
+2019-12-01,Norte,Puro malte,PM-LN355,375.6
+2020-01-01,Norte,Puro malte,PM-LN355,342.6
+2020-02-01,Norte,Puro malte,PM-LN355,346.6
+2020-03-01,Norte,Puro malte,PM-LN355,358.1
+2020-04-01,Norte,Puro malte,PM-LN355,139.4
+2020-05-01,Norte,Puro malte,PM-LN355,157.9
+2020-06-01,Norte,Puro malte,PM-LN355,225.8
+2020-07-01,Norte,Puro malte,PM-LN355,255.1
+2020-08-01,Norte,Puro malte,PM-LN355,261.9
+2020-09-01,Norte,Puro malte,PM-LN355,326.1
+2020-10-01,Norte,Puro malte,PM-LN355,351.2
+2020-11-01,Norte,Puro malte,PM-LN355,315.3
+2020-12-01,Norte,Puro malte,PM-LN355,337.2
+2021-01-01,Norte,Puro malte,PM-LN355,431.6
+2021-02-01,Norte,Puro malte,PM-LN355,353.7
+2021-03-01,Norte,Puro malte,PM-LN355,333.7
+2021-04-01,Norte,Puro malte,PM-LN355,320.8
+2021-05-01,Norte,Puro malte,PM-LN355,379.0
+2021-06-01,Norte,Puro malte,PM-LN355,333.8
+2021-07-01,Norte,Puro malte,PM-LN355,343.9
+2021-08-01,Norte,Puro malte,PM-LN355,329.6
+2021-09-01,Norte,Puro malte,PM-LN355,348.2
+2021-10-01,Norte,Puro malte,PM-LN355,372.8
+2021-11-01,Norte,Puro malte,PM-LN355,388.6
+2021-12-01,Norte,Puro malte,PM-LN355,370.6
+2022-01-01,Norte,Puro malte,PM-LN355,387.5
+2022-02-01,Norte,Puro malte,PM-LN355,362.7
+2022-03-01,Norte,Puro malte,PM-LN355,402.8
+2022-04-01,Norte,Puro malte,PM-LN355,399.0
+2022-05-01,Norte,Puro malte,PM-LN355,362.5
+2022-06-01,Norte,Puro malte,PM-LN355,388.9
+2022-07-01,Norte,Puro malte,PM-LN355,409.7
+2022-08-01,Norte,Puro malte,PM-LN355,326.3
+2022-09-01,Norte,Puro malte,PM-LN355,405.8
+2022-10-01,Norte,Puro malte,PM-LN355,354.7
+2022-11-01,Norte,Puro malte,PM-LN355,478.9
+2022-12-01,Norte,Puro malte,PM-LN355,430.1
+2023-01-01,Norte,Puro malte,PM-LN355,437.8
+2023-02-01,Norte,Puro malte,PM-LN355,529.7
+2023-03-01,Norte,Puro malte,PM-LN355,401.1
+2023-04-01,Norte,Puro malte,PM-LN355,447.5
+2023-05-01,Norte,Puro malte,PM-LN355,396.3
+2023-06-01,Norte,Puro malte,PM-LN355,441.3
+2023-07-01,Norte,Puro malte,PM-LN355,399.0
+2023-08-01,Norte,Puro malte,PM-LN355,380.8
+2023-09-01,Norte,Puro malte,PM-LN355,344.8
+2023-10-01,Norte,Puro malte,PM-LN355,423.7
+2023-11-01,Norte,Puro malte,PM-LN355,436.7
+2023-12-01,Norte,Puro malte,PM-LN355,461.1
+2024-01-01,Norte,Puro malte,PM-LN355,456.6
+2024-02-01,Norte,Puro malte,PM-LN355,474.3
+2024-03-01,Norte,Puro malte,PM-LN355,429.2
+2024-04-01,Norte,Puro malte,PM-LN355,401.1
+2024-05-01,Norte,Puro malte,PM-LN355,389.5
+2024-06-01,Norte,Puro malte,PM-LN355,452.5
+2024-07-01,Norte,Puro malte,PM-LN355,406.5
+2024-08-01,Norte,Puro malte,PM-LN355,362.5
+2024-09-01,Norte,Puro malte,PM-LN355,435.6
+2024-10-01,Norte,Puro malte,PM-LN355,412.7
+2024-11-01,Norte,Puro malte,PM-LN355,471.2
+2024-12-01,Norte,Puro malte,PM-LN355,483.5
+2025-01-01,Norte,Puro malte,PM-LN355,521.0
+2025-02-01,Norte,Puro malte,PM-LN355,514.7
+2025-03-01,Norte,Puro malte,PM-LN355,503.2
+2025-04-01,Norte,Puro malte,PM-LN355,565.5
+2025-05-01,Norte,Puro malte,PM-LN355,434.9
+2025-06-01,Norte,Puro malte,PM-LN355,515.3
+2025-07-01,Norte,Puro malte,PM-LN355,481.1
+2025-08-01,Norte,Puro malte,PM-LN355,424.7
+2025-09-01,Norte,Puro malte,PM-LN355,466.3
+2025-10-01,Norte,Puro malte,PM-LN355,426.7
+2025-11-01,Norte,Puro malte,PM-LN355,453.3
+2025-12-01,Norte,Puro malte,PM-LN355,452.3
+2018-01-01,Norte,Puro malte,PM-LT473,297.2
+2018-02-01,Norte,Puro malte,PM-LT473,276.8
+2018-03-01,Norte,Puro malte,PM-LT473,273.5
+2018-04-01,Norte,Puro malte,PM-LT473,208.6
+2018-05-01,Norte,Puro malte,PM-LT473,240.7
+2018-06-01,Norte,Puro malte,PM-LT473,272.1
+2018-07-01,Norte,Puro malte,PM-LT473,253.1
+2018-08-01,Norte,Puro malte,PM-LT473,239.8
+2018-09-01,Norte,Puro malte,PM-LT473,261.8
+2018-10-01,Norte,Puro malte,PM-LT473,281.1
+2018-11-01,Norte,Puro malte,PM-LT473,249.7
+2018-12-01,Norte,Puro malte,PM-LT473,301.4
+2019-01-01,Norte,Puro malte,PM-LT473,280.5
+2019-02-01,Norte,Puro malte,PM-LT473,300.9
+2019-03-01,Norte,Puro malte,PM-LT473,291.1
+2019-04-01,Norte,Puro malte,PM-LT473,287.5
+2019-05-01,Norte,Puro malte,PM-LT473,236.3
+2019-06-01,Norte,Puro malte,PM-LT473,255.7
+2019-07-01,Norte,Puro malte,PM-LT473,315.0
+2019-08-01,Norte,Puro malte,PM-LT473,311.2
+2019-09-01,Norte,Puro malte,PM-LT473,274.5
+2019-10-01,Norte,Puro malte,PM-LT473,308.8
+2019-11-01,Norte,Puro malte,PM-LT473,304.6
+2019-12-01,Norte,Puro malte,PM-LT473,308.6
+2020-01-01,Norte,Puro malte,PM-LT473,323.8
+2020-02-01,Norte,Puro malte,PM-LT473,320.4
+2020-03-01,Norte,Puro malte,PM-LT473,265.7
+2020-04-01,Norte,Puro malte,PM-LT473,372.2
+2020-05-01,Norte,Puro malte,PM-LT473,291.2
+2020-06-01,Norte,Puro malte,PM-LT473,352.4
+2020-07-01,Norte,Puro malte,PM-LT473,286.9
+2020-08-01,Norte,Puro malte,PM-LT473,285.3
+2020-09-01,Norte,Puro malte,PM-LT473,277.2
+2020-10-01,Norte,Puro malte,PM-LT473,357.0
+2020-11-01,Norte,Puro malte,PM-LT473,297.9
+2020-12-01,Norte,Puro malte,PM-LT473,355.4
+2021-01-01,Norte,Puro malte,PM-LT473,361.9
+2021-02-01,Norte,Puro malte,PM-LT473,321.4
+2021-03-01,Norte,Puro malte,PM-LT473,389.6
+2021-04-01,Norte,Puro malte,PM-LT473,342.5
+2021-05-01,Norte,Puro malte,PM-LT473,327.3
+2021-06-01,Norte,Puro malte,PM-LT473,308.5
+2021-07-01,Norte,Puro malte,PM-LT473,331.7
+2021-08-01,Norte,Puro malte,PM-LT473,341.7
+2021-09-01,Norte,Puro malte,PM-LT473,351.6
+2021-10-01,Norte,Puro malte,PM-LT473,304.4
+2021-11-01,Norte,Puro malte,PM-LT473,383.4
+2021-12-01,Norte,Puro malte,PM-LT473,423.6
+2022-01-01,Norte,Puro malte,PM-LT473,381.7
+2022-02-01,Norte,Puro malte,PM-LT473,420.3
+2022-03-01,Norte,Puro malte,PM-LT473,345.3
+2022-04-01,Norte,Puro malte,PM-LT473,366.2
+2022-05-01,Norte,Puro malte,PM-LT473,371.3
+2022-06-01,Norte,Puro malte,PM-LT473,419.7
+2022-07-01,Norte,Puro malte,PM-LT473,350.7
+2022-08-01,Norte,Puro malte,PM-LT473,331.0
+2022-09-01,Norte,Puro malte,PM-LT473,329.1
+2022-10-01,Norte,Puro malte,PM-LT473,365.6
+2022-11-01,Norte,Puro malte,PM-LT473,438.4
+2022-12-01,Norte,Puro malte,PM-LT473,472.4
+2023-01-01,Norte,Puro malte,PM-LT473,410.6
+2023-02-01,Norte,Puro malte,PM-LT473,425.2
+2023-03-01,Norte,Puro malte,PM-LT473,499.6
+2023-04-01,Norte,Puro malte,PM-LT473,441.4
+2023-05-01,Norte,Puro malte,PM-LT473,400.5
+2023-06-01,Norte,Puro malte,PM-LT473,412.7
+2023-07-01,Norte,Puro malte,PM-LT473,414.8
+2023-08-01,Norte,Puro malte,PM-LT473,367.1
+2023-09-01,Norte,Puro malte,PM-LT473,396.1
+2023-10-01,Norte,Puro malte,PM-LT473,409.0
+2023-11-01,Norte,Puro malte,PM-LT473,397.7
+2023-12-01,Norte,Puro malte,PM-LT473,420.3
+2024-01-01,Norte,Puro malte,PM-LT473,460.8
+2024-02-01,Norte,Puro malte,PM-LT473,529.5
+2024-03-01,Norte,Puro malte,PM-LT473,447.9
+2024-04-01,Norte,Puro malte,PM-LT473,462.6
+2024-05-01,Norte,Puro malte,PM-LT473,464.7
+2024-06-01,Norte,Puro malte,PM-LT473,491.7
+2024-07-01,Norte,Puro malte,PM-LT473,448.4
+2024-08-01,Norte,Puro malte,PM-LT473,460.7
+2024-09-01,Norte,Puro malte,PM-LT473,462.4
+2024-10-01,Norte,Puro malte,PM-LT473,468.6
+2024-11-01,Norte,Puro malte,PM-LT473,479.2
+2024-12-01,Norte,Puro malte,PM-LT473,533.7
+2025-01-01,Norte,Puro malte,PM-LT473,547.1
+2025-02-01,Norte,Puro malte,PM-LT473,504.5
+2025-03-01,Norte,Puro malte,PM-LT473,521.2
+2025-04-01,Norte,Puro malte,PM-LT473,519.2
+2025-05-01,Norte,Puro malte,PM-LT473,494.4
+2025-06-01,Norte,Puro malte,PM-LT473,584.3
+2025-07-01,Norte,Puro malte,PM-LT473,471.1
+2025-08-01,Norte,Puro malte,PM-LT473,516.8
+2025-09-01,Norte,Puro malte,PM-LT473,528.8
+2025-10-01,Norte,Puro malte,PM-LT473,490.2
+2025-11-01,Norte,Puro malte,PM-LT473,576.8
+2025-12-01,Norte,Puro malte,PM-LT473,524.8
+2018-01-01,Norte,Premium,PR-LN330,271.8
+2018-02-01,Norte,Premium,PR-LN330,333.1
+2018-03-01,Norte,Premium,PR-LN330,303.8
+2018-04-01,Norte,Premium,PR-LN330,302.7
+2018-05-01,Norte,Premium,PR-LN330,339.8
+2018-06-01,Norte,Premium,PR-LN330,304.8
+2018-07-01,Norte,Premium,PR-LN330,290.8
+2018-08-01,Norte,Premium,PR-LN330,314.4
+2018-09-01,Norte,Premium,PR-LN330,329.6
+2018-10-01,Norte,Premium,PR-LN330,265.3
+2018-11-01,Norte,Premium,PR-LN330,287.0
+2018-12-01,Norte,Premium,PR-LN330,363.0
+2019-01-01,Norte,Premium,PR-LN330,317.0
+2019-02-01,Norte,Premium,PR-LN330,369.0
+2019-03-01,Norte,Premium,PR-LN330,358.9
+2019-04-01,Norte,Premium,PR-LN330,320.0
+2019-05-01,Norte,Premium,PR-LN330,307.1
+2019-06-01,Norte,Premium,PR-LN330,325.3
+2019-07-01,Norte,Premium,PR-LN330,306.2
+2019-08-01,Norte,Premium,PR-LN330,289.2
+2019-09-01,Norte,Premium,PR-LN330,376.2
+2019-10-01,Norte,Premium,PR-LN330,299.9
+2019-11-01,Norte,Premium,PR-LN330,310.8
+2019-12-01,Norte,Premium,PR-LN330,339.8
+2020-01-01,Norte,Premium,PR-LN330,365.3
+2020-02-01,Norte,Premium,PR-LN330,447.8
+2020-03-01,Norte,Premium,PR-LN330,391.8
+2020-04-01,Norte,Premium,PR-LN330,152.1
+2020-05-01,Norte,Premium,PR-LN330,163.5
+2020-06-01,Norte,Premium,PR-LN330,217.8
+2020-07-01,Norte,Premium,PR-LN330,239.6
+2020-08-01,Norte,Premium,PR-LN330,260.5
+2020-09-01,Norte,Premium,PR-LN330,308.3
+2020-10-01,Norte,Premium,PR-LN330,362.9
+2020-11-01,Norte,Premium,PR-LN330,397.3
+2020-12-01,Norte,Premium,PR-LN330,352.0
+2021-01-01,Norte,Premium,PR-LN330,358.2
+2021-02-01,Norte,Premium,PR-LN330,359.7
+2021-03-01,Norte,Premium,PR-LN330,333.6
+2021-04-01,Norte,Premium,PR-LN330,345.1
+2021-05-01,Norte,Premium,PR-LN330,320.5
+2021-06-01,Norte,Premium,PR-LN330,401.4
+2021-07-01,Norte,Premium,PR-LN330,359.7
+2021-08-01,Norte,Premium,PR-LN330,339.1
+2021-09-01,Norte,Premium,PR-LN330,387.6
+2021-10-01,Norte,Premium,PR-LN330,375.7
+2021-11-01,Norte,Premium,PR-LN330,441.3
+2021-12-01,Norte,Premium,PR-LN330,515.2
+2022-01-01,Norte,Premium,PR-LN330,406.7
+2022-02-01,Norte,Premium,PR-LN330,433.9
+2022-03-01,Norte,Premium,PR-LN330,428.3
+2022-04-01,Norte,Premium,PR-LN330,395.8
+2022-05-01,Norte,Premium,PR-LN330,361.2
+2022-06-01,Norte,Premium,PR-LN330,401.4
+2022-07-01,Norte,Premium,PR-LN330,384.7
+2022-08-01,Norte,Premium,PR-LN330,353.3
+2022-09-01,Norte,Premium,PR-LN330,423.6
+2022-10-01,Norte,Premium,PR-LN330,363.2
+2022-11-01,Norte,Premium,PR-LN330,436.6
+2022-12-01,Norte,Premium,PR-LN330,461.8
+2023-01-01,Norte,Premium,PR-LN330,433.5
+2023-02-01,Norte,Premium,PR-LN330,501.5
+2023-03-01,Norte,Premium,PR-LN330,450.6
+2023-04-01,Norte,Premium,PR-LN330,431.4
+2023-05-01,Norte,Premium,PR-LN330,376.9
+2023-06-01,Norte,Premium,PR-LN330,405.9
+2023-07-01,Norte,Premium,PR-LN330,419.3
+2023-08-01,Norte,Premium,PR-LN330,457.9
+2023-09-01,Norte,Premium,PR-LN330,353.9
+2023-10-01,Norte,Premium,PR-LN330,423.5
+2023-11-01,Norte,Premium,PR-LN330,453.9
+2023-12-01,Norte,Premium,PR-LN330,470.6
+2024-01-01,Norte,Premium,PR-LN330,477.1
+2024-02-01,Norte,Premium,PR-LN330,547.1
+2024-03-01,Norte,Premium,PR-LN330,448.2
+2024-04-01,Norte,Premium,PR-LN330,458.4
+2024-05-01,Norte,Premium,PR-LN330,435.1
+2024-06-01,Norte,Premium,PR-LN330,435.4
+2024-07-01,Norte,Premium,PR-LN330,445.9
+2024-08-01,Norte,Premium,PR-LN330,459.1
+2024-09-01,Norte,Premium,PR-LN330,431.6
+2024-10-01,Norte,Premium,PR-LN330,469.4
+2024-11-01,Norte,Premium,PR-LN330,487.1
+2024-12-01,Norte,Premium,PR-LN330,490.9
+2025-01-01,Norte,Premium,PR-LN330,514.1
+2025-02-01,Norte,Premium,PR-LN330,583.9
+2025-03-01,Norte,Premium,PR-LN330,536.2
+2025-04-01,Norte,Premium,PR-LN330,480.1
+2025-05-01,Norte,Premium,PR-LN330,524.9
+2025-06-01,Norte,Premium,PR-LN330,543.7
+2025-07-01,Norte,Premium,PR-LN330,490.1
+2025-08-01,Norte,Premium,PR-LN330,469.1
+2025-09-01,Norte,Premium,PR-LN330,487.5
+2025-10-01,Norte,Premium,PR-LN330,520.6
+2025-11-01,Norte,Premium,PR-LN330,544.9
+2025-12-01,Norte,Premium,PR-LN330,533.0
+2018-01-01,Norte,Premium,PR-GF600,217.9
+2018-02-01,Norte,Premium,PR-GF600,208.1
+2018-03-01,Norte,Premium,PR-GF600,213.9
+2018-04-01,Norte,Premium,PR-GF600,184.5
+2018-05-01,Norte,Premium,PR-GF600,173.4
+2018-06-01,Norte,Premium,PR-GF600,174.5
+2018-07-01,Norte,Premium,PR-GF600,161.5
+2018-08-01,Norte,Premium,PR-GF600,221.7
+2018-09-01,Norte,Premium,PR-GF600,196.4
+2018-10-01,Norte,Premium,PR-GF600,189.1
+2018-11-01,Norte,Premium,PR-GF600,212.8
+2018-12-01,Norte,Premium,PR-GF600,280.9
+2019-01-01,Norte,Premium,PR-GF600,218.8
+2019-02-01,Norte,Premium,PR-GF600,225.9
+2019-03-01,Norte,Premium,PR-GF600,226.6
+2019-04-01,Norte,Premium,PR-GF600,188.3
+2019-05-01,Norte,Premium,PR-GF600,196.3
+2019-06-01,Norte,Premium,PR-GF600,205.9
+2019-07-01,Norte,Premium,PR-GF600,192.2
+2019-08-01,Norte,Premium,PR-GF600,168.5
+2019-09-01,Norte,Premium,PR-GF600,192.7
+2019-10-01,Norte,Premium,PR-GF600,232.9
+2019-11-01,Norte,Premium,PR-GF600,195.8
+2019-12-01,Norte,Premium,PR-GF600,212.7
+2020-01-01,Norte,Premium,PR-GF600,291.7
+2020-02-01,Norte,Premium,PR-GF600,263.5
+2020-03-01,Norte,Premium,PR-GF600,213.0
+2020-04-01,Norte,Premium,PR-GF600,96.5
+2020-05-01,Norte,Premium,PR-GF600,108.1
+2020-06-01,Norte,Premium,PR-GF600,122.2
+2020-07-01,Norte,Premium,PR-GF600,142.3
+2020-08-01,Norte,Premium,PR-GF600,199.5
+2020-09-01,Norte,Premium,PR-GF600,222.3
+2020-10-01,Norte,Premium,PR-GF600,202.2
+2020-11-01,Norte,Premium,PR-GF600,209.0
+2020-12-01,Norte,Premium,PR-GF600,212.5
+2021-01-01,Norte,Premium,PR-GF600,254.6
+2021-02-01,Norte,Premium,PR-GF600,249.2
+2021-03-01,Norte,Premium,PR-GF600,215.6
+2021-04-01,Norte,Premium,PR-GF600,187.7
+2021-05-01,Norte,Premium,PR-GF600,200.6
+2021-06-01,Norte,Premium,PR-GF600,211.4
+2021-07-01,Norte,Premium,PR-GF600,207.1
+2021-08-01,Norte,Premium,PR-GF600,212.7
+2021-09-01,Norte,Premium,PR-GF600,246.9
+2021-10-01,Norte,Premium,PR-GF600,263.1
+2021-11-01,Norte,Premium,PR-GF600,213.2
+2021-12-01,Norte,Premium,PR-GF600,240.7
+2022-01-01,Norte,Premium,PR-GF600,227.5
+2022-02-01,Norte,Premium,PR-GF600,231.9
+2022-03-01,Norte,Premium,PR-GF600,249.1
+2022-04-01,Norte,Premium,PR-GF600,261.2
+2022-05-01,Norte,Premium,PR-GF600,245.2
+2022-06-01,Norte,Premium,PR-GF600,226.6
+2022-07-01,Norte,Premium,PR-GF600,199.2
+2022-08-01,Norte,Premium,PR-GF600,200.2
+2022-09-01,Norte,Premium,PR-GF600,236.9
+2022-10-01,Norte,Premium,PR-GF600,227.2
+2022-11-01,Norte,Premium,PR-GF600,228.9
+2022-12-01,Norte,Premium,PR-GF600,280.8
+2023-01-01,Norte,Premium,PR-GF600,248.9
+2023-02-01,Norte,Premium,PR-GF600,247.1
+2023-03-01,Norte,Premium,PR-GF600,288.1
+2023-04-01,Norte,Premium,PR-GF600,246.3
+2023-05-01,Norte,Premium,PR-GF600,255.6
+2023-06-01,Norte,Premium,PR-GF600,259.8
+2023-07-01,Norte,Premium,PR-GF600,266.2
+2023-08-01,Norte,Premium,PR-GF600,232.1
+2023-09-01,Norte,Premium,PR-GF600,236.4
+2023-10-01,Norte,Premium,PR-GF600,209.1
+2023-11-01,Norte,Premium,PR-GF600,214.3
+2023-12-01,Norte,Premium,PR-GF600,265.9
+2024-01-01,Norte,Premium,PR-GF600,277.3
+2024-02-01,Norte,Premium,PR-GF600,288.8
+2024-03-01,Norte,Premium,PR-GF600,268.2
+2024-04-01,Norte,Premium,PR-GF600,267.2
+2024-05-01,Norte,Premium,PR-GF600,228.5
+2024-06-01,Norte,Premium,PR-GF600,263.0
+2024-07-01,Norte,Premium,PR-GF600,263.5
+2024-08-01,Norte,Premium,PR-GF600,237.6
+2024-09-01,Norte,Premium,PR-GF600,276.9
+2024-10-01,Norte,Premium,PR-GF600,259.9
+2024-11-01,Norte,Premium,PR-GF600,275.5
+2024-12-01,Norte,Premium,PR-GF600,276.7
+2025-01-01,Norte,Premium,PR-GF600,235.8
+2025-02-01,Norte,Premium,PR-GF600,356.3
+2025-03-01,Norte,Premium,PR-GF600,283.0
+2025-04-01,Norte,Premium,PR-GF600,288.9
+2025-05-01,Norte,Premium,PR-GF600,268.9
+2025-06-01,Norte,Premium,PR-GF600,266.9
+2025-07-01,Norte,Premium,PR-GF600,245.4
+2025-08-01,Norte,Premium,PR-GF600,249.8
+2025-09-01,Norte,Premium,PR-GF600,290.7
+2025-10-01,Norte,Premium,PR-GF600,272.6
+2025-11-01,Norte,Premium,PR-GF600,285.4
+2025-12-01,Norte,Premium,PR-GF600,294.6
+2022-03-01,Norte,Sem álcool,SA-LT350,4.3
+2022-04-01,Norte,Sem álcool,SA-LT350,11.9
+2022-05-01,Norte,Sem álcool,SA-LT350,25.2
+2022-06-01,Norte,Sem álcool,SA-LT350,31.4
+2022-07-01,Norte,Sem álcool,SA-LT350,60.4
+2022-08-01,Norte,Sem álcool,SA-LT350,63.3
+2022-09-01,Norte,Sem álcool,SA-LT350,79.8
+2022-10-01,Norte,Sem álcool,SA-LT350,123.1
+2022-11-01,Norte,Sem álcool,SA-LT350,145.6
+2022-12-01,Norte,Sem álcool,SA-LT350,175.3
+2023-01-01,Norte,Sem álcool,SA-LT350,172.0
+2023-02-01,Norte,Sem álcool,SA-LT350,196.0
+2023-03-01,Norte,Sem álcool,SA-LT350,175.0
+2023-04-01,Norte,Sem álcool,SA-LT350,168.0
+2023-05-01,Norte,Sem álcool,SA-LT350,181.5
+2023-06-01,Norte,Sem álcool,SA-LT350,191.8
+2023-07-01,Norte,Sem álcool,SA-LT350,163.9
+2023-08-01,Norte,Sem álcool,SA-LT350,168.8
+2023-09-01,Norte,Sem álcool,SA-LT350,184.7
+2023-10-01,Norte,Sem álcool,SA-LT350,185.8
+2023-11-01,Norte,Sem álcool,SA-LT350,222.5
+2023-12-01,Norte,Sem álcool,SA-LT350,192.8
+2024-01-01,Norte,Sem álcool,SA-LT350,205.7
+2024-02-01,Norte,Sem álcool,SA-LT350,285.1
+2024-03-01,Norte,Sem álcool,SA-LT350,239.7
+2024-04-01,Norte,Sem álcool,SA-LT350,220.5
+2024-05-01,Norte,Sem álcool,SA-LT350,214.1
+2024-06-01,Norte,Sem álcool,SA-LT350,249.5
+2024-07-01,Norte,Sem álcool,SA-LT350,237.1
+2024-08-01,Norte,Sem álcool,SA-LT350,269.0
+2024-09-01,Norte,Sem álcool,SA-LT350,238.3
+2024-10-01,Norte,Sem álcool,SA-LT350,244.8
+2024-11-01,Norte,Sem álcool,SA-LT350,262.1
+2024-12-01,Norte,Sem álcool,SA-LT350,347.8
+2025-01-01,Norte,Sem álcool,SA-LT350,272.1
+2025-02-01,Norte,Sem álcool,SA-LT350,416.2
+2025-03-01,Norte,Sem álcool,SA-LT350,340.8
+2025-04-01,Norte,Sem álcool,SA-LT350,263.1
+2025-05-01,Norte,Sem álcool,SA-LT350,339.2
+2025-06-01,Norte,Sem álcool,SA-LT350,304.1
+2025-07-01,Norte,Sem álcool,SA-LT350,279.3
+2025-08-01,Norte,Sem álcool,SA-LT350,297.4
+2025-09-01,Norte,Sem álcool,SA-LT350,303.9
+2025-10-01,Norte,Sem álcool,SA-LT350,358.6
+2025-11-01,Norte,Sem álcool,SA-LT350,355.1
+2025-12-01,Norte,Sem álcool,SA-LT350,364.2
+2022-03-01,Norte,Sem álcool,SA-LN355,3.0
+2022-04-01,Norte,Sem álcool,SA-LN355,7.4
+2022-05-01,Norte,Sem álcool,SA-LN355,12.2
+2022-06-01,Norte,Sem álcool,SA-LN355,18.1
+2022-07-01,Norte,Sem álcool,SA-LN355,28.8
+2022-08-01,Norte,Sem álcool,SA-LN355,32.8
+2022-09-01,Norte,Sem álcool,SA-LN355,63.3
+2022-10-01,Norte,Sem álcool,SA-LN355,61.8
+2022-11-01,Norte,Sem álcool,SA-LN355,88.1
+2022-12-01,Norte,Sem álcool,SA-LN355,92.0
+2023-01-01,Norte,Sem álcool,SA-LN355,95.8
+2023-02-01,Norte,Sem álcool,SA-LN355,100.2
+2023-03-01,Norte,Sem álcool,SA-LN355,118.6
+2023-04-01,Norte,Sem álcool,SA-LN355,105.7
+2023-05-01,Norte,Sem álcool,SA-LN355,105.6
+2023-06-01,Norte,Sem álcool,SA-LN355,108.8
+2023-07-01,Norte,Sem álcool,SA-LN355,98.5
+2023-08-01,Norte,Sem álcool,SA-LN355,115.7
+2023-09-01,Norte,Sem álcool,SA-LN355,113.6
+2023-10-01,Norte,Sem álcool,SA-LN355,110.4
+2023-11-01,Norte,Sem álcool,SA-LN355,136.5
+2023-12-01,Norte,Sem álcool,SA-LN355,108.2
+2024-01-01,Norte,Sem álcool,SA-LN355,131.5
+2024-02-01,Norte,Sem álcool,SA-LN355,143.4
+2024-03-01,Norte,Sem álcool,SA-LN355,132.7
+2024-04-01,Norte,Sem álcool,SA-LN355,124.9
+2024-05-01,Norte,Sem álcool,SA-LN355,143.3
+2024-06-01,Norte,Sem álcool,SA-LN355,119.4
+2024-07-01,Norte,Sem álcool,SA-LN355,126.5
+2024-08-01,Norte,Sem álcool,SA-LN355,162.6
+2024-09-01,Norte,Sem álcool,SA-LN355,142.6
+2024-10-01,Norte,Sem álcool,SA-LN355,137.2
+2024-11-01,Norte,Sem álcool,SA-LN355,143.5
+2024-12-01,Norte,Sem álcool,SA-LN355,162.4
+2025-01-01,Norte,Sem álcool,SA-LN355,144.3
+2025-02-01,Norte,Sem álcool,SA-LN355,174.5
+2025-03-01,Norte,Sem álcool,SA-LN355,194.9
+2025-04-01,Norte,Sem álcool,SA-LN355,169.8
+2025-05-01,Norte,Sem álcool,SA-LN355,134.0
+2025-06-01,Norte,Sem álcool,SA-LN355,159.6
+2025-07-01,Norte,Sem álcool,SA-LN355,147.5
+2025-08-01,Norte,Sem álcool,SA-LN355,150.9
+2025-09-01,Norte,Sem álcool,SA-LN355,183.1
+2025-10-01,Norte,Sem álcool,SA-LN355,166.4
+2025-11-01,Norte,Sem álcool,SA-LN355,155.0
+2025-12-01,Norte,Sem álcool,SA-LN355,221.9

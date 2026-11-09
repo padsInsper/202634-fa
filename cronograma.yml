@@ -192,13 +192,17 @@
   modalidade: Remota
   parte: 1
   quem: "Julio"
-  descricao: "<b>0h00-1h00:</b> machine learning para séries (features de lags e janelas, <i>leakage</i>, boosting, ARIMA-Boost, foundation models). <b>1h00-2h00:</b> a turma decide a regra da <b>predição agregada</b>. <b>2h00-3h30:</b> office hours do trabalho intermediário."
+  descricao: "<b>Primeira parte (1h a 1h30):</b> dinâmica de consenso, em que entrevistadores e especialistas montam a <b>predição agregada</b> da turma. <b>Intervalo.</b> <b>Segunda parte:</b> machine learning para séries (features, <i>leakage</i>, validação, modelo global) e séries hierárquicas (bottom-up, top-down, MinT), seguidos do exercício da Cervejaria Ipê."
   materiais:
     - texto: "Lab 2"
       href: labs/lab02-pipeline.qmd
+    - texto: "Exercício: Cervejaria Ipê (notebook)"
+      href: complementar/lab02-hierarquicas-exercicio.ipynb
     - texto: "Trabalho intermediário"
       href: trabalhos/intermediario.qmd
-  slides: []
+  slides:
+    - texto: "ML e séries hierárquicas"
+      href: slides/lab02/lab02-ml-hierarquicas.html
 
 - data: "2026-11-15"
   inicio: "23:59"

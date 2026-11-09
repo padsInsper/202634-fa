@@ -1,0 +1,195 @@
+/* Slides do Lab 2 (ML para séries e séries hierárquicas). As regras de
+   componente (botões, controles, legendas, respostas) são as mesmas das aulas
+   de CDAD II e Ciência dos Dados; as cores vêm do tema, claro e escuro.
+
+   Código de cores do deck:
+     série observada              texto (cinza escuro)
+     features, o passado usado    azul
+     alvo, o mês t                laranja
+     vazamento, erro, incoerência vermelho da marca
+     previsão                     turquesa
+     reconciliado                 roxo */
+
+/* ---- gráficos ------------------------------------------------------------- */
+
+.grafico-svg { width: 100%; height: auto; overflow: visible; font-family: Inter, sans-serif; }
+.grafico-svg .eixo { stroke: var(--texto-fraco); stroke-width: 1.5; }
+.grafico-svg .grade-linha { stroke: var(--regua); stroke-width: 1; }
+.grafico-svg .rotulo-eixo { fill: var(--texto-fraco); font-size: 15px; }
+.grafico-svg .titulo-eixo { fill: var(--texto); font-size: 16px; }
+.grafico-svg .anot { fill: var(--texto); font-size: 17px; font-weight: 600;
+                     paint-order: stroke; stroke: var(--fundo); stroke-width: 5px; }
+.grafico-svg .anot.forte { font-weight: 800; }
+.grafico-svg .anot.fraco { fill: var(--texto-fraco); font-weight: 400; }
+.grafico-svg .anot.pequena { font-size: 14px; }
+.grafico-svg .c-azul { fill: var(--azul); }
+.grafico-svg .c-laranja { fill: var(--laranja); }
+.grafico-svg .c-marca { fill: var(--marca); }
+.grafico-svg .c-turquesa { fill: var(--turquesa); }
+.grafico-svg .c-roxo { fill: var(--roxo); }
+
+.grafico-svg .linha-serie { fill: none; stroke: var(--texto); stroke-width: 2.4; stroke-linejoin: round; }
+.grafico-svg .linha-serie.fina { stroke-width: 1.6; opacity: .55; }
+.grafico-svg .ponto-serie { fill: var(--texto-fraco); }
+.grafico-svg .ponto-feat { fill: var(--azul); stroke: var(--fundo); stroke-width: 2; }
+.grafico-svg .ponto-alvo { fill: var(--laranja); stroke: var(--fundo); stroke-width: 2.5; }
+.grafico-svg .ponto-vaza { fill: var(--marca); stroke: var(--fundo); stroke-width: 2.5; }
+.grafico-svg .ponto-prev { fill: var(--fundo); stroke: var(--turquesa); stroke-width: 3; }
+.grafico-svg .ponto-prev.cheio { fill: var(--turquesa); }
+.grafico-svg .linha-prev { fill: none; stroke: var(--turquesa); stroke-width: 3; stroke-dasharray: 8 5; }
+.grafico-svg .linha-verdade { fill: none; stroke: var(--texto-fraco); stroke-width: 2; stroke-dasharray: 3 4; }
+.grafico-svg .faixa-azul { fill: color-mix(in srgb, var(--azul) 16%, transparent); stroke: var(--azul); stroke-width: 2; }
+.grafico-svg .faixa-marca { fill: color-mix(in srgb, var(--marca) 14%, transparent); stroke: var(--marca); stroke-width: 2; }
+.grafico-svg .faixa-teste { fill: color-mix(in srgb, var(--turquesa) 10%, transparent); }
+.grafico-svg .destaque-area { fill: color-mix(in srgb, var(--laranja) 16%, transparent); }
+.grafico-svg .destaque-marca { fill: color-mix(in srgb, var(--marca) 12%, transparent); }
+.grafico-svg .arco { fill: none; stroke: var(--azul); stroke-width: 2; stroke-dasharray: 5 4; }
+.grafico-svg .seta { fill: none; stroke: var(--texto-fraco); stroke-width: 2.2; }
+.grafico-svg .seta-prev { fill: none; stroke: var(--turquesa); stroke-width: 2.4; }
+.grafico-svg .seta-cabeca { fill: var(--texto-fraco); }
+.grafico-svg .seta-cabeca-prev { fill: var(--turquesa); }
+.grafico-svg .seta-cabeca-roxo { fill: var(--roxo); }
+.grafico-svg .seta-cabeca-azul { fill: var(--azul); }
+.grafico-svg .seta-cabeca-laranja { fill: var(--laranja); }
+
+/* tabela desenhada no SVG */
+.grafico-svg .tab-cab { fill: var(--superficie); stroke: var(--superficie-borda); }
+.grafico-svg .tab-cel { fill: var(--fundo); stroke: var(--regua); stroke-width: 1; }
+.grafico-svg .tab-cel.alvo { fill: color-mix(in srgb, var(--laranja) 12%, var(--fundo)); }
+.grafico-svg .tab-txt { fill: var(--texto); font-size: 15px; font-variant-numeric: tabular-nums; }
+.grafico-svg .tab-txt.cab { font-weight: 700; font-size: 14px; }
+.grafico-svg .tab-txt.feat { fill: var(--azul); font-weight: 600; }
+.grafico-svg .tab-txt.alvo { fill: var(--laranja); font-weight: 800; }
+
+/* validação cruzada */
+.grafico-svg .cel-treino { fill: var(--turquesa); }
+.grafico-svg .cel-teste { fill: var(--laranja); }
+.grafico-svg .cel-fora { fill: var(--regua); opacity: .55; }
+
+/* barras */
+.grafico-svg .barra { fill: var(--azul); }
+.grafico-svg .barra.simples { fill: var(--turquesa); }
+.grafico-svg .barra.ingenuo { fill: var(--texto-fraco); }
+.grafico-svg .barra.ml { fill: var(--azul); }
+.grafico-svg .barra.neural { fill: var(--roxo); }
+.grafico-svg .barra.fundacao { fill: var(--laranja); }
+.grafico-svg .barra-base { fill: none; stroke: var(--texto-fraco); stroke-width: 2; stroke-dasharray: 6 4; }
+.grafico-svg .barra-rec { fill: color-mix(in srgb, var(--roxo) 78%, transparent); }
+.grafico-svg .barra-rec.b2 { fill: color-mix(in srgb, var(--roxo) 45%, transparent); }
+.grafico-svg .linha-ref { stroke: var(--texto-fraco); stroke-width: 1.5; stroke-dasharray: 4 4; }
+
+/* árvores */
+.grafico-svg .no { fill: var(--fundo); stroke: var(--texto-fraco); stroke-width: 2; }
+.grafico-svg .no.usado { fill: color-mix(in srgb, var(--turquesa) 22%, var(--fundo)); stroke: var(--turquesa); stroke-width: 3; }
+.grafico-svg .no.derivado { fill: var(--fundo); stroke: var(--roxo); stroke-width: 2.5; stroke-dasharray: 6 4; }
+.grafico-svg .no.erro { fill: color-mix(in srgb, var(--marca) 14%, var(--fundo)); stroke: var(--marca); stroke-width: 3; }
+.grafico-svg .no.foco { stroke: var(--laranja); stroke-width: 3.5; }
+.grafico-svg .no-txt { fill: var(--texto); font-size: 16px; font-weight: 700; }
+.grafico-svg .no-num { fill: var(--texto); font-size: 15px; font-variant-numeric: tabular-nums; }
+.grafico-svg .aresta { stroke: var(--regua); stroke-width: 2.5; }
+.grafico-svg .particula { fill: var(--turquesa); }
+.grafico-svg .particula.desce { fill: var(--roxo); }
+
+/* matriz S */
+.matriz-s { font-family: "JetBrains Mono", Consolas, monospace; font-size: .62em; border-collapse: separate;
+            border-spacing: 4px; margin-top: .3em; }
+.reveal .matriz-s th { text-transform: none; letter-spacing: 0; color: var(--texto-fraco); font-weight: 600;
+                       padding: .2em .45em; border: none; text-align: center; }
+.reveal .matriz-s td { text-align: center; padding: .3em .55em; border: none; border-radius: 4px;
+                       background: var(--superficie); font-variant-numeric: tabular-nums; }
+.reveal .matriz-s td.um { font-weight: 800; }
+.reveal .matriz-s th.linha { text-align: right; color: var(--texto); }
+.reveal .matriz-s tr.realce td { background: color-mix(in srgb, var(--laranja) 26%, transparent); }
+.reveal .matriz-s tr.realce td.um { color: var(--laranja); }
+.reveal .matriz-s tr.realce th.linha { color: var(--laranja); }
+.matriz-s .bloco-id td { }
+.formula-s { font-size: .7em; margin: .4em 0 0; }
+
+/* ---- legendas empilhadas: uma visível por vez ----------------------------- */
+
+.legendas { display: grid; margin-top: .4em; }
+.legendas > * { grid-area: 1 / 1; background: var(--superficie); border-left: 5px solid var(--marca);
+                padding: .55em .8em; font-size: .7em; line-height: 1.38; align-self: start; }
+.legendas strong { color: var(--marca); }
+.legenda-larga > * { font-size: .66em; }
+
+/* ---- controles ------------------------------------------------------------ */
+
+.botoes { display: flex; gap: .5em; flex-wrap: wrap; }
+.reveal .botoes button { font: inherit; font-size: .9em; padding: .2em .8em; border-radius: 999px; cursor: pointer;
+                         border: 1px solid var(--superficie-borda); background: var(--fundo); color: var(--texto); }
+.reveal .botoes button:hover { border-color: var(--marca); color: var(--marca); }
+.reveal .botoes button.ativo { background: var(--marca); border-color: var(--marca); color: #fff; }
+.botoes-modo { font-size: .56em; margin-bottom: .45em; }
+.ctrl { background: var(--superficie); border: 1px solid var(--superficie-borda); border-radius: 6px;
+        padding: .5em .9em; font-size: .58em; margin-top: .6em; }
+.ctrl-rotulo { display: block; margin-bottom: .1em; }
+.reveal input[type="range"] { width: 100%; accent-color: var(--marca); height: 1.3em; cursor: pointer; }
+.contas { font-family: "JetBrains Mono", Consolas, monospace; font-size: .52em; line-height: 1.7;
+          background: var(--codigo-fundo); color: var(--codigo-texto); padding: .55em .8em;
+          border-radius: 4px; margin: .6em 0; }
+.contas b { color: var(--roxo); }
+.regra-viva { font-size: .6em; line-height: 1.4; margin: .5em 0 .2em; padding: .45em .7em;
+              border-left: 4px solid var(--marca); background: var(--superficie); }
+.regra-viva.ok { border-left-color: var(--turquesa); }
+.regra-viva b { color: var(--marca); }
+.regra-viva.ok b { color: var(--turquesa); }
+/* caixas em colunas: o tema usa a fonte cheia, que estoura nos slides densos */
+.reveal .colunas .caixa { font-size: .74em; }
+.reveal .colunas .caixa .caixa { font-size: 1em; }
+#ft-texto, #hz-texto, #tr-texto { min-height: 7.5em; }
+#rc-texto .caixa { font-size: .74em; margin-bottom: .5em; }
+
+/* ---- quizzes -------------------------------------------------------------- */
+
+.reveal .alternativas ul { list-style: none; margin-left: 0; }
+.reveal .alternativas li { margin-bottom: .35em; }
+.alternativas b { display: inline-block; min-width: 1.6em; color: var(--marca); }
+.reveal .resposta { margin-top: .45em; padding: .35em .6em; border-radius: 6px; font-size: .9em;
+                    background: color-mix(in srgb, var(--turquesa) 16%, transparent); }
+.votos-dois { display: grid; grid-template-columns: 1fr 1fr; gap: .8em; font-size: .86em; }
+.votos-tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8em; font-size: .8em; }
+.votos-dois .caixa, .votos-tres .caixa { margin: 0; }
+.reveal .alternativas code { font-size: .86em; }
+
+/* cronômetro do chat em cascata */
+.cronometro { display: flex; flex-direction: column; align-items: center; gap: .3em; cursor: pointer;
+              user-select: none; margin-top: .4em; }
+.cronometro svg { width: 210px; height: 210px; }
+.cronometro .anel-fundo { fill: none; stroke: var(--superficie-borda); stroke-width: 14; }
+.cronometro .anel { fill: none; stroke: var(--turquesa); stroke-width: 14; stroke-linecap: round; }
+.cronometro .anel.fim { stroke: var(--marca); }
+.cronometro .num { fill: var(--texto); font-family: Inter, sans-serif; font-size: 64px; font-weight: 800; }
+.cronometro .instr { font-size: .5em; color: var(--texto-fraco); text-align: center; max-width: 15em; line-height: 1.35; }
+.cronometro .instr b { color: var(--marca); }
+.cronometro-baixo { flex-direction: row; justify-content: center; gap: 1em; margin-top: .5em; }
+.cronometro-baixo svg { width: 120px; height: 120px; }
+.cronometro-baixo .instr { max-width: 26em; text-align: left; }
+
+/* ---- fluxo final e etapas do exercício ------------------------------------ */
+
+.fluxo { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.4em; margin: .5em 0 .9em; position: relative; }
+.etapa-f { background: var(--superficie); border: 1px solid var(--superficie-borda); border-top: 5px solid var(--roxo);
+           border-radius: 6px; padding: .5em .6em .6em; font-size: .62em; line-height: 1.35; position: relative; }
+.etapa-f .n { display: block; font-size: 1.9em; font-weight: 800; color: var(--roxo); line-height: 1; margin-bottom: .2em; }
+.etapa-f p { margin-bottom: .2em; }
+.etapa-f::after { content: "→"; position: absolute; right: -1.15em; top: 40%; color: var(--texto-fraco); font-size: 1.6em; }
+.etapa-f:last-child::after { content: ""; }
+
+.etapas-ex { display: grid; grid-template-columns: 1fr 1fr; gap: .7em; margin-top: .4em; }
+.etapa-ex { background: var(--superficie); border: 1px solid var(--superficie-borda); border-left: 6px solid var(--laranja);
+            border-radius: 6px; padding: .55em .8em; font-size: .7em; line-height: 1.38; }
+.etapa-ex .tempo { display: inline-block; background: var(--laranja); color: #fff; font-weight: 800; border-radius: 999px;
+                   padding: .05em .65em; margin-right: .5em; font-size: .85em; }
+.reveal .etapas-ex .etapa-ex.fragment { transform: translateY(16px); transition: all .45s ease; }
+.reveal .etapas-ex .etapa-ex.fragment.visible { transform: none; }
+.link-exercicio { margin-top: .9em; font-size: .62em; text-align: center; }
+.miudo-caixa { font-size: .6em; margin-top: .6em; }
+
+/* tabelas de markdown deste deck: cabeçalho sem caixa alta */
+.reveal table th { text-transform: none; letter-spacing: 0; }
+
+/* o slide de código mostra o bloco inteiro, sem rolagem */
+.reveal section.codigo-cheio div.sourceCode, .reveal section.codigo-cheio pre,
+.reveal section.codigo-cheio pre code { max-height: none !important; overflow: visible !important; }
+.reveal section.codigo-cheio pre code { font-size: .78em; }

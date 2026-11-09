@@ -1,0 +1,852 @@
+---
+title: "Machine learning e séries hierárquicas"
+subtitle: "Lab 2 · Financial Analytics · PADS Insper"
+author: "Julio Trecenti"
+date: "2026-11-09"
+date-format: "DD/MM/YYYY"
+lang: pt-BR
+format:
+  revealjs:
+    theme: tema-insper.scss
+    css: recursos/fontes.css
+    include-in-header:
+      - text: |
+          <script src="recursos/tema.js"></script>
+    include-after-body:
+      - text: |
+          <link rel="stylesheet" href="recursos/lab02.css">
+          <script src="recursos/js/gsap.min.js"></script>
+          <script src="recursos/dados_lab02.js"></script>
+          <script src="recursos/lab02_interativo.js"></script>
+    embed-resources: true
+    slide-number: c/t
+    show-slide-number: all
+    history: false
+    hash-type: number
+    progress: true
+    center: false
+    width: 1280
+    height: 760
+    margin: 0.06
+    min-scale: 0.2
+    max-scale: 1.6
+    transition: none
+    background-transition: none
+    highlight-style: github
+    code-line-numbers: false
+    code-copy: false
+    auto-stretch: false
+    menu: false
+    pdf-separate-fragments: false
+
+# Slides do Lab 2 (segunda parte, depois da dinâmica de consenso), no esquema
+# visual das aulas de CDAD II e Ciência dos Dados: tema Insper, revealjs e GSAP.
+#
+# Cada slide animado tem fragmentos vazios `.passo`, e a função `cena(k, anim)`
+# do slide (em recursos/lab02_interativo.js) redesenha o estado com k passos
+# visíveis. Nas caixas `.legendas`, aparece o filho de índice k.
+#
+# Os números da Cervejaria Ipê vêm de dados/cerveja_vendas.csv, exportados por
+# dados/cerveja/dados_slides_lab02.py para recursos/dados_lab02.js.
+---
+
+## Objetivo e roteiro da segunda parte
+
+::: {.colunas}
+::: {}
+::: {.caixa .ideia}
+[Objetivos de aprendizagem]{.rotulo}
+
+Ao final, você deve ser capaz de:
+
+- transformar uma série numa **tabela de features** sem vazar o futuro;
+- dizer quando um modelo de **machine learning global** compensa frente a ETS e ARIMA;
+- explicar por que previsões de níveis diferentes **não somam**, e escolher entre
+  **bottom-up**, **top-down** e **MinT**.
+:::
+:::
+::: {}
+::: {.caixa}
+[Roteiro]{.rotulo}
+
+1. **Machine learning para séries temporais:** 20 min.
+2. **Séries hierárquicas:** 20 min.
+3. **Exercício em grupo**, com a Cervejaria Ipê: 45 min.
+:::
+
+::: {.caixa .exercicio}
+[Quizzes rápidos]{.rotulo}
+
+Ao longo da exposição: **digite a resposta no chat, mas só aperte Enter quando o
+cronômetro zerar**. Assim ninguém copia a primeira resposta.
+:::
+:::
+:::
+
+## Machine learning para séries temporais {.secao}
+
+::: {.miudo}
+Como uma série vira uma tabela, e o que pode dar errado no caminho.
+:::
+
+## A série que vai nos acompanhar hoje
+
+::: {.colunas}
+::: {style="flex:1.7"}
+::: {#g-serie}
+:::
+:::
+::: {}
+::: {#leg-serie .legendas}
+::: {}
+**Cervejaria Ipê** (fictícia): vendas mensais no Brasil, em **milhões de litros**,
+de 2018 a 2024. É a base do exercício de hoje.
+:::
+::: {}
+**Sazonalidade de verão:** o pico vem entre dezembro e março, e o vale em junho
+e julho, todo ano.
+:::
+::: {}
+**Pandemia:** com os bares fechados, abril a julho de 2020 ficam bem abaixo do normal.
+:::
+::: {}
+**Tendência de alta**, puxada pelo puro malte e pelo premium. Como um modelo de
+regressão comum, que não sabe o que é tempo, pode prever isso?
+:::
+:::
+:::
+:::
+
+[]{.fragment .passo}
+[]{.fragment .passo}
+[]{.fragment .passo}
+
+## A ideia central: a série vira uma tabela
+
+::: {#g-tabela}
+:::
+
+::: {#leg-tabela .legendas .legenda-larga}
+::: {}
+Para prever o mês **t**, olhamos para trás: o que aconteceu em **t − 1**, em
+**t − 12** (o mesmo mês do ano anterior) e na média dos **últimos 3 meses**.
+:::
+::: {}
+Esses valores viram as **colunas** (features), e o valor do mês t vira o **alvo**.
+Cada mês é **uma linha** da tabela.
+:::
+::: {}
+Andando o mês t para a frente, a tabela vai sendo preenchida. Agora é um problema
+de **regressão comum**: qualquer modelo do scikit-learn serve.
+:::
+:::
+
+[]{.fragment .passo}
+[]{.fragment .passo}
+
+## As features mais usadas
+
+::: {.colunas}
+::: {style="flex:1.5"}
+<div class="botoes botoes-modo" id="ft-modos"><button data-modo="lag1" class="ativo">lag 1</button><button data-modo="lag12">lag 12</button><button data-modo="media3">média de 3 meses</button><button data-modo="media12">média de 12 meses</button><button data-modo="mes">mês do ano</button></div>
+
+::: {#g-features}
+:::
+:::
+::: {}
+::: {#ft-texto .caixa .ideia}
+:::
+
+::: {.caixa}
+[Também entram]{.rotulo}
+
+- **eventos e calendário:** Carnaval, Copa, feriados, pandemia;
+- **variáveis externas:** preço, temperatura, promoções.
+
+Para as externas, a pergunta é sempre: **vou saber esse valor no futuro**, na hora
+de prever?
+:::
+:::
+:::
+
+## O vazamento mais comum: a janela que inclui o próprio mês
+
+::: {.colunas}
+::: {style="flex:1.45"}
+<div class="botoes botoes-modo" id="vz-modos"><button data-modo="errado" class="ativo">rolling(3).mean()</button><button data-modo="certo">shift(1).rolling(3).mean()</button></div>
+
+::: {#g-vazamento}
+:::
+
+::: {#vz-regra .regra-viva}
+:::
+:::
+::: {}
+::: {.caixa .atencao}
+[Quatro vazamentos silenciosos]{.rotulo}
+
+1. **Janela que inclui t**, ou centrada (`center=True`), que usa t + 1.
+2. **Normalizar com a série inteira:** a média e o desvio de 2025 entram no
+   treino de 2020.
+3. **Preencher faltantes com o futuro:** imputar 2020 com a média de 2024.
+4. **Avaliar 12 meses à frente com o lag 1 verdadeiro:** em produção ele não
+   existe; use previsão recursiva ou direta.
+:::
+
+::: {.caixa .ideia}
+[Regra de ouro]{.rotulo}
+
+O que entra no modelo só pode usar o que se conhece **na hora de prever**: até
+t − 1 para um passo, até a origem da previsão para h passos. O sintoma: erro lindo
+na validação, erro feio em produção.
+:::
+:::
+:::
+
+## Quiz rápido: qual feature vaza o futuro? {background-color="var(--superficie)"}
+
+::: {.colunas}
+::: {style="flex:1.6"}
+::: {.caixa .exercicio}
+[Pergunta 1]{.rotulo}
+
+Queremos prever `y` no mês t. Qual destas features **usa informação do futuro**?
+
+::: {.alternativas}
+- **A** `df.y.rolling(3).mean().shift(1)`
+- **B** `df.y.shift(12)`
+- **C** `df.y.rolling(3, center=True).mean().shift(1)`
+:::
+:::
+
+::: {.caixa .ideia .fragment}
+[Resposta: C]{.rotulo}
+
+Centrada em t − 1, a janela usa t − 2, t − 1 e **t**: o `shift(1)` não basta. A
+opção A é igual a `shift(1).rolling(3)`, e a B é o mesmo mês do ano anterior. As
+duas são seguras.
+:::
+:::
+::: {}
+::: {.cronometro data-segundos="40" data-formato="só a letra"}
+:::
+:::
+:::
+
+## Validação: o tempo não pode ser embaralhado
+
+<div class="botoes botoes-modo" id="cv-modos"><button data-modo="kfold">k-fold aleatório</button><button data-modo="expanding" class="ativo">janela expansível</button><button data-modo="sliding">janela deslizante</button></div>
+
+::: {#g-cv}
+:::
+
+::: {#cv-texto .regra-viva}
+:::
+
+## Prever 12 meses à frente: recursivo ou direto
+
+::: {.colunas}
+::: {style="flex:1.6"}
+<div class="botoes botoes-modo" id="hz-modos"><button data-modo="recursivo" class="ativo">recursivo</button><button data-modo="direto">direto</button></div>
+
+::: {#g-horizonte}
+:::
+:::
+::: {}
+::: {#hz-texto .caixa .ideia}
+:::
+
+::: {.miudo}
+O `mlforecast` usa a estratégia **recursiva** por padrão. A direta existe com
+`max_horizon=12`.
+:::
+:::
+:::
+
+## Árvores não extrapolam a tendência
+
+::: {.colunas}
+::: {style="flex:1.6"}
+<div class="botoes botoes-modo" id="tr-modos"><button data-modo="nivel" class="ativo">árvore no nível</button><button data-modo="diferenca">árvore na diferença</button></div>
+
+::: {#g-arvore}
+:::
+:::
+::: {}
+::: {#tr-texto .caixa}
+:::
+
+::: {.caixa .ideia}
+[Saídas]{.rotulo}
+
+- modelar a **diferença** (`Differences([12])` no `mlforecast`);
+- modelar o **resíduo** de um modelo de tendência (ARIMA-Boost);
+- incluir a tendência como feature num modelo **linear**.
+:::
+:::
+:::
+
+## Um modelo para muitas séries: o modelo global
+
+::: {.colunas}
+::: {style="flex:1.55"}
+::: {#g-global}
+:::
+:::
+::: {}
+::: {#leg-global .legendas}
+::: {}
+Quatro SKUs, quatro séries. O caminho clássico: **um modelo para cada uma**
+(um ETS, um ARIMA por série).
+:::
+::: {}
+Cada série vira a sua tabela de features, com uma coluna a mais: **qual série** é
+aquela linha.
+:::
+::: {}
+As tabelas são **empilhadas** e um único LightGBM aprende com todas. Padrões
+comuns (verão, promoções) aparecem muito mais vezes.
+:::
+::: {}
+**Cuidado com a escala:** uma série de 500 e outra de 10 mil no mesmo modelo.
+Padronize cada série (`LocalStandardScaler`) ou use o log. No exercício: diferença
+sazonal e depois padronização, série a série.
+:::
+:::
+
+::: {.caixa .caso .fragment}
+[M5, 2020]{.rotulo}
+
+Na competição de vendas do Walmart (42 mil séries), os melhores colocados usaram
+**LightGBM global** com lags e calendário.
+:::
+:::
+:::
+
+[]{.fragment .passo}
+[]{.fragment .passo}
+[]{.fragment .passo}
+
+## Foundation models: previsão sem treinar
+
+::: {.colunas}
+::: {}
+::: {.caixa .ideia}
+[A ideia]{.rotulo}
+
+Um modelo grande, pré-treinado em **centenas de milhares a milhões de séries** de vários domínios (energia,
+varejo, clima, web). Você passa a sua série e ele prevê, **sem ajustar nada**: é o
+"GPT das séries".
+:::
+
+::: {.caixa}
+[Os mais conhecidos]{.rotulo}
+
+**Chronos** (Amazon), **TimesFM** (Google), **Moirai** (Salesforce) e
+**TimeGPT** (Nixtla, via API).
+:::
+:::
+::: {}
+::: {.caixa .exercicio .fragment}
+[Quando usar]{.rotulo}
+
+- baseline rápido, sem tuning;
+- muitas séries diferentes e curtas;
+- sem histórico (produto novo).
+:::
+
+::: {.caixa .atencao .fragment}
+[Cuidados]{.rotulo}
+
+- caixa-preta: difícil explicar o porquê;
+- domínios atípicos (finanças de alta frequência);
+- custo de GPU ou de API.
+:::
+:::
+:::
+
+## Qual modelo ganha? Depende do dado
+
+::: {.colunas}
+::: {style="flex:1.6"}
+::: {#g-escada}
+:::
+:::
+::: {}
+::: {#leg-escada .legendas}
+::: {}
+**Uma série** (produção mensal de veículos, BCB 1373, cerca de 170 meses),
+validação cruzada com 4 janelas de 12 meses. Os modelos em ordem de **complexidade**.
+:::
+::: {}
+Ordenando pelo **MASE** (menor é melhor): o **ETS**, com três equações de
+suavização, venceu redes neurais e LightGBM. O `SeasonalNaive` dá 0,51, e não 1:
+o denominador do MASE é o erro do ingênuo **dentro do treino**.
+:::
+::: {}
+O **Chronos**, um foundation model, ficou entre os melhores **sem treinar** na
+série (zero-shot). Um baseline forte de graça.
+:::
+::: {}
+Em vermelho, os que **perderam para o SeasonalNaive**: LSTM, LightGBM e N-BEATS.
+**Regra prática:** suba a escada só enquanto o ganho pagar o custo, e compare
+sempre com o `SeasonalNaive` **no seu dado**.
+:::
+:::
+:::
+:::
+
+[]{.fragment .passo}
+[]{.fragment .passo}
+[]{.fragment .passo}
+
+## Quiz rápido: o que você tentaria primeiro? {background-color="var(--superficie)"}
+
+::: {.colunas}
+::: {style="flex:1.6"}
+::: {.votos-dois}
+::: {.caixa .exercicio}
+[Situação 1]{.rotulo}
+
+**Uma série mensal**, 8 anos de histórico, para o orçamento do ano que vem.
+
+::: {.alternativas}
+- **A** uma LSTM
+- **B** ETS ou ARIMA
+- **C** LightGBM com 40 features
+:::
+
+::: {.resposta .fragment}
+**B.** Com 96 pontos não há dado para uma rede, e o ETS/ARIMA já captura
+tendência e sazonalidade.
+:::
+:::
+::: {.caixa .exercicio}
+[Situação 2]{.rotulo}
+
+**30 mil SKUs** em 500 lojas, vendas **diárias**, com promoções e feriados.
+
+::: {.alternativas}
+- **A** um ARIMA por série, ajustado à mão
+- **B** um LightGBM global com lags, calendário e promoções
+- **C** só o `SeasonalNaive`
+:::
+
+::: {.resposta .fragment}
+**B.** Um modelo só aprende os padrões comuns e usa as promoções como feature.
+Ajustar 15 milhões de ARIMAs à mão não é uma opção.
+:::
+:::
+:::
+:::
+::: {}
+::: {.cronometro data-segundos="60" data-formato="1? 2?"}
+:::
+:::
+:::
+
+## Séries temporais hierárquicas {.secao}
+
+::: {.miudo}
+Quando as previsões de níveis diferentes precisam somar.
+:::
+
+## O problema: previsões que não somam
+
+::: {#g-coerencia}
+:::
+
+::: {#leg-coerencia .legendas .legenda-larga}
+::: {}
+**2024, observado:** as cinco regiões somam exatamente o Brasil. Os dados são
+**coerentes** por construção.
+:::
+::: {}
+**2025, previsto:** um AutoETS para cada série, separado, como no exercício de hoje.
+As regiões já não somam o Brasil previsto direto.
+:::
+::: {}
+Somando cada nível, o total de 2025 vai de [906,7]{.n-ets data-nivel="min"} a
+[938,3]{.n-ets data-nivel="max"} milhões de litros. Qual número vai para o orçamento?
+E qual vai para a fábrica?
+:::
+::: {}
+O valor **real** de 2025 foi [949,2]{.n-real}: todos os níveis ficaram abaixo.
+**Reconciliar** é ajustar as previsões para que voltem a somar, de preferência
+ficando mais precisas no caminho.
+:::
+:::
+
+[]{.fragment .passo}
+[]{.fragment .passo}
+[]{.fragment .passo}
+
+## Hierarquias e agrupamentos
+
+::: {.colunas}
+::: {}
+::: {.caixa .ideia}
+[Hierarquia: uma árvore só]{.rotulo}
+
+Cada série tem **um único pai**: SKU dentro de categoria, dentro de região, dentro
+do Brasil.
+
+::: {#g-arv-hier}
+:::
+:::
+:::
+::: {.fragment}
+::: {.caixa .caso}
+[Agrupamento: cortes cruzados]{.rotulo}
+
+As mesmas séries de base somam **de mais de um jeito**: por região **ou** por
+categoria. Não existe uma árvore única.
+
+::: {#g-arv-grupo}
+:::
+:::
+:::
+:::
+
+::: {.miudo .fragment}
+No exercício usamos a hierarquia Brasil → região → categoria → SKU: 76 séries, das
+quais 50 no nível mais baixo.
+:::
+
+## A matriz S diz quem soma com quem
+
+::: {.colunas}
+::: {style="flex:0.85"}
+::: {#g-arv-s}
+:::
+
+::: {#leg-s .legendas}
+::: {}
+Uma hierarquia pequena: o **Brasil**, duas regiões (**Norte** e **Sul**) e quatro
+SKUs no nível de baixo.
+:::
+::: {}
+A linha do **Brasil** tem **1** em todas as colunas: ele é a soma dos quatro SKUs.
+:::
+::: {}
+A linha do **Norte** soma só os SKUs do Norte (N1 e N2).
+:::
+::: {}
+Embaixo, a **identidade**: cada SKU é ele mesmo. Qualquer previsão coerente é
+$S$ vezes alguma previsão do nível de baixo.
+:::
+:::
+:::
+::: {}
+::: {#g-matriz}
+:::
+:::
+:::
+
+[]{.fragment .passo}
+[]{.fragment .passo}
+[]{.fragment .passo}
+
+## Bottom-up, top-down e middle-out
+
+::: {.colunas}
+::: {style="flex:1.45"}
+<div class="botoes botoes-modo" id="rc-modos"><button data-modo="bu" class="ativo">bottom-up</button><button data-modo="td">top-down</button><button data-modo="mo">middle-out</button></div>
+
+::: {#g-fluxo}
+:::
+:::
+::: {}
+::: {#rc-texto}
+:::
+:::
+:::
+
+## Reconciliação ótima (MinT): usar todos os níveis
+
+::: {.colunas}
+::: {style="flex:1.35"}
+::: {#g-mint}
+:::
+:::
+::: {}
+Previsões de base: **Brasil = 100**, **Norte = 55**, **Sul = 38**. A soma das
+regiões dá 93: faltam **7**.
+
+<div class="botoes botoes-modo" id="mt-modos"><button data-modo="ols" class="ativo">pesos iguais (OLS)</button><button data-modo="topo">confio mais no Brasil</button><button data-modo="base">confio mais nas regiões</button></div>
+
+::: {.ctrl}
+<label class="ctrl-rotulo">erro típico do Brasil em relação ao das regiões: <b id="mt-r-v"></b></label>
+<input type="range" id="mt-r" min="0.2" max="5" step="0.05" value="1">
+:::
+
+::: {#mt-contas .contas}
+:::
+
+::: {.miudo}
+Aqui, só pesos por série (a versão diagonal, como `wls_var`). O `mint_shrink` também
+usa as correlações entre os erros.
+:::
+:::
+:::
+
+## Os quatro métodos do MinT e quando usar cada um
+
+| Método | Que pesos usa | Quando faz sentido |
+|---|---|---|
+| `ols` | todas as séries com o mesmo peso | primeira tentativa, sem erros confiáveis |
+| `wls_struct` | variância suposta proporcional ao número de séries de base: as agregadas absorvem mais ajuste | sem erros ajustados, mas com níveis de tamanhos muito diferentes |
+| `wls_var` | peso pela variância do erro de cada série | quando os erros dentro da amostra são confiáveis |
+| `mint_shrink` | covariância completa dos erros, "encolhida" para ficar estável | o padrão recomendado quando há histórico suficiente |
+
+::: {.colunas .fragment}
+::: {.caixa .ideia}
+[A intuição]{.rotulo}
+
+Previsão de série com erro **pequeno** se mexe **pouco**; previsão de série com erro
+**grande** absorve a maior parte do ajuste.
+:::
+::: {.caixa}
+[O preço]{.rotulo}
+
+Os métodos `wls_var` e `mint_shrink` precisam dos **valores ajustados** dentro da
+amostra (`fitted=True`) de todas as séries.
+:::
+:::
+
+## Quiz rápido: que método de reconciliação usar? {background-color="var(--superficie)"}
+
+::: {.votos-tres}
+::: {.caixa .exercicio}
+[Situação 1]{.rotulo}
+
+SKUs com **muitos zeros** e uma diretoria que só olha o **total**. O que tende a dar o
+total mais confiável?
+
+::: {.alternativas}
+- **A** bottom-up
+- **B** top-down
+- **C** tanto faz
+:::
+
+::: {.resposta .fragment}
+**B.** Com muitos zeros, os modelos de SKU erram o padrão e os vieses se somam; o
+total é mais suave e mais fácil de prever.
+:::
+:::
+::: {.caixa .exercicio}
+[Situação 2]{.rotulo}
+
+O Nordeste tem um pico no **São João** que o Brasil não tem. Top-down com
+proporções históricas **médias**, em junho:
+
+::: {.alternativas}
+- **A** acerta o Nordeste
+- **B** subestima o Nordeste
+- **C** superestima o Nordeste
+:::
+
+::: {.resposta .fragment}
+**B.** A proporção média do Nordeste é menor que a de junho, então o pico se dilui
+entre as regiões.
+:::
+:::
+::: {.caixa .exercicio}
+[Situação 3]{.rotulo}
+
+Qual método precisa dos **valores ajustados** dentro da amostra de todas as séries?
+
+::: {.alternativas}
+- **A** bottom-up
+- **B** top-down
+- **C** MinT com `mint_shrink`
+:::
+
+::: {.resposta .fragment}
+**C.** Ele estima a covariância dos erros de todas as séries para decidir quem se
+mexe mais.
+:::
+:::
+:::
+
+::: {.cronometro .cronometro-baixo data-segundos="90" data-formato="1? 2? 3?"}
+:::
+
+## Na prática: o hierarchicalforecast em quatro passos {.codigo-cheio}
+
+```{.python code-line-numbers="1-4|6-8|10-13|15-17"}
+# 1. montar a hierarquia a partir do nível mais baixo
+spec = [["total"], ["total", "regiao"], ["total", "regiao", "categoria"],
+        ["total", "regiao", "categoria", "sku"]]
+Y_df, S_df, tags = aggregate(base, spec)
+
+# 2. previsões de base de todas as séries (qualquer modelo serve)
+prev = sf.forecast(df=treino, h=12, fitted=True)
+ajuste = sf.forecast_fitted_values()
+
+# 3. reconciliar
+hrec = HierarchicalReconciliation([BottomUp(), TopDown(method="forecast_proportions"),
+                                   MinTrace(method="ols"), MinTrace(method="mint_shrink")])
+rec = hrec.reconcile(Y_hat_df=prev, Y_df=ajuste, S_df=S_df, tags=tags)
+
+# 4. avaliar por nível
+evaluate(df=rec.merge(teste), tags=tags,
+         metrics=[partial(mase, seasonality=12)], train_df=treino)
+```
+
+## O fluxo completo: previsão de base, depois reconciliação
+
+::: {#fluxo-final .fluxo}
+::: {.etapa-f}
+[1]{.n}
+**Nível mais baixo**
+
+uma linha por SKU, região e mês
+:::
+::: {.etapa-f}
+[2]{.n}
+**`aggregate`**
+
+todas as séries, a matriz $S$ e os níveis
+:::
+::: {.etapa-f}
+[3]{.n}
+**Previsões de base**
+
+ETS por série, LightGBM global, o que for
+:::
+::: {.etapa-f}
+[4]{.n}
+**Reconciliação**
+
+bottom-up, top-down ou MinT
+:::
+::: {.etapa-f}
+[5]{.n}
+**Avaliação por nível**
+
+MASE no Brasil, na região e no SKU
+:::
+:::
+
+::: {.colunas .fragment}
+::: {.caixa .ideia}
+[Dois passos independentes]{.rotulo}
+
+A previsão de base pode vir de **qualquer** modelo. A reconciliação é um passo
+separado, e combina com todos.
+:::
+::: {.caixa .exercicio}
+[No exercício]{.rotulo}
+
+3 modelos × (base + 4 reconciliações) = **15 combinações**, avaliadas em 4 níveis.
+Qual vence em cada nível?
+:::
+:::
+
+## Resumo da segunda parte
+
+::: {.colunas}
+::: {}
+::: {.caixa .ideia}
+[Machine learning para séries]{.rotulo}
+
+- A série vira **tabela**: lags, janelas móveis, calendário.
+- Janela sempre terminando em **t − 1**: senão, vazamento.
+- Validação **no tempo**, nunca embaralhada.
+- Árvores **não extrapolam**: modele a diferença.
+- **Modelo global** brilha com muitas séries; com uma série curta, ETS e ARIMA
+  costumam ganhar.
+:::
+:::
+::: {}
+::: {.caixa .ideia}
+[Séries hierárquicas]{.rotulo}
+
+- Previsões independentes **não somam**.
+- **Bottom-up** parte da base; **top-down** parte do topo e reparte por
+  proporções (históricas ou das previsões).
+- **MinT** usa todos os níveis e pesa pelos erros.
+- A reconciliação é um passo **separado** do modelo.
+:::
+
+::: {.caixa .exercicio}
+[Para o trabalho intermediário]{.rotulo}
+
+Comparem sempre com o `SeasonalNaive`. E a **predição agregada da turma** é um
+ensemble: combinar modelos diferentes costuma ajudar.
+:::
+:::
+:::
+
+## Exercício: Cervejaria Ipê {.secao}
+
+::: {.miudo}
+Modelos diferentes e formas diferentes de tratar a hierarquia, na mesma base.
+:::
+
+## O caso: vendas de cerveja em quatro níveis
+
+::: {.colunas}
+::: {style="flex:0.8"}
+| Nível | Quem usa | Séries |
+|---|---|---:|
+| Brasil | diretoria | 1 |
+| Região | gerentes | 5 |
+| Região × categoria | marketing | 20 |
+| SKU | logística | 50 |
+
+::: {.caixa .miudo-caixa}
+Milhares de litros por mês, de jan/2018 a dez/2025. Treino até 2024, **teste em 2025**.
+Dados simulados, com sazonalidade, pandemia, Copa e lançamentos.
+:::
+:::
+::: {style="flex:1.2"}
+::: {#g-regioes}
+:::
+
+::: {#leg-regioes .legendas}
+::: {}
+As cinco regiões, em milhões de litros por mês.
+:::
+::: {}
+O **Nordeste** tem um segundo pico em **junho**: São João.
+:::
+::: {}
+O **Norte** quase não tem sazonalidade, e o **Sul** cai mais no inverno.
+:::
+:::
+:::
+:::
+
+[]{.fragment .passo}
+[]{.fragment .passo}
+
+## Roteiro do exercício em grupo (45 minutos)
+
+::: {.etapas-ex}
+::: {.etapa-ex .fragment}
+[10 min]{.tempo}
+**Abrir e rodar.** Abram o notebook no Colab e usem *Ambiente de execução → Executar tudo*.
+Leiam as saídas.
+:::
+::: {.etapa-ex .fragment}
+[20 min]{.tempo}
+**Responder às perguntas 🧩 1 a 6** em grupo, nas salas.
+:::
+::: {.etapa-ex .fragment}
+[15 min]{.tempo}
+**Uma modificação** da seção 6: AutoARIMA, features do LightGBM, middle-out ou o
+SKU novo.
+:::
+::: {.etapa-ex .fragment}
+[no chat]{.tempo}
+**Grupo X:** a modificação feita, a melhor combinação no nível SKU depois dela e o
+MASE (o original é 0,731), e uma frase sobre o que mais surpreendeu.
+:::
+:::
+
+::: {.link-exercicio}
+[Notebook do exercício (abre no Colab)](https://colab.research.google.com/github/padsInsper/202634-fa/blob/main/complementar/lab02-hierarquicas-exercicio.ipynb){target="_blank"}
+· [versão no site](https://padsinsper.github.io/202634-fa/complementar/lab02-hierarquicas-exercicio.html){target="_blank"}
+:::
