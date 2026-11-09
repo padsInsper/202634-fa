@@ -196,3 +196,20 @@
 .reveal section.codigo-cheio div.sourceCode, .reveal section.codigo-cheio pre,
 .reveal section.codigo-cheio pre code { max-height: none !important; overflow: visible !important; }
 .reveal section.codigo-cheio pre code { font-size: .78em; }
+
+/* ---- roleta do sorteio ---------------------------------------------------- */
+
+#roleta svg { max-height: 580px; }
+#roleta-nomes { display: grid; grid-template-columns: 1fr 1fr; gap: .15em .8em; font-size: .78em; margin-top: .3em; }
+#roleta-nomes label { cursor: pointer; display: flex; align-items: center; gap: .35em; }
+#roleta-nomes input { width: 1em; height: 1em; accent-color: var(--marca); cursor: pointer; }
+#roleta-nomes label.sorteado span { color: var(--turquesa); font-weight: 800; }
+.roleta-add { display: flex; gap: .4em; margin-top: .6em; font-size: .78em; }
+.reveal .roleta-add input { flex: 1; font: inherit; padding: .15em .5em; border-radius: 6px;
+                            border: 1px solid var(--superficie-borda); background: var(--fundo); color: var(--texto); }
+.reveal .roleta-add button { font: inherit; padding: 0 .7em; border-radius: 6px; cursor: pointer;
+                             border: 1px solid var(--superficie-borda); background: var(--fundo); color: var(--texto); }
+.roleta-botoes { font-size: .7em; margin-top: .6em; }
+.reveal .roleta-botoes button { font-size: 1.1em; padding: .3em 1.4em; }
+.reveal .roleta-botoes button:disabled { opacity: .4; cursor: default; }
+#roleta-saida { font-size: .66em; }

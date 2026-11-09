@@ -50,6 +50,30 @@ format:
 # dados/cerveja/dados_slides_lab02.py para recursos/dados_lab02.js.
 ---
 
+## Sorteio dos entrevistadores da dinâmica
+
+::: {.colunas}
+::: {style="flex:1.1"}
+::: {#roleta}
+:::
+:::
+::: {}
+::: {.caixa}
+[Quem entra no sorteio]{.rotulo}
+
+::: {#roleta-nomes}
+:::
+
+<div class="roleta-add"><input type="text" id="roleta-novo" placeholder="adicionar nome"><button id="roleta-mais">+</button></div>
+:::
+
+<div class="botoes roleta-botoes"><button id="roleta-girar" class="ativo">girar</button><button id="roleta-zerar">recomeçar</button></div>
+
+::: {#roleta-saida .regra-viva .ok}
+:::
+:::
+:::
+
 ## Objetivos e roteiro
 
 ::: {.colunas}

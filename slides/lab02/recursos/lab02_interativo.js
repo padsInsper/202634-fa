@@ -125,6 +125,112 @@
   const ANO = (s) => +s.slice(0, 4), MES = (s) => +s.slice(5, 7);
 
   /* ====================================================================== */
+  /* 0. Roleta: sorteio dos entrevistadores da dinâmica de consenso         */
+  /* ====================================================================== */
+
+  function montarRoleta() {
+    const caixa = $("#roleta");
+    if (!caixa) return;
+    // a turma inteira; marcados, os 7 com menos conforto em Financial no quadro
+    const TURMA = [["Celso", 1], ["Leo Kaga", 1], ["Gabi", 1], ["Caio", 1], ["Gustavo", 1], ["Alisson", 1],
+                   ["Daniel", 1], ["Yuri", 0], ["William", 0], ["Jac", 0], ["Bia", 0], ["Gustavo Bertocco", 0],
+                   ["Gab", 0], ["Bernardo", 0], ["Leo C.", 0]];
+    const CORES = ["var(--marca)", "var(--azul)", "var(--laranja)", "var(--turquesa)", "var(--roxo)"];
+    const C = 210, R = 196, CY = C + 20;
+    const svg = novoSvg(caixa, 2 * C, 2 * C + 20);
+    const roda = el("g", {}, svg);
+    el("circle", { cx: C, cy: CY, r: 16, style: "fill:var(--fundo);stroke:var(--texto);stroke-width:3" }, svg);
+    el("path", { d: `M${C - 16},0 L${C + 16},0 L${C},34 Z`, style: "fill:var(--texto)" }, svg);
+    const lista = $("#roleta-nomes"), saida = $("#roleta-saida");
+    const btGirar = $("#roleta-girar");
+    let rot = 0, girando = false, vencedores = [];
+    const pt = (a, r) => [C + r * Math.sin((a * Math.PI) / 180), CY - r * Math.cos((a * Math.PI) / 180)];
+
+    function adicionar(nome, marcado) {
+      const lb = document.createElement("label");
+      lb.innerHTML = `<input type="checkbox"${marcado ? " checked" : ""}> <span></span>`;
+      lb.querySelector("span").textContent = nome;
+      lb.querySelector("input").addEventListener("change", desenhar);
+      lista.appendChild(lb);
+    }
+    const nomes = () => [...lista.querySelectorAll("label")]
+      .filter((l) => l.querySelector("input").checked)
+      .map((l) => l.querySelector("span").textContent)
+      .filter((n) => !vencedores.includes(n));
+
+    function desenhar() {
+      roda.innerHTML = "";
+      const ns = nomes(), n = ns.length, s = 360 / Math.max(n, 1);
+      [...lista.querySelectorAll("label")].forEach((l) =>
+        l.classList.toggle("sorteado", vencedores.includes(l.querySelector("span").textContent)));
+      if (n === 0) el("circle", { cx: C, cy: CY, r: R, class: "no" }, roda);
+      ns.forEach((nome, i) => {
+        // com n = 5k + 1, o último setor encostaria no primeiro com a mesma cor
+        const q = n > 1 && n % CORES.length === 1 && i === n - 1 ? 1 : i % CORES.length;
+        const cor = CORES[q];
+        if (n === 1) el("circle", { cx: C, cy: CY, r: R, style: `fill:${cor}` }, roda);
+        else {
+          const [x0, y0] = pt(i * s, R), [x1, y1] = pt((i + 1) * s, R);
+          el("path", { d: `M${C},${CY} L${x0},${y0} A${R},${R} 0 ${s > 180 ? 1 : 0} 1 ${x1},${y1} Z`,
+                       style: `fill:${cor};stroke:var(--fundo);stroke-width:2` }, roda);
+        }
+        const meio = (i + 0.5) * s;
+        texto(roda, 0, 0, nome, { "text-anchor": "middle", "dominant-baseline": "middle",
+          style: `fill:#fff;font-weight:700;font-size:${n > 10 ? 15 : 19}px`,
+          transform: `rotate(${meio} ${C} ${CY}) translate(${C} ${CY - R * 0.58}) rotate(-90)` });
+      });
+      btGirar.disabled = n === 0;
+    }
+
+    function girar() {
+      if (girando) return;
+      // redesenha sem os já sorteados, a partir da posição inicial
+      rot = 0;
+      gsap.set(roda, { rotation: 0, svgOrigin: `${C} ${CY}` });
+      desenhar();
+      const ns = nomes(), n = ns.length;
+      if (!n) return;
+      const s = 360 / n;
+      const sorte = crypto.getRandomValues(new Uint32Array(2));
+      const i = sorte[0] % n, u = (sorte[1] / 4294967296 - 0.5) * 0.7;
+      // o ponteiro está no topo: para o setor i parar ali, a roda gira até −(i + 0,5 + u)·s
+      const alvo = (((-(i + 0.5 + u) * s) % 360) + 360) % 360;
+      const novo = rot - (((rot % 360) + 360) % 360) + 360 * 6 + alvo;
+      girando = true;
+      saida.innerHTML = "girando…";
+      gsap.to(roda, { rotation: novo, svgOrigin: `${C} ${CY}`, duration: 5.5, ease: "power3.out",
+        onComplete: () => {
+          girando = false;
+          vencedores.push(ns[i]);
+          mostrar();
+          // o sorteado fica sob o ponteiro; só sai da roda no próximo giro
+          [...lista.querySelectorAll("label")].forEach((l) =>
+            l.classList.toggle("sorteado", vencedores.includes(l.querySelector("span").textContent)));
+        } });
+    }
+    function mostrar() {
+      saida.innerHTML = vencedores.length
+        ? `Entrevistadores: ${vencedores.map((v, k) => `<b>${k + 1}. ${v}</b>`).join(" · ")}`
+        : "Gire duas vezes: quem sai na primeira não entra na segunda.";
+    }
+
+    TURMA.forEach(([nm, m]) => adicionar(nm, m));
+    const novoNome = $("#roleta-novo");
+    const incluir = () => { const v = novoNome.value.trim(); if (v) { adicionar(v, true); novoNome.value = ""; desenhar(); } };
+    $("#roleta-mais").addEventListener("click", (e) => { e.currentTarget.blur(); incluir(); });
+    novoNome.addEventListener("keydown", (e) => { e.stopPropagation(); if (e.key === "Enter") incluir(); });
+    lista.addEventListener("keydown", (e) => e.stopPropagation());
+    btGirar.addEventListener("click", () => { btGirar.blur(); girar(); });
+    $("#roleta-zerar").addEventListener("click", (e) => {
+      e.currentTarget.blur();
+      if (girando) return;
+      vencedores = []; mostrar(); desenhar();
+    });
+    mostrar();
+    desenhar();
+  }
+
+  /* ====================================================================== */
   /* 1. A série da Cervejaria Ipê                                           */
   /* ====================================================================== */
 
@@ -1309,7 +1415,7 @@
   }
 
   function iniciar() {
-    for (const f of [montarSerie, montarTabela, montarFeatures, montarExog, montarAutoFeat, montarVazamento, montarCV, montarHorizonte,
+    for (const f of [montarRoleta, montarSerie, montarTabela, montarFeatures, montarExog, montarAutoFeat, montarVazamento, montarCV, montarHorizonte,
                      montarArvore, montarGlobal, montarEscada, montarCoerencia, montarArvHier, montarArvGrupo,
                      montarS, montarFluxo, montarMinT, montarRegioes, montarFluxoFinal, montarCronometros]) {
       try { f(); } catch (e) { console.error("[lab02]", f.name, e); }
