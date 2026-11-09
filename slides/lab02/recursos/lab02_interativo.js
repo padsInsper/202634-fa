@@ -131,10 +131,13 @@
   function montarRoleta() {
     const caixa = $("#roleta");
     if (!caixa) return;
-    // a turma inteira; marcados, os 7 com menos conforto em Financial no quadro
-    const TURMA = [["Celso", 1], ["Leo Kaga", 1], ["Gabi", 1], ["Caio", 1], ["Gustavo", 1], ["Alisson", 1],
-                   ["Daniel", 1], ["Yuri", 0], ["William", 0], ["Jac", 0], ["Bia", 0], ["Gustavo Bertocco", 0],
-                   ["Gab", 0], ["Bernardo", 0], ["Leo C.", 0]];
+    // a turma inteira, pelo primeiro nome (sobrenome quando repete); marcados,
+    // os 7 com menos conforto em Financial no quadro da aula
+    const TURMA = [["Alfredo", 0], ["Alisson", 1], ["Bárbara", 0], ["Beatriz", 0], ["Bernardo", 0],
+                   ["Caio", 1], ["Celso", 1], ["Cristiana", 0], ["Daniel", 1], ["Gabriel", 0],
+                   ["Gabrielle", 1], ["Gustavo Bertocco", 0], ["Gustavo Jurema", 1], ["Jacqueline", 0],
+                   ["Jordana", 0], ["Leo Caraca", 0], ["Leo Koga", 1], ["Leticia", 0], ["Luccas", 0],
+                   ["Luiz Felipe", 0], ["Nicole", 0], ["Vanessa", 0], ["Willian", 0], ["Yuri", 0]];
     const CORES = ["var(--marca)", "var(--azul)", "var(--laranja)", "var(--turquesa)", "var(--roxo)"];
     const C = 210, R = 196, CY = C + 20;
     const svg = novoSvg(caixa, 2 * C, 2 * C + 20);

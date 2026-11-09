@@ -200,7 +200,7 @@
 /* ---- roleta do sorteio ---------------------------------------------------- */
 
 #roleta svg { max-height: 580px; }
-#roleta-nomes { display: grid; grid-template-columns: 1fr 1fr; gap: .15em .8em; font-size: .78em; margin-top: .3em; }
+#roleta-nomes { display: grid; grid-template-columns: 1fr 1fr; gap: .05em .8em; font-size: .66em; margin-top: .3em; }
 #roleta-nomes label { cursor: pointer; display: flex; align-items: center; gap: .35em; }
 #roleta-nomes input { width: 1em; height: 1em; accent-color: var(--marca); cursor: pointer; }
 #roleta-nomes label.sorteado span { color: var(--turquesa); font-weight: 800; }
