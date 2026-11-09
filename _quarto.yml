@@ -63,15 +63,15 @@ website:
             href: aulas/retornos.qmd
           - text: "Aula 9: Volatilidade e GARCH"
             href: aulas/volatilidade.qmd
-          - text: "Lab 3: Séries Financeiras e GARCH"
+          - text: "Lab 3: Séries Financeiras e GARCH (apoio à Aula 10)"
             href: labs/lab03-financeiras.qmd
-          - text: "Aula 10: VaR e Risco"
+          - text: "Aula 11: VaR e Risco"
             href: aulas/var.qmd
-          - text: "Aula 11: CAPM e Portfólios"
+          - text: "Aula 12: CAPM e Portfólios"
             href: aulas/portfolios.qmd
           - text: "Lab 4: Monte sua Carteira"
             href: labs/lab04-carteira.qmd
-          - text: "Aula 12: Tópicos Avançados"
+          - text: "Lab 6: Tópicos Avançados"
             href: aulas/avancados.qmd
           - text: "---"
           - text: "Lab 3: versão alternativa (blue-chips)"

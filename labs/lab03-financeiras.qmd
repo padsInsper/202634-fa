@@ -19,7 +19,7 @@ jupyter: python3
 Trabalhamos com o **mesmo pool de ativos** do começo ao fim, num pipeline end-to-end de
 séries financeiras. São dois blocos complementares, em dois encontros:
 
-- **Bloco 3.1 (Lab 3, remoto):** séries financeiras e GARCH (Partes 1 a 3). Preços, log-retornos, fatos estilizados,
+- **Bloco 3.1 (material de apoio da Aula 10, remota):** séries financeiras e GARCH (Partes 1 a 3). Preços, log-retornos, fatos estilizados,
   grid de modelos GARCH, previsão de volatilidade.
 - **Bloco 3.2 (Lab 4, presencial):** portfólio (Partes 4 a 6), logo depois das aulas de VaR e
   CAPM, seguido da dinâmica [Monte sua Carteira](lab04-carteira.qmd). Retorno e risco por ativo, fronteira eficiente por Monte

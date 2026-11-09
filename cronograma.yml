@@ -237,27 +237,29 @@
 - data: "2026-11-23"
   inicio: "19:00"
   fim: "22:30"
-  tipo: lab
-  rotulo: "Lab 3"
-  titulo: "Séries financeiras e GARCH"
+  tipo: aula
+  rotulo: "Aula 10"
+  titulo: "Acompanhamento e otimização de portfólios"
   modalidade: Remota
   parte: 2
-  quem: "Julio"
-  descricao: "<b>0h00-0h30:</b> resultados do trabalho intermediário (ranking e predição agregada). <b>0h30-1h00:</b> leitura conjunta do trabalho final. <b>1h00-3h30:</b> bloco 3.1 do lab: <code>yfinance</code> em FIIs, log-retornos, fatos estilizados, grid de modelos GARCH e previsão de volatilidade."
+  quem: "Paloma"
+  descricao: "Aula em formato de acompanhamento, como um lab: resultados do trabalho intermediário (ranking e predição agregada), leitura conjunta do trabalho final e apoio aos grupos. Paloma apresenta otimização de portfólios e temas relacionados. O roteiro de séries financeiras e GARCH (Lab 3, Partes 1 a 3) fica como material de apoio."
   materiais:
-    - texto: "Lab 3 (Partes 1 a 3)"
+    - texto: "Trabalho final"
+      href: trabalhos/final.qmd
+    - texto: "CAPM e Portfólios"
+      href: aulas/portfolios.qmd
+    - texto: "Séries financeiras e GARCH (Lab 3, Partes 1 a 3)"
       href: labs/lab03-financeiras.qmd
     - texto: "Versão em R"
       href: labs/lab03-financeiras-r.qmd
-    - texto: "Trabalho final"
-      href: trabalhos/final.qmd
   slides: []
 
 - data: "2026-11-28"
   inicio: "10:00"
   fim: "12:00"
   tipo: aula
-  rotulo: "Aula 10"
+  rotulo: "Aula 11"
   titulo: "VaR e gestão de risco"
   modalidade: Presencial
   parte: 2
@@ -272,7 +274,7 @@
   inicio: "13:00"
   fim: "15:00"
   tipo: aula
-  rotulo: "Aula 11"
+  rotulo: "Aula 12"
   titulo: "CAPM e otimização de portfólios"
   modalidade: Presencial
   parte: 2
@@ -304,22 +306,7 @@
       href: labs/app-carteira.qmd
   slides: []
 
-- data: "2026-12-07"
-  inicio: "19:00"
-  fim: "22:30"
-  tipo: aula
-  rotulo: "Aula 12"
-  titulo: "Tópicos avançados"
-  modalidade: Remota
-  parte: 2
-  quem: "Paloma"
-  descricao: "VAR multivariado, causalidade de Granger, funções de resposta ao impulso, cointegração, VECM e pair trading. Panorama de IA em finanças."
-  materiais:
-    - texto: "Tópicos Avançados"
-      href: aulas/avancados.qmd
-  slides: []
-
-- data: "2026-12-09"
+- data: "2026-12-03"
   inicio: "19:00"
   fim: "21:00"
   tipo: lab
@@ -332,9 +319,11 @@
   materiais:
     - texto: "Trabalho final"
       href: trabalhos/final.qmd
+    - texto: "Séries financeiras e GARCH (Lab 3)"
+      href: labs/lab03-financeiras.qmd
   slides: []
 
-- data: "2026-12-11"
+- data: "2026-12-07"
   inicio: "19:00"
   fim: "21:00"
   tipo: apresentacao
@@ -343,8 +332,23 @@
   modalidade: Remota
   parte: 2
   quem: "Paloma e Julio"
-  descricao: "Cada grupo apresenta em 10 minutos ao \"comitê de investimentos\". Feedback, encerramento do curso e próximos passos."
+  descricao: "Cada grupo apresenta em 10 minutos ao \"comitê de investimentos\". Feedback e encerramento do curso."
   materiais:
     - texto: "Trabalho final"
       href: trabalhos/final.qmd
+  slides: []
+
+- data: "2026-12-09"
+  inicio: "19:00"
+  fim: "22:30"
+  tipo: lab
+  rotulo: "Lab 6"
+  titulo: "Tópicos especiais"
+  modalidade: Remota
+  parte: 2
+  quem: "Julio"
+  descricao: "Lab com material extra, depois das apresentações. Tópicos especiais em séries temporais e finanças."
+  materiais:
+    - texto: "Tópicos Avançados"
+      href: aulas/avancados.qmd
   slides: []
