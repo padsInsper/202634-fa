@@ -96,6 +96,8 @@ website:
             href: complementar/aula02-arima-prophet-notebook.ipynb
           - text: "Aula 6: notebook da Paloma"
             href: complementar/aula03-previsao-validacao-notebook.ipynb
+          - text: "Aula 9: notebook da Paloma"
+            href: complementar/aula04-volatilidade-notebook.ipynb
           - text: "Fundamentos (notebook)"
             href: complementar/fundamentos-notebook.ipynb
           - text: "ARIMA, SARIMA e Prophet (notebook)"
@@ -132,6 +134,8 @@ website:
             href: slides/aula03-previsao-validacao.html
           - text: "Lab 2: ML e séries hierárquicas"
             href: slides/lab02/lab02-ml-hierarquicas.html
+          - text: "Aula 9: Volatilidade e GARCH"
+            href: slides/aula04-volatilidade.html
     right:
       - icon: github
         href: "https://github.com/padsInsper/202634-fa"
