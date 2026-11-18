@@ -4,6 +4,25 @@ subtitle: "Previsão para uma empresa que passou por uma aquisição"
 code-tools: false
 ---
 
+::: {.callout-note}
+## Resultado da previsão (ranking MASE)
+
+As previsões de 2014 foram comparadas com os 12 meses ocultados. A pontuação segue a regra da seção [Previsão do grupo](#previsão-do-grupo-3-pontos): o `SeasonalNaive` vale 1,5 e o 1º lugar vale 3,0.
+
+| Posição | Grupo | MASE | Pontos (de 3,0) |
+|---|---|---|---|
+| 1º | Grupo 1 | 0,290 | 3,00 |
+| 2º | Grupo 4 | 0,292 | 2,98 |
+| 3º | Grupo 2 | 0,345 | 2,36 |
+| | *`SeasonalNaive` (referência)* | *0,418* | *1,50* |
+| 4º | Grupo 3 | 0,428 | 1,38 |
+| 5º | Grupo 5 | 0,447 | 1,16 |
+
+**Predição agregada da turma**: média simples das previsões dos Grupos 1, 4 e 5. MASE de 0,327, em 3º lugar entre as 6 submissões (5 grupos e a turma). Ficou acima da mediana, mas fora das 2 melhores: **0,5 ponto para todos**.
+
+A nota do relatório (notebook, 6 pontos) sai separadamente.
+:::
+
 ## Contexto
 
 Estamos em **dezembro de 2013**. Vocês formam uma assessoria econômica chamada **PADS Forecasting**.
